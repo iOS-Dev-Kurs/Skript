@@ -6,12 +6,15 @@
 
 \input{include/code_listing}
 
-\begin{document}
-
 \subtitle{Skript}
 \title{Softwareentwicklung für iOS mit Objective-C und Xcode}
 \author{Nils Fischer}
-\date{Universität Heidelberg - Wintersemester 2013/14}
+\date{Universität Heidelberg - Sommersemester 2014}
+
+\newcommand{\vxcode}{5.1}
+\newcommand{\vios}{7.1}
+
+\begin{document}
 
 \maketitle
 
@@ -22,11 +25,9 @@
 
 \section{Über meine Person}
 
-Mein Name ist Nils Fischer und ich bin Physikstudent im 3. Semester an der Uni Heidelberg. Mit der Softwareentwicklung für iOS Geräte beschäftige ich mich nun schon seit einigen Jahren und bin mit drei eigenen und fünf Apps für Kunden im App Store vertreten.
+Mein Name ist Nils Fischer und ich bin Physikstudent im 4. Semester an der Uni Heidelberg. Mit der Softwareentwicklung für iOS Geräte beschäftige ich mich nun schon seit einigen Jahren und bin mit drei eigenen und sechs Apps für Kunden im App Store vertreten.
 
-Diesen Kurs halte ich dieses Semester zum ersten Mal und freue mich immer über Feedback und Vorschläge von euch.
-
-Ihr könnt mich jederzeit über meine Email \linkref{n.fischer@stud.uni-heidelberg.de} erreichen.
+Ihr könnt mich jederzeit über meine Email \linkref{n.fischer@stud.uni-heidelberg.de} erreichen. Ich freue mich immer über Feedback und Vorschläge von euch.
 
 Außerdem steht für organisatorische Fragen Prof. Dr. Peter Fischer \linkref{peter.fischer@ziti.uni-heidelberg.de} als Ansprechpartner zur Verfügung.
 
@@ -34,7 +35,7 @@ Außerdem steht für organisatorische Fragen Prof. Dr. Peter Fischer \linkref{pe
 
 Der Kurs findet im \emphc{Mac-Pool (Medienzentrum, INF 293, Raum 214) des URZ} statt.
 
-\emphc{Jeden Montag um 16h ct.} während des Semesters wird es zunächst eine Vorlesungseinheit über ein neues Thema geben und ein zugehöriges Übungsblatt verteilt. Im direkt anschließenden Übungsteil besprechen wir dann das Übungsblatt der vorigen Woche, dessen Lösungen vorzugsweise von einem von euch vorgestellt werden. Außerdem kann das neue Übungsblatt bearbeitet werden und es gibt Raum für Fragen zur Vorlesung.
+\emphc{Jeden Montag um 16h ct.} während des Semesters wird es zunächst eine Vorlesungseinheit über ein neues Thema geben und ein zugehöriges Übungsblatt verteilt. Zu Beginn der folgenden Vorlesung werden dessen Lösungen besprochen und vorzugsweise von einem von euch vorgestellt. Der Übungsteil schließt sich direkt an die Vorlesung an und bietet für euch die Möglichkeit, das neue Übungsblatt zu bearbeiten und Fragen zur Vorlesung oder eigenen Projekten zu stellen.
 
 Um langfristig mitzukommen ist es am Wichtigsten, die wöchentlichen Übungen selbst zu bearbeiten und nicht nur zuzuhören und Code von anderen zu kopieren. Für die regelmäßige Anwesenheit und Mitarbeit in den Übungen werden \emphc{2 LP} vergeben. Es wird keine Klausur oder Note geben.
 
@@ -42,9 +43,9 @@ Um langfristig mitzukommen ist es am Wichtigsten, die wöchentlichen Übungen se
 
 Für die Teilnahme an diesem Kurs ist Zugang zu einem Intel-Mac mit Mac OS 10.7.4 Lion oder neuer (empfohlen Mac OS 10.8.4 Mountain Lion oder neuer) erforderlich. Im Mac-Pool stehen 8 Mac Pro's für diejenigen Teilnehmer zur Verfügung, die keinen eigenen Mac mitbringen. Allen anderen wird jedoch empfohlen, mit ihren eigenen Macs zu arbeiten.
 
-Wir arbeiten fast ausschließlich mit \emphc{Xcode}, Apple's Integrierter Entwicklungsumgebung (IDE), in Version 4.2 oder neuer (empfohlen Version 5.0 oder neuer). Die neueste Version kann und sollte schon vor Beginn des Kurses im Mac App Store (kostenlos) heruntergeladen und installiert werden \linkref{https://itunes.apple.com/de/app/xcode/id497799835?mt=12}.
+Wir arbeiten fast ausschließlich mit \emphc{Xcode}, Apple's Integrierter Entwicklungsumgebung (IDE), in Version 4.2 oder neuer (empfohlen Version \vxcode{}) oder neuer). Die neueste Version kann und sollte schon vor Beginn des Kurses im Mac App Store (kostenlos) heruntergeladen und installiert werden \linkref{https://itunes.apple.com/de/app/xcode/id497799835?mt=12}.
 
-Die Installation von Xcode enthält dann das iOS SDK (Software Development Kit) entsprechend in Version 5.0 (bei Xcode Version 4.2) bis zu 7.0 (bei Xcode Version 5.0) oder neuer.
+Die Installation von Xcode enthält dann das iOS SDK (Software Development Kit) entsprechend in Version 5.0 (bei Xcode Version 4.2) bis zu \vios{} (bei Xcode Version \vxcode{}) oder neuer.
 
 Screenshots und Referenzen auf Bedienelemente in Xcode werden in diesem Skript in englischer Sprache sein. Es bietet sich ohnehin an, die englische Sprachversion von Xcode zu installieren, da ein Großteil der online verfügbaren Dokumentationen und Tutorials auf englisch ist.
 
@@ -52,13 +53,13 @@ Um eigene Apps im Simulator zu testen, ist keine weitere Konfiguration nötig. Z
 
 \section{Über dieses Skript}
 
-Dieses Skript wird im Verlauf des Semesters im Moodle \linkref{http://elearning2.uni-heidelberg.de/course/view.php?id=3359} kapitelweise zur Verfügung gestellt. Parallel dazu wird es für die Apps, die wir im Rahmen des Kurses erstellen werden, ein weiteres Dokument geben. Dieser \emphc{App-Katalog} wird ebenfalls im Moodle zu finden sein und enthält außerdem die Übungsaufgaben, die wöchentlich zu bearbeiten sind.
+Dieses Skript wird im Verlauf des Semesters auf der Vorlesungsseite \linkref{*** Link Vorlesungsseite ***} kapitelweise zur Verfügung gestellt. Parallel dazu wird es für die Apps, die wir im Rahmen des Kurses erstellen werden, ein weiteres Dokument geben. Dieser \emphc{App-Katalog} wird ebenfalls auf der Vorlesungsseite zu finden sein und enthält außerdem die Übungsaufgaben, die wöchentlich zu bearbeiten sind.
 
 Die Kursinhalte werden sich thematisch an der Struktur des Skriptes orientieren und ihr könnt es als Referenz bei der Lösung der Übungsaufgaben verwenden. Mit der dokumentübergreifenden Suche (\keysc{\cmdkey + F}) lässt sich gut nach Stichwörtern suchen.
 
 Das Skript ist kein Tutorial, sondern ist sehr allgemein gehalten und erläutert die Grundlagen der Kursthemen. Im ergänzenden App-Katalog findet ihr hingegen Schritt-für-Schritt Anleitungen.
 
-Die Inhalte basieren auf der Xcode Version 5.0 und dem iOS SDK 7.0. Die meisten Erläuterungen und Screenshots lassen sich ebenso auf frühere Versionen von Xcode und dem iOS SDK beziehen, doch einige neuere Funktionen sind der aktuellen Version vorbehalten.
+Die Inhalte basieren auf der Xcode Version \vxcode{} und dem iOS SDK \vios{}. Die meisten Erläuterungen und Screenshots lassen sich ebenso auf frühere Versionen von Xcode und dem iOS SDK beziehen, doch einige neuere Funktionen sind der aktuellen Version vorbehalten.
 
 \section{Dokumentationen und Referenzen}\label{sec:docs}
 

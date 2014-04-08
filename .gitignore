@@ -1,0 +1,14 @@
+# compiled PDFs
+/*.pdf
+
+# Resources
+Resources/
+
+# LaTeX
+*.aux
+
+# Texpad
+.texpadtmp/
+
+# Mac Noise
+.DS_Store

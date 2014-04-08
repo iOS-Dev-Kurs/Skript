@@ -1,0 +1,1990 @@
+% compile with XeLaTeX !
+
+\documentclass[parskip=half, final]{scrreprt}
+
+\input{include/style}
+
+\input{include/code_listing}
+
+\begin{document}
+
+\subtitle{Skript}
+\title{Softwareentwicklung für iOS mit Objective-C und Xcode}
+\author{Nils Fischer}
+\date{Universität Heidelberg - Wintersemester 2013/14}
+
+\maketitle
+
+\tableofcontents
+
+
+\chapter{Organisatorisches}
+
+\section{Über meine Person}
+
+Mein Name ist Nils Fischer und ich bin Physikstudent im 3. Semester an der Uni Heidelberg. Mit der Softwareentwicklung für iOS Geräte beschäftige ich mich nun schon seit einigen Jahren und bin mit drei eigenen und fünf Apps für Kunden im App Store vertreten.
+
+Diesen Kurs halte ich dieses Semester zum ersten Mal und freue mich immer über Feedback und Vorschläge von euch.
+
+Ihr könnt mich jederzeit über meine Email \linkref{n.fischer@stud.uni-heidelberg.de} erreichen.
+
+Außerdem steht für organisatorische Fragen Prof. Dr. Peter Fischer \linkref{peter.fischer@ziti.uni-heidelberg.de} als Ansprechpartner zur Verfügung.
+
+\section{Über diesen Kurs}
+
+Der Kurs findet im \emphc{Mac-Pool (Medienzentrum, INF 293, Raum 214) des URZ} statt.
+
+\emphc{Jeden Montag um 16h ct.} während des Semesters wird es zunächst eine Vorlesungseinheit über ein neues Thema geben und ein zugehöriges Übungsblatt verteilt. Im direkt anschließenden Übungsteil besprechen wir dann das Übungsblatt der vorigen Woche, dessen Lösungen vorzugsweise von einem von euch vorgestellt werden. Außerdem kann das neue Übungsblatt bearbeitet werden und es gibt Raum für Fragen zur Vorlesung.
+
+Um langfristig mitzukommen ist es am Wichtigsten, die wöchentlichen Übungen selbst zu bearbeiten und nicht nur zuzuhören und Code von anderen zu kopieren. Für die regelmäßige Anwesenheit und Mitarbeit in den Übungen werden \emphc{2 LP} vergeben. Es wird keine Klausur oder Note geben.
+
+\section{Hardware und Software} \label{sec:hwsw}
+
+Für die Teilnahme an diesem Kurs ist Zugang zu einem Intel-Mac mit Mac OS 10.7.4 Lion oder neuer (empfohlen Mac OS 10.8.4 Mountain Lion oder neuer) erforderlich. Im Mac-Pool stehen 8 Mac Pro's für diejenigen Teilnehmer zur Verfügung, die keinen eigenen Mac mitbringen. Allen anderen wird jedoch empfohlen, mit ihren eigenen Macs zu arbeiten.
+
+Wir arbeiten fast ausschließlich mit \emphc{Xcode}, Apple's Integrierter Entwicklungsumgebung (IDE), in Version 4.2 oder neuer (empfohlen Version 5.0 oder neuer). Die neueste Version kann und sollte schon vor Beginn des Kurses im Mac App Store (kostenlos) heruntergeladen und installiert werden \linkref{https://itunes.apple.com/de/app/xcode/id497799835?mt=12}.
+
+Die Installation von Xcode enthält dann das iOS SDK (Software Development Kit) entsprechend in Version 5.0 (bei Xcode Version 4.2) bis zu 7.0 (bei Xcode Version 5.0) oder neuer.
+
+Screenshots und Referenzen auf Bedienelemente in Xcode werden in diesem Skript in englischer Sprache sein. Es bietet sich ohnehin an, die englische Sprachversion von Xcode zu installieren, da ein Großteil der online verfügbaren Dokumentationen und Tutorials auf englisch ist.
+
+Um eigene Apps im Simulator zu testen, ist keine weitere Konfiguration nötig. Zum Testen auf eigenen iOS Geräten (iPhone / iPad / iPod Touch) ist ein Lizensierungsprozess erforderlich, den wir noch durchführen werden \secref{sec:testondevice}. Führt bitte ein Softwareupdate eurer Geräte auf die neueste Version durch.
+
+\section{Über dieses Skript}
+
+Dieses Skript wird im Verlauf des Semesters im Moodle \linkref{http://elearning2.uni-heidelberg.de/course/view.php?id=3359} kapitelweise zur Verfügung gestellt. Parallel dazu wird es für die Apps, die wir im Rahmen des Kurses erstellen werden, ein weiteres Dokument geben. Dieser \emphc{App-Katalog} wird ebenfalls im Moodle zu finden sein und enthält außerdem die Übungsaufgaben, die wöchentlich zu bearbeiten sind.
+
+Die Kursinhalte werden sich thematisch an der Struktur des Skriptes orientieren und ihr könnt es als Referenz bei der Lösung der Übungsaufgaben verwenden. Mit der dokumentübergreifenden Suche (\keysc{\cmdkey + F}) lässt sich gut nach Stichwörtern suchen.
+
+Das Skript ist kein Tutorial, sondern ist sehr allgemein gehalten und erläutert die Grundlagen der Kursthemen. Im ergänzenden App-Katalog findet ihr hingegen Schritt-für-Schritt Anleitungen.
+
+Die Inhalte basieren auf der Xcode Version 5.0 und dem iOS SDK 7.0. Die meisten Erläuterungen und Screenshots lassen sich ebenso auf frühere Versionen von Xcode und dem iOS SDK beziehen, doch einige neuere Funktionen sind der aktuellen Version vorbehalten.
+
+\section{Dokumentationen und Referenzen}\label{sec:docs}
+
+Zusätzlich zur in Xcode integrierten und online verfügbaren Dokumentation \secref{sec:xcode_documentation} bietet Apple einige Ressourcen für iOS Developer an:
+
+\begin{description}
+\item[iOS Dev Center] \linkref{https://developer.apple.com/devcenter/ios/} ist Apple's Onlineplattform für iOS Entwickler. Hier ist auch das Member Center zur Accountverwaltung und das Provisioning Portal zur Verwaltung der Certificates und Provisioning Profiles \secref{sec:provisioning} zu finden.
+\item[iOS Human Interface Guidelines (HIG)] \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/} ist ein Dokument, das jeder iOS Developer gelesen haben sollte. Die hier besprochenen Richtlinien bezüglich der Gestaltung von Benutzeroberflächen auf der iOS Plattform sind sehr aufschlussreich und haben sicherlich ihren Teil zum Erfolg der iOS Geräte beigetragen. Ein entsprechendes Dokument gibt es auch für Mac \linkref{https://developer.apple.com/library/mac/documentation/userexperience/Conceptual/AppleHIGuidelines/}.
+\item[iOS App Programming Guide] \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide} stellt eine Übersicht über die Architektur von iOS Apps dar.
+\item[WWDC Videos] \linkref{https://developer.apple.com/wwdc/videos/} werden während der jährlichen Worldwide Developer Conference veröffentlicht. Apple Entwickler führen sehr anschaulich in neue, grundlegende und fortgeschrittene Technologien und Methoden ein und geben Best-Practices.
+\end{description}
+
+Hier darf natürlich auch die Community-basierte Q\&A-Seite \emphc{Stack Overflow \linkref{http://stackoverflow.com}} nicht unerwähnt bleiben, die bei Codefragen immer sehr hilfreich ist.
+
+
+\chapter{Xcode}
+
+\emphc{Xcode} ist Apple's Integrierte Entwicklungsumgebung (IDE) und wird von allen Entwicklern verwendet, die native Apps für die iOS oder Mac Plattformen schreiben. Siehe auch \ref{sec:hwsw} für Informationen zu den Hardware- und Softwarevorraussetzungen für diesen Kurs.
+
+Wir werden lernen, Xcode's zahlreiche Funktionen zu nutzen, um nicht nur effizient Programmcode zu schreiben, sondern auch unsere Programmierprojekte zu verwalten, Apps auf eigenen iOS Geräten zu testen, Benutzerinterfaces zu gestalten, Datenstrukturen zu erstellen und unsere Apps schließlich zu veröffentlichen.
+
+IDE's anderer Systeme bieten häufig ein ähnliches Funktionsspektrum und der Umgang mit diesen ist somit leicht übertragbar. Natürlich kann Programmcode auch mit einem beliebigen Texteditor geschrieben werden, doch IDE's wie Xcode erleichtern die Programmierung häufig erheblich. Allein schon die umfangreiche Autovervollständigung vereinfacht das Schreiben von Objective-C Code sehr und korrigiert Syntaxfehler.
+
+\section{Workspaces \& Projekte}
+
+Jedes Programmierprojekt wird in Xcode in Form eines \emphc{Projekts} angelegt. Diese können in \emphc{Workspaces} zusammengefasst werden. Letztendlich wird immer ein Workspace angelegt, auch wenn er nur ein Projekt enthält.
+
+\subsection{Neue Projekte anlegen}
+
+Mit \menuc{File > New > Project...} oder \keysc{\cmdkey + \shiftkey + N} erstellen wir ein neues Projekt und wählen im erscheinenden Dialogfenster \abbref{img:new_project_dialogue1} ein Template. Zum Ausprobieren der Grundlagen von Objective-C eignet sich das \menuc{OS X > Application > Command Line Tool}. In diesem Dialogfenster finden wir mit \menuc{Cocoa Application} auch das Template, um Mac OS X Apps zu schreiben. Für iOS Apps verwenden wir die Templates unter \menuc{iOS > Application}. Es kann prinzipiell mit einem beliebigen Template begonnen werden, diese unterscheiden sich nur in bereits vorkonfigurierten Programmelementen. Häufig ist es hilfreich, eines der Templates zu verwenden, das der Struktur der App entspricht, die wir programmieren wollen. Andernfalls kann mit \menuc{Empty Application} eine komplett leere App erstellt werden.
+
+\includegraphicsc{img/new_project_dialogue1.png}{img:new_project_dialogue1}{Ein neues Xcode-Projekt anlegen}
+
+Nach der Wahl des Templates werden weitere Optionen für das Projekt präsentiert \abbref{img:new_project_dialogue2}.
+
+\includegraphicsc{img/new_project_dialogue2.png}{img:new_project_dialogue2}{Ein neues Projekt konfigurieren}
+
+\begin{description}
+\item[Product Name] identifiziert die resultierende App im Projekt. Es können später in einem Projekt weitere Produkte hinzugefügt werden \secref{sec:targets}. Diesen müssen unterschiedliche Product Names zugewiesen werden. Als Product Name wird häufig ein kurzer Codename des Projekts gewählt.
+\item[Organization Name] wird in jeder erstellten Dateien hinterlegt.
+\item[Company Identifier] identifiziert den Ersteller der Produkte. Nach Konvention wird hier eine sog. 'Reverse DNS' verwendet mit dem Schema 'com.yourcompany'. Verwendet in diesem Kurs bitte immer \emphc{'de.uni-hd.deinname'} als Company Identifier.
+\item[Bundle Identifier] setzt sich nach dem 'Reverse DNS' Schema aus Company Identifier und Product Name zusammen und hat dann die Form 'com.yourcompany.productname' bzw. in unserem Kurs 'de.uni-hd.deinname.productname'. Der Bundle Identifier identifiziert eine App eindeutig im App Store und auf Apple's Servern.
+\item[Class Prefix] wird den Dateinamen aller erstellten Dateien vorangestellt \secref{sec:konventionen}.
+\item[Devices] gibt die Möglichkeit, die App für iPhone, iPad oder Universal zu konfigurieren.
+\item[Use Core Data] fügt dem Projekt direkt die benötigten Elemente zur Core Data Integration hinzu. Dies ist eine Datenbanktechnologie auf Basis von SQL, mit der wir uns noch genauer befassen werden.
+\end{description}
+
+Anschließend kann ein Speicherort für den Projektordner gewählt werden. Hier besteht zusätzlich die Möglichkeit, direkt ein Git Repository für das Projekt anzulegen. Git werden wir zu einem späteren Zeitpunkt noch thematisieren.
+
+\subsection{Targets und Products}\label{sec:targets}
+
+Ein Projekt kann zur Entwicklung mehrerer Apps dienen, die einen direkten Bezug zueinender haben und sich meist einen Großteil des Programmcodes teilen. Dazu gehören vor allem Testversionen mit reduziertem Funktionsumfang oder einzelne Appversionen für iPhone und iPad, wenn man sich gegen die empfohlene Universal-Methode entscheidet.
+
+Das Ergebnis des Compilers, also unsere fertige App, wird \emphc{Product} genannt. Zu jedem Product gehört genau ein \emphc{Target}. Das Target stellt die Repräsentation des Products in Xcode dar und gibt dem Compiler Auskunft über alle Konfigurationen, referenzierten Dateien und sonstige Informationen die zur Kompilierung benötigt werden.
+
+Wenn wir ein neues Projekt erstellen, wird automatisch ein Target mit den gegebenen Informationen generiert. Mit \menuc{New > Target} kann außerdem jederzeit ein neues Target hinzugefügt und konfiguriert werden. Jedes Target muss einen eindeutigen Bundle Identifier besitzen. Anschließend können wir die Targets separat kompilieren und so jeweils ein Product erhalten.
+
+\subsection{Projekt- und Target-Konfiguration}\label{sec:projkonfig}
+
+Wenn das Projekt selbst im Project Navigator \secref{sec:navigator} ausgewählt ist, wird im Editor-Bereich die Projekt- und Target-Konfiguration angezeigt. Mit der Schaltfläche oben links kann das Projekt oder ein Target ausgewählt werden.
+
+Hier können alle wichtigen Einstellungen bearbeitet werden, die die App als Ganzes betreffen. Wählen wir ein Target aus, kann aus den Tabs in der oberen Leiste gewählt werden:
+
+\subsubsection{General}
+
+Hier ist eine Auswahl wichtiger Optionen zur Konfiguration unserer App zu finden, von denen viele direkt mit dem jeweiligen Eintrag im Tab 'Info' korrespondieren.
+
+\begin{description}
+\item[Bundle Identifier] wurde bereits besprochen und kann hier verändert werden. Wenn der Bundle Identifier einen hellgrauen, nicht editierbaren Teil enthält (meist der Product Name), dann wird dieser Teil aus einer Variable entnommen. Er kann dann im Tab 'Info' editiert werden. Verwendet bitte das Schema 'de.uni-hd.deinname.productname' für Apps, die unserem Developer Team zugeordnet sind (s.u.).
+\item[Version/Build] gibt die aktuelle Versionsnummer an.
+\item[Team] bestimmt die Zugehörigkeit der App zu einem Developer Team, sodass Xcode das richtige Provisioning Profile zur Signierung der App auswählen oder ein passendes Provisioning Profile erstellen kann \secref{sec:testondevice}.
+\item[Deployment Target] bestimmt die iOS Version, die für die Installation der App auf dem Zielsystem \emphc{mindestens} installiert sein muss. Zusätzlich gibt es im 'Info' Tab die \emphc{Base SDK} Einstellung. Diese gibt an, für welche iOS Version die App kompiliert wird. Letztendlich bedeutet dies: Im Code können nur Features verwendet werden, die in der Base SDK Version (meist die neueste iOS Version) enthalten sind. Ist die Deployment Target Version geringer (um auch ältere Geräte zu unterstützen), so muss aufgepasst werden, dass bei neueren Features im Code immer zuerst deren Verfügbarkeit geprüft wird.
+\item[Devices] gibt an, ob die App nur für iPhone \emphc{oder} iPad oder Universal für beide Geräte entwickelt wird.
+\item[Main Interface] bestimmt die Interface-Datei, die beim Starten der App geladen wird. Diese Option hat weitreichende Auswirkungen auf die initiale Startsequenz der App, die wir noch thematisieren werden. In den meisten Fällen sollte hier die Storyboard-Datei für iPhone bzw. iPad ausgewählt werden.
+\item[App Icons / Launch Images] referenziert die jeweiligen Bilddateien. Diese sollten für optimale Performance in einem sog. \emphc{Asset Catalog} zusammengefasst werden.
+\end{description}
+
+\subsubsection{Capabilities}
+
+Einige häufig verwendete Features von iOS Apps, für deren Verwendung ansonsten einige Konfigurationsschritte notwendig wären, können hier einfach aktiviert werden. Dazu gehören bspw. Services wie GameCenter, iCloud und In-App-Purchase. Wird die Schaltfläche rechts aktiviert, werden die benötigten Konfigurationen im Projekt vorgenommen. Alle Veränderungen, die bei der Aktivierung des Features ausgeführt werden, sind hier aufgeführt.
+
+\subsubsection{Info}
+
+Dieser Tab ist hauptsächlich eine Repräsentation der 'Info.plist'-Datei. Alle Einstellungen, die nicht den Compiler betreffen, sondern dem ausführenden Gerät zur Verfügung gestellt werden, werden in dieser Datei gespeichert. Die meisten Optionen im 'General'-Tab verändern direkt die Einträge dieser Datei. Mittlerweile muss hier nur noch selten manuell etwas geändert werden.
+
+\subsubsection{Build Settings}
+
+Hier wird der Compiler konfiguriert. Beispielsweise kann der Product Name hier verändert werden und die Base SDK Version angepasst werden, wenn nicht für 'Latest iOS', sondern eine vorherige iOS Version kompiliert werden soll. Auch die hier zu findenden Optionen sollten mittlerweile nur noch selten benötigt werden.
+
+\section{Benutzerinterface}
+
+Xcode's Interface ist in die in der Abbildung farbig markierten Bereiche aufgeteilt \abbref{img:xcode_interface}.
+
+\includegraphicsc{img/xcode_interface.jpg}{img:xcode_interface}{Xcode's Interface}
+
+\subsection{Darstellungsmodi}
+
+Rechts in der Toolbar können wir mit sechs Bedienelementen die Darstellung des Xcode-Fensters anpassen.
+
+Die ersten drei Buttons beziehen sich auf den Editor:
+\begin{description}
+\item[Standard-Editor] zeigt einen großen Editor-Bereich zur Betrachtung einer einzelnen Ansicht an.
+\item[Assistant-Editor] teilt den Editor-Bereich in zwei Ansichten. Auf der linken Seite befinden sich die geöffnete Datei, während die rechte Seite eine sinnvolle zugehörige Ansicht zeigt. Wir verwenden hauptsächlich diese Option und werden noch lernen, sie zu verwenden.
+\item[Version-Editor] ersetzt den Assistenten auf der rechten Seite mit einer Ansicht der Änderungshistorie der Datei links. Verwendet das Projekt ein Git Repository, werden hier die Commits angezeigt, die die Datei betreffen. Bezüglich Git und Versionskontrolle wird es später eine Einführung geben.
+\end{description}
+
+Mit den weiteren drei Buttons können die Bereiche 'Navigator', 'Debug' und 'Inspector' ein- und ausgeblendet werden.
+
+Es können ebenfalls mit \keysc{\cmdkey + T} weitere (browserähnliche) Tabs geöffnet werden. 
+
+\subsection{Build \& Run}\label{sec:buildandrun}
+
+In der Toolbar finden wir links die Bedienelemente 'Build \& Run', 'Stop' und eine Targetauswahl.
+
+Hier kann das zu kompilierende Target und das Zielsystem ausgewählt werden. Haben wir ein gültiges iOS Gerät angeschlossen, wird dieses an erster Stelle angezeigt, andernfalls erscheint 'iOS Device' und wir können einen iOS Simulator auswählen.
+
+Mit 'Build \& Run' starten wir den Compiler, woraufhin das gewählte Target kompiliert und das resultierende Product, also die App, auf dem gewählten Zielsystem ausgeführt wird. 'Stop' beendet den Prozess. Im Menü \menuc{Product} stehen noch weitere Optionen zur Verfügung. Da wir diese sehr häufig verwenden werden ist es sinnvoll, sich die Tastenkombinationen einzuprägen:
+\begin{description}
+\item[Build] \keysc{\cmdkey + B} Startet den Compiler, ohne dass das Product anschließend ausgeführt wird. Diese Option ist hilfreich, um kurz die Ausführbarkeit des Targets zu prüfen und Fehler zu korrigieren.
+\item[Build \& Run] \keysc{\cmdkey + R} Kompiliert das Target und führt das resultierende Product auf dem Zielsystem aus.
+\item[Stop] \keysc{\cmdkey + .} Beendet den aktiven Prozess.
+\item[Clean] \keysc{\cmdkey + \shiftkey + K} Entfernt kompilierte Build-Dateien und führt zu einer vollständigen Neukompilierung beim nächsten 'Build' Aufruf. Da Xcode bereits verarbeitete Dateien wiederverwendet, solange sie nicht verändert wurden, löst diese Option manchmal Probleme, wenn Dateien außerhalb von Xcode bearbeitet wurde (bspw. Bilddateien).
+\item[Archive] Kompiliert das Target und erstellt ein Archiv. Dieses kann anschließend verwendet werden, um die App an Tester zu verteilen oder im App Store zu veröffentlichen.
+\end{description}
+
+\subsection{Navigator}\label{sec:navigator}
+
+Der \emphc{Navigator} (blau) dient zur Übersicht über die Projektelemente. Es kann zwischen acht Tabs (sieben vor Xcode Version 5.0) gewählt werden, die über die Tastenkombinationen \keysc{\cmdkey + 1}  bis \keysc{\cmdkey + 8} erreichbar sind:
+\begin{enumerate}
+\item '\emphc{Project Navigator}': Übersicht über die Projektdateien
+\item 'Symbol Navigator': Übersicht über alle Programmcodeelemente des Projektes
+\item '\emphc{Find Navigator}': Projektübergreifende Suche
+\item '\emphc{Issue Navigator}': Übersicht aller Warnung und Fehler des Compilers
+\item 'Test Navigator': Übersicht aller erstellten automatischen Tests
+\item 'Debug Navigator': Übersicht der Situation, wenn eine App läuft oder zur Laufzeit angehalten wird
+\item 'Breakpoint Navigator': Liste der Breakpoints
+\item 'Log Navigator': Liste der letzten Output- und Compiler-Logs
+\end{enumerate}
+Wir verwenden hauptsächlich den Project Navigator, um zwischen den Dateien unseres Projekts zu wechseln. Der Find Navigator bietet sowohl eine projektübergreifenden Suche als auch eine sehr hilfreiche 'Find \& Replace' Funktion. Zur Laufzeit einer App wird der Debug Navigator wichtig, der sowohl einige Geräteinformationen anzeigt (bspw. CPU- und Speicherauslastung), als auch eine Übersicht über die laufenden Operationen, wenn die App angehalten wird.
+
+\subsection{Editor}
+
+Der \emphc{Editor} (rot) wird je nach geöffnetem Dateityp den Editor zum Bearbeiten der jeweiligen Datei zeigen.
+
+Hier schreiben wir unseren Code. Es stehen viele hilfreiche Funktionen zur Verfügung, mit denen das Schreiben effizienter wird und Fehler schon vor dem Kompilieren erkannt und korrigiert werden können.
+
+\subsubsection{Autovervollständigung}
+
+Xcode indexiert sowohl Apple's Frameworks als euren eigenen Code und besitzt somit ein umfassendes Verständnis der verwendeten Symbole. Sobald du zu tippen beginnst, werden Vorschläge eingeblendet, die dem aktuellen Kontext entsprechen \abbref{img:xcode_autocomplete}. Die Indexierung ist so vollständig, dass nahezu kein Objective-C Codesymbol komplett ausgeschrieben wird. Stattdessen kannst du meist nach den ersten Buchstaben beginnen, die Vervollständigung zu nutzen. Dabei werden folgende Tasten verwendet:
+\begin{description}
+\item[Escape] Blendet die Vorschläge aus oder ein.
+\item[Tab] Vervollständigt das Symbol bis zur nächsten uneindeutigen Stelle
+\item[Enter] Vervollständigt das gesamte Symbol.
+\end{description}
+
+\includegraphicsc{img/xcode_autocomplete.png}{img:xcode_autocomplete}{Der meiste Code wird mit der Autovervollständigung geschrieben}
+
+In den meisten Fällen gibt es ein Symbol nicht, wenn es von der Autovervollständigung nicht vorgeschlagen wird! Das betrifft auch selbstgeschriebenen Code.
+
+Objective-C ist eine sehr deskriptive Programmiersprache, deren Symbole nach Konventionen benannt sind \secref{sec:konventionen}. So können mit etwas Übung und Hilfe der Autovervollständigung auch unbekannte Symbole aus Apple's Frameworks gefunden werden, ohne erst die Dokumentation zu durchsuchen. Suchen wir beispielsweise eine bestimmte Konstante, die das Verhalten einer Animation eines \objc{UIView}-Objekts bestimmt, so ist es typisch, die Autovervollständigung folgendermaßen zu verwenden:
+\begin{enumerate}
+\item Wir beginnen mit dem Tippen von \objc{UIVi}, verwenden die Tab-Taste, um zur nächsten uneindeutigen Stelle zu springen und erhalten \objc{UIView}.
+\item In der Liste der Vorschläge sehen wir unter anderem Symbole, die mit \objc{UIViewAnimation} beginnen. Mit den Pfeiltasten wählen wir eines aus und drücken wieder Tab.
+\item In dieser Weise ist es sehr einfach, die möglichen Optionen der Animation zu finden, ohne sie zuvor zu kennen \abbref{img:xcode_autocomplete2}. Mit den Pfeiltasten können wir die gewünschte Option auswählen und mit der Enter-Taste einfügen.
+\end{enumerate}
+
+\includegraphicsc{img/xcode_autocomplete2}{img:xcode_autocomplete2}{Auch unbekannte Symbole können mit der Autovervollständigung gefunden werden}
+
+\subsubsection{Fehlerkorrektur}
+
+Viele häufig auftretende Syntaxfehler werden schon bei der Codeeingabe von Xcode erkannt und können sofort korrigiert werden \abbref{img:xcode_fixit}. Dazu gehören fehlende Steuerzeichen wie Semikolons, aber auch komplexere Fehler.
+
+\includegraphicsc{img/xcode_fixit.png}{img:xcode_fixit}{Xcode's Fehlerkorrektur erkennt und behebt Syntaxfehler}
+
+\subsubsection{Integrierte Dokumentation \& Links}\label{sec:quickdef}
+
+Mit einem \keysc{\altkey}-Klick auf ein Symbol im Code kann jederzeit eine kurze Definition desselben angezeigt werden, sofern es in der Dokumentation enthalten ist \abbref{img:xcode_quickdef}.
+
+\includegraphicsc{img/xcode_quickdef.png}{img:xcode_quickdef}{Alt-Klick auf ein Symbol zeigt eine kurze Definition}
+
+Ein \keysc{\cmdkey}-Klick wirkt wie ein Link im Internet und führt je nach Kontext direkt zur Deklaration des Symbols im Projekt oder zum Ziel des Aufrufs.
+
+\subsubsection{Jump bars \& Open Quickly}
+
+Die Leiste oben im Editor-Bereich (genannt Jump bar) dient der Navigation und zeigt den Pfad der geöffneten Datei im Projekt an. Mit einem Klick auf ein Pfadsegment kann auf die Dateistruktur zugegriffen werden. Sehr praktisch ist, dass hier sofort etwas getippt werden kann, woraufhin die Liste gefiltert wird. Das gilt auch für das letzte Pfadsegment, das die Position im Code der geöffneten Datei anzeigt und der schnellen Navigation innerhalb deren Symbole dient.
+
+Tipp: Ist im Code an einer Stelle der Ausdruck \objc{#pragma mark Section Title} zu finden, so erscheint 'Section Title' als Gliederung in dem Menü der Jump bar. Ein Gedankenstrich erzeugt eine horizontale Line: \objc{#pragma mark - Section Title}.
+
+Mit der 'Open Quickly' Funktion \keysc{\cmdkey + \shiftkey + O} kann ebenfalls schnell navigiert werden. Es öffnet sich ein Eingabefeld, mit dem auf die gesamte Indexierung des Projekts zugegriffen werden kann.
+
+\subsubsection{Assistent}
+
+Im Assistant-Mode wird der Editor-Bereich zweigeteilt. Während der linke Teil die geöffnete Datei anzeigt, kann im rechten Teil mit Klick auf das erste Segment der Jump bar eine zugehörige Datei geöffnet werden. Empfehlenswert ist hier die Option 'Counterpart', die zu einer Main-Datei immer die entsprechende Header-Datei anzeigt \secref{sec:intimpl}. Diese Ansicht werden wir hauptsächlich verwenden, es stehen jedoch noch weitere situationsbedingte Optionen zur Verfügung.
+
+\subsubsection{Breakpoints}\label{sec:breakpoints}
+
+Mit einem Klick auf eine Zeilennummer in der Leiste rechts vom Editorbereich kann ein Breakpoint in dieser Codezeile gesetzt werden, sodass die App bei der Ausführung an dieser Stelle angehalten wird \secref{sec:debugarea}.
+
+\subsection{Inspektor}\label{sec:inspektor}
+
+Am rechten Bildschirmrand kann der Inspektor eingeblendet werden, dessen Tabs ähnlich wie beim Navigator mit den Tastenkombinationen \keysc{\cmdkey + \altkey + 1} bis \keysc{\cmdkey + \altkey + 6} erreichbar sind. Während Code geschrieben wird, sind hier nur zwei Tabs verfügbar:
+\begin{enumerate}
+\item 'File Inspector': Optionen bezüglich der im Editor geöffneten Datei
+\item 'Quick Help Inspector': Kurze Dokumentation des ausgewählten Symbols im Editor, ähnlich den Informationen, die durch \keysc{\altkey} - Klick auf das Symbol erreichbar sind
+\end{enumerate}
+Zur Codeeingabe wird der Inspektor meist ausgeblendet, doch für die Konfiguration von Benutzeroberflächen mit dem Interface Builder ist er unverzichtbar \secref{sec:ib}.
+
+\subsection{Debug-Bereich \& Konsole}\label{sec:debugarea}
+
+Der Debug-Bereich im unteren Bildschirmbereich wird zur Laufzeit einer App verwendet.
+
+In der Konsole werden Ausgaben angezeigt, die von der App generiert werden. Wir werden noch lernen, diese zu nutzen, um den ausgeführten Code während der Laufzeit nachzuvollziehen. Außerdem wird hier die exakte Situation der App angezeigt, wenn diese zur Laufzeit angehalten wird \abbref{img:xcode_debugger}.
+
+\includegraphicsc{img/xcode_debugger.png}{img:xcode_debugger}{Im Debugger werden Konsolenausgaben und Situation der App angezeigt}
+
+Die beiden Bereiche können mit den beiden Schaltern in der rechten unteren Ecke umgeschaltet werden.
+
+In der Leiste im oberen Teil des Debug-Bereichs sind folgende Kontrollelemente zu finden:
+\begin{description}
+\item[Breakpoints] aktiviert/deaktiviert die Breakpoints im gesamten Projekt \secref{sec:breakpoints}.
+\item[Pause/Resume] stoppt die Ausführung App oder startet diese wieder.
+\item[Step over] führt die im Editor markierte Codezeile aus.
+\item[Step into] folgt dem im Editor markierten Ausdruck, bspw. einem Methodenaufrufen.
+\item[Step out] führt den aktuellen Methodenaufruf vollständig aus und zeigt ihn anschließend an.
+\end{description}
+
+Während die App angehalten ist, können im Debug-Bereich und im Editor-Bereich relevante Symbole inspiziert werden. Fährt man mit dem Curser über ein Symbol, können Informationen über den aktuellen Status desselben angezeigt und in der Konsole ausgegeben werden. Zusätzlich zu herkömmlichen Werten der Variablen können sogar Bilder, die in den ausführenden Speicher geladen wurden, mit Quicklook angezeigt werden.
+
+Da Code selten sofort so funktioniert wie wir möchten, ist Debugging eine wichtige Komponente der Programmierung. Wir werden uns daher noch genauer mit den verschiedenen Methoden beschäftigen um Fehler im Programmcode zu finden und auch die Speicherauslastung und Performance unserer Apps zu optimieren.
+
+\section{Interface Builder}\label{sec:ib}
+
+So gut euer Code auch geschrieben sein mag - Benutzer werden nur die Benutzeroberfläche oder User Interface (UI) eurer Apps zu sehen bekommen. Diese ist ein wichtiger Bestandteil der iOS Plattform und wir werden uns noch mit einigen Methoden beschäftigen, sinnvoll gestaltete und dynamische UIs zu erstellen.
+
+In Xcode ist, wie in vielen IDEs, ein graphischer Editor genannt Interface Builder (IB) integriert, der bei der UI-Gestaltung hilft. Alles, was mit dem Interface Builder erstellt wird, kann natürlich auch stattdessen in Code geschrieben werden. Doch bereits bei simplen UIs vereinfacht IB die Gestaltung um ein Vielfaches und hilft mit Konzepten wie Storyboarding und Auto Layout zusätzlich bei der Strukturierung der gesamten Benutzerführung und der dynamischen Anpassung des UI's an verschiedene Displaygrößen und -orientierungen. Für komplexere UIs werden wir die Vorteile des Interface Builders daher schnell zu schätzen lernen.
+
+Bei Datein mit der Endung .xib oder .storyboard wird Xcode's Editor-Bereich automatisch mit dem Interface Builder ersetzt. Wir verwenden dann meist einen neuen Tab mit angepasster Konfiguration, blenden den Navigator- und Debug-Bereich aus und den Inspektor-Bereich ein \abbref{img:xcode_ib}. Im Editor-Bereich wird situationsbedingt der Standard- oder Assistant-Editor verwendet. Im IB-Modus wird im Editor-Bereich dann auf den linken Seite eine Navigationsleiste eingeblendet, die die Elemente in der geöffneten Datei anzeigt. Diese kann mit der Schaltfläche unten ein- und ausgeblendet werden.
+
+\includegraphicsc{img/xcode_ib.png}{img:xcode_ib}{Um möglichst viel Platz zur UI-Gestaltung zu erhalten, verwenden wir für den Interface Builder eine angepasste Konfiguration}
+
+Im unteren Bereich des Inspektors ist die \emphc{Object Library} zu finden. Wir können Objekte aus dieser Liste auf ein Element im Interface Builder ziehen und es so hinzufügen. Zu diesen Objekten gehören sowohl Interfaceelemente wie Buttons und Labels als auch strukturgebende Elemente wie Navigation Controller. Diese Objekte lernen wir bei der Erstellung unserer Apps noch kennen.
+
+Anschließend können die Objekte in der Navigationsleiste links oder im Editor ausgewählt werden und mit dem Inspektor konfiguriert werden. Sind mehrere Elemente im Editor übereinander positioniert, hilft ein \keysc{\shiftkey}-Klick auf die entsprechende Stelle. Es wird eine Liste der unter dem Curser angeordneten Objekte angezeigt, aus dem das Gesuchte ausgewählt werden kann. 
+
+\subsection{XIBs \& Storyboards}
+
+Bevor das \emphc{Storyboarding}-Konzept eingeführt wurde, wurden für die Interfacegestaltung einzelne \emphc{.xib}-Dateien verwendet (auch aufgrund ihrer ursprünglichen Endung \emphc{NIB-Dateien} genannt). Storyboards hingegen vereinen meist die Interfaceelemente der gesamten App und auch ihre benutzerführenden Verbindungen in einer .storyboard-Datei.
+
+Das UI einer App wird dann hauptsächlich in seinem Storyboard konfiguriert, während es im Code mit Inhalten gefüllt wird.
+
+Für Universal Apps erstellen wir ein Storyboard für die iPhone Version der App und eines für die iPad Version. In den Target-Einstellungen \secref{sec:projkonfig} wird das jeweils verwendete Storyboard ausgewählt.
+
+In einem Storyboard stellen dann einzelne \emphc{Scenes} die verschiedenen Ansichten dar, die dem Benutzer präsentiert werden. Eine der Scenes kann als \emphc{Inital Scene} gekennzeichnet werden und wird dem Benutzer zuerst präsentiert.
+
+Zwischen den Scenes vermitteln \emphc{Segues}. Diese können eine Verbindung zwischen Scenes darstellen, bspw. wenn durch eine Benutzereingabe eine andere Scene angezeigt werden soll.
+
+\subsection{Inspektor im IB-Modus}\label{sec:ibinspector}
+
+Im IB-Modus stehen im Inspektor zusätzlich zum File- und Quick-Help-Inspektor \secref{sec:inspektor} vier weitere Tabs zur Verfügung, mit denen ein ausgewähltes Objekt im Interface Builder konfiguriert wird:
+\begin{description}
+\item[Identity Inspector] dient dem Einstellen der Identität des Objekts, also hauptsächlich seiner Klasse \secref{sec:klassenobjekte}.
+\item[Attributes Inspector] zeigt alle Konfigurationsoptionen bezüglich der Eigenschaften des Objekts nach Subklasse sortiert an. Dazu gehören bspw. Hintergrund- und Textfarben.
+\item[Size Inspector] enthält Optionen zu Größe und Position des Objekts.
+\item[Connections Inspector] zeigt die verbundenen IBOutlets und IBActions des Objekts an \secref{sec:iboutletsibactions}.
+\end{description}
+
+\subsection{IBOutlets \& IBActions}\label{sec:iboutletsibactions}
+
+Hinweis: Für diesen Abschnitt ist Kenntnis über \emphc{Properties} \secref{sec:properties} und \emphc{Methoden} \secref{sec:methoden} notwendig .
+
+\subsubsection{IBOutlets}
+
+Haben wir unser UI im Interface Builder konfiguriert, möchten wir häufig im Code auf die verwendeten Objekte zugreifen. Dazu verwenden wir sog. \emphc{IBOutlets}. Dies sind speziell gekennzeichnete \emphc{Properties} eine Klasse:
+\begin{objclst}
+@property (nonatomic, strong) IBOutlet UILabel *label; // diese Property ist als IBOutlet gekennzeichnet
+\end{objclst}
+
+In der XIB oder dem Storyboard können wir dann eine Verbindung zwischen dem Objekt und dem IBOutlet herstellen \abbref{img:xcode_iboutlet}.
+
+\includegraphicsc{img/xcode_iboutlet.png}{img:xcode_iboutlet}{IBOutlets verbinden Interfaceelemente mit Properties im Code}
+
+Zur Laufzeit der App wird dieser Property dann das verbundene Objekt als Wert zugewiesen, sodass im Code darauf zugegriffen werden kann. Hätten wir das Objekt im Code erstellt, wäre eine IBOutlet-Verbindung also äquivalent zu folgendem Code:
+\begin{objclst}
+self.label = theLabel; // Sei theLabel das zuvor erstellte Objekt
+\end{objclst}
+
+Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menuc{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der die Property deklariert wurde. Mit gedrückter \keysc{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und der Property ziehen \abbref{img:xcode_iboutlet}. Häufig sollen solche Properties nicht öffentlich sein, da nur innerhalb der Klasse auf die Interfaceelemente zugegriffen wird. Dann sollten sie im privaten Interface in der Main-Datei definiert werden \secref{sec:intimpl}.
+
+Alternativ kann der Connection Inspector des Objekts \secref{sec:ibinspector} oder ein Rechtsklick auf das Objekt verwendet werden und ausgehend von dem Kreissymbol neben 'New Referencing Outlet' eine Verbindung gezogen wird. Wird die Verbindung nicht zu einem existierenden IBOutlet im Code, sondern auf eine leere Zeile gezogen, wird automatisch eine mit 'IBOutlet' gekennzeichnete Property erstellt. Anstatt den Assistant-Editor zu verwenden kann das Ziel der Verbindung auch im Interface Builder gesucht werden, also bspw. in der Navigationsleiste links.
+
+\subsubsection{IBActions}
+
+\emphc{IBActions} funktionieren ähnlich wie IBOutlets und stellen eine Verbindung zu \emphc{Methoden} einer Klasse her.
+
+Einige Objekte stellen sog. \emphc{Events} zur Verfügung, die in bestimmten Situationen ausgelöst werden. Dazu gehören bspw. Subklassen von UIControl, also u.a. UIButton, die das Event 'Touch Up Inside' auslösen, wenn der Benutzer seinen Finger im Bereich des Objekts anhebt.
+
+Diese Events können mit Methoden im Code verbunden werden, die mit 'IBAction' gekennzeichnet sind \abbref{img:xcode_ibaction}.
+
+\includegraphicsc{img/xcode_ibaction.png}{img:xcode_ibaction}{IBActions verbinden Events mit Methoden im Code}
+
+Die verbundene Methode wird dann ausgeführt, wenn das Event ausgelöst wird. Das auslösende Objekt wird der Methode als Parameter \objc{sender} des Typs \objc{id} (beliebiger Typ) übergeben.
+
+Die Zuweisung einer IBAction-Verbindung ist dann äquivalent zu folgendem Code:
+\begin{objclst}
+[theButton addTarget:theReceiver action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside]; // Sei theButton das das Event auslösende Objekt und theReceiver das Objekt, das die Methode -(void)buttonPressed:(id)sender implementiert
+\end{objclst}
+
+\section{Dokumentation}\label{sec:xcode_documentation}
+
+Die Dokumentation von Apple's Frameworks ist exzellent mit Xcode verknüpft und sollte bei Unklarheiten immer als erste Referenz verwendet werden. In der immer verfügbaren Kurzdefinition per \keysc{\altkey}-Klick auf ein beliebiges Symbol im Code, ist immer ein Verweis auf die ausführliche Dokumentation enthalten \secref{sec:quickdef}. Ein Klick darauf öffnet den entsprechenden Abschnitt der Dokumentation im separaten Documentation-Fenster \abbref{img:documentation}.
+
+Dieses ist außerdem immer mit dem Tastenkürzel \keysc{\cmdkey + \altkey + ?} (bzw. \keysc{\cmdkey + \altkey + \shiftkey + ß} auf deutschen Tastaturen) erreichbar.
+
+In dem Such-Eingabefeld oben kann selbstverständlich nach beliebigen Symbolen gesucht werden, während mit den Schaltflächen rechts davon die beiden Seitenleisten 'Bookmarks' und 'Overview' ein- und ausgeblendet werden können.
+
+\includegraphicsc{img/xcode_documentation.png}{img:documentation}{Xcode's integrierte Dokumentation ist beispielhaft strukturiert und sollte immer als erste Referenz verwendet werden}
+
+Die Dokumentation ist außerdem online in der iOS Developer Library \linkref{https://developer.apple.com/library/ios/} verfügbar. Eine Google-Suche nach dem Klassen- oder Symbolnamen führt meist direkt dorthin. Apple bietet online zusätzlich noch viele weitere Ressourcen für iOS Developer an \secref{sec:docs}.
+
+\section{Testen auf iOS Geräten}\label{sec:testondevice}
+
+Der Simulator eignet sich sehr gut zum Testen eurer Apps. Er läuft auf der Architektur eures Mac's und ist daher in den meisten Fällen deutlich schneller als ein iOS Gerät, verfügt jedoch nicht über alle Funktionen eines solchen. Außerdem gibt es einen großen Unterschied zwischen der Bedienung einer App mit Touchpad oder Maus im Vergleich zu einem Touchscreen. Beispielsweise wird die Größe und Position von Schaltflächen beim Testen auf dem Simulator häufig falsch eingeschätzt, da ein Finger auf dem Touchscreen sehr viel ungenauer tippen kann als mit dem Curser geklickt wird und häufig Teile des Bildschirms verdeckt \abbref{img:xcode_sliderpos}.
+
+\includegraphicsc{img/xcode_sliderpos.png}{img:xcode_sliderpos}{Unter einer Schaltfläche positionierte Interfaceelemente sind bei der Bedienung meistens vom Finger bedeckt. Solche Probleme werden häufig erst beim Testen auf realen iOS Geräten entdeckt.}
+
+Auf dem Simulator kann somit kein wirklichkeitsgetreues Testen stattfinden und es ist unumgänglich, Apps auch auf einem realen iOS Gerät zu testen.
+
+Es wird empfohlen, nur iOS Geräte zum Testen zu verwenden, die allein zu diesem Zweck zur Verfügung stehen, da selbstverständlich Programmierfehler auftreten können. Dafür reicht natürlich nicht immer das Budget.
+
+Xcode kann Apps nur auf Geräten installieren, deren Softwareversion mit der jeweiligen Version von Xcode kompatibel ist. Bei neueren Versionen von Xcode lassen sich unter \menuc{Preferences > Downloads} ältere iOS SDKs zusätzlich installieren, um diese Versionen zu unterstützen und als Base SDK \secref{sec:projkonfig} zu verwenden. Die Umkehrung gilt jedoch nicht: Geräte mit neueren Softwareversionen als die installierte iOS SDK Version können nicht zum Testen verwendet werden.
+
+Für diesen Kurs ist es empfehlenswert, die neueste Version von Xcode, dem iOS SDK und der auf dem Gerät installierten Software zu verwenden \secref{sec:hwsw}. Leider ist auf den Macs im Medienzentrum nur die Xcode Version 4.2 mit iOS SDK 5.0 installiert. Daher können mit diesen Macs keine Geräte mit einer neueren Softwareversion als iOS 5.0 zum Testen verwendet werden.
+
+\subsection{Der Provisioning Prozess}\label{sec:provisioning}
+
+Hinweis: Dieser Abschnitt stellt die Grundlagen des Provisioning Prozesses dar. Xcode vereinfacht diesen Vorgang mittlerweile sehr \secref{sec:xcodeprovisioning}.
+
+Damit Apps auf iOS Geräten installiert werden können, müssen diese digital signiert werden. So wird sichergestellt, dass die App von einer vertrauenswürdigen, bei Apple registrierten Quelle stammen und ausführbarer Code nicht verändert wurde.
+
+Der Developer Mac erstellt zunächst eine \emphc{Signing Identity}, die aus einem public-private-Key-Paar besteht und im Schlüsselbund (Keychain) eures Macs gespeichert wird. Mit dem public Key wird dann ein \emphc{Certificate} angefordert, das an Apple und das Developer Team übermittelt und bestätigt wird. Dieses wird anschließend ebenfalls im Schlüsselbund gespeichert. Es wird zwischen \emphc{Development Certificates}, die einen einzelnen Entwickler identifizieren und das Testen von Apps auf dessen Geräten erlauben, und \emphc{Distribution Certificates}, die der Identifikation des Development Teams und zur Veröffentlichung von Apps im App Store dienen, unterschieden. Die Certificates sind online im Member Center \linkref{https://developer.apple.com/membercenter/} einsehbar.
+
+Mit einem gültigen Certificate können nun sog. \emphc{Provisioning Profiles} (Bereitstellungsprofile) erstellt werden, die zusammen mit einer App auf das ausführende Gerät geladen werden und die benötigten Informationen bezüglich der Signierung der App liefern. Eine App kann ohne ein gültiges Provisioning Profile nicht installiert werden. Es wird wieder zwischen \emphc{Development Provisioning Profiles} und \emphc{Distribution Provisioning Profiles} unterschieden.
+
+Ein Distribution Provisioning Profile ist immer direkt auf eine Bundle ID bezogen und ermöglicht die Veröffentlichung genau dieser App mit der Bundle ID.
+
+Für die Entwicklung können ebenfalls Development Provisioning Profiles erstellt werden, die genau auf eine Bundle ID bezogen sind. Diese werden \emphc{explicit} genannt und sind erforderlich, wenn Services wie iCloud verwendet werden, die eine exakte Identifikation benötigen. Solange dies nicht erforderlich ist, kann anstatt der Bundle ID auch ein Asterisk (*) verwendet werden. Ein solches Development Provisioning Profile wird auch \emphc{wildcard} genannt und kann für beliebige Bundle IDs verwendet werden.
+
+Das Provisioning Profile enthält außerdem Informationen über die Geräte, die für die Installation der App autorisiert sind. Sog. \emphc{Team Provisioning Profiles} erlauben die Installation einer App auf allen Geräten, die im Developer Team registriert sind. Es können hingegen auch Provisioning Profiles erstellt werden, die auf bestimmte Geräte beschränkt sind, bspw. um geschlossene Beta-Tests durchzuführen. In jedem Fall müssen die Geräte, die verwendet werden sollen, im Member Center mit ihrer UDID registriert sein.
+ 
+\subsection{Provisioning mit Xcode}\label{sec:xcodeprovisioning}
+
+Mittlerweile werden die beschriebenen Schritte zur Erstellung von gültigen Provisioning Profiles größtenteils von Xcode erledigt.
+
+Ihr benötigt zunächst einen Apple Developer Account und müsst anschließend unserem registrierten Developer Team der Uni Heidelberg beitreten.
+\begin{enumerate}
+\item Erstellt eine Apple ID \linkref{https://developer.apple.com/register/} oder verwendet, soweit vorhanden, eure existierende Apple ID
+\item Schließt euer iOS Gerät mit dem USB-Kabel an.
+\item Öffnet in Xcode den \emphc{Organizer} mit \keysc{\cmdkey + \shiftkey + 2}.
+\item Wählt dort den Tab \menuc{Devices} und in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
+\item Mit den Schaltflächen \menuc{Use for Development} oder \menuc{Add to Member Center}) können nur Admins des Developer Teams ihre Geräte direkt im Team registrieren. Stattdessen kopiert bitte die UDID eures iOS Geräts, also die lange Zeichenfolge mit dem Label 'Identifier'.
+\item Teilt mir \emphc{eure registrierte Apple ID} und \emphc{die UDIDs aller eurer iOS Geräte} per Email \linkref{n.fischer@stud.uni-heidelberg.de} mit, sodass ich euch in das Developer Team einladen und die Geräte hinzufügen kann. Verwendet dazu bitte die Email, mit der ihr euch zum Kurs angemeldet habt.
+\item Mit dem Einladungslink, den ihr anschließend per Email von Apple erhaltet, könnt ihr dem Developer Team beitreten. Ihr müsst euch im erscheinenden Dialog nicht noch einmal registrieren, wählt hier einfach 'Sign in' und loggt euch mit der verwendeten Apple ID ein.
+\end{enumerate}
+
+\includegraphicsc{img/xcode_device.png}{img:xcode_device}{Im Organizer können die iOS Geräte verwaltet werden. Developer Team Admins können die Schaltfläche 'Use for Development' oder 'Add to Member Center' verwenden, andernfalls muss die UDID des Geräts manuell dem Team hinzugefügt werden. (Bild aus Apple's Dokumentation [\protect\footnotemark])}
+\footnotetext{\url{https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide}}
+
+Ihr erhaltet damit Zugriff auf das iOS Dev Center \linkref{https://developer.apple.com/devcenter/ios/} mit Ressourcen und Dokumentationen. Besonders hilfreich sind hier auch die Videos der jährlich stattfindenden Apple Worldwide Developer Conference (WWDC).
+
+Nun integriert euren Apple Developer Account in Xcode:
+\begin{enumerate}
+\item Öffnet in Xcode \menuc{Preferences > Accounts} und fügt euren Apple Developer Account dort hinzu \abbref{img:xcode_accounts}.
+\item Auf der rechten Seite erscheinen die Developer Teams, denen ihr angehört. Wählt das Team der Uni Heidelberg aus und klickt \menuc{View Details}.
+\item Im erscheinenden Dialog könnt ihr nun eure Certificates und Provisioning Profiles verwalten \abbref{img:xcode_devteam}. Die Liste der Provisioning Profiles dient hier nur zur Information. Ihr benötigt nur ein Development Certificate, das ihr mit Klick auf \menuc{+ > iOS Development} anfordern könnt. Es muss nun zunächst von mir bestätigt werden, daher kann zunächst eine Fehlermeldung erscheinen.
+\item Ein Klick auf das \menuc{Refresh}-Symbol unten links aktualisiert die Liste und lädt verfügbare Certificates und Provisioning Profiles automatisch herunter. Diese sind außerdem jederzeit online im Member Center einsehbar \linkref{https://developer.apple.com/membercenter/}.
+\end{enumerate}
+
+\includegraphicsc{img/xcode_accounts.png}{img:xcode_accounts}{In den Einstellungen kann der Apple Developer Account hinzugefügt werden}
+
+\includegraphicsc{img/xcode_devteam.png}{img:xcode_devteam}{Mit Xcode könnt ihr eure Certificates und Provisioning Profiles verwalten}
+
+Wenn Certificates oder Devices im Developer Team hinzugefügt werden, generiert Xcode automatisch auch ein wildcard Team Provisioning Profile, das euer iOS Device zum Testen von beliebigen Apps autorisiert. Außerdem werden für solche Apps, die es erfordern, zusätzlich explicit Team Provisioning Profiles generiert \secref{sec:provisioning}.
+
+Nun könnt ihr Apps auf eurem iOS Gerät installieren und testen:
+\begin{enumerate}
+\item Stellt sicher, dass in der Target-Konfiguration unser Development Team ausgewählt ist und die Bundle ID dem beschriebenen Schema entspricht \secref{sec:projkonfig}.
+\item Wählt euer iOS Device als Zielsystem und führt einen 'Build \& Run' aus \secref{sec:buildandrun}.
+\item Die App wird nun auf dem angeschlossen Gerät ausgeführt!
+\end{enumerate}
+
+
+\chapter{Objective-C}
+
+In diesem Kurs lernen wir zunächst die Grundlagen der objektorientierten Programmierung und werden dann sehr schnell anfangen, unsere ersten iOS Apps zu schreiben. Dabei lernen wir im Verlauf des Kurses viele wichtige und allgemeingültige Konzepte und Methoden der Programmierung und Projektstrukturierung kennen, die auch problemlos auf andere Plattformen und Programmiersprachen übertragen werden können.
+
+Software für die iOS und Mac Plattformen wird fast ausschließlich in Objective-C geschrieben. Objective-C ist eine auf C basierende, objektorientierte Programmiersprache, die in den letzten Jahren großen Zulauf erhalten hat und sehr ähnlich zu C++ ist.
+
+Im Unterschied zu C++ wird in Objective-C vieles zur Laufzeit anstatt bei der Kompilierung ausgeführt, was auf den Fokus auf benutzergesteuerte Programmelemente zurückzuführen ist. Außerdem wird viel Wert auf eine einfache und lesbare Code-Syntax gelegt, die wir im Folgenden noch kennenlernen werden.
+
+\section{Grundlagen der Programmierung}
+
+Programmieren besteht letztendlich darin, dem ausführenden System eine Befehlssequenz mitzuteilen. Zur Programmlaufzeit wird diese dann sequenziell abgearbeitet.
+
+Ein Befehl kann beispielsweise eine einfache Zuweisung sein:
+\begin{objclst}
+int a = 1; // Der Variable a des Typs int wird der Wert 1 zugewiesen
+\end{objclst}
+
+Dieser Befehl stellt eigentlich schon eine Abkürzung dar und besteht aus zwei Komponenten:
+\begin{objclst}
+int a; // Eine neue Variable a des Typs int wird deklariert
+a = 1; // Der Variable a wird der Wert 1 zugewiesen
+\end{objclst}
+
+Jeder Befehl in Objective-C muss mit einem Semikolon enden.
+
+\subsection{Primitive Datentypen}
+
+Die wichtigsten primitiven Datentypen sind:
+
+\begin{description}
+\item[int] 'integer': Ganze Zahl, z.B. \objc{int a = -42;}
+\item[uint] 'unsigned integer': Nichtnegative ganze Zahl, z.B. \objc{uint a = 1;}
+\item[char] 'character': Einzelnes Zeichen, z.B. \objc{char a = 'x';}
+\item[float] 'floating-point number': Dezimalzahl, z.B. \objc{float a = 3.14;}
+\item[double] 'double precision floating-point': Sehr lange Dezimalzahl
+\item[BOOL] 'boolean': Entweder wahr (\objc{YES}) oder falsch (\objc{NO}), z.B \objc{BOOL a = YES;}
+\end{description}
+
+Die primitiven Datentypen in Objective-C und C sind äquivalent und ineinander überführbar. Deswegen kann beispielsweise statt \objc{BOOL} auch \objc{bool} oder \objc{Boolean} verwendet werden. Die korrekte Objective-C Syntax ist aber \objc{BOOL}.
+
+\subsection{Kommentare}
+
+In Objective-C wird Text, der wie im obigen Beispiel in einer einzelnen Zeile hinter zwei Schrägstrichen steht, als Kommentar aufgefasst und nicht ausgeführt.
+Mehzeilige Kommentare beginnen mit der Zeichenfolge \objc{/*} und enden mit \objc{*/}:
+\begin{objclst}
+/* Der folgende Befehl
+gibt den Text "Hello World"
+als Output in der Konsole aus */
+NSLog(@"Hello World");
+// Ausgabe: Hello World
+\end{objclst}
+
+Kommentare sind sehr wichtig, um Code lesbarer und sowohl für andere als auch für sich selbst längerer Zeit nachvollziebar zu gestalten.
+
+Verwendet in den Übungen häufig Kommentare!
+
+\subsection{Output}
+
+Der Befehl \objc{NSLog(@"Text");} wie im obigen Beispiel ist eigentlich C-Syntax, ist aber sehr nützlich um beliebigen Text in der Konsole ausgeben zu lassen. Dies dient hauptsächlich dazu, Ausgaben an bestimmten Stellen im Programmablauf zu platzieren um diesen nachvollziehen zu können und Fehler zu finden (Debugging).
+
+\subsection{Einfache Operationen}
+
+Die einfachen Rechenoperationen \objc{+}, \objc{-}, \objc{*}, \objc{/} und \objc{\%} (Modulo) sind direkt in Objective-C verfügbar.
+
+Wichtig ist, zu beachten, dass zwischen integer- und floating-point-Division unterschieden wird. Nur wenn mindestens einer der Operanden ein floating-point Wert ist, wird auch ein solcher zurückgegeben, sonst wird abgerundet. Dies ist eine häufige Fehlerquelle!
+
+Typen können mit der sog. \emphc{cast} Operation ineinander umgewandelt werden, bei der der Wert als der Typ interpretiert wird, der in Klammern davor angegeben wird: Mit \objc{int a = (int)3.14;} hat \objc{a} nun den Wert \objc{3}.
+
+\begin{objclst}
+int a = (1 + 2) * 3; // a ist jetzt 9
+float b = a / 2 // b ist jetzt 4, da sowohl a als auch 2 integer sind
+float c; // Die neue Variable c wird als floating-point deklariert
+/* Alle folgenden Operationen sind äquivalent und
+setzen c auf 4.5, da floating-point Division verwendet wird */
+c = a / 2.0
+c = a / 2.
+c = a / 2f
+c = a / (float)2
+\end{objclst}
+
+Für die häufig verwendeten Operationen 'um 1 erhöhen/verringern' gibt es die Abkürzungen \objc{a++;} bzw. \objc{a--;}.
+\begin{objclst}
+int a = 0;
+// Folgende Operationen sind äquivalent
+a = a + 1;
+a++;
+// und
+a = a - 1;
+a--;
+\end{objclst}
+
+\subsection{Abfragen}
+
+Grundlegend für die Programmierung sind weiterhin einfache wenn-dann Abfragen, die in Objective-C folgende Syntax haben:
+\begin{objclst}
+int year = 2013;
+if (year < 2013) {
+    NSLog(@"Vergangenheit");
+} else if (year == 2013) {
+    NSLog(@"Gegenwart");
+} else if (year > 2013) {
+    NSLog(@"Zukunft");
+} else {
+    NSLog(@"unmöglich!");
+}
+\end{objclst}
+Der Code in geschweiften Klammern wird also nur ausgeführt, wenn die Bedingung im if-Statement wahr (\objc{YES}) ist.
+
+Logische Operatoren:
+\begin{description}
+\item[a == b] gleich
+\item[a != b] ungleich
+\item[a > b] größer, entsprechend auch \objc{>=}, \objc{<}, \objc{<=}
+\item[!a] logische Negation
+\item[a \&\& b] logisches Und
+\item[a || b] logisches Oder
+\end{description}
+
+\subsection{Schleifen}
+
+Zusätzlich zu Abfragen bilden Schleifen einen weiteren Grundbaustein der Programmierung, um den gleichen Codeblock häufig hintereinander auszuführen.
+
+\objc{for}-Schleifen enthalten drei Segmente im Argument und einen Codeblock:
+
+\begin{objclst}
+int a = 1;
+for (int i=0; i<10; i++) {
+    a = a * (i+1);
+}
+// a ist jetzt 10! (Fakultät)
+\end{objclst}
+
+Das erste Segment \objc{int i=1} (Initialisierung) wird zu Beginn der Schleife ausgeführt und initialisiert hier die Variable \objc{int i} mit dem Wert \objc{1}. Anschließend wird die Schleife beendet, wenn der boolsche Ausdruck im zweiten Segment (Test) falsch ist, also \objc{NO} zurückgibt. Andernfalls wird der Codeblock zwischen den geschweiften Klammern ausgeführt. Dann wird das dritte Segment (Fortsetzung) ausgeführt, das hier die Variable \objc{i} um eins erhöht. Nun wird wieder der Ausdruck im zweiten Segment geprüft.
+
+\objc{while}-Schleifen enthalten nur ein Segment und einen Codeblock:
+
+\begin{objclst}
+int a = 1;
+while (a < 100) {
+    a = a * 2;
+}
+// a ist jetzt 128
+\end{objclst}
+
+Die Schleife wird beendet, wenn der boolsche Ausdruck im Argument falsch ist, andernfalls wird der Codeblock zwischen den geschweiften Klammern ausgeführt und wieder der boolsche Ausdruck geprüft.
+
+In beiden Schleifen kann mit dem Befehl \objc{continue} der restliche Code des aktuellen Durchlaufs übersprungen werden. Der Befehl \objc{break} bricht die Schleife ab.
+
+\subsection{Strings}
+
+Im \objc{NSLog(@"Hello World!");} Befehl sind uns schon Zeichenfolgen, sog. \emphc{Strings}, begegnet. Ein String kann genau wie ein integer oder floating-point einer Variablen zugewiesen werden. Der zugehörige Typ ist \objc{NSString}.
+
+Der Präfix \objc{NS} wird uns noch häufiger begegnen, da er vom Namen der Programmiersprache für das Betriebssystem NeXTStep stammt, aus dem sich später Mac OS X entwickelt hat. Viele grundlegende Komponenten von Objective-C beginnen mit diesem Präfix.
+
+Strings sind keine primitiven Datentypen mehr wie z.B. \objc{int}, sondern Objekte, die wir im Folgenden noch genauer kennenlernen werden. Variablen, die auf Objekte verweisen, müssen bei der Deklaration mit einem \objc{*} vor dem Variablennamen gekennzeichnet werden.
+
+Eine Zeichenfolge wie \objc{@"text"} erzeugt immer einen neuen String, der im Allgemeinen nicht veränderlich ist ('immutable'). Einer Variable kann aber natürlich zu einem späteren Zeitpunkt ein anderer String zugewiesen werden.
+
+\begin{objclst}
+NSString *einName = @"Alice";
+NSLog(einName); // Ausgabe: Alice
+einName = @"Bob";
+NSLog(einName); // Ausgabe: Bob
+\end{objclst}
+
+\subsection{String Formatierung}\label{sec:stringformat}
+
+In Objective-C können Werte aus Variablen verschiedenen Typs in einen String eingefügt werden, indem ein Platzhalter verwendet wird, der dann mit dem entsprechenden Wert gefüllt wird. Die wichtigsten Platzhalter sind:
+\begin{description}
+\item[\%i] für \objc{int} und \objc{uint}
+\item[\%f] für \objc{float}, die Anzahl der Dezimalstellen kann dabei mit \objc{\%.3f} für beispielsweise 3 Dezimalstellen spezifiziert werden.
+\item[\%d] für \objc{double} mit der gleichen Syntax für Dezimalstellen wie bei \objc{float}
+\item[\%c] für \objc{char}
+\item[\%@] für Strings
+\end{description}
+
+Platzhalter werden in der Reihenfolge, wie sie im String auftauchen, mit dem Wert der folgendenden, kommagetrennten Variablen ersetzt:
+\begin{objclst}
+int a = 1;
+NSLog(@"a hat den Wert %i", a); // Ausgabe: a hat den Wert 1
+\end{objclst}
+
+
+\section{Grundlagen der objektorientierten Programmierung}
+
+Bei der Softwareentwicklung ist es nicht nur wichtig, Programme zu schreiben, die funktionieren und die richtigen Ergebnisse liefern, sondern auch den Programmcode sinnvoll zu strukturieren. Sobald ein Softwareprojekt wächst und nicht mehr nur einfache Skripte darstellt, sondern Komponenten wie Benutzeroberflächen und Datenstrukturen enthält, wird es schnell unübersichtlich und damit fehleranfällig. Projekte umfassen schnell einige Tausend Zeilen Code und sollten trotzdem einfach zu ergänzen und zu erweitern sein.
+
+Bei der objektorientierten Programmierung strukturieren wir den Code in sinnvolle Einzelteile, die jeweils ein bestimmtes Element in unserem Programm repräsentieren. Dazu gehören bspw. Datenstrukturen oder auch Interfaceelemente wie Buttons und Labels.
+
+\subsection{Klassen \& Objekte}\label{sec:klassenobjekte}
+
+Arbeiten wir also beispielsweise an einer Software, die Informationen zu verschiedenen Personen beinhaltet. Wir erstellen eine sog. \emphc{Klasse}, eine abstrakte Beschreibung oder 'Bauplan' einer Person. In unserem Programm können dann beliebig viele Instanzen dieser Klasse, oder \emphc{Objekte}, erzeugt werden, die nach diesem Bauplan erstellt wurden, aber voneinander unabhängig sind und jeweils eine bestimmte Person repräsentieren.
+
+Wir können auch auf Basis einer existierenden Klasse eine sog. \emphc{Subklasse} definieren, die oft einen Spezialfall oder bestimmte Ausprägung dieser Klasse darstellt. Nach dem Prinzip der \emphc{Vererbung} erbt die Subklasse den 'Bauplan' ihrer Superklasse und kann diesen überschreiben oder erweitern.
+
+Betrachteten wir nun beispielsweise folgende Klasse:
+
+\subsubsection{Person.h}\label{sec:personclass}
+\begin{objclst}
+@interface Person : NSObject
+
+// Attribute
+@property (strong, nonatomic) NSString *name;
+
+// Methoden
+- (void)sayHi;
+
+@end
+\end{objclst}
+\subsubsection{Person.m}
+\begin{objclst}
+#import "Person.h"
+
+@interface Person ()
+// Privates Interface
+@end
+
+@implementation Person
+
+- (void)sayHi {
+    NSLog(@"Hi, my name is %@", self.name);
+}
+
+@end
+\end{objclst}
+
+\subsection{Interface \& Implementierung}\label{sec:intimpl}
+
+Eine Klasse besteht aus ihrem öffentlichen Interface und ihrer Implementierung. Meist werden diese in getrennten Dateien geschrieben: Das Interface in der Header-Datei mit Endung .h und die Implementierung in der Main-Datei mit Endung .m.
+
+Damit der Compiler, der nur die Main-Dateien parst, auch den Code der zugehörigen Header-Datei berücksichtigt, müssen diese mit dem Aufruf \objc{#import "Klassenname.h"} zu Anfang der .m Datei eingebunden werden.
+
+Das öffentliche Interface stellt die Schnittstelle zum restlichen Programm dar und beschreibt, welche \emphc{Attribute} und \emphc{Methoden} die Klasse enthält.
+
+Im Codebeispiel oben geben wir zunächst an, dass die Klasse 'Person' eine Subklasse von \objc{NSObject} ist. \objc{NSObject} ist die Basisstruktur von Objective-C mit wichtigen Mechanismen zur Speicherverwaltung u.ä. Fast jede Klasse in Objective-C geht auf \objc{NSObject} zurück und erbt damit diese Mechanismen.
+
+Zusätzlich kann die Main-Datei noch ein privates Interface enthalten, auf das nur innerhalb der Klasse zugegriffen werden kann. Dieses schreiben wir in der Main-Datei vor der Implementierung.
+
+\subsection{Attribute}\label{sec:properties}
+
+Die Eigenschaften von Objekten einer Klasse werden durch ihre \emphc{Attribute} oder \emphc{Properties} repräsentiert.
+
+Im Codebeispiel oben \secref{sec:personclass} spezifizieren wir, dass eine Person immer eine Variable \objc{name} des Typs \objc{NSString} hat.
+
+\objc{strong} kennzeichnet hier eine Option zur Speicherverwaltung und bewirkt, dass der Wert der Variable im Speicher gehalten wird bis das Objekt diesen freigibt. Dagegen stellt \objc{weak} nur eine schwache Referenz auf den Speicher dar und verhindert nicht dessen Freigabe. Wir werden noch Übung in der richtigen Verwendung dieser Kennzeichnungen bekommen. Bei Properties mit primitiven Datentypen kann diese Kennzeichnung weggelassen werden.
+
+Wenn nicht mit mehreren Threads gearbeitet wird, sollten Properties immer mit \objc{nonatomic} gekennzeichnet werden. Andernfalls treten einige ressourcenintensive Mechanismen in Kraft, um sicherzustellen, dass nicht gleichzeitig geschrieben und gelesen wird. Threads sind gleichzeitig ausgeführte Befehlssequenzen um beispielsweise in einem Hintergrundprozess Daten herunterzuladen und gleichzeitig das UI mit dem Ladefortschritt zu aktualisieren. Mit diesen werden wir uns zu einem späteren Zeitpunkt befassen.
+
+\subsection{Methoden}\label{sec:methoden}
+
+Die Interaktion von Objekten miteinander geschieht auf Basis von Nachrichten, die untereinander ausgetauscht werden. Ein Objekt \objc{sender} sendet eine solche Nachricht, indem es eine sog. \emphc{Methode} \objc{doSomething} eines Objekts \objc{receiver} aufruft:
+\begin{objclst}
+[receiver doSomething];
+\end{objclst}
+
+Methoden können entweder einfach wieder eine Befehlsfolge abarbeiten oder zusätzlich einen Rückgabewert zurückgeben, der an der entsprechenden Stelle weiterverwendet werden kann.
+
+Eine Methode definieren wir im öffentlichen Interface einer Klasse. Damit geben wir die Möglichkeit an, solche Nachrichten zu empfangen:
+\begin{objclst}
+- (void)doSomething;
+\end{objclst}
+
+Die Implementierung der Methode in der Main-Datei enthält dann den auszuführenden Code, wenn diese Methode aufgerufen wird. Innerhalb der Implementierung kann mit dem Symbol \objc{self} auf die eigene Instanz der abstrakten Klasse zugegriffen werden, also auf das Objekt selbst, das die Methode ausführt.
+\begin{objclst}
+- (void)doSomething {
+    // Auszuführender Code
+}
+\end{objclst}
+
+Im Codebeispiel \secref{sec:personclass} geben wir bspw. an, dass die Methode \objc{sayHi} keinen Rückgabewert hat: \objc{(void)}. Andernfalls wird stattdessen der Typ des Rückgabewerts angegeben, also z.B. \objc{(int)} oder \objc{(NSString *)}.
+
+Hat die Methode einen Rückgabewert, kann er natürlich auch einer Variablen zugewiesen werden:
+\begin{objclst}
+int count = [countingObject countSomething];
+\end{objclst}
+
+Weiterhin können Methoden Parameter annehmen, die in ihrer Implementierung verwendet werden. Parameter werden mit ihrem Datentypen hinter einem Doppelpunkt angegeben:
+\begin{objclst}
+// im Interface:
+- (float)divideNumber:(float)number byDivisor:(float)divisor;
+\end{objclst}
+\begin{objclst}
+// in der Implementierung:
+- (float)divideNumber:(float)number byDivisor:(float)divisor {
+    float result = number/divisor;
+    return result;
+}
+\end{objclst}
+
+\subsection{Instanz- und Klassenmethoden}
+
+Im Allgemeinen verwenden wir Methoden, um mit bestimmten Objekten zu interagieren, sog. \emphc{Instanzmethoden}. In deren Implementierung kann dann auch auf Attribute des entsprechenden Objekts zugegriffen werden. Instanzmethoden werden mit dem Zeichen \objc{-} vor der Deklarierung gekennzeichnet:
+\begin{objclst}
+- (void)doSomething;
+\end{objclst}
+
+Es gibt Situationen, in denen eine Methode keinen Bezug zu einem bestimmten Objekt der Klasse hat. Wenn bspw. nur allgemeine Informationen über die Klasse abgefragt werden, kann eine Methode stattdessen mit dem Zeichen \objc{+} als \emphc{Klassenmethode} gekennzeichnet werden.
+
+Die Syntax zum Aufruf von Klassenmethoden ist äquivalent zu Instanzmethoden und verwendet das Symbol der Klasse als Empfänger:
+\begin{objclst}
+[ReceivingClass getSomething];
+\end{objclst}
+In Apple's Frameworks sind Klassenmethoden häufig implementiert, um schnell häufig verwendete Objekte zu erstellen. Die Klassenmethode liefert dann als Rückgabewert ein neues Objekt der Klasse:
+\begin{objclst}
+NSArray *array = [NSArray arrayWithObjects:a, b, c, nil];
+NSString *string = [NSString stringWithFormat:@"Name: %@", self.name]
+\end{objclst}
+
+\subsection{Polymorphie}
+
+Wir haben gelernt, dass Subklassen ihre Attribute und Methoden von ihrer Superklasse erben. Das Prinzip der Polymorphie ermöglicht uns, die Implementierung der Methoden der Superklasse zu überschreiben (sog. \emphc{overriding}).
+
+In der Subklasse kann die Methode einfach erneut implementiert werden. Wird sie dann von einem Objekt aufgerufen, wird diese Implementierung anstatt der der Superklasse ausgeführt.
+
+Es kann innerhalb einer Klasse außerdem mit dem Symbol \objc{super} auf die Superklasse zugegriffen werden. So können Methodenaufrufe an die Implementierung der Superklasse weitergeleitet werden.
+
+In einer Subklasse der Klasse \objc{Person} können wir also beispielsweise die Methode \objc{sayHi} erneut implementieren. Wird die Methode aufgerufen, wird dann stattdessen diese Neuimplementierung ausgeführt. Soll beim Methodenaufruf einfach etwas zusätzlich ausgeführt werden, so können wir die Superklassenimplementierung aufrufen und den zusätzlichen Code anschließend ausführen:
+
+\begin{objclst}
+- (void)sayHi { // Die Implementierung der Superklasse wird mit dieser Implementierung überschrieben
+    [super sayHi]; // Hier wird die Superklassenimplementierung aufgerufen
+    // zusätzlicher Code hier
+}
+\end{objclst}
+
+\subsection{Getter und Setter Methoden}\label{sec:gettersetter}
+
+Um auf Attribute einer Klasse zuzugreifen, werden wiederum Methoden verwendet.
+
+Für jede Property wird automatisch eine \emphc{Getter}- und einer \emphc{Setter}-Methode generiert.
+
+Die Getter-Methode ist einfach eine Methode mit gleichem Namen wie die Property, die den Wert derselben als Rückgabewert liefert, während die Setter-Methode dem großgeschriebenen Variablennamen ein \objc{set} voranstellt und als Parameter den neuen Wert annimmt.
+
+Sie sind somit definiert als:
+\begin{objclst}
+// Getter
+- (Type)variable;
+// Setter
+- (void)setVariable:(Type)value;
+\end{objclst}
+
+Die Verwendung erfolgt wie bei regulären Methoden:
+\begin{objclst}
+// Getter
+[self variable] // Rückgabewert: Wert der Variable
+// Setter
+[self setVariable:value]; // Setzt den Wert der Variable auf value
+\end{objclst}
+
+Äquivalent zum Methodenaufruf in eckigen Klammern ist die häufig verwendete \emphc{dot-Syntax}:
+\begin{objclst}
+// Getter
+self.variable // äquivalent zu [self variable]
+// Setter
+self.variable = value; // äquivalent zu [self setVariable:value]
+\end{objclst}
+
+Zusätzlich wird automatisch für jede Property eine Instanzvariable mit dem gleichen Namen und einem vorangestellten Unterstrich \objc{_} generiert. Diese kann innerhalb der Klasse ebenso verwendet werden, um auf ein Attribut zuzugreifen:
+\begin{objclst}
+_variable // Gibt den Wert der Variable zurück
+_variable = value; // Setzt den Wert der Variable auf value
+\end{objclst}
+Anders als bei der Dot-Syntax werden in diesem Fall jedoch \emphc{nicht} die Getter- und Setter-Methoden aufgerufen.
+
+Getter- und Setter-Methoden können wie jede andere Methode überschrieben werden. Wir können sie also in unserer Klasse selbst implementieren, sodass nicht die automatisch generierten Methoden sondern unsere eigene Implementierung verwendet wird. In dieser Implementierung können wir dann offensichtlich nicht die entsprechende Getter- oder Setter-Methode aufrufen, da dies in den meisten Fällen zu einer Endlosschleife führt. Daher wird hier auf die Instanzvariable zurückgegriffen.
+
+\begin{objclst}
+// Getter
+- (Type)variable {
+    // do something
+    return _variable;
+}
+\end{objclst}
+
+\begin{objclst}
+- (void)setVariable:(Type)value {
+    _variable = value; 
+    // do something
+}
+\end{objclst}
+
+Im Allgemeinen gibt die Getter-Methode den Wert der Variable zurück, während die Setter-Methode diesen entsprechend des Arguments der Methode setzt.
+
+Wir können diese Methoden jedoch auch verwenden, um beliebige Werte zurückzugeben oder zu setzen. Häufig werden in der Getter-Methode bspw. auf Anfrage Objekte instanziert:
+
+\begin{objclst}
+- (Type)variable {
+    if (!_variable) _variable = [[Type alloc] init];
+    return _variable;
+}
+\end{objclst}
+
+\subsection{Instanzierung von Objekten}
+
+An beliebigen Stellen im Code kann ein neues Objekt einer Klasse erstellt werden, also eine neue Instanz nach dem 'Bauplan' der Klasse:
+\begin{objclst}
+Person *alice = [[Person alloc] init];
+\end{objclst}
+\objc{[Person alloc]} ist ein Methodenaufruf, der Speicher für ein neues Objekt der Klasse \objc{Person} bereitstellt. Anschließend wird das Objekt mit \objc{init} initialisiert und der Variable \objc{alice} vom Typ \objc{Person} zugeordnet.
+
+\subsection{Verfügbarkeit von Klassen}
+Es kann nur auf Klassen zugegriffen werden, wenn diese dem Compiler an der entsprechenden Stelle bekannt sind. Am Anfang der entsprechenden Datei muss das Klasseninterface also mit dem Aufruf \objc{#import "Klassenname.h"} verfügbar gemacht werden. Das gilt auch für die Main-Datei der gleichen Klasse!
+
+\subsubsection{Forward Declarations}
+Der Aufruf \objc{#import "Klassenname.h"} bindet im Prinzip den Code der angegebenen Datei direkt an der entsprechenden Stelle ein, sodass dieser dem Compiler zur Verfügung steht. Dieser Aufruf kann jedoch zu einer Endlosschleife führen, wenn in der eingebundenen Datei wiederum die Einbindende importiert wird.
+
+In solchen Situationen, in denen zwei Klassen jeweils voneinander abhängig sind, wird eine sog. \emphc{Forward Declaration} verwendet. Dabei wird die zu benötigte Klasse im Header zunächst nur mit dem Aufruf \objc{@class Klassenname;} als verfügbar gekennzeichnet und dann erst in der Main-Datei importiert.
+
+\subsubsection{A.h}
+\begin{objclst}
+@class B;
+
+@interface A : NSObject
+
+@property (strong, nonatomic) B *b;
+
+@end
+\end{objclst}
+\subsubsection{A.m}
+\begin{objclst}
+#import "B.h"
+
+@implementation A
+
+@end
+\end{objclst}
+
+Es gilt außerdem die Konvention, Klassen nur in Main-Dateien zu importieren und in Headern stattdessen die Forward Declaration zu verwenden.
+
+\section{Symbolnamen \& Konventionen}\label{sec:konventionen}
+
+Symbolnamen müssen in Objective-C bestimmte Bedingungen erfüllen:
+
+\begin{itemize}
+\item Namen beginnen immer mit einem Buchstaben oder Unterstrich \objc{_}
+\item Darauf folgt eine beliebige Kombination aus Buchstaben, Unterstrichen und Ziffern.\item Einige Symbole sind reserviert und können nicht verwendet werden.
+\end{itemize}
+
+Außerdem sollten unbedingt die folgenden Konventionen eingehalten werden. Achtet bitte darauf diese Konventionen beim Schreiben von Objective-C Code zu verwenden, auch wenn ihr in anderen Programmiersprachen anders vorgeht. So kann bspw. die Autovervollständigung zuverlässig verwendet werden und die Lesbarkeit des Codes steigt.
+
+\begin{itemize}
+\item Variablen- und Methodennamen beginnen mit einem Kleinbuchstaben, Klassennamen mit einem Großbuchstaben
+\item Zur Repräsentation mehrerer Wörter werden keine Unterstriche verwendet. Stattdessen wird der Anfangsbuchstabe jedes folgenden Worts großgeschrieben (camel case). Beispiele:
+\begin{itemize}
+\item \objc{isEnabled}
+\item \objc{objectForIndex:}
+\item \objc{viewDidLoad}
+\end{itemize}
+\item Ein Methodenname beginnt mit einer Beschreibung des Rückgabewerts oder der ausführenden Aktion und bezieht ihre Argumente in den Namen ein. Beispiele:
+\begin{itemize}
+\item \objc{filteredArrayUsingPredicate:}
+\item \objc{pushViewController:animated:}
+\end{itemize}
+\item Verwendet einen Klassenprefix für größere Projekte, sodass jede Klasse eindeutig benannt ist, denn es gibt keine Namespaces in Objective-C. Verwendet 2-3 Großbuchstaben, die eurem Company Identifier und/oder Product Name ähneln und beginnt jede Klasse diesem Prefix. Andernfalls besteht die Gefahr, dass Dateien gleichen Namens aus anderen Projekten zu Konflikten führen. Allen von Apple zur Verfügung gestellten Dateien steht ein 'NS' (für NextStep, die Programmiersprache des Betriebssystems aus dem das heutige Mac OS X hervorging) oder 'UI' (für User Interface, hauptsächlich bei bei iOS-relevanten Dateien) voran. Beispiele:
+\begin{itemize}
+\item \objc{UIView}
+\item \objc{NSArray}
+\end{itemize}
+\item Methodennamen besitzen kein Prefix und müssen nur innerhalb der Klasse eindeutig sein. In verschiedenen Klassen wird sogar häufig der gleiche Methodenname verwendet, wenn diese Methoden einen ähnlichen Sinn erfüllen. So überschreiben bspw. viele Klassen die Methode \objc{description}, deren Rückgabewert vom Typ \objc{NSString} eine Textrepräsentation des Objekts darstellen soll.
+
+\end{itemize}
+
+\section{Einige wichtige Klassen}
+
+In Objective-C sind viele Grundelemente der Programmierung Objekte. Dazu gehören die folgenden häufig verwendet Datenstrukturen. Diese sind ausführlich in der Dokumentation beschrieben \secref{sec:xcode_documentation}.
+
+\subsubsection{NSString}
+Objekte der Klasse \objc{NSString} repräsentieren Zeichenfolgen und können schnell mit der abkürzenden Syntax \objc{@"text"} erstellt werden.
+
+Häufig verwenden wir die Klassenmethode \objc{stringWithFormat:}, um Werte von Variablen nach der Syntax der String Formatierung einzubinden \secref{sec:stringformat}.
+
+\begin{objclst}
+NSString *string = @"text";
+\end{objclst}
+
+\subsubsection{NSNumber}
+\objc{NSNumber} kann als Alternative zu primitiven Datentypen zur Repräsentation von Zahlen verwendet werden und bietet die notwendigen Mechanismen, um numerische Datentypen als Objekte zu behandeln und weiterzuverwenden. Aus den meisten numerischen Datentypen (so auch \objc{BOOL}) kann mit der Syntax \objc{@(x)} ein \objc{NSNumber}-Objekt erstellt werden.
+\begin{objclst}
+NSNumber *a = @(3.14);
+NSNumber *b = @(YES);
+\end{objclst}
+
+\subsubsection{NSArray}
+\objc{NSArray} stellt eine geordnete Liste von Objekten dar und bietet viele Mechanismen, mit diesen Objekten zu arbeiten. Die abkürzende Syntax \objc{@[a, b, c]} erstellt ein \objc{NSArray} mit den entsprechenden Objekten in der angegebenen Reihenfolge.
+
+Die Instanzmethode \objc{objectAtIndex:} bietet dann Zugriff auf das Objekt mit dem entsprechenden Index in der Liste.
+
+Um Listen schnell durchzugehen, existiert die erweiterte \emphc{Fast Enumeration} Syntax der \objc{for}-Schleife in Objective-C:
+\begin{objclst}
+NSArray *list = @[a, b, c];
+
+for (NSObject *object in list) {
+    // do something
+}
+\end{objclst}
+
+Listen sind zunächst nicht veränderbar, es können also keine Objekte hinzugefügt oder entfernt werden. Stattdessen wird die Subklasse \objc{NSMutableArray} verwendet, um solche veränderbaren Listen darzustellen. Diese implementiert die Instanzmethoden \objc{addObject:} und \objc{removeObject:}, sowie zusätzliche Möglichkeiten zur Manipulation der Liste.
+
+\subsubsection{NSDictionary}
+
+Analog zu Listen repräsentieren Objekte der Klasse \objc{NSDictionary} ungeordnete Key-Value Paare. Jedem Key des Typs \objc{NSString} wird ein beliebiges Objekt (Value) zugeordnet. Abkürzend schreiben wir dann \objc{@\{@"key1":value1, @"key2":value2\}}.
+
+Auf ein bestimmtes Objekt kann mit der Instanzmethode \objc{objectForKey:} zugegriffen werden.
+
+Außerdem kann die gleiche Syntax zur Fast Enumeration verwendet werden wir bezüglich \objc{NSArray}, wobei jedoch keine Reihenfolge der Aufzählung definiert ist.
+
+\begin{objclst}
+NSDictionary *dic = {@"key1":value1, @"key2":value2};
+
+for (NSObject *object in dic) {
+    // do something
+}
+\end{objclst}
+
+Als veränderbare Subklasse steht hier das \objc{NSMutableDictionary} zur Verfügung, das die Instanzmethoden \objc{setObject:forKey} und \objc{removeObjectForKey} implementiert.
+
+
+
+\chapter{iOS App Architektur}
+
+
+\section{iOS App Lifecycle}
+
+Wir versuchen nun im Detail zu verstehen, wie unsere Apps auf einem iOS Gerät ausgeführt werden. Außerdem sind in einem Xcode Projekt verschiedene Dateien zu finden, die wir hier in Kontext bringen.
+
+Die folgenden Informationen sind im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iphone/conceptual/iphoneosprogrammingguide/} zu finden und können dort vertieft werden.
+
+\subsection{App States}\label{sec:app_states}
+
+Eine App liegt immer in einem der folgenden \emphc{App States} vor:
+
+\begin{description}
+\item[Not running] Die App läuft nicht.
+\item[Inactive] Ein Zwischenzustand, in dem die App im Vordergrund läuft aber keine Events empfängt, bspw. während des Startvorgangs oder bei Unterbrechungen wie eingehenden Anrufen.
+\item[Active] Die App läuft normal im Vordergrund und empfängt Events.
+\item[Background] Die App führt Code im Hintergrund aus. Wenn nicht explizit eine begrenzte Laufzeit zur Ausführung eines Hintergrundprozesses angefordert wird, geht die App direkt zum folgenden State über.
+\item [Suspended] Die App befindet sich im Hintergrund und führt keinen Code aus. Es kann schnell wieder ein Vordergrund-State angenommen werden, da der Speicher noch nicht freigegeben wurde. Das System kann dies jedoch jederzeit tun.
+\end{description}
+
+\subsection{Startprozess einer iOS App}\label{sec:launchprocess}
+
+\begin{enumerate}
+\item Der Benutzer drückt auf das App Icon oder startet die App auf eine andere Weise.
+\item Die Methode \objc{main()} in der Datei 'main.m' wird aufgerufen. Diese sieht typischerweise wie folgt aus und braucht selten verändert zu werden:
+
+\begin{objclst}
+int main(int argc, char * argv[])
+{
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+\end{objclst}
+
+Die \objc{main()} Methode wird auch als \emphc{Entry Point} bezeichnet und entspricht ihrem Äquivalent in C und C++.
+\item \objc{main()} ruft \objc{UIApplicationMain()} auf. Mit einem \keysc{\altkey}-Klick auf den Methodennamen können wir die Dokumentaion dieser Methode in Apple's \objc{UIKit} Framework anschauen \abbref{img:lifecycle_uiapplicationmain}.
+
+\includegraphicsc[\screenshotwidth]{img/lifecycle_uiapplicationmain.png}{img:lifecycle_uiapplicationmain}{Die integrierte Dokumentation ist hilfreich, um den App Lifecycle zu verstehen}
+
+\item Diese Methode erzeugt das \emphc{Application Object}, also ein Objekt des Typs \objc{UIApplication}, das für die zentrale Koordination der App verantwortlich ist.
+
+U.a. stellt dieses Objekt die Verbindung zum Bildschirm her, erzeugt ein \objc{UIWindow} zur Darstellung der Benutzeroberflöche und empfängt Benutzereingaben. Wir müssen für diese Klasse keinen weiteren Code schreiben, damit die Architektur der App funktioniert. Über den Aufruf einer Klassenmethode kann jederzeit auf das \objc{UIApplication} Objekt zugegriffen werden:
+
+\begin{objclst}
+[UIApplication sharedApplication] // gibt das Application Objekt zurück
+\end{objclst}
+
+\item Anschließend wird das \emphc{Application Delegate} erstellt.
+
+Dabei wird die Klasse verwendet, die der \objc{UIApplicationMain()} Methode in Form eines \objc{NSString} Objekts übergeben wird:
+\begin{objclst}
+NSStringFromClass([XYZAppDelegate class]) // entspricht dem NSString @"XYZAppDelegate"
+\end{objclst}
+Das erstellte Objekt dieser Klasse wird der Property \objc{delegate} des Application Objects zugewiesen und ist daher immer verfügbar:
+\begin{objclst}
+[UIApplication sharedApplication].delegate // gibt das App Delegate Objekt zurück
+\end{objclst}
+
+Wir implementieren die Klasse \objc{XYZAppDelegate} wie jede andere Klasse in unserem Code mit ihrer Header- und Main-Datei.
+
+Im Verlauf des Startvorgangs und während der Laufzeit der App werden bestimmte Methoden des Application Delegates aufgerufen. Diese informieren bspw. über den Wechsel der oben beschriebenen States und sind im Übersichtsdiagramm dargestellt \abbref{img:lifecycle_overview}.
+
+\item Im Xcode Projekt ist eine Datei 'Info.plist' (meist mit vorangestelltem Product Name) zu finden. Diese steht dem Application Objekt zur Verfügung und enthält eine Liste verschiedener Optionen, die wir in der Projekt- und Targetkonfiguration anpassen können. Hier wird u.a. angegeben, wenn es ein \emphc{Storyboard} gibt, das als Startpunkt für die Darstellung der Benutzeroberfläche verwendet werden soll.
+
+Dieses Storyboard wird geladen und dessen Inital Scene angezeigt. Alle im Storyboard enthaltenen Objekte werden dabei instanziert und die Connections (IBOutlets und IBActions) hergestellt.
+
+\item Nun übernehmen unsere eigenen Klassen die Kontrolle. Unsere Implementierung des App Delegates wird hier häufig verwendet, um benötigte Datenstrukturen zu initialisieren. Außerdem ist das App Delegate verantwortlich dafür, auf die Veränderung der App States zu reagieren und bspw. rechenintensive Prozesse der Benutzeroberfläche (Animationen u.ä.) zu pausieren, wenn die App in den Hintergrund tritt.
+
+\end{enumerate}
+
+\includegraphicsc{img/lifecycle_overview.png}{img:lifecycle_overview}{Übersicht der Prozesse beim Starten einer iOS App (aus dem iOS App Programming Guide)}
+\clearpage
+
+\section{Das Model-View-Controller Konzept}\label{sec:mvc}
+
+Für die Strukturierung komplexerer Apps müssen wir nun zunächst ein wichtiges Konzept der Softwareentwicklung verstehen:
+
+Das \emphc{Model-View-Controller (MVC) Konzept} zieht sich konsequent durch die Gestaltungsmuster von iOS Apps und wird auch auf vielen anderen Plattformen verwendet.
+
+Es basiert auf dem Grundsatz, dass \emphc{Modell}, \emphc{Präsentation} und \emphc{Steuerung} strikt getrennt implementiert werden \abbref{img:mvc_diagram}. Durch diese Modularisierung bleibt ein Softwareprojekt flexibel und erweiterbar und einzelne Komponenten können leicht wiederverwertet werden.
+
+\includegraphicsc{img/mvc_diagram.png}{img:mvc_diagram}{Das MVC Konzept trennt Modell, Präsentation und Steuerung}
+
+\begin{description}
+\item[Modell (Model)] Datenstrukturen und Logik werden dem Modell zugeordnet. Es stellt die darzustellenden Daten zur Verfügung und verarbeitet Anfragen bezüglich deren Modifikation.
+
+Wir werden häufig Subklassen von \objc{NSObject} mit Eigenschaften und Klassenbeziehungen implementieren, um solche abstrakten Datenstrukturen zu repräsentieren.
+
+\item[Präsentation (View)] Subklassen von \objc{UIView} repräsentieren Interfaceelemente und werden auf dem Bildschirm dargestellt. Sie werden vom Controller mit Informationen gefüllt und leiten Benutzereingaben an diesen weiter. 
+
+\item[Steuerung (Controller)] Der Controller verwaltet die Views und reagiert auf Benutzereingaben.
+
+Zur Laufzeit der App übernehmen Subklassen von \objc{UIViewController} die Kommunikation zwischen Model und View. Meist repräsentiert jeweils ein View Controller eine bestimmte Ansicht auf dem Bildschirm. In Reaktion auf Benutzereingaben stellt der View Controller Anfragen an das Model und konfiguriert die Views.
+
+Zusätzlich sind übergeordnete Controller wie bspw. Instanzen von \objc{UINavigationController} für die Koordination der einzelnen View Controller zuständig und verwalten deren hierarchische Strukturen.
+\end{description}
+
+\section{View Hierarchie}
+
+Die \emphc{View} Komponente jeder iOS App ist für die Anzeige des User Interface auf dem Bildschirm verantwortlich. Wir verwenden dazu Subklassen von \objc{UIView}.
+
+\objc{UIView} wird in Apples UIKit Framework als Subklasse von \objc{UIResponder : NSObject} implementiert. Die Klasse erbt somit zusätzlich zu den Verwaltungsmechanismen von \objc{NSObject} auch die Methoden zur Reaktion auf Benutzereingaben von \objc{UIResponder}.
+
+UIKit stellt viele Subklassen von \objc{UIView} zur Verfügung, wie bspw. \objc{UILabel}, \objc{UIButton} und \objc{UIImageView}. Diese implementieren jeweils Methoden, um ihren Inhalt auf dem Bildschirm zu rendern.
+
+Jedes \objc{UIView} Objekt präsentiert jedoch nicht nur seinen eigenen Inhalt sondern dient auch als Container für andere \objc{UIView} Objekte. Somit erhalten wir eine hierarchische Struktur von \emphc{Superviews} mit jeweils beliebig vielen \emphc{Subviews} \abbref{img:view_hierarchy}. An oberster Stelle der Hierarchie steht dabei ein Objekt der Klasse \objc{UIWindow : UIView}, das von dem Application Object verwaltet wird \secref{sec:launchprocess}.
+
+\includegraphicsc[\iphonewidth]{img/view_hierarchy.png}{img:view_hierarchy}{Jedes Objekt der \objc{UIView} Klasse dient wieder als Container für weitere Objekte dieser Klasse}
+
+Mit Instanzmethoden wie \objc{addSubview:} und \objc{removeFromSuperview} von \objc{UIView} können wir der View Hierarchie Objekte hinzufügen oder Objekte entfernen.
+
+\subsection{Frame und CGRect}
+
+Jedes Objekt der Klasse \objc{UIView} verwaltet einen Anzeigebereich, der durch das Attribut \objc{CGRect frame} bestimmt ist. Der Frame bestimmt ein Rechteck im zweidimensionalen Koordinatensystem der Superview.
+
+Der Ursprung des Koordinatensystems liegt dabei immer in der oberen linken Ecke der Superview \abbref{img:view_coordinates} mit einer horizontalen x-Achse und vertikalen y-Achse in positiver Richtung nach rechts unten.
+
+\includegraphicsc[\iphonewidth]{img/view_coordinates.png}{img:view_coordinates}{Der Ursprung des Koordinatensystems von \objc{UIView} liegt in der oberen linken Ecke}
+
+\objc{CGRect} ist keine Klasse sondern ein \emphc{Struct}, das ein Rechteck mit einem Ursprung \objc{CGPoint origin} und einer Größe \objc{CGSize size} repräsentiert. \objc{CGPoint} stellt dabei einen Punkt im zweidimensionalen Koordinatensystem mit den Attributen \objc{CGFloat x} und \objc{CGFloat y} dar, während \objc{CGSize} eine Ausdehnung mit Breite \objc{CGFloat width} und Höhe \objc{CGFloat height} beschreibt. \objc{CGFloat} ist äquivalent zu \objc{float} auf einer 32-bit Architektur und zu \objc{double} auf einer 64-bit Architektur.
+\begin{objclst}
+struct CGRect {
+   CGPoint origin;
+   CGSize size;
+};
+
+struct CGPoint {
+   CGFloat x;
+   CGFloat y;
+};
+ 
+struct CGSize {
+   CGFloat width;
+   CGFloat height;
+};
+\end{objclst}
+
+Zur Erstellung eines \objc{CGRect} kann die Funktion \objc{CGRectMake(x, y, width, height)} verwendet werden.
+
+\subsection{UIView Objekte}
+
+Wir können ein \objc{UIView} Objekt u.a. mit der \objc{initWithFrame:} Methode erstellen und dann der View Hierarchie hinzufügen, sodass es auf dem Bildschirm angezeigt wird:
+\begin{objclst}
+UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+[self.view addSubview:view]; // Angenommen self.view ist bereits Teil der View Hierarchie
+\end{objclst}
+
+Subklassen von UIView erben diesen Mechanismus. Ein \objc{UILabel} lässt sich also bspw. genauso erzeugen und anzeigen.
+
+\section{Auto Layout}
+
+iOS Apps werden mittlerweile auf einer Vielzahl von Geräten unterschiedlicher Größe ausgeführt. Die Benutzeroberfläche unserer Apps sollte sich dabei dynamisch verschiedenen Anzeigegrößen und Inhalten anpassen können. Dazu gehören neben Displaygrößen und -orientierungen bspw. auch Sprachen mit verschieden Leserichtungen und Wortlängen. %\abbref{img:autolayout_orientation}.
+
+%\includegraphicsc{img/autolayout_orientation.png}{img:autolayout_orientation}{Benutzeroberflächen sollten sich dynamisch an verschiedene Anzeigegrößen anpassen}
+
+Natürlich können wir versuchen, die Parameter des \objc{frame} Attributs einer View in Reaktion auf Änderungen der Größe der Superview oder des Inhalts geschickt anzupassen. Häufig haben wir jedoch ganz bestimmte Vorstellungen, wie die Views einer View Hierarchie \emphc{zueinander} positioniert sein sollen. Bei der Konzeption von Benutzeroberflächen treten anstatt von festen Positionen vielmehr Regeln auf wie:
+\begin{itemize}
+\item Eine View soll wenn möglich zentriert positioniert sein, nie jedoch den Frame einer anderen View überlagern.
+\item Der Abstand einer View von beiden Seiten des Bildschirms soll 20pt betragen, während ihre Breite entsprechend flexibel ist.
+\item Zwei Views sollen immer die gleiche Höhe besitzen, die sich an der benötigten Größe der Subview Hierarchie der jeweils größeren View orientiert.
+\item Eine View soll immer den gesamten Bereich ihrer Superview ausfüllen.
+\end{itemize}
+
+Das \emphc{Auto Layout} Konzept der Objective-C Programmierung basiert auf der Definition von Regeln dieser Art, genannt \emphc{Constraints}.
+
+\subsection{Constraints}
+
+Jedes Constraint repräsentiert eine Beziehung zwischen zwei \emphc{Attributen} $x$ und $y$ verschiedener Views, die durch den Ausdruck
+\begin{equation}
+y = m*x + b
+\end{equation}
+gegeben ist. Dabei beschreiben $m$ und $b$ vom Typ \objc{float} \emphc{Multiplier} und \emphc{Constant} der Beziehung.
+
+In dieser Form können wir bspw. eine Constraint definieren, die den horizontalen Abstand zweier Views auf einen Wert von 20pt beschränkt:
+\begin{objclst}
+secondView.left = firstView.right * 1.0 + 20.0
+\end{objclst}
+
+Die Auto Layout Syntax verfügt über die Attribute \objc{left, right, top, bottom, leading, trailing, width, height, centerX, centerY} und \objc{baseline}, wobei \objc{leading} und \objc{trailing} abhängig von der Leserichtung der eingestellten Sprache äquivalent oder umgekehrt zu \objc{left} und \objc{right} sind.
+
+Es ist darüber hinaus möglich, neben Gleichheitsbeziehungen auch Ungleichungen zu definieren und Constraints ein Prioritätslevel zwischen 1 und 1000 zuzuweisen.
+
+Zur Laufzeit ist die Superview für die automatische Positionierung ihrer Subviews entsprechend der definierten Constraints zuständig.
+
+Für Views können beliebig viele, sich überlagernde Constraints definiert werden. Stehen einige Constraints in Konflikt zueinander und können nicht gleichzeitig erfüllt werden, hebt die Superview Constrains nacheinander auf, bis das Layout gültig ist. Dabei werden nicht-erfüllbare Constraints trotzdem so weit wie möglich einbezogen.
+
+Enthält eine Superview keine Constraints, wird auf die expliziten Frames der Views zurückgegriffen.
+
+Bei der Konstruktion der Constraints sollte unbedingt auf ein eindeutiges Layout geachtet werden.
+
+\subsection{Intrinsic Content Size}
+
+Subklassen von \objc{UIView} wie repräsentieren häufig Inhalt, dessen Darstellung eine bestimmte Größe erfordert. Dazu gehören bspw. \objc{UILabel} oder \objc{UIImageView} Objekte, deren Größe durch ihren Text- oder Bildinhalt bestimmt werden.
+
+Diese \emphc{Intrinsic Content Size} wird verwendet, um die Größe einer View zu berechnen. In den meisten Fällen sollte die Intrinsic Content Size nicht durch explizite \objc{width} und \objc{height} Constraints beschränkt werden.
+
+Die beiden Parameter \emphc{Content Hugging Priority} und \emphc{Compression Resistance Priority} einer View legen fest, mit welcher Priorität sich das Auto Layout System an der Intrinsic Content Size zu orientieren hat. Dabei führt eine geringe Content Huging Priority bspw. dazu, dass eine View verfügbaren Platz über die Intrinsic Content Size hinaus eher einnimmt, als eine View mit höherer Content Hugging Priority. Die Compression Resistance Priority bestimmt hingegen, welche View zuerst auf eine geringere Größe als ihre Intrinsic Content Size gestaucht wird, wenn Constraints den verfügbaren Platz einschränken.
+
+\subsection{Auto Layout im Interface Builder}
+
+Auto Layout kann für Interface Builder Dateien wie Storyboards einzeln aktiviert oder deaktiviert werden. Dazu ist im File Inspector eine Schaltfläche 'Use Autolayout' zu finden \abbref{img:autolayout_activate}.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_activate.png}{img:autolayout_activate}{Auto Layout kann auf Basis einzelner Interface Builder Dateien ein- oder ausgeschaltet werden}
+
+Ist Auto Layout eingeschaltet, können wir Constraints auf verschiedene Weise erstellen. Eine Möglichkeit besteht in der Verwendung der Schaltfächen am unteren rechten Rand des Editorbereichs \abbref{img:autolayout_menus}. Hier finden wir die interaktiven Menüs 'Align' und 'Pin', mit denen den ausgewählten Views Constraints hinzugefügt werden können.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_menus.png}{img:autolayout_menus}{Die Schaltflächen am unteren rechten Rand des Editorbereichs bieten Zugriff auf viele Auto Layout Optionen}
+
+Alternativ kann das von IBOutlets und IBActions bekannte Ziehen einer Verbindungslinie bei gehaltener \keysc{\ctrlkey}-Taste auch zum Erstellen von Constraints zwischen zwei Interfaceelementen verwendet werden \abbref{img:autolayout_drag}. Dabei wird abhängig von der Richtung der gezogenen Linie ein kontextabhängigeg Menü gezeit. Ziehen wir bspw. eine horizontale Linie, werden Constraint-Optionen bezüglich der Horizontalrichtung angezeigt.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_drag.png}{img:autolayout_drag}{Constraints können ähnlich wie IBOutlets und IBActions durch Ziehen einer Verbindungslinie erstellt werden}
+
+Drei Farben markieren den Status der Constraints einer ausgewählten View im Interface Builder \abbref{img:autolayout_blue}. Solange das Layout für die View noch uneindeutig ist, werden die Constraints in gelb angezeigt. Eindeutige Layouts werden blau und Layouts mit Konflikten rot markiert.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_blue.png}{img:autolayout_blue}{Ist das Layout einer View durch Constraints eindeutig festgelegt, werden diese blau gekennzeichnet}
+
+Wenn die Position der ausgewählten View im Interface Builder nicht ihrer berechneten Position gemäß ihren Constraints zur Laufzeit entspricht, wird sie diese gelb gestrichelt markiert \abbref{img:autolayout_ambig}. Im 'Resolve Auto Layout Issues' Menü am unteren rechten Bildschirmrand ist die Option 'Update Frames' zu finden, mit der die Position entsprechend angepasst werden kann.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_ambig.png}{img:autolayout_ambig}{Uneindeutige Layouts oder Views, deren Position von vom berechneten Layout abweichen, werden gelb gekennzeichnet und zeigen ihre Position zur Laufzeit als eine gestrichelte Markierung}
+
+Alle Constraints einer bestimmten View sind im Size Inspector aufgelistet. Eine Constraint kann wie jedes andere Objekt ausgewählt und mit dem Attributes Inspector bearbeitet werden. Die wichtigsten Optionen sind außerdem mit einem Doppelklick auf eine Constraint im Editorbereich erreichbar \abbref{img:autolayout_popup}.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_popup.png}{img:autolayout_popup}{Ein Doppelklick auf eine Constraint im Interface Builder zeigt die wichtigsten Optionen in einem Popup}
+
+\subsection{Auto Layout im Code}
+
+Der Interface Builder stellt die effektivste Möglichkeit dar, ein eindeutiges und dynamisches Layout zu konzipieren. Im Code werden häufig nur die Konstanten einzelner Constraints zur Laufzeit angepasst und selten ganze Layouts konstruiert.
+
+Trotzdem können wir Constraints als Objekte der \objc{NSLayoutConstraint} Klasse im Code erstellen und einer View hinzufügen. Dazu implementiert \objc{UIView} die Instanzmethoden \objc{addConstraint:} und \objc{removeConstraint:} und gewährt über das Attribut \objc{NSArray *constraints} Zugriff auf alle Constraints.
+
+Einzelne Constraints können mit der Klassenmethode \objc{constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:} instanziert werden. Da jedoch meist mehrere Constraints benötigt werden, stellt \objc{NSLayoutConstraint} zusätzlich eine Klassenmethode \objc{constraintsWithVisualFormat:options:metrics:views:} zur Verfügung, die eine \emphc{Visual Format Language} verwendet.
+
+Dabei übergeben wir der Klassenmethode einen String im ASCII-Art Stil, der die zu erstellenden Constraints beschreibt. So können wir bspw. einen Abstand von 10pt zwischen zwei Views \objc{view1} und \objc{view2} mit dem String
+\begin{objclst}
+@"[view1]-10-[view2]"
+\end{objclst}
+darstellen. Sollen beide Views zusätzlich den Standardabstand von der Begrenzung durch die Superview besitzen, schreiben wir:
+\begin{objclst}
+@"|-[view1]-10-[view2]-|"
+\end{objclst}
+
+Die Syntax der Visual Format Language ist im Auto Layout Guide\linkref{https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html} einsehbar.
+
+In dieser Form erstellte Constraint können wir dann einer Superview hinzufügen:
+\begin{objclst}
+NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-[view1]-10-[view2]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self.view1, self.view2)];
+[self.view addConstraints:constraints];
+\end{objclst}
+
+
+%\section{Ereignisgesteuerte Programmierung}
+%
+%Im Unterschied zu sequentiell ablaufenden Skripten ist die Ausführung von iOS Apps \emphc{ereignisgesteuert} oder \emphc{event-driven}. Zur Laufzeit der App wird auf System- und Benutzerereignisse reagiert. Die App muss diese Ereignisse verarbeiten und das UI entsprechend anpassen.
+%
+%*** add UIControlEvent section
+
+
+\section{View Controller Hierarchie}
+
+Eine App besteht im Allgemeinen aus verschiedenen Bildschirmansichten, die jeweils eine Komponente der Benutzeroberfläche repräsentieren. Daher verwalten wir die View Hierarchie unserer App nicht zentral, bspw. im Application Delegate, sondern verwenden einzelne Klassen, die jeweils einen Teil der View Hierarchie verwalten.
+
+Diese Subklassen von \objc{UIViewController} sind der \emphc{Controller}-Komponente des Model-View-Controller Konzepts zugeordnet \secref{sec:mvc}.
+
+Jeder View Controller ist für die Verwaltung seiner eigenen \emphc{Content View} zuständig. \objc{UIViewController} besitzt dafür ein Attribut \objc{UIView *view}.
+
+Zu den Aufgaben eines View Controllers gehören:
+\begin{itemize}
+\item die dynamische Positionierung der Views in der View Hierarchie seiner Content View
+\item die Kommunikation mit der Model-Komponente, um die Views mit Daten zu füllen
+\item die Reaktion auf Benutzereingaben
+\end{itemize}
+
+Nach dem Prinzip des \emphc{View Controller Containment} gibt es auch hier, ähnlich wie bei der View Komponente, eine hierarchische Struktur \abbref{img:vc_hierarchy}. Demnach gibt es übergeordnete View Controller, die die Content Views anderer View Controller der View Hierarchie ihrer eigenen Content View hinzufügen \abbref{img:vc_containment}.
+
+\includegraphicsc{img/vc_hierarchy.png}{img:vc_hierarchy}{Container View Controller präsentieren Content Views anderer View Controller, sodass eine View Controller Hierarchy entsteht. Abbildung aus der UIViewController Class Reference}
+\clearpage
+\includegraphicsc{img/vc_containment.png}{img:vc_containment}{Jeder View Controller verwaltet seine Content View, die einen Teil der View Hierarchie darstellt}
+
+Die oberste Instanz der View Hierarchie ist ein Objekt der \objc{UIWindow} Klasse. Analog besitzt \objc{UIWindow} ein Attribut \objc{UIViewController *rootViewController}, das die oberste Instanz der View Controller Hierarchie darstellt. Weisen wir diesem Attribut ein View Controller Objekt zu, so wird dessen Content View der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt. Wird ein Storyboard verwendet, geschieht dies automatisch mit der Option 'Initial View Controller' im Attributes Inspektor des entsprechenden View Controllers.
+
+Während nur in wenigen Fällen Subklassen von \objc{UIView} implementiert werden, wird man keine iOS App ohne mindestens eine Subklasse von \objc{UIViewController} finden. Meist stellt die Implementierung der View Controller den Großteil der Programmierung von iOS Apps dar.
+
+\subsection{View Controller Lifecycle}
+
+Im Verlauf der Präsentation eines View Controllers können verschiedene Instanzmethoden überschrieben werden, um auf Änderungen der Darstellung zu reagieren:
+\begin{itemize}
+\item \objc{viewDidLoad} wird aufgerufen, sobald die Content View geladen wurde. An dieser Stelle können Attribute, die im Storyboard nicht hinreichend konfiguriert werden können, dynamisch angepasst werden, um einen Ausgangspunkt für die Präsentation zu schaffen.
+\item \objc{viewWillAppear:}, \objc{viewWillDisappear:}, \objc{viewDidAppear:} und \objc{viewDidDisappear:} können verwendet werden, um die Inhalte der Content View zu aktualisieren oder Vorgänge zu beginnen/anzuhalten.
+\item \objc{didReceiveMemoryWarning} wird aufgerufen, wenn das System die App auffordert, Speicher freizugeben. Hier sollten nicht mehr benötigte Objekte oder solche, die leicht wieder zu erstellen sind, freigegeben werden.
+\end{itemize}
+
+\subsection{Präsentation von View Controllern}
+
+Die \objc{UIViewController} Klasse implementiert bereits eine einfache Möglichkeit, einen anderen View Controller temporär zu präsentieren. Die Instanzmethode \objc{presentViewController:animated:completion:} fügt die Content View des entsprechenden View Controllers der View Hierarchie hinzu, während \objc{dismissViewControllerAnimated:completion:} die Präsentation wieder beendet.
+
+\begin{objclst}
+// Präsentiert einen View Controller
+[self presentViewController:modalViewController animated:YES completion:nil];
+// Beendet die Präsentation
+[self dismissViewControllerAnimated:YES completion:nil];
+\end{objclst}
+
+\subsection{Container View Controller in UIKit}
+
+Das UIKit Framework stellt einige nützliche Subklassen von \objc{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
+
+Insbesondere werden wir uns noch genauer mit dem äußerst vielseitigen \objc{UITableViewController} befassen. Dieser gehört mit \objc{UICollectionViewController} zu den inhaltsbasierten Subklassen von \objc{UIViewController}.
+
+\objc{UINavigationController} und \objc{UITabBarController} hingegen sind als Container View Controller konzipiert. Sie enthalten selbst nur wenige Subviews in Form von Leisten. Stattdessen verwalten sie eine Hierarchie von weiteren View Controllern und präsentieren deren Content Views.
+
+\subsubsection{Navigation Controller}
+
+\objc{UINavigationController} implementiert eine \emphc{Stack}\linkref{http://de.wikipedia.org/wiki/Stapelspeicher} Datenstruktur, die in Form eines Attributs \objc{NSArray *viewControllers} nach außen repräsentiert wird.
+
+Einem Attribut \objc{UIViewController *rootViewController} kann zunächst ein View Controller zugewiesen werden, dessen Content View an erster Stelle der Hierarchie stehen soll. Anschließend kann dem Stack mit Aufrufen der Instanzmethode \objc{pushViewController:animated:} ein View Controller hinzugefügt und \objc{popViewControllerAnimated:} der oberste View Controller entfernt werden.
+
+Jeder von einem Navigation Controller verwaltete View Controller kann über das Attribut \objc{UINavigationController *navigationController} auf diesen zugreifen.
+
+\begin{objclst}
+// Präsentiere einen View Controller
+[self.navigationController pushViewController:nextViewController animated:YES];
+// Zurück zum vorherigen View Controller
+[self.navigationController popViewControllerAnimated:YES];
+\end{objclst}
+
+Die in den Subviews der Content View des Navigation Controllers präsentierten Elemente, bspw. der Titel und die Buttons in Navigationsleiste und Toolbar, sind von dem jeweils präsentierten View Controller abhängig. Jeder View Controller besitzt dafür ein Attribut \objc{UINavigationItem *navigationItem}, das entsprechend konfiguriert werden kann und diese Informationen dem Navigation Controller bereitstellt.
+
+\begin{objclst}
+self.navigationItem.title = @"Titel";
+self.title = @"Titel"; // äquivalente Abkürzung
+
+self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
+\end{objclst}
+
+\subsection{View Controller in Storyboards}
+
+Die beschriebenen Mechanismen der View Controller Hierarchie können und sollten zum Großteil in das verwendete Storyboard ausgelagert werden.
+
+Ein Storyboard ist in \emphc{Scenes} strukturiert, die jeweils einen View Controller und seine Content View Hierarchie repräsentieren. Aus der Object Library können dem Storyboard View Controller hinzugefügt werden.
+
+Wird ein View Controller ausgewählt, können wir dessen Identität anpassen und die entsprechende Subklasse von \objc{UIViewController} auswählen, die wir implementiert haben \abbref{img:vc_identity}. Zur Laufzeit wird der View Controller dann als Objekt dieser Subklasse instanziert.
+
+\includegraphicsc[\iphonewidth]{img/vc_identity.png}{img:vc_identity}{Im Identity Inspector kann bei ausgewählten View Controller dessen Subklasse ausgewählt werden}
+
+Anschließend stehen die im Code definierten IBOutlets und IBActions der \objc{UIViewController} Subklasse im Interface Builder zur Verfügung und können mit Interfaceelementen verbunden werden.
+
+\subsubsection{Segues}
+
+Zwischen Scenes vermitteln \emphc{Segues}. Diese stellen Beziehungen zwischen View Controllern dar und können zu deren Präsentation verwendet werden \abbref{img:segues}.
+
+\includegraphicsc{img/segues.png}{img:segues}{Segues vermitteln zwischen Scenes}
+
+Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keysc{\ctrlkey}-Taste und die Verwendung des 'Triggered Segues' Abschnitts des Connection Inspectors.
+
+Zwischen View Controllern kann es direkte Beziehungen geben, die durch eine \emphc{Relationship Segue} gekennzeichnet werden. In dieser Form wird bspw. einem Navigation Controller sein Root View Controller zugewiesen.
+
+Außerdem können Subklassen von \objc{UIControl} wie bspw. \objc{UIButton} bei einem \objc{UIControlEvent} Segues auslösen. So lassen sich Übergänge zwischen View Controllern bereits innerhalb des Storyboards erstellen.
+
+\begin{itemize}
+\item \emphc{Modal Segues} sind das Äquivalent zum Aufruf der \objc{presentViewController:animated:completion:} Methode.
+\item Befindet sich der View Controller des Ausgangspunkts der Segue in der View Hierarchie eines Navigation Controllers, kann eine \emphc{Push Segue} als Äquivalent zu der \objc{pushViewController:animated:} Methode erstellt werden.
+\end{itemize}
+
+Im Attributes Inspector können Optionen bezüglich Übergangsanimation und Präsentationsmodus gewählt werden. Zusätzlich sollte hier ein Identifier vergeben werden.
+
+Im Code können wir auf das Auslösen einer Segue reagieren, um den View Controller des Ziels entsprechend zu konfigurieren. Dazu überschreiben wir die \objc{prepareForSegue:sender:} Instanzmethode und verwenden den Identifier:
+
+\begin{objclst}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showDetailSegue"]) {
+        segue.destinationViewController.detailObject = detailObject;
+    }
+}
+\end{objclst}
+
+
+\section{Das Delegate Konzept}\label{sec:delegate_konzept}
+
+In der Programmierung komplexerer Apps ist es häufig notwendig, dass Klassen Informationen untereinander austauschen. Das \emphc{Delegate Konzept} ist ein einfacher und vielverwendeter Mechanismus der \emphc{einseitigen} Kommunikation zwischen Klassen, das einem einfachen \emphc{Frage-Antwort-Prinzip} folgt \abbref{img:delegation}.
+
+\includegraphicsc[10cm]{img/delegation.png}{img:delegation}{Das Delegate Konzept funktioniert nach einem einfachen Frage-Antwort-Prinzip}
+
+Die aktive (fragende) Klasse stellt in ihrem öffentlichen Header ein \emphc{Protokoll} zur Verfügung, das die verwendeten Methoden definiert. Außerdem besitzt sie ein öffentliches Attribut, häufig \objc{delegate} genannt, das eine Referenz zu einem Objekt der passiven (antwortenden) Klasse hält. Diese implementiert die Methoden des Protokolls, die in entsprechenden Situationen von der aktiven Klasse aufgerufen werden können.
+
+Methoden in einem Protokoll dienen in den meisten Fällen einem von zwei Zwecken:
+\begin{itemize}
+\item Von dem Delegate Objekt werden Informationen angefordert, oder
+\item Das Delegate Objekt wird benachrichtigt, wenn eine bestimmte Situation eintritt.
+\end{itemize}
+
+Viele Klassen in Frameworks implementieren Kommunikationsmechanismen in Form von Delegates. Dazu gehört bspw. die im folgenden Abschnitt beschriebene \objc{UITableView}. Wir können jedoch auch eigene Protokolle und Delegates definieren. Betrachten wir dazu das Beispiel eines View Controllers \objc{SelectionViewController : UIViewController}, der zur Auswahl eines bestimmten Objekts dienen soll.
+
+\subsubsection{Aktive Klasse}
+\begin{objclst}
+// SelectionViewController.h
+
+@protocol SelectionProtocol; // Forward Declaration: Das Protokoll wird später definiert, muss der Klasse an dieser Stelle jedoch schon zur Verfügung stehen
+
+@interface SelectionViewController : UIViewController
+
+@property (weak, nonatomic) id <SelectionProtocol> delegate;
+
+@end
+
+@protocol SelectionProtocol
+
+- (NSArray *)objectsForSelectionViewController:(SelectionViewController *)selectionVC;
+
+@optional
+
+- (void)selectionViewController:(SelectionViewController *)selectionVC didSelectObject:(id)object;
+
+@end
+\end{objclst}
+
+Das Delegate Attribut ist mit \objc{weak} gekennzeichnet, da die Kommunikation einseitig und die Referenz nicht notwendig ist: Die aktive Klasse soll das Delegate Objekt nicht im Speicher halten, wenn es an anderer Stelle nicht mehr benötig wird.
+
+Weiterhin ist das Delegate Attribut als Empfänger des \objc{SelectionProtocol} markiert. Dem Attribut sollen also nur Objekte zugewiesen werden, die das Protokoll implementieren. Andernfalls wird eine Warnung ausgegeben.
+
+Mit \objc{@protocol} beginnt schließlich die Definition des Protokolls. Die folgenden Methoden müssen vom Delegate implementiert werden. Optionale Methoden, deren Implementierung nicht erwartet wird, können einem \objc{@optional} folgen.
+
+Diese Methoden können nun von der aktiven Klassen auf dem Delegate Objekt aufgerufen werden:
+
+\begin{objclst}
+// SelectionViewController.m
+
+#import "SelectionViewController.h"
+
+@implementation SelectionViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    NSArray *objects = [self.delegate objectsForSelectionViewController:self];
+    // configure view to display objects ...
+    
+}
+
+- (void)didSelectObject:(id)object {
+    // assume this method is called when an object is selected
+    
+    if ([self.delegate respondsToSelector:@selector(selectionViewController:didSelectObject:)]) { // test, if delegate implements the optional method
+        [self.delegate selectionViewController:self didSelectObject:object];
+    }
+    
+}
+
+@end
+\end{objclst}
+
+\subsubsection{Passive Klasse}
+\begin{objclst}
+// ViewController.h
+
+#import "SelectionViewController.h"
+
+@interface ViewController : UIViewController <SelectionProtocol>
+
+@end
+\end{objclst}
+
+Im öffentlichen (oder privaten) Interface kann eine Klasse als Empfänger des Protokolls markiert werden. Von dieser Klasse wird nun die Implementierung der Protokollmethoden erwartet.
+
+\begin{objclst}
+// ViewController.m
+
+#import "ViewController.h"
+
+@implementation ViewController
+
+- (IBAction)showSelectionViewController:(id)sender {
+    // assume this method is called to present the selection VC
+    
+    SelectionViewController *selectionVC = [[SelectionViewController alloc] init];
+    selectionVC.delegate = self; // set delegate property
+    [self presentViewController:selectionVC animated:YES completion:nil];
+    
+}
+
+- (NSArray *)objectsForSelectionViewController:(SelectionViewController *)selectionVC {
+
+    // get objects array ...
+
+    return objects;
+}
+
+- (void)selectionViewController:(SelectionViewController *)selectionVC didSelectObject:(id)object {
+    
+    // do something with the selected object ...
+    
+    [selectionVC dismissViewControllerAnimated:YES completion:nil];
+}
+
+@end
+\end{objclst}
+
+Das Delegate Konzept ist häufig hilfreich, um erforderliche Informationen anzufordern. Dabei muss der aktiven Klasse nichts weiter über die passive Klasse bekannt sein als die Implementierung des Protokolls und sie muss diese nicht importieren. Das Konzept ist daher flexibel einsetzbar. Für konzeptionell eng miteinander verbundene Klassen, bei denen diese Asymmetrie nicht notwendig ist, sollten jedoch stattdessen lieber normale Methodenaufrufe verwendet werden.
+
+\section{Table Views \& Table View Controller}
+
+Aufgrund des eingeschränkten Platzes auf Geräten der iOS Plattform verwenden sehr viele Apps \objc{UIScrollView} oder Subklassen derselben, um Views über die Bildschirmgröße hinaus darzustellen. \objc{UITableView} ist eine solche Subklasse, die in einem Großteil der iOS Apps zu finden ist.
+
+\emphc{Table Views} stellen eine Liste von \objc{UITableViewCell : UIView} Objekten dar und verwenden den Scrollmechanismus von \objc{UIScrollView}.
+
+Eine Table View ist zunächst in \emphc{Sections} unterteilt, die jeweils eine bestimmte Anzahl von \emphc{Rows} enthalten. Zur Identifikation einer Zeile werden daher Objekte der \objc{NSIndexPath} Klasse verwendet, die jeweils ein Attribut \objc{NSInteger section} und \objc{NSInteger row} besitzen.
+
+Es kann zwischen den Darstellungsoptionen \objc{UITableViewStylePlain} und \objc{UITableViewStyleGrouped} für Table Views gewählt werden, die lediglich das Erscheinungsbild der Table View verändern \abbref{img:tableview_styles}.
+
+\includegraphicsc{img/tableview_styles.png}{img:tableview_styles}{Table Views können in den Darstellungsoptionen Plain oder Grouped angezeigt werden}
+
+\subsection{Statische und dynamische Table Views}
+
+Statische Table Views bieten eine einfache Möglichkeit, Views tabellarisch darzustellen. Im Storyboard kann ein \objc{UITableView} Objekt der View Hierarchie hinzugefügt und mit der Option \emph{Content: Static Cells} versehen werden. Im Attributes Inspector kann die Anzahl der Sections und Rows, sowie eine Vielzahl weiterer Attribute konfiguriert werden. Die \objc{UITableViewCell} Objekte, die jede Zeile repräsentieren, fungieren nun als normale Views, denen wir Subviews in Form von Buttons, Labels o.ä. hinzufügen können.
+
+Häufig möchten wir Table Views jedoch zur Darstellung dynamischer Inhalte verwenden. Dazu stellt \objc{UITableView} nach dem Delegate Konzept die beiden Protokolle \objc{UITableViewDatasource} und \objc{UITableViewDelegate} zur Verfügung und besitzt die entsprechenden Attribute \objc{id <UITableViewDatasource> datasource} und \objc{id <UITableViewDelegate> delegate}. Zur Laufzeit stellt eine dynamische Table View Anfragen an beide Objekte und benachrichtigt diese über Ereignisse.
+
+Anstatt jede \objc{UITableViewCell} im Storyboard einzeln zu konfigurieren verwenden dynamische Table Views \emphc{Prototype Cells}. Diese werden im Storyboard wie Static Cells konfiguriert, jedoch erst zur Laufzeit mit Inhalt gefüllt \abbref{img:tableview_prototypecells}. Natürlich eignet sich auch an dieser Stelle Auto Layout zur Positionierung der Views. Außerdem sollte jeder Prototype Cell ein Identifier zugewiesen werden.
+
+\includegraphicsc[\iphonewidth]{img/tableview_prototypecells.png}{img:tableview_prototypecells}{Prototype Cells können im Storyboard konfiguriert werden und dienen anschließend als Vorlage für dynamische Table View Cells}
+
+An der entsprechenden Stelle im Code können wir dann mit der Instanzmethode \objc{dequeueReusableCellWithIdentifier:} von \objc{UITableView} ein \objc{UITableViewCell} Objekt nach Vorlage der Prototype Cell mit dem angegebenen Identifier anfordern und anschließend mit Inhalt füllen. Dabei verwendet UITableView einen sehr effektiven Verwaltungsmechanismus, der zunächst solche \objc{UITableViewCell} Objekte wiederverwendet, die gerade nicht angezeigt werden. So kann ein reibungsloses Scrollen durch beliebig lange Listen realisiert werden.
+
+\subsection{Datasource, Delegate und Table View Controller}
+
+Zur Darstellung dynamischer Inhalte verwenden wir meist einen View Controller sowohl als Datasource als auch Delegate einer Table View und implementieren die Methoden der beiden zugehörigen Protokolle.
+
+Prinzipiell kann die Table View an einer beliebigen Stelle der View Hierarchie der Content View eines View Controllers positioniert sein. Wurde ihr der View Controller als Datasource und Delegate zu gewiesen, bspw. mithilfe von IBOutlets im Storyboard, muss dieser die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle implementieren.
+
+\begin{objclst}
+@interface ViewController : UIViewController <UITableViewDatasource, UITableViewDelegate>
+\end{objclst}
+
+In den meisten Fällen verwenden wir jedoch die Table View selbst als Content View des View Controllers. UIKit stellt hierzu die vereinfachende Subklasse \objc{UITableViewController : UIViewController} zur Verfügung, die das Content View Attribut \objc{UIView *view} mit \objc{UITableView *tableView} ersetzt und darüber hinaus einige hilfreiche Mechanismen implementiert.
+
+In der Implementierung der \objc{UITableViewController} Subklasse können wir nun die Methoden der Datasource und Delegate Protokolle implementieren. Die Dokumentation beschreibt die Protokolle in gewohnter ausführlicher Form.
+
+Folgende Methoden sollten jedoch in keiner \objc{UITableViewDatasource} Implementierung fehlen:
+
+\begin{objclst}
+// Sei NSArray *objects ein Attribut dieser Subklasse
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Bestimmt die Anzahl der Sections
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Bestimmt die Anzahl der Rows für die angegebene Section
+    return [self.objects count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    // Greift auf das Model zurück, um das darzustellende Objekt zu erhalten
+    NSObject *object = [self.objects objectAtIndex:indexPath.row];
+
+    // Erstellt ein neues UITableViewCell Objekt entsprechend der im Storyboard definierten Prototype Cell mit dem angegebenen Identifier oder verwendet eine existierende, momentan nicht verwendete Zelle mit diesem Identifier
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"objectCell"];
+
+    // Konfiguriert die View entsprechend des Models
+    cell.textLabel.text = object.description;
+
+    return cell;
+}
+\end{objclst}
+
+An dieser Stelle wird das Model-View-Controller Konzept \secref{sec:mvc} offensichtlich in Perfektion umgesetzt. Mechanismen dieser Art sollten bei der Konzeption von iOS Apps immer als Referenz für den eigenen Code dienen.
+
+Das \objc{UITableViewDelegate} Protokolls bietet zusätzlich zu vielen weiteren Darstellungsoptionen die Möglichkeit zur Reaktion auf verschiedene Ereignisse. Dazu gehört die vierte essentielle Methode der Table View Programmierung:
+
+\begin{objclst}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    // do something ...    
+    
+}
+\end{objclst}
+
+Alternativ zur Implementierung dieser Delegate Methode können auch Storyboard Segues in Verbindung mit Prototype Cells verwendet werden. In diesem Fall ist es sinnvoll, zunächst den Index Path der betätigten Table View Cell in der \objc{prepareForSegue:sender:} Methode auszulesen und damit bspw. Zugriff auf das entsprechende Model Objekt zu erhalten:
+
+\begin{objclst}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+
+    // get model object and configure destination view controller ...
+
+}
+\end{objclst}
+
+\section{Data Persistance}
+
+Aufgrund der Natur des Multitaskings auf der iOS Plattform kann der Ausführungsstatus einer App \secref{sec:app_states} häufig und für den Entwickler unvorhergesehen wechseln. Der Benutzer der App erwartet dabei, dass die Benutzeroberfläche bei jedem Start der App wiederhergestellt wird und Eingaben erhalten bleiben.
+
+Außerdem sind Benutzereingaben essentieller Bestandteil vieler Apps, die die eingegebenen Daten präsentieren und weiterverarbeiten. Die Speicherung von Daten über die Ausführung der App hinaus ist somit fast immer notwendig.
+
+Durch einige Anpassungen ist es auf der iOS Plattform außerdem möglich, in dieser Form gespeicherte Daten über Apple's iCloud Service auf allen iOS Geräten des Benutzers zur Verfügung zu stellen.
+
+Je nach Konzeption der App wird in den meisten Fällen auf folgende Mechanismen zur Datenspeicherung zurückgegriffen.
+
+\subsection{User Defaults}\label{sec:userdefaults}
+
+Häufig benötigen Apps lediglich die Speicherung einiger Parameter, Einstellungen und Benutzereingaben. Einfache Benutzerdaten können mithilfe der \objc{NSUserDefaults} Klasse gespeichert und über die Ausführung der App hinaus zu einem späteren Zeitpunkt wieder aufgerufen werden.
+
+\objc{NSUserDefaults} implementiert die Klassenmethode \objc{standardUserDefaults}, die immer das gleiche Objekt zurückgibt (sog. Singleton Architektur). Die Klasse ähnelt einem \objc{NSDictionary} und implementiert analog nach dem Key-Value Prinzip die Instanzmethoden \objc{setObject:forKey:} und \objc{objectForKey:}.
+
+\begin{objclst}
+[[NSUserDefaults standardUserDefaults] setObject:@"Alice" forKey:@"user_name"]; // speichern
+NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"]; // auslesen
+\end{objclst}
+
+Es können nur Objekte der Klassen \objc{NSString, NSNumber, NSDate} und \objc{NSData} oder ausschließlich mit solchen Objekten gefüllte Instanzen von \objc{NSArray} und \objc{NSDictionary} in dieser Form gespeichert werden.
+
+Eigene Subklassen müssen daher zunächst zu \objc{NSData} Objekten serialisiert werden. Wird dies notwendig, sollte jedoch bereits über die Integration von Core Data nachgedacht werden.
+
+Für einige Klassen wie \objc{UIImage} stehen Methoden zur Serialisierung zur Verfügung:
+
+\begin{objclst}
+NSData *imageData = UIImagePNGRepresentation(image); // Sei UIImage *image hier ein Bildobjekt
+[[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"image_data"]; // speichern
+NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:@"image_data"]; // auslesen
+UIImage *image = [UIImage imageWithData:imageData];
+\end{objclst}
+
+Schließlich ist erwähnenswert, dass für die in User Defaults verwendeten Keys (und ebenso für andere ähnliche Mechanismen) häufig \emphc{Konstanten} verwendet werden. So werden Tippfehler vermieden, einfache Umbenennungen möglich und die Konsistenz des Codes erhöht. Eine Konstante kann mit dem Befehl \objc{#define} definiert werden. Häufig geschieht diese Definition im Prefix Header (.pch Datei), die von jeder Klasse des Projekts automatisch eingebunden wird.
+
+\begin{objclst}
+// im Prefix Header
+#define kUserDefaultsKeyUsername @"user_name"
+
+// an beliebiger Stelle im Code
+[[NSUserDefaults standardUserDefaults] setObject:@"Alice" forKey:kUserDefaultsKeyUsername]; // speichern
+NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyUsername]; // auslesen
+\end{objclst}
+
+\subsection{Core Data}
+
+Gehen die Anforderungen der App über den User Defaults Mechanismus hinaus, wird das Core Data Framework verwendet. Dieses stellt eine vollständige, auf SQLite basierende Datenbankimplementierung in Objective-C dar.
+
+Xcode stellt hier in Analogie zum Interface Builder einen Editor zur Verfügung, mit dem zunächst eine Datenstruktur konfiguriert werden kann \abbref{img:coredata_modeleditor}. Anschließend werden Subklassen von \objc{NSManagedObject : NSObject} verwendet, die Elemente der Datenstruktur als Objective-C repräsentieren und von der Datenbank verwaltet werden.
+
+\includegraphicsc{img/coredata_modeleditor.png}{img:coredata_modeleditor}{Core Data Models können in Analogie zum Interface Builder in Xcode graphisch bearbeitet werden}
+
+Core Data stellt die Grundlage vieler iOS Apps dar und ist eine sehr komplexe und mächtige Technologie, auf die wir an dieser Stelle nicht im Detail eingehen können. Es ist sehr zu empfehlen, sich bei Bedarf mit Core Data auseinanderzusetzen, anstatt zu versuchen, einen eigenen Mechanismus zur Datenspeicherung zu implementieren. Online sind einige hervorragende Einführungen in Core Data zu finden, von denen ich besonders die Core Data Lecture von Dr. Brad Larson auf iTunes U \linkref{https://itunes.apple.com/de/podcast/7.-core-data/id407243028?i=89378853&mt=2} empfehlen kann, auch wenn sich seit 2010 bereits viele Details verändert haben. Änderungen und Best Practices werden jährlich von Apple's Entwicklern auf der WWDC vorgestellt \secref{sec:docs}. Ich stehe bei Fragen natürlich ebenfalls gerne zur Verfügung.
+
+\subsection{State Preservation}
+
+UIKit bietet ein sehr einfach zu integrierendes System zur Wiederherstellung der Benutzeroberfläche, das jedoch konzeptionell nicht zur Speicherung von Daten den Model Komponente dienen soll. Das State Preservation System ist damit der View- und View Controller Komponente zugeordnet, während für die Model Komponente häufig Core Data verwendet wird.
+
+Elemente der Benutzeroberfläche werden hier anhand des \objc{NSString* restorationIdentifier} Attributs identifiziert. Bei der Wiederherstellung wird für jeden dieser Identifier ein entsprechendes Objekt angefordert, oder bei Verwendung eines Storyboards automatisch erstellt. View Controller und Views können dann die \objc{encodeRestorableStateWithCoder:} und \objc{decodeRestorableStateWithCoder:} Methoden implementieren, um ihre Darstellung zu archivieren und wiederherzustellen. Im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} ist das State Preservation System ausführlich dokumentiert.
+
+
+\section{Notifications}
+
+Zur Kommunikation zwischen Klassen haben wir uns bereits mit dem Delegate Konzept beschäftigt \secref{sec:delegate_konzept}. Dieses geht von einer direkten Beziehung zwischen einem aktiven (fragenden) Objekt und dessen passiven (antwortenden) Delegate Objekts aus, um Informationen auszutauschen.
+
+Mit \emphc{Notifications} steht im Foundation Framework ein weiteres Kommunikationskonzept zur Verfügung, das auf der Verteilung von ungerichteten Benachrichtigungen basiert. Ein (aktives) Objekt versendet hier eine Nachricht mit einem eindeutigen Key, ohne die Empfänger der Nachricht anzugeben. Stattdessen können sich andere (passive) Objekte als Empfänger bestimmter Nachrichten registrieren, um auf diese reagieren zu können.
+
+Dazu implementiert das Foundation Framework die Klasse \objc{NSNotificationCenter} mit der Klassenmethode \objc{defaultCenter} nach dem Singleton Prinzip. Objekte können die Instanzmethode \objc{addObserver:selector:name:object:} nutzen, um bestimmte Nachrichten zu empfangen, oder mit der Instanzmethode \objc{postNotification:} eigene Nachrichten senden.
+
+Beispielsweise wird der Notifications Mechanismus häufig verwendet, um auf Änderungen der User Defaults \secref{sec:userdefaults} zu reagieren:
+
+\begin{objclst}
+// an beliebiger Stelle im Code, bspw. in der viewDidLoad Methode eines View Controllers
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
+
+// in der Implementierung des View Controllers
+- (void)userDefaultsDidChange:(NSNotification *)notification {
+
+    // update user interface ...
+
+}
+\end{objclst}
+
+
+
+\chapter{Entwicklungsprozess von iOS Apps}
+
+
+\section{Versionskontrolle mit Git}
+
+Die Entwicklung von iOS Apps ist wie jedes Programmierprojekt ein fortschreitender Prozess. Während an Features und Mechaniken im Code gearbeitet wird, besteht immer wieder die Notwendigkeit, vorhandenen Code zu editieren und umzustrukturieren. Dabei bietet \emphc{Versionskontrolle} (SCM / Software Configuration Management) u.a. die Möglichkeit, diese Änderungen in regelmäßigen Abständen zu sichern, zu vorherigen Versionen zurückzukehren und sogar an verschiedenen Versionen gleichzeitig und mit anderen zusammen zu arbeiten.
+
+Ein sehr beliebtes System der Versionskontrolle ist \emphc{Git}. Git wird automatisch mit Xcode installiert und ist ein Kommandozeilenprogramm, auf das wir auf dem Mac mit der Terminal App zugreifen können.
+
+\subsection{Grundlagen der Kommandozeilensyntax}
+\begin{description}
+\item[Navigation] \sh{cd path/to/folder} navigiert zu dem angegebenen Pfad. Die Tilde \sh{\~} repräsentiert hier den Benutzerordner.
+\item[Ordnerinhalt] \sh{ls} listet den Inhalt des aktuellen Ordners auf. Mit \sh{ls -a} werden auch versteckte Dateien angezeigt.
+\item[Dateien] \sh{touch filename} erstellt eine neue Datei mit dem angegebenen Dateinamen, während \sh{mkdir foldername} einen Ordner erstellt. \sh{rm filename} löscht die angegebene Datei und \sh{rm -r foldername} den angegebenen Ordner.
+\end{description}
+
+\subsection{Git Repository \& Commits}
+ 
+Während wir an unserem Projekt arbeiten, können wir Git verwenden, um unseren Code möglichst häufig in Form von \emphc{Commits} zu sichern. Dabei werden alle Änderungen an den Projektdateien, die seit dem letzten Commit durchgeführt wurden, in einem versteckten \sh{.git/} Verzeichnis, dem \emphc{Repository}, hinterlegt.
+
+Bevor wir Commits sichern können, muss das Repository angelegt werden. Dazu navigieren wir im Terminal in den Projektordner und führend die Initialisierung durch:
+
+\begin{shlst}
+cd path/to/project
+git init
+>> Initialized empty Git repository in path/to/project/.git/
+git status
+\end{shlst}
+
+\sh{git status} ist sehr nützlich, um häufig die Situation des Repositories zu prüfen.
+
+Nun können wir Dateien in unserem Projekt verändern, indem wir Code schreiben oder löschen. Mit \sh{git status} sehen wir jederzeit, welche Dateien sich in Bezug auf den vorherigen Commit verändert haben. Befindet sich der Code in einem akzeptablen Zwischenzustand, können wir die Änderungen mit einem Commit im Repository sichern:
+
+\begin{shlst}
+git add --all
+git commit -m "Commit Message"
+>> [master (root-commit) a74833f] Commit Message
+>>  x files changed, y insertions(+), z deletions(-)
+git log
+\end{shlst}
+
+Hier ist zu beachten, dass die zu sichernden Änderungen dem anstehenden Commit zunächst mit \sh{git add filename} einzeln oder mit \sh{git add --all} zusammen hinzugefügt werden müssen. \sh{git commit} führt den Commit anschließend durch und erwartet einen String als kurze Beschreibung der Änderungen des Commits. \sh{git log} kann verwendet werden, um eine Liste der letzten Commits im Terminal auszugeben.
+
+Noch nicht in einem Commit gesicherte Änderungen können mit \sh{git reset} verworfen werden:
+
+\begin{shlst}
+git reset --hard
+\end{shlst}
+
+\subsection{Branches}
+
+Git bietet weiterhin die sehr nützliche Möglichkeit, verschiedene Versionen eines Projekts zu verwalten, indem sich die Commitfolge an einer beliebigen Stelle verzweigt. Dazu können wir mit \sh{git branch} einen neuen \emphc{Branch} erstellen. Es kann jederzeit mit \sh{git checkout} zwischen Branches gewechselt werden. Dabei passt Git die Dateien und deren Inhalt im Repository automatisch an.
+
+\begin{shlst}
+git branch new_feature
+git checkout new_feature
+# Abkürzung:
+git checkout -b new_feature
+\end{shlst}
+
+Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt. 
+
+Um Branches wieder zu vereinigen, bietet Git die \emphc{Merge} und \emphc{Rebase} Mechanismen. Dabei bestimmt \sh{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \sh{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
+
+\begin{shlst}
+git checkout master
+git merge new_feature
+\end{shlst}
+
+Git versucht bei einem Merge oder Rebase, die Änderungen der Branches zu vereinigen. Treten dabei Konflikte auf, wird der Vorgang unterbrochen und die Konflikte müssen zunächst im Code behoben werden. An den entsprechenden Stellen im Code sind dann Markierungen zu finden, die über eine projektübergreifende Suche in Xcode schnell gefunden werden.
+
+\begin{objclst}
+<<<<<<< HEAD:
+// alter Code
+=======
+// veränderter Code
+>>>>>>>
+\end{objclst}
+
+Sobald die Konflikte behoben wurden, kann der Vorgang wieder aufgenommen werden:
+
+\begin{shlst}
+git add --all
+git commit
+\end{shlst}
+
+\subsubsection{Feature Branches}
+
+In dieser Form werden bspw. sehr häufig \emphc{Feature Branches} verwaltet. Dabei wird die stabile und häufig veröffentlichte Version des Projekts von dem \sh{master} Branch des Repositories repräsentiert. Für neue Features oder Umstrukturierungen wird dann eine Branchstruktur angelegt. So kann gearbeitet werden, ohne dass die stabile Version des Projekts verändert wird. Erreicht ein Branch einen stabilen Status und soll veröffentlicht werden, wird ein Merge mit dem \sh{master} Branch durchgeführt. Der Arbeitsbranch kann dabei jederzeit gewechselt werden. So kann bspw. schnell ein Fehler in der veröffentlichten Version in \sh{master} behoben und anschließend wieder zum Feature Branch gewechselt werden.
+
+\subsection{Zusammenarbeit mit Git \& GitHub}
+
+Git Repositories ermöglichen die reibungslose Zusammenarbeit mehrerer Entwickler an einem Projekt und ermöglichen dadurch erst die Entwicklung vieler komplexer Projekte, an denen Programmierer auf der ganzen Welt zusammenarbeiten.
+
+Befindet sich eine Kopie des Repositories auf einem Server, kann einem Branch ein serverseitiges Gegenstück zugewiesen werden. Mit \sh{git push} und \sh{git pull} können dieses \emphc{Remote Repository} und die lokale Kopie abgeglichen werden.
+
+\sh{git pull} besteht dabei prinzipiell zunächst aus einem Aufruf von \sh{git fetch}, der die serverseitigen Änderungen herunterlädt, und einem anschließenden \sh{git merge}, um die Änderungen in den lokalen Branch zu integrieren.
+
+Die Git Dokumentation \secref{sec:git_doku} enthält detaillierte Beschreibungen zu Remote Repositories.
+
+An dieser Stelle darf der Service \emphc{GitHub\linkref{http://www.github.com}} nicht unerwähnt bleiben, der Entwicklern eine Plattform für ihre Git Repositories bietet und für öffentliche Projekte kostenlos ist.
+
+Ein auf GitHub erstelltes Repository kann mit \sh{git clone} heruntergeladen werden, wobei den local Branches automatisch ihr entsprechendes remote Gegenstück zugewiesen wird. Anschließend können wir mit dem local Repository arbeiten und Commits mit dem remote Repository abgleichen.
+
+Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen oder solche anderer Entwickler weiterentwickeln. Letztere Mechanik wird \emphc{Fork} genannt und bietet die Möglichkeit, an einem Repository eines anderen Entwicklers zu arbeiten und diesem anzubieten, die erstellten Commits in sein Repository zu integrieren. Dazu kann eine \emphc{Pull Request} versandt werden, die der Besitzer des Repositories zunächst annehmen muss, damit die Änderungen in sein Repository übernommen werden.
+
+\subsection{Git in Xcode} 
+
+Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und Schaltflächen präsent. Das Menü \menuc{Source Control} stellt bspw. einige Benutzeroberflächen zu Git Befehlen zur Verfügung, die die Kommandozeilenbedienung ersetzen können. Sehr hilfreich ist jedoch hauptsächlich der Version Editor \abbref{img:xcode_version_editor}, der mit der Schaltfläche rechts in der Toolbar alternativ zum Assistant Editor angezeigt werden kann. Im rechten Editorbereich wird dann die Version der links angezeigten Datei zu einem früheren Commit angezeigt und Änderungen visualisiert. Mit der Uhr-Schaltfläche unten in der Mittelleiste können wir frühere Commits auswählen.
+
+\includegraphicsc{img/xcode_version_editor.png}{img:xcode_version_editor}{Der Version Editor zeigt die links geöffnete Datei zu einem früheren Commit an und visualisiert Änderungen}
+
+\subsection{Gitignore}
+
+Elemente können von von der Erfassung durch Git ausgenommen, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \sh{.gitignore} Datei hinzugefügt.
+
+\begin{shlst}
+touch .gitignore
+open .gitignore
+\end{shlst}
+
+Mit einem Texteditor wie der TextEdit App oder \sh{vim} in der Konsole können wir diese Datei nun konfigurieren. Für Xcode Projekte bietet sich folgende Vorlage an:
+
+\begin{shlst}
+# Mac
+.DS_Store
+
+# Xcode
+*/build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+profile
+*.moved-aside
+DerivedData
+.idea/
+*.hmap
+*.xccheckout
+
+#CocoaPods
+Pods
+\end{shlst}
+
+Die \sh{.gitignore} Datei muss dem Repository zunächst hinzugefügt werden, bevor sie wirksam wird.
+
+\begin{shlst}
+git add .gitignore
+git commit -m "Added .gitignore file"
+\end{shlst}
+
+\subsection{Dokumentation}\label{sec:git_doku}
+
+Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
+
+\pagebreak
+\section{Design \& Konzeption von iOS Apps}
+
+Eleganter und sinnvoll in Form der bereits diskutierten Architekturkonzepte strukturierter Programmcode bedingt natürlich die Performance unserer App, letztendlich sieht der Benutzer jedoch allein deren User Interface und beurteilt die Funktionsweise anstatt der Architektur. 
+
+Aufgrund der mobilen Natur der iOS Plattform und der einfachen Handhabung von Appinstallationen steht (gerade kostenlosen) Apps nur eine begrenzte Zeit zur Verfügung, den Benutzer zu überzeugen. Selten nehmen sich Benutzer die Zeit, sich mit den Funktionen einer App im Detail auseinanderzusetzen, wenn die Benutzerführung nicht sofort intuitiv klar ist.
+
+Dabei wird sich bspw. kaum ein Benutzer über eine leicht verlängerte Laufzeit eines Prozesses aufgrund eines ineffektiven Algorithmus beschweren, solange ihm der Fortschritt auf dem Bildschirm präsentiert wird. Eine 'eingefrorene' App, die jedoch auf effektivste Weise arbeitet, stört das Benutzererlebnis dagegen enorm und wird schnell wieder gelöscht.
+
+Auch auf der iOS Plattform ist Sturgeon's Gesetz deutlich erkennbar: \emph{"ninety percent of everything is crap"}. Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen sich durch eine intuitive Benutzerführung aus. Ein Benutzer sollte jederzeit ohne Nachzudenken wissen, wie er handeln muss, um eine bestimmte Wirkung hervorzurufen. Dieses generelle Designkonzept ist nicht auf iOS Apps beschränkt sondern kann auch in vielen anderen Kontexten beobachtet werden \abbref{img:intuitive_doors}.
+
+%***\includegraphicsc{img/intuitive_doors.png}{img:intuitive_doors}{Öffnet sich eine Tür nur in einer Richtung, wird sie jede zweite Person zunächst falsch zu öffnen versuchen. Beschriftungen helfen hier (nach eigener Erfahrung) meist nur bedingt. Besitzt sie jedoch in der Öffnungsrichtung eine Druckfläche und entgegen der Öffnungsrichtung einen Griff, wird sie jede Person sofort richtig bedienen.}
+
+\subsection{App Statement}
+
+Beim Konzeptionsprozesses einer App kann es helfen, die wesentlichen Ideen bereits zu Beginn in einem Satz zu charakterisieren. Während der Entwicklung dient dieses \emphc{App Statement} anschließend stets der Orientierung und hilft, den Fokus auf die wesentlichen Elemente nicht zu verlieren.
+
+Für die meisten erfolgreichen Apps lässt sich ein solches App Statement ohne Probleme erfassen, da sie auf die Handhabung einer bestimmten Situation ausgerichtet sind. Anhand einiger auf euren Geräten installierter Apps könnt ihr dies schnell überprüfen.
+
+Betrachten wir bspw. die Shazam App \linkref{https://itunes.apple.com/de/app/shazam/id284993459?mt=8}, könnte das App Statement lauten: 
+
+\emph{Shazam erkennt den in der Umgebung laufenden Song und hilft damit bei der Entdeckung neuer Titel.}
+
+Die Benutzeroberfläche der App ist entsprechend dieser Aussage auf das Wesentliche beschränkt und Bedarf keiner weiteren Erklärung \abbref{img:shazam_ui}. Wurde ein Song erkannt, werden weitere Optionen eingeblendet, doch die Erkennfunktion ist weiterhin jederzeit mit einem Tipp zu Erreichen, während der Benutzer bei Bedarf weitere Bereiche der App ausprobieren kann.
+
+\includegraphicsc[\iphonewidth]{img/shazam_ui.png}{img:shazam_ui}{Die Benutzeroberfläche der Shazam App Bedarf keiner weiteren Erklärung} 
+
+\subsection{Mockups}
+
+Nach der Verfassung eines App Statements gilt es, Benutzeroberfläche und Datenstrukturen zu konzeptionieren. Für beide eignet sich tatsächlich der traditionelle \emphc{Bleistift} am besten, um auf Papier Skizzen anzufertigen.
+
+Anschließend lassen sich anhand dieser dann sehr einfach Storyboards und Core Data Models erstellen.
+
+\subsection{Human Interface Guidelines}
+
+Jeder iOS Entwickler sollte die \emphc{Human Interface Guidelines \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/}} gelesen haben und bei Designentscheidungen zu Rate ziehen. Sie geben Aufschluss über die Designkonzepte in iOS und helfen, UIKit Elemente im richtigen Kontext zu verwenden.
+
+
+\section{Veröffentlichung im iOS App Store}
+
+Am Ende des initialen Entwicklungsprozesses einer iOS App steht häufig die Veröffentlichung im App Store. Darüber sollte sich bereits während der Entwicklung Gedanken gemacht werden, sodass der Veröffentlichung keine organisatorischen Hürden im Weg stehen.
+
+\subsection{Entwickleraccount}
+
+Während ihr im Rahmen dieses Kurses Teil des iOS Developer Teams der Uni Heidelberg seid, benötigt ihr für die Veröffentlichung eurer Apps im App Store einen eigenen Entwickleraccount. Mit eurer Apple ID könnt ihr dazu dem iOS Developer Program als \emphc{Individual} oder \emphc{Company} für jeweils etwa 80€ jährlich beitreten \linkref{https://developer.apple.com/programs/ios/}. Diese unterscheiden sich lediglich in der zusätzlichen Möglichkeit des Company Accounts, ein Developer Team mit mehreren Mitgliedern und ihren Rechten zu verwalten. Arbeitet ihr zunächst allein, ist ein Individual Account ausreichend und kann bei Bedarf mit Kontakt zum Apple Developer Support später in einen Company Account umgewandelt werden.
+
+Während ihr auch ohne einen solchen bezahlten Entwickleraccount Apps schreiben und auf dem Simulator testen könnt, ist er notwendig, um Certificates und Provisioning Profiles zur Installation auf iOS Geräten und zur Veröffentlichung im App Store generieren zu können \secref{sec:provisioning}.
+
+\subsection{Unternehmensanmeldung}
+
+\emph{Hinweis:} Natürlich bin ich weder Anwalt noch Finanzberater und kann hier allein meine eigene Erfahrung wiedergeben. Wertvolle Informationen zu Themen dieser Art kann hingegen die lokale \emphc{IHK / Industrie- und Handelskammer} geben.
+
+Es ist unumgänglich, aber sehr einfach, für die Teilnahme am iOS Developer Program ein Unternehmen anzumelden. Dazu ist lediglich ein Besuch beim nächsten \emphc{Gewerbeamt}, die Angabe einiger Daten und die Bezahlung einer geringen Gebühr von etwa 30€ erforderlich.
+
+Ein Name für das Unternehmen muss an dieser Stelle im Allgemeinen nicht angegeben werden. Trotzdem sollte sich natürlich eine Geschäftsbezeichnung überlegt werden. Sobald diese öffentlich verwendet wird, gilt sie als die offizielle Bezeichnung des Unternehmens und unterliegt einem rechtlichen Schutz. Es kann hilfreich sein, sich die Geschäftsbezeichnung von einer öffentlichen Instanz, wie bspw. der lokalen IHK, bestätigen zu lassen. Unbedingt sollte vorher darauf geachtet werden, dass der gewählte Name nicht anderweitig ähnlich verwendet wird, um Konflikte zu vermeiden. Außerdem muss der Name frei von geschützten Begriffen sein, insbesondere Bezeichnungen wie \emph{iPhone} oder \emph{iOS}.
+
+Das Dokument der Gewerbeanmeldung sowie der Bescheid über die Erteilung der Steuernummer muss bei der Anmeldung zum iOS Developer Program auf Anfrage eingereicht werden.
+
+Natürlich ist anschließend eine jährliche Steuererklärung einzureichen. Im Rahmen der Kleinunternehmerregelung gibt es hier eine untere Grenze für das zu versteuernde Einkommen, über die das Finanzamt oder die IHK informiert.
+
+\subsection{iTunesConnect}
+
+Die Schnittstelle zum iOS App Store stellt die Weboberfläche \emphc{iTunes Connect \linkref{https://itunesconnect.apple.com}} dar. Hier können sämtliche Metadaten eurer Apps im App Store verwaltet werden. Dazu gehören Anzeigename und -icon, Beschreibung und Screenshots sowie Preis- und Verfügbarkeitseinstellungen.
+
+Mit eurer Apple ID eingeloggt, könnt ihr Apps erstellen und deren Metadaten bearbeiten.
+
+\subsubsection{Keywords}
+
+Da die Suche eine wichtige Entdeckungsquelle jeder App im App Store darstellt, sei an dieser Stelle kurz ein Hinweis zur Vergabe der Keywords gegeben, die Teil der App Metadaten sind.
+
+Keywords werden als kommagetrennte Liste einzelner Begriffe gespeichert und führen zu einem höheren Rang eurer App in den Suchergebnissen, wenn die Suchanfrage eines oder mehrere Keywords enthält. Dabei sind nur einzelne Wörter entscheidend, die nicht in verschiedenen Kombinationen wiederholt werden müssen. Mit den Keywords \emph{photo} und \emph{editor} wäre also das zusätzliche Keyword \emph{photo editor} redundant und kann weggelassen werden.
+
+Außerdem ist zu beachten, dass der App Name entscheidend zum Suchergebnis beiträgt und offenbar höher als Keywords gewertet wird.
+
+\subsubsection{Binary Upload}
+
+Um eine neue App oder ein Update zu veröffentlichen, muss die entsprechende App im iTunes Connect Interface durch  
+
+Mit Xcode kann ein \emphc{Archive} kompiliert werden, das eine abgeschlossene Version der App darstellt. Wählt dazu \emph{iOS Gerät} als Target und anschließend \menuc{Product > Archive}.
+
+Nach dem Kompilieren erscheint das Archive im Organizer, auch aufrufbar mit der Tastenkombination \keysc{\cmdkey+\shiftkey+2}. Ein Klick auf \emph{Distribute} öffnet den Dialog zum Upload zu iTunes Connect. Hier kann das entsprechende Distribution Provisioning Profile und der korrespondierende Eintrag in iTunes Connect ausgewählt werden. Letzterer erscheint nur, wenn die App im iTunes Connect Interface zuvor mit einem Klick auf \emph{Ready to upload binary} markiert wurde. Anschließend wird die App Binary auf Konfigurationsfehler geprüft und hochgeladen.
+
+\subsection{App Review}
+
+Jede neue App und jedes Update wird zunächst von Apple Mitarbeitern geprüft, bevor es im App Store veröffentlicht wird. Dieser Review Prozess dauert in der Regel nur wenige Tage, kann jedoch häufig zu einer Zurückweisung führen.
+
+In den meisten Fällen handelt es sich bei dem Grund für eine Zurückweisung um einen Fehler in der App, wie bspw. einen Crash oder einen offensichtlichen Anzeigefehler. Solche sollten natürlich einfach behoben und die App mit kurzem Dank für den Hinweis erneut eingereicht werden.
+
+Manchmal führen jedoch auch andere Mängel zu einer Zurückweisung, die nicht sofort offensichtlich aber in den Reviewnotizen beschrieben sind. Eine meiner Apps, die in Zusammenspiel mit einer anderen konzipiert wurde, ist bspw. aufgrund fehlender Funktionalität als eigenständige App zurückgewiesen worden. Nach einer Erklärung meinerseits wurde die App akzeptiert, trotzdem habe ich der App in einem folgenden Update einen klaren Hinweis auf die Funktionalität hinzugefügt und einige Funktionen überdacht. Eine App wird hier von erfahrenen Apple Mitarbeitern getestet und Zurückweisungen sollten als Anlass genommen werden, sich konzeptionell mit den bemängelten Aspekten der App auseinanderzusetzen.
+
+\subsection{Geschäftsmodelle}
+
+Zu den Anfangszeiten des iOS App Stores waren häufig Erfolgsgeschichten einzelner Entwickler zu lesen, die mit ihren Apps 'über Nacht' reich wurden. Mittlerweile ist der App Store zu einem stabilen Markt geworden, der neben größeren Unternehmen weiterhin auch unabhängigen Entwicklern die Möglichkeit bietet, ihre Apps ohne großen organisatorischen Aufwand einem internationalen Publikum anzubieten.
+
+Es haben sich verschiedene Geschäftsmodelle etabliert, die jeweils situationsbedingt einzusetzen sind. An dieser Stelle gebe ich einen Überblick über einige Verkaufsstrategien und eigene Erfahrungen. Es sei weiterhin auf das sehr informative Video \emph{App Store Distribution and Marketing for Apps \linkref{https://developer.apple.com/tech-talks/videos/}} der \emph{iOS 7 Tech Talk} Veranstaltung verwiesen, in dem wertvolle Details zu verschiedenen Geschäftsmodellen und ihren Einsatzmöglichkeiten gegeben werden.
+
+\subsubsection{Bezahlt}
+
+Das konventionelle Geschäftsmodell im App Store ordnet jeder App einen Preis zu. Der Entwickler erhält dabei 70\% der Umsätze.
+
+Im iTunesConnect Interface kann zwischen verschiedenen Preiskategorien gewählt werden, die in den App Stores einem vergleichbaren Wert in der lokalen Währung entsprechen.
+
+Die Wahl eines Preises ist nicht einfach und sollte wohlüberlegt sein. Offensichtlich ist, dass ein niedrigerer Preis nahezu in jedem Fall zu mehr Verkäufen führt und ein höherer Preis zu weniger Verkäufen. Dieser Zusammenhang ist jedoch nicht unbedingt proportional und damit der Umsatz als Produkt von Preis und Verkaufszahl nicht konstant. Das Umsatzmaximum zu finden ist schwierig und es spielen viele Faktoren eine Rolle, von denen die Wahl der Zielgruppe sicherlich einer der Wichtigsten ist. Es ist sehr einfach, den Preis einer App jederzeit zu ändern und es bietet sich an, Umsatzänderungen durch regelmäßige Preisanpassungen zu erfassen.
+
+Weit verbreitet ist der Trugschluss, dass Apps in den untersten Preiskategorien platziert sein müssen, um erfolgreich zu sein. Abhängig von der Zielgruppe der App kann ein sinnvoller Preis gewählt werden, der konstante Umsätze generiert.
+
+\subsubsection{Gratis \& Werbefinanziert}
+
+Zunächst ist es wichtig anzumerken, dass natürlich nicht jede App profitorientiert verkauft wird und es gibt viele Gründe, Apps kostenlos anzubieten.
+
+Viele Unternehmen wie Yelp\linkref{http://www.yelp.de}, Flickr\linkref{http://www.flickr.com} und natürlich Facebook\linkref{http://www.facebook.com} und Twitter\linkref{http://www.twitter.com} bieten kostenlose Apps zu ihrem Onlineservice, um ihren Nutzern von Smartphones und Tablets nativen Zugriff auf die angebotenen Funktionen zu ermöglichen. Ähnliche \emphc{Companion Apps} werden auch für lokale Unternehmen wie Shops und Restaurants immer beliebter.
+
+Während bei Companion Apps in der Regel andere Formen der Monetarisierung existieren, gibt es auch völlig kostenfreie Apps, zu denen häufig \emphc{Hobby- und Open-Source-Projekte} gehören. Es kann sehr sinnvoll sein, eine solche App zu veröffentlichen. Kostenlose Apps werden um ein Vielfaches häufiger heruntergeladen als bezahlte und können bspw. Benutzer auf andere eigene Apps oder Webseiten aufmerksam machen oder als Showcase für potentielle Kunden dienen, um die eigenen Entwicklerfähigkeiten zu demonstrieren.
+
+Die Integration von \emphc{Werbung} in eine kostenlose App ist ein verbreitetes Geschäftsmodell und kann situationsbedingt zu höheren Umsätzen als das konventionelle Bezahlkonzept führen. Mit Apple's iAd Framework ist es sehr einfach, Werbebanner verschiedener Formate in einer App anzuzeigen. Außerdem sind die  iAd Banner qualitativ hochwertig, interaktiv und verursachen keinen störenden App-Wechsel. Die schnellste Möglichkeit der Implementierung besteht aus nicht mehr als zwei Zeilen Code in einer View Controller Klasse:
+
+\begin{objclst}
+@import iAd; // Importiere das iAd Framework
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.canDisplayBannerAds = YES;
+}
+\end{objclst}
+
+Damit das iAd Framework verwendet werden kann, muss es zunächst noch dem Projekt hinzugefügt werden. In der Targetkonfiguration \secref{sec:projkonfig} unter \menuc{General > Linked Frameworks and Libraries} genügt ein Klick auf den \menuc{+}-Button, woraufhin das iAd Framework ausgewählt werden kann.
+
+Der iAd Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/iAd_Guide/} enthält viele weiterführende Information, ist aber momentan leider nicht vollständig aktuell. Stattdessen sind die WWDC Videos empfehlenswert, die sich mit Neuerungen und Best Practices befassen, u.a. bezüglich iAd \secref{sec:docs}.
+
+Werden in einer App iAd Werbebanner angezeigt, erhält der Entwickler 70\% der Einnahmen, die sich sich aus \emphc{Clicks} und \emphc{Impressions} zusammensetzen. Dabei stellt jede Präsentation eines Banners in der App eine Impression dar.
+
+\subsubsection{Freemium}
+
+Aufgrund der weit höheren Downloadrate kostenloser im Vergleich zu bezahlten Apps, setzen mittlerweile viele Entwickler auf das \emphc{Freemium} Geschäftsmodell. Hier wird zunächst ein kostenloser Service angeboten, der mit bezahlten Features erweiterbar ist ("Premium"). In iOS Apps werden dazu \emphc{In-App-Käufe} oder \emphc{Abonnements} verwendet. Für beide Systeme bietet Apple Frameworks an.
+
+Einige der umsatzstärksten Apps im App Store basieren auf dem Freemium Konzept und zeigen, wie dieses erfolgreich umgesetzt werden kann. Dieses Geschäftsmodell eignet sich nicht für jede App und muss sinnvoll integriert werden. Im o.g. Video \emph{App Store Distribution and Marketing for Apps} wird das Freemium Konzept im Detail erläutert.
+
+\subsection{Marketing}
+
+\subsubsection{Werbung}
+
+Der App Store bietet verschiedene Möglichkeiten für Benutzer, Apps zu entdecken, zu denen bspw. Top-Listen und redaktionell verwaltete Highlights gehören. Da die Chance, in eine solche Liste aufgenommen zu werden, jedoch sehr gering ist, sollte sich das Marketing einer App auf verlässlichere Methoden konzentrieren.
+
+Viele Benutzer verwenden die Suchfunktion, um eine passende App zu finden, und die Wahl geeigneter Keywords und gut gestalteter iTunesConnect Metadaten ist dementsprechend wichtig. Ein konstanter Strom potentieller Käufer auf die App Store Seite einer App wird jedoch erst durch die sinnvolle Platzierung von Werbung möglich.
+
+Selbst als eigenständiger Entwickler ohne großes Marketingbudget sollte über Werbung nachgedacht werden. Einen einfachen Startpunkt dafür bietet bspw. \emph{Google AdWords \linkref{http://adwords.google.com}}.
+
+Werbeanzeigen sollten dabei auf eine Webseite verweisen, die die Funktionen der App im Detail beschreibt und bereits zu einer Kaufentscheidung führt. Dazu ist ein Video eines der wichtigsten Hilfsmittel. Klickt der Besucher auf den Link zum App Store und ist bereits zuvor über Preis und Leistung der App informiert, wird er sie in den meisten Fällen kaufen. Der Anteil der Besucher der Webseite, die die App schließlich kaufen, wird \emphc{Conversion Rate} genannt. Da keine Informationen vorliegen, wie häufig die App Store Seite einer App besucht wird, kann es schwierig sein, die Conversion Rate zu messen. Mithilfe verschiedener Services wie \emph{Google Analytics \linkref{http://www.google.com/analytics/}} kann sie jedoch abgeschätzt werden, indem eine Korrelation zwischen Webseitenbesuchen und App Käufen hergestellt wird.
+
+Die Conversion Rate dient anschließend als Grundlage für die Berechnung des Werbebudgets. Der maximale Preis, der pro Klick auf eine Werbeanzeige bezahlt werden kann, entspricht dabei dem effektiven Geldwert eines Besuchers auf der Webseite:
+\begin{equation}
+\frac{Price}{Click} = Conversion Rate * \frac{Profit}{Sale}
+\end{equation}
+Dabei gilt in der Regel aufgrund der Umsatzverteilung im App Store:
+\begin{equation}
+\frac{Profit}{Sale} = App Price * 0.7
+\end{equation}
+
+Da mit einer guten Schätzung der Conversion Rate jeder Klick auf eine Werbeanzeige somit weniger kostet, als er Gewinn bringt, ist eine Werbekampagne in jedem Fall lohnenswert.
+
+Werbung ist damit eine Maschine, die mehr produziert, als sie verbraucht - ganz im Widerspruch zur Thermodynamik.
+
+\subsubsection{Updates}
+
+Im App Store besteht ein beobachtbarer Zusammenhang zwischen Veröffentlichung von Updates und Downloadzahlen. Erhält eine App ein Update, werden Benutzer auf sie aufmerksam, verwenden sie häufiger und erzählen ihren Freunden von der App. Ohne Updates oder Werbung sinken die Downloadzahlen stetig.
+
+Es wird empfohlen, etwa alle 4-6 Wochen ein Update zu veröffentlichen, auch wenn es nur aus einigen Fehlerbehebungen oder Optimierungen besteht.
+
+Weiterhin erwarten insbesondere Benutzer der iOS Plattform eine Anpassung ihrer Apps an neue Technologien, wenn diese verfügbar werden. Statistiken zeigen, dass bspw. iOS 7 innerhalb von nur 4 Tagen auf über 50\% aller iOS Geräte installiert wurde \linkref{https://mixpanel.com/trends/\#report/ios_7} und neue Mechaniken wie iCloud damit bereits nach kurzer Zeit sehr vielen Nutzern zur Verfügung stehen. In solchen Situationen werden Apps, die diese neuen Technologien bereits unterstützen, bevorzugt heruntergeladen und können einen Marktvorteil erlangen.
+
+\subsection{Statistik}
+
+iTunesConnect bietet die Möglichkeit, die Downloadzahlen eigener Apps einzusehen und entsprechende \emphc{Reports} der Kategorien \emph{daily, weekly, monthly, yearly und financial} herunterzuladen. Dies kann manuell geschehen, doch es haben sich viele Services entwickelt, die diese Daten aufbereiten, darstellen und archivieren.
+
+Dazu gehören Mac Apps wie \emph{AppViz \linkref{https://appviz.com}} und Onlineservices wie \emph{Appfigures \linkref{https://appfigures.com}}, die jedoch selten kostenlos sind. Der Appfigures Service, den ich bereits seit einigen Jahren verwende, bietet bspw. die Möglichkeit, in konfigurierbaren Intervallen eine Email mit aktuellen Statistiken wie Download- Update- und Profitzahlen sowie Reviews und Rankings zu versenden, sodass man täglich über den Profit des Vortags informiert werden kann.
+
+Wertvolle Informationen, die über die in iTunesConnect verfügbaren Downloadzahlen hinausgehen, kann eine Integration eines Statistik-Frameworks in die eigene App liefern. Analog zu Websitestatistiken stellt \emph{Google Analytics \linkref{http://www.google.com/analytics/}} eine einfach zu implementierende und umfangreiche Möglichkeit dar, Informationen über die Benutzer einer App zu erhalten. Google Analytics stellt nicht nur Daten über Verwendungsdauer, Standort-, Sprach- und Geräteverteilung, Verhaltensflüsse und benutzerdefinierte Events zur Verfügung, sondern zeigt sogar in Echtzeit an, wo Benutzer die App gerade verwenden und welche Aktionen sie ausführen.
+
+Diese Informationen können verwendet werden, um eine App bspw. an bestimmte Bildschirmauflösungen anzupassen, Lokalisierungen für bestimmte Sprachen hinzuzufügen oder die Benutzeroberfläche zu optimieren. Erfordert die App z.B. einen Login, kann mit einem solchen Service analysiert werden, wie viele Benutzer, die die App herunterladen, einen Account erstellen, oder ob neu implementierte Maßnahmen wie Push Notifications zu einer höheren Aktivität der Nutzer führen.
+
+\end{document}

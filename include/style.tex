@@ -1,30 +1,18 @@
+
+% Packages
 \usepackage[ngerman]{babel}
-
-\usepackage{fontspec}
-\setmainfont{Cardo}
-\usepackage{xunicode}
-
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage[pdftex,
             pdfauthor={Nils Fischer},
             pdftitle={Softwareentwicklung für iOS mit Objective-C und Xcode}]{hyperref}
 
-\newcommand\emphc\textbf
-\newcommand{\linkref}[1]{[\footnote{\url{#1}}]}
-\newcommand{\abbref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Abb. \ref{#1}})}}
-\newcommand{\secref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Abschnitt \ref{#1}})}}
-\newcommand{\excref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Übungsaufgabe \ref{#1}})}}
-\newcommand{\skriptref}[1]{\emph{Relevante Kapitel im Skript: #1}}
+% Font
+\usepackage{fontspec}
+\setmainfont{Cardo}
+\usepackage{xunicode}
 
-\newcommand{\includegraphicsc}[4][\textwidth]{{\begin{figure}[ht]\centering\includegraphics[width=#1]{#2}\caption{#4}\label{#3}\end{figure}}}
-\newcommand{\screenshotwidth}{.8\textwidth}
-\newcommand{\iphonewidth}{.4\textwidth}
-
-\newcommand\exctitle\emphc
-\newenvironment{exc}{\subsubsection{Übungsaufgaben}}{}
-\newenvironment{exclsg}{\pagebreak\subsubsection{Lösung der Übungsaufgaben}}{\pagebreak}
-
+% Menukeys
 \usepackage{menukeys}
 \newcommand{\keysc}{\keys}
 \newcommand{\menuc}{\menu}
@@ -33,4 +21,33 @@
 \newcommand\altkey{{\Alt}}
 \newcommand\ctrlkey{{\ctrl}}
 
+% Pagestyle
 \pagestyle{headings}
+
+% Style
+\newcommand\emphc\textbf
+\newenvironment{filecontent}[1]{\subsubsection{#1}}{}
+
+% References
+\newcommand{\linkref}[1]{[\footnote{\url{#1}}]}
+\newcommand{\abbref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Abb. \ref{#1}})}}
+\newcommand{\secref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Abschnitt \ref{#1}})}}
+\newcommand{\excref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Übungsaufgabe \ref{#1}})}}
+\newcommand{\skriptref}[1]{\emph{Relevante Kapitel im Skript: #1}}
+
+% Images
+\newcommand{\includegraphicsc}[4][\textwidth]{{\begin{figure}[ht]\centering\includegraphics[width=#1]{#2}\caption{#4}\label{#3}\end{figure}}}
+\newcommand{\screenshotwidth}{.8\textwidth}
+\newcommand{\iphonewidth}{.4\textwidth}
+
+% Exercise Style
+\newcounter{exc}
+\newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
+\newenvironment{excitem}[2]{\item\label{exc:#1}\emphc{#2}}{}
+\newcommand{\excextra}[1]{\emphc{Extra:} #1}
+\newcommand{\exchinweis}[1]{\emphc{Hinweis:} #1}
+\newenvironment{exchinweise}{\emphc{Hinweise:}\begin{itemize}}{\end{itemize}}
+%\newenvironment{lsg}{\begin{enumerate}}{\end{enumerate}}
+\newenvironment{lsg}{}{}
+%\newenvironment{lsgitem}[2]{\item\label{lsg:#1}\addcontentsline{toc}{chapter}{\theenumi. #2}\emphc{#2}}{}
+\newenvironment{lsgitem}[2]{\label{lsg:#1}\chapter{#2}}{}

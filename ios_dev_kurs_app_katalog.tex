@@ -7,7 +7,7 @@
 \subtitle{App Katalog}
 \title{Softwareentwicklung für iOS mit Objective-C und Xcode}
 \author{Nils Fischer}
-\date{Universität Heidelberg - Sommersemester 2014}
+\date{Universität Heidelberg - Wintersemester 13/14}
 
 \begin{document}
 
@@ -18,12 +18,14 @@
 
 \chapter{Über dieses Dokument}
 
-Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungsseite \linkref{http://iOS-Dev-Kurs.github.io/} zur Verfügung gestellt. Er dient jedoch nur als Ergänzung zum parallel verfügbaren \emphc{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
+Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungsseite \linkref{http://ios-dev-kurs.github.io/} zur Verfügung gestellt.
+
+Er dient jedoch nur als Ergänzung zum parallel verfügbaren \emphc{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
+
+Beispiellösungen zu den Übungsaufgaben sind ebenfalls auf der Vorlesungsseite zu finden.
 
 
-
-\end{document}
-
+\end{document} % POINTER
 
 
 \chapter{Hello World}
@@ -108,9 +110,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen 'Hello World'
 
 \begin{exc}
 
-\begin{enumerate}
-
-\item \label{exc:fibonacci} \exctitle{Fibonacci}
+\begin{excitem}{fibonacci}{Fibonacci}
 
 \begin{enumerate}
 \item Schreibt einen Algorithmus, der alle Folgenglieder $F_n < 1000$ der Fibonaccifolge
@@ -121,66 +121,25 @@ F_n = F_{n-1} + F_{n-2}
 F_1=1, F_2=2
 \end{equation}
 in der Konsole ausgibt.
-\item Bei jeder geraden Fibonaccizahl $F_j$ ist der Abstand $\Delta n=j-i$ zum vorherigen geraden Folgenglied $F_i$ auszugeben.
+\item \excextra{Bei jeder geraden Fibonaccizahl $F_j$ ist der Abstand $\Delta n=j-i$ zum vorherigen geraden Folgenglied $F_i$ auszugeben.}
 \end{enumerate}
 
-\item \label{exc:primenumbers} \exctitle{Primzahlen}
+\end{excitem}
+
+\begin{excitem}{primenumbers}{Primzahlen}
 
 Schreibt einen Algorithmus, der alle Primzahlen $p_n<1000$ in der Konsole ausgibt. 
 
-\emphc{Hinweis:} Mit dem Modulo-Operator \objc{\%} kann der Rest der Division zweier Integer gefunden werden:
+\exchinweis{Mit dem Modulo-Operator \objc{\%} kann der Rest der Division zweier Integer gefunden werden:}
+
 \begin{objclst}
 int a = 20%3 // a ist jetzt 2
 \end{objclst}
 
-\end{enumerate}
+\end{excitem}
 
 \end{exc}
 
-\begin{exclsg}
-
-\begin{enumerate}
-
-\item \exctitle{Fibonacci}
-
-\begin{objclst}
-int a=1; // erstes Folgenglied
-int b=2; // zweites Folgenglied
-int di=0; // Abstand zur letzten geraden Zahl
-while ((a+b)<1000) { // die Schleife wird ausgeführt, bis die nächste Fibonaccizahl zu groß wird
-    int c = a+b;
-    NSLog(@"%i",c);
-    a = b;
-    b = c;
-    di++;
-    if (c%2==0) { // Ausdruck ergibt YES für gerade Zahlen
-        NSLog(@"Zahl gerade, Abstand zur vorigen geraden Fibonaccizahl: %i", di);
-        di = 0;
-    }
-}
-\end{objclst}
-
-\item \exctitle{Primzahlen}
-
-\begin{objclst}
-// prime numbers
-for (int i=1; i<1000; i++) { // loop through all numbers from 1 to 1000
-    BOOL isPrime = YES;
-    for (int j=2; j<i-1; j++) { // check the division rest with every number from 2 up to (excluding) the current number and break when a divisor was found
-        if (i%j==0) {
-            isPrime = NO;
-            break;
-        }
-    }
-    if (isPrime) { // if isPrime is still YES here, no divisor was found
-        NSLog(@"Prime number found: %i", i);
-    }
-}
-\end{objclst}
-
-\end{enumerate}
-
-\end{exclsg}
 
 \section{Objektorientiertes @"Hello World!"{}}
 
@@ -351,9 +310,7 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 
 \begin{exc}
 
-\begin{enumerate}
-
-\item \exctitle{Scientists}
+\begin{excitem}{scientists}{Scientists}
 
 \begin{enumerate}
 \item Erstellt eine weitere Klasse 'Scientist' als Subklasse von 'Person'.
@@ -362,13 +319,15 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \item Nach dem Prinzip der \emphc{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der 'Scientist'-Klasse die Methode \objc{sayHello}, sodass zusätzlich 'I am a Scientist' ausgegeben wird.
 \end{enumerate}
 
-\item \exctitle{Emails}
+\end{excitem}
+
+\begin{excitem}{emails}{Emails}
 
 \begin{enumerate}
 \item Erweitert die Klasse \objc{Person} zunächst um ein Freundschaftssystem:\\
 Jede Person besitzt ein (privates) Attribut \objc{NSMutableArray *friends}, das eine Liste ihrer Freunde darstellt. Das Aufrufen einer Instanzmethode \objc{makeFriendsWith:} fügt eine Person dieser Liste hinzu. Freundschaften werden immer in beide Richtungen geschlossen, also sollte die Methode \objc{makeFriendsWith:} dieselbe Methode der anderen Person aufrufen.
 
-\emphc{Hinweis:} Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objc{containsObject:} von \objc{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:
+\exchinweis{Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objc{containsObject:} von \objc{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:}
 \begin{objclst}
 if (self.friends!=nil) { // Testet, ob self.friends bereits ein Objekt hält
     self.friends = [[NSMutableArray alloc] init]; // Weist dem Attribut self.friends eine neu erstellte Liste zu
@@ -381,276 +340,23 @@ if (self.friends!=nil) { // Testet, ob self.friends bereits ein Objekt hält
 \objc{sendEmail} sendet eine neue Email an die Liste der Freunde der Person.
 \objc{receiveEmail:} akzeptiert ein Argument \objc{Email *email} und leitet die Email an alle Freunde weiter.
 
-\emphc{Hinweis:} Damit die Klassen \objc{Email} und \objc{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \emphc{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.
+\exchinweis{Damit die Klassen \objc{Email} und \objc{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \emphc{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
 
 \item Verwendet die bekannte Methode \objc{application:didFinishLaunchingWithOptions:}, um die Simulation zu starten. Erstellt eine Person \objc{Person *me} mit eurem eigenen Namen und eine Liste \objc{NSMutableArray *persons} mit weiteren Personen, beispielsweise mit den zuvor im Beispiel verwendeten Namen.
 
 Stellt eine Freundschaftsverbindung zwischen \objc{me} und jeder Person aus \objc{persons} her, sowie zwischen solchen Personen mit gleichem Anfangbuchstaben.
 
-\emphc{Hinweis:} Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit \objc{==} mit einem anderen verglichen werden.
+\exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit \objc{==} mit einem anderen verglichen werden.}
 
 Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem 'Build \& Run' könnte das Tastenkürzel \keysc{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
-\item Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.
+\item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
 
 \end{enumerate}
 
-\end{enumerate}
+\end{excitem}
 
 \end{exc}
 
-\begin{exclsg}
-
-\begin{enumerate}
-
-\item \exctitle{Scientists}
-
-\begin{enumerate}
-\item In Xcode könnt ihr eine neue Klasse mit \keysc{\cmdkey + N} erstellen. Nennt die Klasse 'Scientist' und wählt die Superklasse 'Person'. Die Main- und Header-Datei erscheinen nach dem Speichern im Project Navigator.
-\item Im Interface in der Header-Datei wird die neue Methode zunächst definiert:
-
-\begin{objclst}
-#import "Person.h"
-
-@interface Scientist : Person
-
-- (void)sayPrimeNumbersUpTo:(int)number;
-
-@end
-\end{objclst}
-
-Anschließend können wir sie in der Main-Datei implementieren:
-
-\begin{objclst}
-#import "Scientist.h"
-
-@implementation Scientist
-
-- (void)sayPrimeNumbersUpTo:(int)number {
-    // Algorithmus aus Aufgabe 'Primzahlen'
-}
-
-@end
-\end{objclst}
-
-In der nun schon häufiger verwendeten \objc{application:didFinishLaunchingWithOptions}-Methode in der 'AppDelegate.m'-Datei, wollen wir die neue Klasse ausprobieren:
-
-\begin{objclst}
-#import "AppDelegate.h"
-
-#import "Scientist.h"
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    Scientist *aScientist = [[Scientist alloc] init];
-    [aScientist sayPrimeNumbersUpTo:100];
-
-    return YES;
-}
-
-@end
-\end{objclst}
-
-Führen wir die App aus, werden alle Primzahlen bis 100 in der Konsole ausgegeben.
-
-\item Mit Objekten des Typs \objc{Scientist} kann genauso verfahren werden wie mit Objekten des Typs \objc{Person}, da sie voneinander abstammen und daher alle Attribute und Methoden erben. Schreibt also in der 'AppDelegate.m'-Datei:
-
-\begin{objclst}
-#import "AppDelegate.h"
-
-#import "Scientist.h"
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    Scientist *aScientist = [[Scientist alloc] init];
-    aScientist.name = @"Alice";
-    [aScientist sayHello];
-
-    return YES;
-}
-
-@end
-\end{objclst}
-
-Es wird wieder ausgegeben:
-
-\begin{objclst}
-Hello World! My name is Alice.
-\end{objclst}
-
-\item Die 'Scientist'-Klasse besitzt bereits die Methode \objc{sayHello}, da sie in ihrer Superklasse 'Person' definiert und implementiert wird. Um sie zu überschreiben, müssen sie nur in der Main-Datei erneut implementieren:
-
-\begin{objclst}
-#import "Scientist.h"
-
-@implementation Scientist
-
-- (void)sayPrimeNumbersUpTo:(int)number {
-    // Primzahlen-Algorithmus
-}
-
-- (void)sayHello {
-    NSLog(@"Hello World! My name is %@. I am a Scientist.", self.name);
-}
-
-@end
-\end{objclst}
-
-Nun wird statt der Methodenimplementierung in der Superklasse 'Person' diese Neuimplementierung verwendet und der zusätzliche Text wird ausgegeben, wenn die Methode \objc{sayHello} von einem Objekt der Klasse 'Scientist' aufgerufen wird:
-
-\begin{objclst}
-Hello World! My name is Alice. I am a Scientist.
-\end{objclst}
-
-Da wir der Implementierung der Superklasse im Prinzip nur etwas hinzufügen wollen, ist es eleganter, stattdessen erst diese aufzurufen und dann den zusätzlichen Code auszuführen: 
-
-\begin{objclst}
-- (void)sayHello {
-    [super sayHello]; // Die Implementierung Superklasse wird aufgerufen
-    NSLog(@"I am a Scientist.");
-}
-\end{objclst}
-
-Ausgabe:
-
-\begin{objclst}
-Hello World! My name is Alice.
-I am a Scientist.
-\end{objclst}
-
-\end{enumerate}
-
-\item \exctitle{Emails}
-
-\subsubsection{Email.h}
-\begin{objclst}
-@interface Email : NSObject
-
-@property (strong, nonatomic) NSMutableArray *allRecipients;
-
-- (void)sendTo:(NSArray *)recipients;
-
-@end
-\end{objclst}
-
-\subsubsection{Email.m}
-\begin{objclst}
-#import "Email.h"
-#import "Person.h"
-
-@implementation Email
-
-- (void)sendTo:(NSArray *)recipients {
-    for (Person *person in recipients) {
-        // treat email as spam and skip if it has already been sent to this person before
-        if ([self.allRecipients containsObject:person]) continue;
-        // add person to list of all recipients
-        if (!self.allRecipients) self.allRecipients = [[NSMutableArray alloc] init];
-        [self.allRecipients addObject:person];
-        // deliver email
-        [person receiveEmail:self];
-     }
-}
-
-@end
-\end{objclst}
-
-\subsubsection{Person.h}
-\begin{objclst}
-@class Email; // Forward Declaration
-
-@interface Person : NSObject
-
-@property (strong, nonatomic) NSString *name;
-
-- (void)makeFriendsWith:(Person *)person;
-
-- (void)sendEmail;
-- (void)receiveEmail:(Email *)email;
-
-@end
-\end{objclst}
-
-\subsubsection{Person.m}
-\begin{objclst}
-#import "Person.h"
-#import "Email.h"
-
-@interface Person () // private interface
-
-@property (strong, nonatomic) NSMutableArray *friends;
-
-@end
-
-@implementation Person
-
-- (void)makeFriendsWith:(Person *)person {
-    if (!person||person==self||[self.friends containsObject:person]) return;
-    if (!self.friends) self.friends = [[NSMutableArray alloc] init];
-    [self.friends addObject:person];
-    [person makeFriendsWith:self];
-    NSLog(@"%@ <-> %@", self.name, person.name);
-}
-
-- (void)sendEmail {
-    Email *newEmail = [[Email alloc] init];
-    [newEmail sendTo:self.friends];
-}
-
-- (void)receiveEmail:(Email *)email {
-    NSLog(@"%@ received an Email.", self.name);
-    [email sendTo:self.friends];
-}
-
-@end
-\end{objclst}
-
-\subsubsection{AppDelegate.m}
-\begin{objclst}
-#import "AppDelegate.h"
-#import "Person.h"
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    Person *me = [[Person alloc] init];
-    me.name = @"Nils";
-
-    NSMutableArray *persons = [[NSMutableArray alloc] init];
-
-    NSArray *names = @[@"Alice", @"Bob", @"Cindy", @"Bruce", @"Chris", @"Bill ", @"Susan"];
-    for (NSString *name in names) {
-        Person *newPerson = [[Person alloc] init];
-        newPerson.name = name;
-
-        [persons addObject:newPerson];
-        [me makeFriendsWith:newPerson];
-    }
-
-    for (Person *person in persons) {
-        for (Person *other in persons) {
-            if ([person.name characterAtIndex:0]==[other.name characterAtIndex:0]) {
-                [person makeFriendsWith:other];
-            }
-        }
-    }
-
-    [me sendEmail];
-
-    return YES;
-}
-
-@end
-\end{objclst}
-
-
-\end{enumerate}
-
-\end{exclsg}
 
 \section{Graphisches @"Hello World!"{}}
 
@@ -759,18 +465,22 @@ Die Klasse \objc{NSString} besitzt eine Klassenmethode \objc{stringWithFormat:},
 
 \begin{exc}
 
-\begin{enumerate}
+\begin{excitem}{scientists2}{Scientists 2}
 
-\item Überlegt euch, wie die Subklasse \objc{Scientist} von \objc{Person} angepasst werden muss, damit die Methoden \objc{sayHello} und \objc{helloString} die richtigen Ergebnisse liefern. Ändert die Klasse des Objekts, das bei Drücken des Buttons erzeugt wird, zu \objc{Scientist}.
+Überlegt euch, wie die Subklasse \objc{Scientist} von \objc{Person} angepasst werden muss, damit die Methoden \objc{sayHello} und \objc{helloString} die richtigen Ergebnisse liefern. Ändert die Klasse des Objekts, das bei Drücken des Buttons erzeugt wird, zu \objc{Scientist}.
 
-\emphc{Hinweis:} Die Instanzmethode \objc{stringByAppendingString:} von Objekten der Klasse \objc{NSString} gibt ein neues \objc{NSString}-Objekt zurück, das aus dem Text des Empfängerobjekts mit angefügtem Text des Arguments besteht:
+\exchinweis{Die Instanzmethode \objc{stringByAppendingString:} von Objekten der Klasse \objc{NSString} gibt ein neues \objc{NSString}-Objekt zurück, das aus dem Text des Empfängerobjekts mit angefügtem Text des Arguments besteht:}
 \begin{objclst}
 NSString *combinedString = [@"first" stringByAppendingString:@"second"];
 // Wert von combinedString: firstsecond
 \end{objclst}
 Das gleiche Resultat lässt sich aber auch mit \objc{stringWithFormat:} erzielen.
 
-\item \label{exc:simpleui} Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
+\end{excitem}
+
+\begin{excitem}{simpleui}{Simple UI}
+
+Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
 
 Lasst eurer Kreativität freien Lauf \emphc{oder} implementiert zwei der folgenden Beispiele.
 
@@ -780,8 +490,7 @@ Lasst eurer Kreativität freien Lauf \emphc{oder} implementiert zwei der folgend
 \item[RGB] In drei Textfelder kann jeweils ein Wert zwischen \objc{0} und \objc{255} für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \objc{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \objc{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt.
 \end{description}
 
-\emphc{Hinweise:}
-\begin{itemize}
+\begin{exchinweise}
 \item Achtet darauf, dass ihr nach der Projekterstellung in der Targetkonfiguration die Bundle ID 'de.uni-hd.deinname.counter' eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
 \item Es ist ausreichend, das User Interface entweder für iPhone oder iPad zu konfigurieren.
 \item \objc{NSString} besitzt Instanzmethoden wie \objc{floatValue} zur Umwandlung von Text in Zahlenwerte.
@@ -799,163 +508,11 @@ Lasst eurer Kreativität freien Lauf \emphc{oder} implementiert zwei der folgend
 }
 \end{objclst}
 
-\end{itemize}
+\end{exchinweise}
 
-\end{enumerate}
+\end{excitem}
 
 \end{exc}
-
-\begin{exclsg}
-
-\begin{enumerate}
-
-\item Die Methode \objc{sayHello} muss nicht mehr implementiert werden, denn eine Überschreibung der Superklassenimplementierung ist nicht mehr notwendig. Diese ruft nämlich nur die Methode \objc{helloString} auf und gibt den Rückgabewert in der Konsole aus. Stattdessen müssen wir also \objc{helloString} überschreiben, damit der Zusatz 'I am a Scientist' verwendet wird:
-
-\begin{objclst}
-- (NSString *)helloString {
-    NSString *greeting = [super helloString];
-    greeting = [greeting stringByAppendingString:@" I am a Scientist."];
-    return greeting;
-}
-\end{objclst}
-
-Oder in Kurzform:
-
-\begin{objclst}
-- (NSString *)helloString {
-    return [[super helloString] stringByAppendingString:@" I am a Scientist."];;
-}
-\end{objclst}
-
-\item \exctitle{Counter App}
-
-\begin{enumerate}[label={\roman*.}]
-\item Erstellen wir zunächst das User Interface. Wählt eine der Storyboard-Dateien im Project Navigator, entsprechend des Geräts, für das ihr das UI konfigurieren möchtet.
-\item Zieht zwei Labels und drei Buttons aus der Object Library unten im Inspektor in die erste und einzige Scene und konfiguriert sie mit dem Inspektor \abbref{img:counter_ui}.
-\includegraphicsc[.4\textwidth]{img/counter_ui.png}{img:counter_ui}{Einige Labels und Buttons sind für diese einfache App ausreichend}
-\item Wechselt in den Assistant-Editor, sodass die Datei 'ViewController.m' rechts angezeigt wird. Wählt diese wenn nötig in der Jump bar des Assistant-Editors unter \menuc{Automatic} aus.
-\item Definiert eine Property im private Interface, die zur Laufzeit der App die Referenz zum Label hält. Zusätzlich kann hier direkt die Property \objc{int count} definiert werden, da diese ebenfalls nicht öffentlich sein muss. Definiert außerdem die benötigten Methoden:
-\begin{objclst}
-@interface ViewController ()
-
-@property (nonatomic) int count;
-
-@property (strong, nonatomic) IBOutlet UILabel *countLabel;
-
-- (void)updateLabel;
-
-- (IBAction)increaseButtonPressed:(id)sender;
-- (IBAction)decreaseButtonPressed:(id)sender;
-- (IBAction)resetButtonPressed:(id)sender;
-
-@end
-\end{objclst}
-\item Zieht mit gedrückter \keysc{\ctrlkey}-Taste eine Verbindung zwischen Label und Property, sowie zwischen Buttons und Methoden.
-\item Implementiert die Methoden in der Main-Datei:
-\begin{objclst}
-- (void)updateLabel {
-    self.countLabel.text = [NSString stringWithFormat:@"%i", self.count];
-}
-
-- (IBAction)increaseButtonPressed:(id)sender {
-    self.count++;
-    [self updateLabel];
-}
-- (IBAction)decreaseButtonPressed:(id)sender {
-    self.count--;
-    [self updateLabel];
-}
-- (void)resetButtonPressed:(id)sender {
-    self.count = 0;
-    [self updateLabel];
-}
-\end{objclst}
-\item Build \& Run !
-\end{enumerate}
-
-\item \exctitle{BMI App}
-
-Analog zur Counter App erstellen wir ein neues Projekt und konfigurieren das User Interface im Storyboard \abbref{img:bmi_ui}.
-
-\includegraphicsc[.4\textwidth]{img/bmi_ui.png}{img:bmi_ui}{Achtet bei der UI Gestaltung darauf, dass die Interfaceelemente nicht von der erscheinenden Tastatur verdeckt werden}
-
-\subsubsection{ViewController.m}
-\begin{objclst}
-#import "ViewController.h"
-
-@interface ViewController ()
-
-@property (strong, nonatomic) IBOutlet UITextField *gewichtTextfield;
-@property (strong, nonatomic) IBOutlet UITextField *groesseTextfield;
-@property (strong, nonatomic) IBOutlet UILabel *bmiLabel;
-
-- (IBAction)berechneButtonPressed:(id)sender;
-
-@end
-
-@implementation ViewController
-
-- (IBAction)berechneButtonPressed:(id)sender {
-    float m = [self.gewichtTextfield.text floatValue];
-    float l = [self.groesseTextfield.text floatValue];
-    float bmi = m/l/l;
-    self.bmiLabel.text = [NSString stringWithFormat:@"%.1f", bmi];
-}
-
-@end
-\end{objclst}
-
-\item \exctitle{RGB App}
-
-\includegraphicsc[.4\textwidth]{img/rgb_ui.png}{img:rgb_ui}{Die RGB App zeigt Eingabefelder für die Farbkomponenten der Hintergrundfarbe}
-
-\subsubsection{ViewController.m}
-\begin{objclst}
-#import "ViewController.h"
-
-@interface ViewController ()
-
-@property (strong, nonatomic) IBOutlet UITextField *rTextfield;
-@property (strong, nonatomic) IBOutlet UITextField *gTextfield;
-@property (strong, nonatomic) IBOutlet UITextField *bTextfield;
-
-@property (strong, nonatomic) NSTimer *randomTimer;
-
-- (IBAction)farbeAnzeigenButtonPressed:(id)sender;
-- (IBAction)randomButtonPressed:(id)sender;
-- (IBAction)switchValueChanged:(UISwitch *)sender;
-
-@end
-
-@implementation ViewController
-
-- (IBAction)farbeAnzeigenButtonPressed:(id)sender {
-    float r = [self.rTextfield.text floatValue];
-    float g = [self.gTextfield.text floatValue];
-    float b = [self.bTextfield.text floatValue];
-    self.view.backgroundColor = [UIColor colorWithRed:r/255. green:g/255. blue:b/255. alpha:1.];
-}
-
-- (IBAction)randomButtonPressed:(id)sender {
-    self.rTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    self.gTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    self.bTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    [self farbeAnzeigenButtonPressed:sender];
-}
-
-- (IBAction)switchValueChanged:(UISwitch *)sender {
-    if (sender.isOn) {
-        self.randomTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(randomButtonPressed:) userInfo:nil repeats:YES];
-    } else {
-        [self.randomTimer invalidate];
-        self.randomTimer = nil;
-    }
-}
-\end{objclst}
-
-\end{enumerate}
-
-\end{exclsg}
 
 
 \chapter{iOS App Architektur}
@@ -1011,12 +568,11 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 
 \begin{exc}
 
-\begin{enumerate}
+\begin{excitem}{view_hierarchy}{View Hierarchie}
 
-\item \label{exc:view_hierarchy} Implementiert eine der Apps \emphc{Counter}, \emphc{BMI} oder \emphc{RGB} aus der Übungsaufgabe des vorherigen Abschnitts oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden \excref{exc:simpleui}.
+Implementiert eine der Apps \emphc{Counter}, \emphc{BMI} oder \emphc{RGB} aus der Übungsaufgabe des vorherigen Abschnitts oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden \excref{exc:simpleui}.
 
-\emphc{Hinweise:}
-\begin{itemize}
+\begin{exchinweise}
 \item Das Äquivalent zu einer IBOutlet Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
 \item Eine IBAction Verbindung hingegen ist durch die Instanzmethode \objc{addTarget:action:forControlEvents:} von \objc{UIControl} gegeben. \objc{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objc{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
 \begin{objclst}
@@ -1024,101 +580,12 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 \end{objclst}
 Der Methode wird also die Methode als spezielles Selector-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
 \item Ein \objc{UIButton} besitzt das Attribut \objc{UILabel *titleLabel}, doch es gilt die Konvention, die Instanzmethode \objc{setTitle:forState:} zu verwenden. Für verschiedene Modi wie \objc{UIControlStateNormal} oder \objc{UIControlStateSelected} können damit unterschiedliche Titel angegeben werden. Wird kein anderer Titel spezifiziert, wird der Titel von \objc{UIControlStateNormal} verwendet.
-\end{itemize}
+\end{exchinweise}
 
-\end{enumerate}
+\end{excitem}
 
 \end{exc}
 
-\begin{exclsg}
-\begin{enumerate}
-\item Als Beispiel ist hier die RGB App implementiert:
-\subsubsection{AppDelegate.m}
-\begin{objclst}
-#import "AppDelegate.h"
-
-@interface AppDelegate ()
-
-@property (strong, nonatomic) UITextField *rTextfield;
-@property (strong, nonatomic) UITextField *gTextfield;
-@property (strong, nonatomic) UITextField *bTextfield;
-
-@property (strong, nonatomic) NSTimer *randomTimer;
-
-- (void)farbeAnzeigenButtonPressed:(id)sender;
-- (void)randomButtonPressed:(id)sender;
-- (void)switchValueChanged:(UISwitch *)sender;
-
-@end
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    // create and display the window
-
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-
-    // create textfields and buttons and add to view hirachy
-
-    self.rTextfield = [[UITextField alloc] initWithFrame:CGRectMake(20, 50, 66, 44)];
-    [self.window addSubview:self.rTextfield];
-    self.rTextfield.placeholder = @"Red";
-
-    self.gTextfield = [[UITextField alloc] initWithFrame:CGRectOffset(self.rTextfield.frame, self.rTextfield.frame.size.width+20, 0)];
-    [self.window addSubview:self.gTextfield];
-    self.gTextfield.placeholder = @"Green";
-
-    self.bTextfield = [[UITextField alloc] initWithFrame:CGRectOffset(self.gTextfield.frame, self.rTextfield.frame.size.width+20, 0)];
-    [self.window addSubview:self.bTextfield];
-    self.bTextfield.placeholder = @"Blue";
-
-    UIButton *farbeAnzeigenButton = [[UIButton alloc] initWithFrame:CGRectMake(20, self.rTextfield.frame.origin.y+self.rTextfield.frame.size.height+20, 280, 44)];
-    [self.window addSubview:farbeAnzeigenButton];
-    [farbeAnzeigenButton setTitle:@"Farbe anzeigen" forState:UIControlStateNormal];
-    [farbeAnzeigenButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [farbeAnzeigenButton addTarget:self action:@selector(farbeAnzeigenButtonPressed:) forControlEvents:UIControlEventTouchUpInside]; // the equivalent to an IBAction
-
-    UIButton *randomButton = [[UIButton alloc] initWithFrame:CGRectOffset(farbeAnzeigenButton.frame, 0, farbeAnzeigenButton.frame.size.height+20)];
-    [self.window addSubview:randomButton];
-    [randomButton setTitle:@"zufällig" forState:UIControlStateNormal];
-    [randomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [randomButton addTarget:self action:@selector(randomButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-
-    UISwitch *rndSwitch = [[UISwitch alloc] initWithFrame:CGRectOffset(randomButton.frame, 0, randomButton.frame.size.height+20)];
-    [self.window addSubview:rndSwitch];
-    [rndSwitch addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
-
-    return YES;
-}
-
-- (void)farbeAnzeigenButtonPressed:(id)sender {
-    float r = [self.rTextfield.text floatValue];
-    float g = [self.gTextfield.text floatValue];
-    float b = [self.bTextfield.text floatValue];
-    self.window.backgroundColor = [UIColor colorWithRed:r/255. green:g/255. blue:b/255. alpha:1.];
-}
-
-- (void)randomButtonPressed:(id)sender {
-    self.rTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    self.gTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    self.bTextfield.text = [NSString stringWithFormat:@"%i", arc4random_uniform(256)];
-    [self farbeAnzeigenButtonPressed:sender];
-}
-
-- (void)switchValueChanged:(UISwitch *)sender {
-    if (sender.isOn) {
-        self.randomTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(randomButtonPressed:) userInfo:nil repeats:YES];
-    } else {
-        [self.randomTimer invalidate];
-        self.randomTimer = nil;
-    }
-}
-\end{objclst}
-\end{enumerate}
-\end{exclsg}
 
 \section{Auto Layout}
 
@@ -1147,84 +614,47 @@ iOS Apps verwenden das \emphc{Auto Layout} Konzept von Objective-C. Anstatt manu
 \end{enumerate}
 
 \begin{exc}
+
+\begin{excitem}{autolayout}{Auto Layout}
+
+Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch (bei iPhone Storyboards) bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
+
+Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein 'View Controller' Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
+
 \begin{enumerate}
-\item Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch (bei iPhone Storyboards) bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
-\item Löst die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein 'View Controller' Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
-\begin{enumerate}
-\item
+
+\item Eine \objc{UISegmentedControl} und eine \objc{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objc{UIView} füllt den verbleibenden Platz.
 \begin{center}
 \includegraphics[width=\iphonewidth]{img/al_21.png}
 \includegraphics[height=\iphonewidth]{img/al_22.png}
 \end{center}
-Eine \objc{UISegmentedControl} und eine \objc{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objc{UIView} füllt den verbleibenden Platz.
-\item
+
+\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objc{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
 \begin{center}
 \includegraphics[width=\iphonewidth]{img/al_31.png}
 \includegraphics[width=\iphonewidth]{img/al_32.png}
 \end{center}
-Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objc{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
-\item
+
+\item Zwei Views haben (Platzhalter-) Intrinsic Content Sizes von 300x300pt und 100x100pt. Die größere wird wenn möglich vertikal zentriert, hat jedoch immer einen Abstand von mindestens 20pt zur darunter befindlichen kleineren View. Beide sind horizontal zentriert. Die kleinere View ist außerdem immer mindestens 20pt vom unteren Bildschirmrand entfernt. Wird der verfügbare Platz kleiner, wird die größere View vor der kleineren gestaucht.
 \begin{center}
 \includegraphics[width=\iphonewidth]{img/al_11.png}
 \includegraphics[width=\iphonewidth]{img/al_12.png}
 \includegraphics[height=\iphonewidth]{img/al_13.png}
 \end{center}
-Zwei Views haben (Platzhalter-) Intrinsic Content Sizes von 300x300pt und 100x100pt. Die größere wird wenn möglich vertikal zentriert, hat jedoch immer einen Abstand von mindestens 20pt zur darunter befindlichen kleineren View. Beide sind horizontal zentriert. Die kleinere View ist außerdem immer mindestens 20pt vom unteren Bildschirmrand entfernt. Wird der verfügbare Platz kleiner, wird die größere View vor der kleineren gestaucht.
-\item
+
+\item Drei Views füllen jeweils den verfügbaren vertikalen Platz mit einem Abstand von 20pt zur Begrenzung. Horizontal sind sie gleichmäßig verteilt.
 \begin{center}
 \includegraphics[width=\iphonewidth]{img/al_02.png}
 \includegraphics[height=\iphonewidth]{img/al_01.png}
 \end{center}
-Drei Views füllen jeweils den verfügbaren vertikalen Platz mit einem Abstand von 20pt zur Begrenzung. Horizontal sind sie gleichmäßig verteilt.
-\end{enumerate}
-\emphc{Hinweis:} In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{BOOL hidden} verwendet werden, das auch im Storyboard verfügbar ist.
-\end{enumerate}
-\end{exc}
 
-\begin{exclsg}
-\begin{enumerate}
-\item Die möglichen Constraints sind in Gleichungsform oder Visual Format Syntax angegeben. \objc{contentView} bezeichnet die View an erster Stelle der Hierarchie.
-\begin{enumerate}
-\item
-\begin{itemize}
-\item \objc{segmentedControl.centerX = contentView.centerX}
-\item \objc{H:|-0-[progressView]-0-|}
-\item \objc{H:|-0-[mainView]-0-|}
-\item \objc{V:|-[segmentedControl]-[progressView]-[mainView]-0-|}
-\end{itemize}
-\item Die beiden Buttons \objc{playButton} und \objc{pauseButton} sind Subviews einer View \objc{buttonCenterView} mit transparenter Hintergrundfarbe.
-\begin{itemize}
-\item \objc{H:|-0-[playButton]-20-[pauseButton]-0-|}
-\item \objc{playButton.centerY = pauseButton.centerY = buttonCenterView.centerY}
-\end{itemize}
-Die \objc{buttonCenterView} besitzt damit eine Intrinsic Content Size, die von der Größe ihrer enthaltenen Buttons bestimmt wird.
-\begin{itemize}
-\item \objc{buttonCenterView.centerX = contentView.centerX}
-\item \objc{H:|-[volumeLabel]-[volumeSlider]-|}
-\item \objc{H:|-0-[mainView]-0-|}
-\item \objc{V:|-[buttonCenterView]-[volumeSlider]-[mainView]-0-|}
-\item \objc{volumeLabel.centerY = volumeSlider.centerY}
-\end{itemize}
-\item Die Platzhalter Intrinsic Content Size von 300x300 und 100x100 kann im Attributes Inspector eingestellt werden. Zur Laufzeit wird diese verschwinden, da die Views keinen Inhalt besitzen. Es können stattdessen auch explizite \objc{height} und \objc{width} Constraints gesetzt werden, sodass die Views zur Laufzeit diese Größe erhalten. Im Allgemeinen sollte die Größe einer View jedoch von ihrer Intrinsic Content Size bestimmt werden.
-\begin{itemize}
-\item \objc{largeView.centerX = contentView.centerX}
-\item \objc{largeView.centerY = contentView.centerY @500}
-\item \objc{smallView.centerX = contentView.centerX}
-\item \objc{V:|-(>=20)-[largeView]-(>=20)-[smallView]-20-|}
-\item \objc{largeView.verticalCompressionResistance = 501}
-\end{itemize}
-\item Wir verwenden vier zusätzliche Views als Platzhalter und setzen ihr Attribut \objc{BOOL hidden} im Attributes Inspector auf \objc{YES}. Die drei zu positionierenden Views erhalten eine Platzhalter Intrinsic Content Width von 50 oder eine explizite \objc{width} Constraint.
-\begin{itemize}
-\item \objc{V:|-20-[view0]-20-|}
-\item \objc{V:|-20-[view1]-20-|}
-\item \objc{V:|-20-[view2]-20-|}
-\item \objc{placeholderView0.width = placeholderView1.width = placeholderView2.width = placeholderView3.width}
-\item \objc{placeholderView0.centerY = placeholderView1.centerY = placeholderView2.centerY = placeholderView3.centerY = contentView.centerY // nur notwendig, damit das Layout eindeutig ist}
-\item \objc{H:|-0-[placeholderView0]-0-[view0]-0-[placeholderView1]-0-[view1]-0-[placeholderView2]-0-[view2]-0-[placeholderView3]-0-|}
-\end{itemize}
 \end{enumerate}
-\end{enumerate}
-\end{exclsg}
+
+\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{BOOL hidden} verwendet werden, das auch im Storyboard verfügbar ist.}
+
+\end{excitem}
+
+\end{exc}
 
 
 \chapter{Cities}
@@ -1398,10 +828,11 @@ Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit
 \end{enumerate}
 
 \begin{exc}
-\begin{enumerate}
-\item Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nachvollzieht.
-\item Schaut euch die Abbildung 4.13 im Skript an und erstellt ein solches Diagramm mit den Elementen der Cities App. Kennzeichnet im Diagramm, was bei Betätigung des Buttons passiert.
-\end{enumerate}
+\begin{excitem}{cities}{Cities}
+
+Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nachvollzieht.
+
+\end{excitem}
 \end{exc}
 
 
@@ -1454,8 +885,7 @@ Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
 \begin{exc}
 
-\begin{enumerate}
-\item \exctitle{Continents}
+\begin{excitem}{continents}{Continents}
 
 Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. \emphc{Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!}
 
@@ -1464,212 +894,12 @@ Erweitert die App um einen View Controller, der die Städte in Kontinente (oder 
 \item Modifiziert die Benutzerführung der Cities App durch die Einführung eines neuen View Controllers \objc{ContinentsViewController}, der bei der Ausführung zuerst angezeigt werden soll. Konfiguriert einen Button mit dem Namen eines Kontinenten und stellt eine Push Segue Verbindung zum Cities View Controller her.
 \item Implementiert die \objc{prepareForSegue:sender:} Methode des \objc{ContinentsViewController}. Übergebt hier einem neuen Attribut \objc{Continent *continent} des Cities View Controller ein \objc{Continent} Objekt entsprechend des betätigten Buttons.
 \item Verwendet die \objc{viewWillAppear:} Methode, um den Kontinentnamen als Titel des Cities View Controller entsprechend des übergebenen \objc{Continent} Objekts anzuzeigen.
-\item \emphc{Zusatzaufgabe:} Erweitert die Klasse \objc{Location} (bzw. \objc{Continent}) um ein Attribut \objc{NSArray *subLocations} für die enthaltenen Orte. Fügt den View Controllern \objc{ContinentsViewController} und \objc{CitiesViewController} jeweils einen weiteren Button für einen zweiten Ort hinzu. Versucht nun die Implementierungen anzupassen, sodass die Betätigung eines Buttons den entsprechenden Ort an den nächsten View Controller weitergibt. Die Cities View Controller soll also bswp. die Namen der beiden Städte an Position 0 und 1 des \objc{subLocations} Attributs des \objc{Continent} Objekts anzeigen. Eine Limitierung auf 2 Orte ist hier ausreichend, im nächsten Abschnitt werden wir für Situationen dieser Art dynamische Table Views verwenden.
+\item \excextra{Erweitert die Klasse \objc{Location} (bzw. \objc{Continent}) um ein Attribut \objc{NSArray *subLocations} für die enthaltenen Orte. Fügt den View Controllern \objc{ContinentsViewController} und \objc{CitiesViewController} jeweils einen weiteren Button für einen zweiten Ort hinzu. Versucht nun die Implementierungen anzupassen, sodass die Betätigung eines Buttons den entsprechenden Ort an den nächsten View Controller weitergibt. Die Cities View Controller soll also bswp. die Namen der beiden Städte an Position 0 und 1 des \objc{subLocations} Attributs des \objc{Continent} Objekts anzeigen. Eine Limitierung auf 2 Orte ist hier ausreichend, im nächsten Abschnitt werden wir für Situationen dieser Art dynamische Table Views verwenden.}
 \end{enumerate}
-\end{enumerate}
+
+\end{excitem}
 
 \end{exc}
-
-\begin{exclsg}
-\begin{enumerate}
-\item \exctitle{Continents}
-\begin{enumerate}
-\item Eine Möglichkeit zur Implementierung der Datenstruktur besteht darin, die Klassen \objc{City} und \objc{Continent} als Subklassen von \objc{Location} zusammenzufassen und zunächst sämtliche Attribute in der Superklasse zu definieren:
-
-\begin{objclst}
-// Location.h
-
-@interface Location : NSObject
-
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) UIImage *image;
-
-@end
-\end{objclst}
-
-\begin{objclst}
-// Continent.h
-
-#import "Location.h"
-
-@interface Continent : Location
-
-@end
-\end{objclst}
-
-\begin{objclst}
-// City.h
-
-#import "Location.h"
-
-@interface City : Location
-
-@end
-\end{objclst}
-
-\item Erstellt eine neue Klasse \objc{ContinentsViewController : UIViewController}.
-
-Zieht ein View Controller Objekt aus der Object Library auf das Storyboard. Im Identity Inspector könnt ihr den Namen der Klasse \objc{ContinentsViewController} eintragen. Zieht anschließend einen Button auf die Content View.
-
-Entfernt die Relationship Segue zwischen Navigation Controller und Cities View Controller und erstellt stattdessen eine solche zwischen Navigation Controller und Continents View Controller. Haltet dafür die \keysc{\ctrlkey}-Taste gedrückt und zieht eine Verbindung zwischen den View Controllern. Erstellt außerdem analog eine Push Segue von dem Button zum Cities View Controller.
-
-\item Fügt dem \objc{CitiesViewController} ein neues Attribut \objc{Continent *continent} hinzu:
-
-\begin{objclst}
-// CitiesViewController.h
-
-@class Continent;
-
-@interface CitiesViewController : UIViewController
-
-@property (strong, nonatomic) Continent *continent;
-
-@end
-\end{objclst}
-
-Nun können wir die \objc{prepareForSegue:sender} Methode des \objc{ContinentsViewController} implementieren:
-
-\begin{objclst}
-// ContinentsViewController.h
-
-#import "ContinentsViewController.h"
-#import "Continent.h"
-#import "CitiesViewController.h"
-
-@interface ContinentsViewController ()
-
-@end
-
-@implementation ContinentsViewController
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    Continent *continent = [[Continent alloc] init];
-    continent.name = @"Ozeanien";
-    CitiesViewController *citiesVC = segue.destinationViewController;
-    citiesVC.continent = continent;
-}
-
-@end
-\end{objclst}
-
-\item In der \objc{CitiesViewController} Klasse muss nun nur noch der Titel entsprechend des Kontinenten angepasst werden.
-
-\begin{objclst}
-// CitiesViewController.m
-
-#import "CitiesViewController.h"
-#import "City.h"
-#import "Continent.h"
-#import "CityDetailViewController.h"
-
-@interface CitiesViewController ()
-
-@end
-
-@implementation CitiesViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.title = self.continent.name;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    City *city = [[City alloc] init];
-    city.name = @"Melbourne";
-    city.image = [UIImage imageNamed:@"melbourne"];
-    CityDetailViewController *cityDetailVC = segue.destinationViewController;
-    cityDetailVC.city = city;
-}
-
-@end
-\end{objclst}
-
-\item Um das neue Attribut \objc{NSArray *subLocations} der \objc{Location} Klasse zu verwenden, fügen wir zunächst beiden View Controllern im Storyboard einen weiteren Button hinzu. Außerdem verbinden wir jeweils beide Buttons mit IBOutlets im Code, damit wir diese in der \objc{prepareForSegue:sender:} Methode identifizieren können.
-
-\begin{objclst}
-// ContinentsViewController.m
-
-#import "ContinentsViewController.h"
-#import "Continent.h"
-#import "City.h"
-#import "ViewController.h"
-
-@interface ContinentsViewController ()
-
-@property (strong, nonatomic) IBOutlet UIButton *firstButton;
-@property (strong, nonatomic) IBOutlet UIButton *secondButton;
-
-@end
-
-@implementation ContinentsViewController
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    Continent *continent = [[Continent alloc] init];
-    City *firstCity = [[City alloc] init];
-    City *secondCity = [[City alloc] init];
-    if (sender==self.ozeanienButton) {
-        continent.name = @"Ozeanien";
-        firstCity.name = @"Melbourne";
-        firstCity.image = [UIImage imageNamed:@"melbourne"];
-        secondCity.name = @"Sydney";
-        secondCity.image = [UIImage imageNamed:@"sydney"];
-    } else if (sender==self.nordamerikaButton) {
-        continent.name = @"Nordamerika";
-        firstCity.name = @"San Francisco";
-        firstCity.image = [UIImage imageNamed:@"sanfrancisco"];
-        secondCity.name = @"Los Angeles";
-        secondCity.image = [UIImage imageNamed:@"losangeles"];
-    }
-    continent.subLocations = @[firstCity, secondCity];
-    ViewController *citiesViewController = segue.destinationViewController;
-    citiesViewController.continent = continent;
-}
-
-@end
-\end{objclst}
-
-\begin{objclst}
-// CitiesViewController.m
-
-#import "CitiesViewController.h"
-#import "City.h"
-#import "Continent.h"
-#import "CityDetailViewController.h"
-
-@interface CitiesViewController ()
-
-@property (strong, nonatomic) IBOutlet UIButton *firstButton;
-@property (strong, nonatomic) IBOutlet UIButton *secondButton;
-
-@end
-
-@implementation CitiesViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.title = self.continent.name;
-    [self.firstButton setTitle:[[self.continent.subLocations objectAtIndex:0] name] forState:UIControlStateNormal];
-    [self.secondButton setTitle:[[self.continent.subLocations objectAtIndex:1] name] forState:UIControlStateNormal];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    City *city = nil;
-    if (sender==self.firstButton) {
-        city = (City *)[self.continent.subLocations objectAtIndex:0];
-    } else if (sender==self.secondButton) {
-        city = (City *)[self.continent.subLocations objectAtIndex:1];
-    }
-    CityDetailViewController *cityDetailVC = segue.destinationViewController;
-    cityDetailVC.city = city;
-}
-
-@end
-\end{objclst}
-
-\end{enumerate}
-\end{enumerate}
-
-\end{exclsg}
 
 
 \section{More Cities}
@@ -1795,203 +1025,17 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \begin{exc}
 
-\begin{enumerate}
+\begin{excitem}{tableviews}{Table Views}
 
-\item Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View \emphc{oder schreibt eine andere App, die Table Views verwendet}.
+Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View \emphc{oder schreibt eine andere App, die Table Views verwendet}.
 
-Ersetzt die Content View des Continents View Controllers im Storyboard mit einer Table View, ändert dessen Klasse zu \objc{UITableViewController} und implementiert die benötigten Methoden der \objc{UITableViewDatasource} und objc{UITableViewDelegate} Protokolle.
+Ersetzt dazu die Content View des Continents View Controllers im Storyboard mit einer Table View, ändert dessen Klasse zu \objc{UITableViewController} und implementiert die benötigten Methoden der \objc{UITableViewDatasource} und objc{UITableViewDelegate} Protokolle.
 
-\emphc{Hinweis:} Vergesst nicht, der Table View den Continents View Controller als Datasource und Delegate Objekt zuzuweisen, sodass die Methoden überhaupt aufgerufen werden. Im Storyboard stehen dazu die IBOutlets der Table View zur Verfügung.
+\exchinweis{Vergesst nicht, der Table View den Continents View Controller als Datasource und Delegate Objekt zuzuweisen, sodass die Methoden überhaupt aufgerufen werden. Im Storyboard stehen dazu die IBOutlets der Table View zur Verfügung.}
 
-\end{enumerate}
+\end{excitem}
 
 \end{exc}
-
-\begin{exclsg}
-
-\begin{enumerate}
-
-\item Zunächst ziehen wir eine Table View aus der Object Library auf den Continents View Controller und ersetzen so dessen Content View. Mit gehaltener \keysc{\ctrlkey}-Taste ziehen wir eine Verbindung von der Table View zum Continent View Controller und weisen diesen somit sowohl dem Datasource als auch dem Delegate Attribut zu.
-
-Anschließend kann eine Prototype Cell erstellt werden, indem ein Table View Cell Objekt aus der Object Library auf die Table View gezogen wird. Diese wird im Attributes Inspector mit dem \emph{Basic} Stil konfiguriert. Dann wird mit gehaltener \keysc{\ctrlkey}-Taste eine Push Segue Verbindung zum Cities View Controller gezogen.
-
-Nun können wir die Methoden der Protokolle im Code implementieren und außerdem die anderen Methoden anpassen:
-
-\subsubsection{ContinentsViewController.m}
-
-\begin{objclst}
-#import "ContinentsViewController.h"
-#import "Continent.h"
-#import "City.h"
-#import "CitiesViewController.h"
-
-@interface ContinentsViewController ()
-
-@property (strong, nonatomic) NSArray *continents;
-
-@end
-
-@implementation ContinentsViewController
-
-#pragma mark - User Interaction
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    Continent *continent = [self.continents objectAtIndex:indexPath.row];
-    
-    CitiesViewController *citiesViewController = segue.destinationViewController;
-    citiesViewController.continent = continent;
-}
-
-#pragma mark - Table View Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.continents count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    Continent *continent = [self.continents objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"continentCell"];
-    
-    cell.textLabel.text = continent.name;
-    cell.imageView.image = continent.image;
-    
-    return cell;
-}
-
-#pragma mark - Getters
-
-- (NSArray *)continents {
-    if (!_continents) {
-        
-        Continent *ozeanien = [[Continent alloc] init];
-        ozeanien.name = @"Ozeanien";
-        
-        City *melbourne = [[City alloc] init];
-        melbourne.name = @"Melbourne";
-        melbourne.image = [UIImage imageNamed:@"melbourne"];
-        City *sydney = [[City alloc] init];
-        sydney.name = @"Sydney";
-        sydney.image = [UIImage imageNamed:@"sydney"];
-        City *brisbane = [[City alloc] init];
-        brisbane.name = @"Brisbane";
-        brisbane.image = [UIImage imageNamed:@"brisbane"];
-        City *adelaide = [[City alloc] init];
-        adelaide.name = @"Adelaide";
-        adelaide.image = [UIImage imageNamed:@"adelaide"];
-        City *perth = [[City alloc] init];
-        perth.name = @"Perth";
-        perth.image = [UIImage imageNamed:@"perth"];
-        City *canberra = [[City alloc] init];
-        canberra.name = @"Canberra";
-        canberra.image = [UIImage imageNamed:@"canberra"];
-        
-        ozeanien.subLocations = @[melbourne, sydney, brisbane, adelaide, perth, canberra];
-
-        Continent *nordamerika = [[Continent alloc] init];
-        nordamerika.name = @"Nordamerika";
-        
-        City *losAngeles = [[City alloc] init];
-        losAngeles.name = @"Los Angeles";
-        losAngeles.image = [UIImage imageNamed:@"losAngeles"];
-        City *sanFrancisco = [[City alloc] init];
-        sanFrancisco.name = @"San Francisco";
-        sanFrancisco.image = [UIImage imageNamed:@"sanFrancisco"];
-        
-        nordamerika.subLocations = @[sanFrancisco, losAngeles];
-
-        _continents = @[ozeanien, nordamerika];
-    }
-    return _continents;
-}
-
-@end
-\end{objclst}
-
-\subsubsection{CitiesViewController.h}
-
-\begin{objclst}
-@class Continent;
-
-@interface CitiesViewController : UITableViewController
-
-@property (strong, nonatomic) Continent *continent;
-
-@end
-\end{objclst}
-
-\subsubsection{CitiesViewController.m}
-
-\begin{objclst}
-#import "CitiesViewController.h"
-#import "City.h"
-#import "Continent.h"
-#import "CityDetailViewController.h"
-
-@interface CitiesViewController ()
-
-@property (readonly, nonatomic) NSArray *cities;
-
-@end
-
-@implementation CitiesViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.title = self.continent.name;
-}
-
-#pragma mark - User Interaction
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    City *city = [self.cities objectAtIndex:indexPath.row];
-
-    CityDetailViewController *cityDetailVC = segue.destinationViewController;
-    cityDetailVC.city = city;
-}
-
-#pragma mark - Table View Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.cities count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    City *city = [self.cities objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell"];
-
-    cell.textLabel.text = city.name;
-    cell.imageView.image = city.image;
-
-    return cell;
-}
-
-#pragma mark - Getters
-
-- (NSArray *)cities {
-    return self.continent.subLocations;
-}
-
-@end
-\end{objclst}
-
-
-\end{enumerate}
-
-\end{exclsg}
 
 
 \chapter{Seasonizer}
@@ -2109,7 +1153,7 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 
 \begin{objclst}
 // AccessoryListViewController.h
-w
+
 @class Accessory; // Forward Declaration
 @protocol AccessorySelectionDelegate; // Forward Declaration
 
@@ -2598,18 +1642,18 @@ git branch -d new_feature
 
 \item Versionskontrolle ist nicht nur für größere Projekte essentiell und hilft bei der Entwicklung jeder iOS App, sondern ermöglicht auch die Zusammenarbeit mehrerer Entwickler an einem Projekt. Im Skript ist dieses Thema kurz beschrieben und auch auf den Service GitHub \linkref{http://www.github.com} verwiesen, der weltweit von Entwicklern verschiedenster Plattformen verwendet wird, um an Projekten zusammenzuarbeiten.
 
-Auf GitHub ist bspw. meine Implementierung der Seasonizer App zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/knly/seasonizer} und herunterladen.
+Auf GitHub ist bspw. meine Implementierung der Seasonizer App zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/ios-dev-kurs/seasonizer} und herunterladen.
 
 Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \sh{git clone} aus.
 
 \begin{shlst}
 cd path/to/directory
-git clone https://github.com/knly/seasonizer
+git clone https://github.com/ios-dev-kurs/seasonizer
 \end{shlst}
 
 Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Ihr könnt lokal daran weiterarbeiten und Commits durchführen. Wenn ich Änderungen am Remote Repository auf Github vornehme, können diese mit einem \sh{git pull} geladen und mit dem lokalen \sh{master} Branch zusammengeführt werden. Die lokalen Änderungen können jedoch nicht mit dem Remote Repository abgeglichen werden, da dazu die Zugangsdaten zu dem entsprechenden GitHub Account benötigt werden.
 
-\item Github bietet für Situationen dieser Art das \emphc{Fork} System an. Anstatt mein Repository direkt lokal zu Klonen, könnt ihr einen GitHub Account anlegen und den Fork Button \linkref{https://github.com/knly/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig auf eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen. Löscht dafür zunächst lokal das zuvor geklonte Repository.
+\item Github bietet für Situationen dieser Art das \emphc{Fork} System an. Anstatt mein Repository direkt lokal zu Klonen, könnt ihr einen GitHub Account anlegen und den Fork Button \linkref{https://github.com/ios-dev-kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig auf eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen. Löscht dafür zunächst lokal das zuvor geklonte Repository.
 
 \begin{shlst}
 cd path/to/directory

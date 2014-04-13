@@ -25,11 +25,15 @@ Er dient jedoch nur als Ergänzung zum parallel verfügbaren \strong{Skript}, au
 Beispiellösungen zu den Übungsaufgaben sind ebenfalls auf der Vorlesungsseite zu finden.
 
 
+\begin{lecture} % Lecture 1
+
+
 \chapter{Hello World}
 
 Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung eingeführt.
 
 \skriptref{Xcode, Objective-C}
+
 
 \section{Das erste Xcode Projekt}
 
@@ -50,6 +54,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 \item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone Retina (3.5-inch)} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keysc{\cmdkey + .} die Ausführung gestoppt und mit \keysc{\cmdkey + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
 
 \end{enumerate}
+
 
 \section{@"{}Hello World!"{}}
 
@@ -81,6 +86,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 
 \end{enumerate}
 
+
 \section{@"Hello World!"{} on Device}
 
 \begin{enumerate}
@@ -94,6 +100,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 \item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erschient wieder die Ausgabe \objc{Hello World!}, diesmal direkt vom Gerät ausgegeben.
 
 \end{enumerate}
+
 
 \section{Grundlagen der Programmierung}
 
@@ -138,16 +145,19 @@ int a = 20%3 // a ist jetzt 2
 \end{exc}
 
 
-\end{document} % POINTER
+\end{lecture} \end{document} % POINTER
 
 
-\section{Objektorientiertes @"Hello World!"{}}
+\begin{lecture} % Lecture 2
+
+
+\section{Objektorientiertes @"{}Hello World!"{}}
 
 \begin{enumerate}
 
-\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den 'Hello World!' Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Dazu brauchen wir zunächst eine neue Klasse 'Person' und schreiben diese am besten in eine neue Datei. Mit dem Tastenkürzel \keysc{\cmdkey + N} rufen wir den 'New File' Dialog auf.
+\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objc{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Dazu brauchen wir zunächst eine neue Klasse \objc{Person} und schreiben diese am besten in eine neue Datei. Mit dem Tastenkürzel \keysc{\cmdkey + N} rufen wir den \emph{New File} Dialog auf.
 
-\item Wählt hier \menuc{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst 'NSObject' als Superklasse und gebt der Klasse den Namen 'Person' \abbref{img:helloworld_personclass}.
+\item Wählt hier \menuc{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst \objc{NSObject} als Superklasse und gebt der Klasse den Namen \objc{Person} \abbref{img:helloworld_personclass}.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_personclass.png}{img:helloworld_personclass}{Der 'New File' Dialog hilft bei der Konfiguration einer neuen Klasse}
 
@@ -358,6 +368,12 @@ Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlau
 \end{exc}
 
 
+\end{lecture}
+
+
+\begin{lecture} % Lecture 3
+
+
 \section{Graphisches @"Hello World!"{}}
 
 Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts mitbekommen. Diese dienen bei der Programmierung hauptsächlich dazu, Abläufe im Code nachzuvollziehen und Fehler zu finden. Unsere App ist also nur sinnvoll, wenn wir die Ausgaben auch auf dem Bildschirm darstellen können.
@@ -515,6 +531,12 @@ Lasst eurer Kreativität freien Lauf \strong{oder} implementiert zwei der folgen
 \end{exc}
 
 
+\end{lecture}
+
+
+\begin{lecture} % Lecture 4
+
+
 \chapter{iOS App Architektur}
 
 Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns viel Arbeit bei der Programmierung ab und reduzieren den zu schreibenden Code, indem große Teile des User Interface separat erstellt wird. Außerdem können wir mit erweiterten Targetkonfigurationen viel Arbeit an Apples Frameworks übergeben, ohne die Architektur unserer App selbst schreiben zu müssen.
@@ -533,7 +555,8 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 \section{Handgeschriebene View Hierarchie}
 
 \begin{enumerate}
-\item Die iOS App Entwicklung orientiert sich konsequent an dem \strong{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
+\item Die iOS App Entwicklung orientiert sich konsequent an dem \strong{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber unbedingt im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
+\item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zurück zu Schritt 1.!
 \item Wir betrachten nun zunöchst die \strong{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \strong{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
 \item Betrachtet dazu wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem vorherigen Abschnitt wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
 \item Da wir mit dem 'Empty Application' Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
@@ -1672,5 +1695,9 @@ Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Orig
 Andere Entwickler, die mein Repository geklont haben, können diese Änderungen anschließend herunterladen. In dieser Form kann ein Open Source Programmierprojekt weltweit von interessierten Entwicklern weiterentwickelt werden. Und dem Seasonizer sind damit keine Grenzen gesetzt.
 
 \end{enumerate}
+
+
+\end{lecture}
+
 
 \end{document}

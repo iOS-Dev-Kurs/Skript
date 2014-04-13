@@ -40,9 +40,12 @@
 \newcommand{\screenshotwidth}{.8\textwidth}
 \newcommand{\iphonewidth}{.4\textwidth}
 
+% Lecture structure
+\newenvironment{lecture}{}{\pagebreak}
+
 % Exercise Style
 \newcounter{exc}
-\newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}\pagebreak}
+\newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
 \newenvironment{excitem}[2]{\item\label{exc:#1}\strong{#2}}{}
 \newcommand{\excextra}[1]{\strong{Extra:} #1}
 \newcommand{\exchinweis}[1]{\strong{Hinweis:} #1}

@@ -25,7 +25,7 @@
 \pagestyle{headings}
 
 % Style
-\newcommand\emphc\textbf
+\newcommand\strong\textbf
 \newenvironment{filecontent}[1]{\subsubsection{#1}}{}
 
 % References
@@ -42,12 +42,12 @@
 
 % Exercise Style
 \newcounter{exc}
-\newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
-\newenvironment{excitem}[2]{\item\label{exc:#1}\emphc{#2}}{}
-\newcommand{\excextra}[1]{\emphc{Extra:} #1}
-\newcommand{\exchinweis}[1]{\emphc{Hinweis:} #1}
-\newenvironment{exchinweise}{\emphc{Hinweise:}\begin{itemize}}{\end{itemize}}
+\newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}\pagebreak}
+\newenvironment{excitem}[2]{\item\label{exc:#1}\strong{#2}}{}
+\newcommand{\excextra}[1]{\strong{Extra:} #1}
+\newcommand{\exchinweis}[1]{\strong{Hinweis:} #1}
+\newenvironment{exchinweise}{\strong{Hinweise:}\begin{itemize}}{\end{itemize}}
 %\newenvironment{lsg}{\begin{enumerate}}{\end{enumerate}}
 \newenvironment{lsg}{}{}
-%\newenvironment{lsgitem}[2]{\item\label{lsg:#1}\addcontentsline{toc}{chapter}{\theenumi. #2}\emphc{#2}}{}
+%\newenvironment{lsgitem}[2]{\item\label{lsg:#1}\addcontentsline{toc}{chapter}{\theenumi. #2}\strong{#2}}{}
 \newenvironment{lsgitem}[2]{\label{lsg:#1}\chapter{#2}}{}

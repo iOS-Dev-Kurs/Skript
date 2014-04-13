@@ -7,7 +7,7 @@
 \subtitle{App Katalog}
 \title{Softwareentwicklung für iOS mit Objective-C und Xcode}
 \author{Nils Fischer}
-\date{Universität Heidelberg - Wintersemester 13/14}
+\date{Universität Heidelberg - Sommersemester 2014}
 
 \begin{document}
 
@@ -20,17 +20,14 @@
 
 Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungsseite \linkref{http://ios-dev-kurs.github.io/} zur Verfügung gestellt.
 
-Er dient jedoch nur als Ergänzung zum parallel verfügbaren \emphc{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
+Er dient jedoch nur als Ergänzung zum parallel verfügbaren \strong{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
 
 Beispiellösungen zu den Übungsaufgaben sind ebenfalls auf der Vorlesungsseite zu finden.
 
 
-\end{document} % POINTER
-
-
 \chapter{Hello World}
 
-Was ist schon ein Programmierkurs, der nicht mit einem klassischen 'Hello World' Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung eingeführt.
+Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung eingeführt.
 
 \skriptref{Xcode, Objective-C}
 
@@ -40,7 +37,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen 'Hello World'
 
 \item Mit \keysc{\cmdkey + \shiftkey + N} rufen wir zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menuc{iOS > Application > Singe View Application}.
 
-\item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \emphc{helloworld}, euren Vor- und Nachnamen als Organization Name und \emphc{de.uni-hd.deinname} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \emphc{de.uni-hd.deinname.helloworld}. Einen Class Prefix benötigen wir erstmal nicht. Speichert das Projekt in einem Verzeichnis eurer Wahl.
+\item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \strong{helloworld}, euren Vor- und Nachnamen als Organization Name und \strong{de.uni-hd.deinname} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \strong{de.uni-hd.deinname.helloworld}. Einen Class Prefix benötigen wir erstmal nicht. Speichert das Projekt in einem Verzeichnis eurer Wahl.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_xcproj.png}{img:helloworld_xcproj}{Damit es keine Konflikte zwischen verschiedenen Apps gibt, gibt es Konventionen bei der Konfiguration}
 
@@ -50,15 +47,15 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen 'Hello World'
 
 \item Im Editor wird die Projekt- und Targetkonfiguration angezeigt. Hier können wir bspw. die Bundle ID unserer App anpassen, die wir zuvor bei der Erstellung des Projekts aus Product Name und Company Identifier zusammengesetzt haben.
 
-\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den 'iPhone Retina (3.5-inch)' Simulator, und klickt die 'Build \& Run' Schaltfläche. Das Target wird nun kompiliert und generiert ein Product, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keysc{\cmdkey + .} die Ausführung gestoppt und mit \keysc{\cmdkey + R} (Tastenkürzel für 'Build \& Run') dann neu gestartet werden.
+\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone Retina (3.5-inch)} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keysc{\cmdkey + .} die Ausführung gestoppt und mit \keysc{\cmdkey + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
 
 \end{enumerate}
 
-\section{@"Hello World!"{}}
+\section{@"{}Hello World!"{}}
 
 \begin{enumerate}
 
-\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir eine Ausgabe hinzufügen. Wählt die Datei 'AppDelegate.m' im Project Navigator aus.
+\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir eine Ausgabe hinzufügen. Wählt die Datei \emph{AppDelegate.m} im Project Navigator aus.
 
 \item Die Methode \objc{application:didFinishLaunchingWithOptions:} wird zu Beginn der Ausführung der App aufgerufen. Zwischen den geschweiften Klammern ist bisher noch nicht viel zu finden:
 
@@ -78,7 +75,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen 'Hello World'
 }
 \end{objclst}
 
-\item Wenn wir unsere App nun erneut mit 'Build \& Run' kompilieren und ausführen, sehen wir den Text 'Hello World!' in der Konsole. Dazu wird der Debug-Bereich automatisch eingeblendet \abbref{img:helloworld_helloworld}. Außerdem wird automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
+\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} kompilieren und ausführen, sehen wir den Text \objc{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
 
@@ -139,6 +136,9 @@ int a = 20%3 // a ist jetzt 2
 \end{excitem}
 
 \end{exc}
+
+
+\end{document} % POINTER
 
 
 \section{Objektorientiertes @"Hello World!"{}}
@@ -316,7 +316,7 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \item Erstellt eine weitere Klasse 'Scientist' als Subklasse von 'Person'.
 \item Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \objc{sayPrimeNumbersUpTo:} hinzu, die ein Argument des Datentyps \objc{int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
 \item Wir wollen uns vergewissern, dass die Klasse 'Scientist' die Attribute und Methoden ihrer Superklasse 'Person' erbt. Erstellt ein 'Scientist'-Objekt, gebt ihm einen Namen und lasst den 'Hello World'-Gruß ausgeben.
-\item Nach dem Prinzip der \emphc{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der 'Scientist'-Klasse die Methode \objc{sayHello}, sodass zusätzlich 'I am a Scientist' ausgegeben wird.
+\item Nach dem Prinzip der \strong{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der 'Scientist'-Klasse die Methode \objc{sayHello}, sodass zusätzlich 'I am a Scientist' ausgegeben wird.
 \end{enumerate}
 
 \end{excitem}
@@ -340,7 +340,7 @@ if (self.friends!=nil) { // Testet, ob self.friends bereits ein Objekt hält
 \objc{sendEmail} sendet eine neue Email an die Liste der Freunde der Person.
 \objc{receiveEmail:} akzeptiert ein Argument \objc{Email *email} und leitet die Email an alle Freunde weiter.
 
-\exchinweis{Damit die Klassen \objc{Email} und \objc{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \emphc{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
+\exchinweis{Damit die Klassen \objc{Email} und \objc{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \strong{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
 
 \item Verwendet die bekannte Methode \objc{application:didFinishLaunchingWithOptions:}, um die Simulation zu starten. Erstellt eine Person \objc{Person *me} mit eurem eigenen Namen und eine Liste \objc{NSMutableArray *persons} mit weiteren Personen, beispielsweise mit den zuvor im Beispiel verwendeten Namen.
 
@@ -370,7 +370,7 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_ib.png}{img:helloworld_ib}{Für den Interface Builder verwenden wir eine angepasste Fensterkonfiguration mit dem Inspektor anstatt des Navigators}
 
-\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \emphc{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt diesen Tab aus, wenn er noch nicht angezeigt wird.
+\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \strong{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt diesen Tab aus, wenn er noch nicht angezeigt wird.
 
 \item Durchsucht die Liste von Interfaceelementen nach dem Objekt 'Label', indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt 'Hello World!'.
 
@@ -382,7 +382,7 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 \includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
 
-\item Nun müssen wir zur Laufzeit der App auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren können. Dazu verwenden wir sog. \emphc{IBOutlets} und \emphc{IBActions}. Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf 'Automatic'. Im Assistant wird automatisch die Main-Datei des übergeordneten View Controllers eingeblendet.
+\item Nun müssen wir zur Laufzeit der App auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren können. Dazu verwenden wir sog. \strong{IBOutlets} und \strong{IBActions}. Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf 'Automatic'. Im Assistant wird automatisch die Main-Datei des übergeordneten View Controllers eingeblendet.
 
 \item Da auf die Interfaceelemente nicht von außerhalb der Klasse zugegriffen werden muss, können wir das private Interface oben in der Main-Datei verwenden. Schreibt dort:
 \begin{objclst}
@@ -482,7 +482,7 @@ Das gleiche Resultat lässt sich aber auch mit \objc{stringWithFormat:} erzielen
 
 Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
 
-Lasst eurer Kreativität freien Lauf \emphc{oder} implementiert zwei der folgenden Beispiele.
+Lasst eurer Kreativität freien Lauf \strong{oder} implementiert zwei der folgenden Beispiele.
 
 \begin{description}
 \item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln '+1', '-1' und 'Reset' ändern den Wert dieser Property entsprechend und rufen die Update-Methode auf.
@@ -533,8 +533,8 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 \section{Handgeschriebene View Hierarchie}
 
 \begin{enumerate}
-\item Die iOS App Entwicklung orientiert sich konsequent an dem \emphc{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
-\item Wir betrachten nun zunöchst die \emphc{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \emphc{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
+\item Die iOS App Entwicklung orientiert sich konsequent an dem \strong{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
+\item Wir betrachten nun zunöchst die \strong{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \strong{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
 \item Betrachtet dazu wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem vorherigen Abschnitt wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
 \item Da wir mit dem 'Empty Application' Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
 \begin{objclst}
@@ -570,7 +570,7 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 
 \begin{excitem}{view_hierarchy}{View Hierarchie}
 
-Implementiert eine der Apps \emphc{Counter}, \emphc{BMI} oder \emphc{RGB} aus der Übungsaufgabe des vorherigen Abschnitts oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden \excref{exc:simpleui}.
+Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden \excref{exc:simpleui}.
 
 \begin{exchinweise}
 \item Das Äquivalent zu einer IBOutlet Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
@@ -593,7 +593,7 @@ Eine View Hierarchie können wir offensichtlich ebenso im Code schreiben wie im 
 
 Eine große Stärke des Interface Builders zeigt sich auch bei der Implementierung von dynamischen Benutzeroberflächen. Um auf Änderungen der Darstellung, wie bspw. Orientierungswechsel von Portrait auf Landscape, zu reagieren, müssten wir extensiv Code schreiben und die Frames der Views unserer View Hierarchie berechnen.
 
-iOS Apps verwenden das \emphc{Auto Layout} Konzept von Objective-C. Anstatt manuell Frames zu berechnen, definieren wir Regeln, die das Layout unserer Views erfüllen soll. Dieses Konzept der \emphc{Constraints} ist im Skript detailliert beschrieben.
+iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt manuell Frames zu berechnen, definieren wir Regeln, die das Layout unserer Views erfüllen soll. Dieses Konzept der \strong{Constraints} ist im Skript detailliert beschrieben.
 
 \skriptref{Auto Layout}
 
@@ -661,11 +661,11 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 
 iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \objc{UIView} Objekt in der View Hierarchie des übergeordneten \objc{UIWindow} Objekts dargestellt wird.
 
-Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \emphc{View Controller}.
+Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \strong{View Controller}.
 
 Diese sind der Controller-Komponente des Model-View-Controller Konzepts zugeordnet und im Skript ausführlich beschrieben.
 
-Mit dieser App lernen wir das \emphc{View Controller Containment} Prinzp kennen, schreiben eigene \objc{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
+Mit dieser App lernen wir das \strong{View Controller Containment} Prinzp kennen, schreiben eigene \objc{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
 
 \skriptref{View Controller Hierarchie}
 
@@ -677,7 +677,7 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \item Beginnen wir mit einem neuen Xcode Projekt nach dem 'Single View' Template und mit dem Product Name 'cities'. Es wird damit automatisch eine Klasse \objc{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objc{ViewController : UIViewController} in unserem Projekt.
 
-\item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \emphc{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menuc{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
+\item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menuc{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
 
 \includegraphicsc[8cm]{img/refactor.png}{img:refactor}{Die Refactor Funktion ist sinnvoll, um Symbole im gesamten Projekt umzubennen}
 
@@ -757,7 +757,7 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beli
 
 Die Instanzmethode \objc{dismissViewControllerAnimated:completion:} von \objc{UIViewController} ist im Skript beschrieben.
 
-\item Zur Präsentation des City Detail View Controllers können wir nun \emphc{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keysc{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \emphc{Modal Segue} zwischen Button und View Controller. Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen.
+\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keysc{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen.
 
 \includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
 
@@ -842,11 +842,11 @@ UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarc
 
 \begin{enumerate}
 
-\item Zieht einfach ein \objc{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objc{CitiesViewController} als Root View Controller. Erstellt dafür eine \emphc{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keysc{\ctrlkey}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
+\item Zieht einfach ein \objc{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objc{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keysc{\ctrlkey}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
 
 \includegraphicsc{img/nav_controller_segue.png}{img:nav_controller_segue}{Eine Relationship Segue markiert den Root View Controller eines Navigation Controllers}
 
-\item Ihr könnt nun die Modal Segue zwischen \objc{CitiesViewController} und \objc{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \emphc{Push Segue} ändern. Nun wird automatisch statt der \objc{presentViewController:animated:completion} Methode von \objc{UIViewController} die \objc{pushViewController:animated:} Methode von \objc{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
+\item Ihr könnt nun die Modal Segue zwischen \objc{CitiesViewController} und \objc{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \strong{Push Segue} ändern. Nun wird automatisch statt der \objc{presentViewController:animated:completion} Methode von \objc{UIViewController} die \objc{pushViewController:animated:} Methode von \objc{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
 
 \item Den 'Zurück' Button könnt ihr nun entfernen, da \objc{UINavigationController} einen eigenen Mechanismus implementiert und eine \objc{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objc{NSString *title} Attribut von \objc{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
 
@@ -887,7 +887,7 @@ Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
 \begin{excitem}{continents}{Continents}
 
-Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. \emphc{Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!}
+Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. \strong{Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!}
 
 \begin{enumerate}
 \item Wenn wir weitere Städte hinzufügen, kann es sinnvoll sein, sie in Kontinente (oder Planeten) einzuteilen. Erstellt eine neue Klasse \objc{Continent} und definiert analog zur \objc{City} Klasse die Attribute \objc{NSString *name} und \objc{UIImage *image}. Aufgrund der Analogien zwischen den beiden Klassen könnt ihr auch stattdessen eine Superklasse \objc{Location} erstellen, die die beiden Attribute definiert, und von der \objc{Continent} und \objc{City} abstammen.
@@ -904,7 +904,7 @@ Erweitert die App um einen View Controller, der die Städte in Kontinente (oder 
 
 \section{More Cities}
 
-Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \objc{UITableViewController : UIViewController} und ihre Content Views der Klasse \objc{UITableView : UIView}, die mit dem \emphc{Delegate Konzept} vielseitig einsetzbar sind.
+Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \objc{UITableViewController : UIViewController} und ihre Content Views der Klasse \objc{UITableView : UIView}, die mit dem \strong{Delegate Konzept} vielseitig einsetzbar sind.
 
 \skriptref{Das Delegate Konzept, Table Views \& Table View Controller}
 
@@ -914,17 +914,17 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \item Ein Table View Controller hat ein Objekt der \objc{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt im Navigationsbereich ziehen.
 
-\emphc{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden.
+\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden.
 
-\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus 'Dynamic Properties' auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \emphc{Prototype Cells}, die den 'Bauplan' für jede Zelle dieser Art definieren. Fügt dafür eine \objc{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
+\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus 'Dynamic Properties' auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den 'Bauplan' für jede Zelle dieser Art definieren. Fügt dafür eine \objc{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
 
 \item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst 'Basic' \abbref{img:morecities_prototypecells}.
 
 \includegraphicsc[\iphonewidth]{img/morecities_prototypecells.png}{img:morecities_prototypecells}{Prototype Cells dienen als Vorlage für die Zellen der Table View}
 
-\item Um Prototype Cells zu identifizieren, sollte ihnen ein \emphc{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier 'cityCell' ein.
+\item Um Prototype Cells zu identifizieren, sollte ihnen ein \strong{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier 'cityCell' ein.
 
-\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \emphc{Delegate Kozept}, um Daten zu 'erfragen', wenn sie sie benötigt. Dazu ruft das \objc{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \emphc{Protokoll} definiert sind. \objc{UITableView} teilt diese Anfragen in die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objc{id<UITableViewDatasource> datasource} und \objc{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objc{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
+\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu 'erfragen', wenn sie sie benötigt. Dazu ruft das \objc{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objc{UITableView} teilt diese Anfragen in die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objc{id<UITableViewDatasource> datasource} und \objc{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objc{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
 
 \item Im Allgemeinen repräsentiert eine Table View ein \objc{NSArray}. Definiert also im Interface des \objc{CitiesViewController} ein Attribut \objc{NSArray *cities} und überschreibt die Getter Methode des Attributs, um die Liste auf Anfrage zu erstellen und zurückzugeben:
 
@@ -1027,7 +1027,7 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \begin{excitem}{tableviews}{Table Views}
 
-Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View \emphc{oder schreibt eine andere App, die Table Views verwendet}.
+Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View \strong{oder schreibt eine andere App, die Table Views verwendet}.
 
 Ersetzt dazu die Content View des Continents View Controllers im Storyboard mit einer Table View, ändert dessen Klasse zu \objc{UITableViewController} und implementiert die benötigten Methoden der \objc{UITableViewDatasource} und objc{UITableViewDelegate} Protokolle.
 
@@ -1070,9 +1070,9 @@ Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige
 
 \item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht einen sinnvollen Namen wie \objc{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
 
-\item \emphc{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objc{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objc{UIBarButtonItem} bietet bereits viele Stile wie \objc{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
+\item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objc{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objc{UIBarButtonItem} bietet bereits viele Stile wie \objc{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
 
-\item Die Auswahl zwischen \emphc{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \objc{UIActionSheet} implementieren:
+\item Die Auswahl zwischen \strong{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \objc{UIActionSheet} implementieren:
 
 \begin{objclst}
 - (IBAction)cameraButtonPressed:(id)sender {
@@ -1119,9 +1119,9 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 }
 \end{objclst}
 
-\item Wir arbeiten in dieser App mit \emphc{Accessory Objekten}, die jeweils ein Bild repräsentieren und Eigenschaften wie Titel haben können. Daher bietet es sich an, eine Klasse \objc{Accessory : UIImageView} zu erstellen. Objekten dieser Klasse erben dann die Darstellungsmechanismen der \objc{UIImageView} Klasse und es können Attribute wie \objc{NSString *title} hinzugefügt werden.
+\item Wir arbeiten in dieser App mit \strong{Accessory Objekten}, die jeweils ein Bild repräsentieren und Eigenschaften wie Titel haben können. Daher bietet es sich an, eine Klasse \objc{Accessory : UIImageView} zu erstellen. Objekten dieser Klasse erben dann die Darstellungsmechanismen der \objc{UIImageView} Klasse und es können Attribute wie \objc{NSString *title} hinzugefügt werden.
 
-\item Um modal einen weiteren View Controller mit Titelleiste für die \emphc{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \objc{AccessoryListViewController : UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
+\item Um modal einen weiteren View Controller mit Titelleiste für die \strong{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \objc{AccessoryListViewController : UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
 
 \includegraphicsc{img/seasonizer_ui.png}{img:seasonizer_ui}{Navigation Controller bieten eine einfache Möglichkeit, Navigationsleisten und Toolbars anzuzeigen}
 
@@ -1147,7 +1147,7 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 }
 \end{objclst}
 
-\item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und so referenzieren, oder \emphc{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \emphc{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
+\item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und so referenzieren, oder \strong{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \strong{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
 
 \item Die Auswahl eines Accessories kann mithilfe eines eigenen Delegate Protokolls implementiert werden. Dazu benötigt der Accessory List View Controller ein öffentliches Attribut \objc{id <AccessorySelectionDelegate> delegate} und sollte das Protokoll in seinem Header definieren:
 
@@ -1231,7 +1231,7 @@ Der Canvas View Controller muss nun außerdem als Empfänger des \objc{Accessory
 }
 \end{objclst}
 
-\item Für die Manipulation der Accessories mit Gesten können wir \emphc{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \objc{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \objc{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \objc{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
+\item Für die Manipulation der Accessories mit Gesten können wir \strong{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \objc{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \objc{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \objc{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
 
 \begin{objclst}
 - (void)addAccessory:(Accessory *)accessory {
@@ -1333,7 +1333,7 @@ Der \objc{UILongPressGestureRecognizer} zeigt einen speziellen \objc{UIMenuContr
 
 \end{objclst}
 
-\item Die Integration eines \emphc{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. UIKit stellt dafür den \objc{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt.
+\item Die Integration eines \strong{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. UIKit stellt dafür den \objc{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt.
 
 \begin{objclst}
 - (IBAction)actionButtonPressed:(id)sender {
@@ -1362,7 +1362,7 @@ In dieser Methode wird auf die Getter Methode eines Attributs \objc{UIImage *ren
 
 Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für das Foto) und der Accessory View (für die Accessories) konfiguriert.
 
-\item Als kleines Extra können wir es in der App schneien lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \emphc{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{snowflake.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
+\item Als kleines Extra können wir es in der App schneien lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \strong{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{snowflake.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
 
 \begin{objclst}
 // in CanvasViewController.m
@@ -1396,7 +1396,7 @@ Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für da
 }
 \end{objclst}
 
-\item Um die Benutzeroberfläche vollständig wiederherstellen zu können, müssen wir sowohl das Foto als auch die hinzugefügten Accessories speichern. Als Methode der Datenspeicherung bietet sich in dieser App die \emphc{User Defaults} Mechanik an, doch auch das \emphc{State Preservation} System könnte stattdessen verwendet werden.
+\item Um die Benutzeroberfläche vollständig wiederherstellen zu können, müssen wir sowohl das Foto als auch die hinzugefügten Accessories speichern. Als Methode der Datenspeicherung bietet sich in dieser App die \strong{User Defaults} Mechanik an, doch auch das \strong{State Preservation} System könnte stattdessen verwendet werden.
 
 Zur Speicherung der Accessories müssen wir in der \objc{Accessory : UIImageView} Klasse zunächst das \objc{NSCoding} Protokoll implementieren. Dieses Protokoll bietet die Möglichkeit, Objekte als \objc{NSData} zu serialisieren. \objc{UIImageView} implementiert dieses Protokoll bereits, daher müssen wir in der Subklasse lediglich die beiden Schlüsselmethoden überschreiben:
 
@@ -1421,7 +1421,7 @@ Zur Speicherung der Accessories müssen wir in der \objc{Accessory : UIImageView
 }
 \end{objclst}
 
-Nun können wir das \emphc{Notifications} System verwenden, um über die Veränderung des App States informiert zu werden. Bewegt sich die App in den Hintergrund, sollen Bild und Accessories in den User Defaults gespeichert werden. In der \objc{viewDidLoad} Methode des Canvas View Controllers fügen wir diesen daher als Empfänger der \objc{UIApplicationDidEnterBackgroundNotification} hinzu und implementieren eine Methode, die bei Empfang einer solchen Notification aufgerufen wird:
+Nun können wir das \strong{Notifications} System verwenden, um über die Veränderung des App States informiert zu werden. Bewegt sich die App in den Hintergrund, sollen Bild und Accessories in den User Defaults gespeichert werden. In der \objc{viewDidLoad} Methode des Canvas View Controllers fügen wir diesen daher als Empfänger der \objc{UIApplicationDidEnterBackgroundNotification} hinzu und implementieren eine Methode, die bei Empfang einer solchen Notification aufgerufen wird:
 
 \begin{objclst}
 - (void)viewDidLoad
@@ -1468,7 +1468,7 @@ Die Wiederherstellung dieser gesicherten Daten kann nun in der \objc{viewDidLoad
 
 Hier verwenden wir die \objc{addAccessory:} Methode, um die Accessories der View Hierarchie hinzuzufügen und die Gesture Recognizer zu erzeugen. In der vorherigen Version dieses Dokuments wurde in der \objc{addAccessory:} Methode außerdem die Position und Größe des neuen Accessories angepasst. Dies kann jedoch stattdessen in der Delegate Methode \objc{accessoryListViewController:didSelectAccessory:} geschehen. Beide Methoden sind oben in der veränderten Form zu finden.
 
-\item Implementieren wir einen weiteren Toolbar Button, der die Benutzeroberfläche bei Betätigung \emphc{zurücksetzt}, sollte zunächst eine Schaltfläche zur Bestätigung erscheinen.
+\item Implementieren wir einen weiteren Toolbar Button, der die Benutzeroberfläche bei Betätigung \strong{zurücksetzt}, sollte zunächst eine Schaltfläche zur Bestätigung erscheinen.
 
 Dazu eignet sich wieder ein \objc{UIActionSheet}. Dieses muss jedoch in der Implementierung der Delegate Methoden von dem Action Sheet zur Auswahl zwischen Kamera und Fotobibliothek unterschieden werden. Eine Möglichkeit besteht in der Definition eines privaten Attributs für jedes der beiden Action Sheets in der \objc{CanvasViewController} Klasse. Dann können wir die Action Methode des Reset Buttons wie folgt implementieren:
 
@@ -1586,7 +1586,7 @@ git reset --hard HEAD~1
 
 In der Dokumentation \linkref{http://git-scm.com/book/} kann sich ausführlich über die verschiedenen Möglichkeiten informiert werden.
 
-\item Häufig wird Git zur Projektstrukturierung in Form von \emphc{Feature Branches} eingesetzt. Nehmen wir also an wir unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \sh{git branch}. Mit \sh{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
+\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an wir unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \sh{git branch}. Mit \sh{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
 
 \begin{shlst}
 git branch new_feature
@@ -1653,7 +1653,7 @@ git clone https://github.com/ios-dev-kurs/seasonizer
 
 Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Ihr könnt lokal daran weiterarbeiten und Commits durchführen. Wenn ich Änderungen am Remote Repository auf Github vornehme, können diese mit einem \sh{git pull} geladen und mit dem lokalen \sh{master} Branch zusammengeführt werden. Die lokalen Änderungen können jedoch nicht mit dem Remote Repository abgeglichen werden, da dazu die Zugangsdaten zu dem entsprechenden GitHub Account benötigt werden.
 
-\item Github bietet für Situationen dieser Art das \emphc{Fork} System an. Anstatt mein Repository direkt lokal zu Klonen, könnt ihr einen GitHub Account anlegen und den Fork Button \linkref{https://github.com/ios-dev-kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig auf eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen. Löscht dafür zunächst lokal das zuvor geklonte Repository.
+\item Github bietet für Situationen dieser Art das \strong{Fork} System an. Anstatt mein Repository direkt lokal zu Klonen, könnt ihr einen GitHub Account anlegen und den Fork Button \linkref{https://github.com/ios-dev-kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig auf eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen. Löscht dafür zunächst lokal das zuvor geklonte Repository.
 
 \begin{shlst}
 cd path/to/directory
@@ -1667,7 +1667,7 @@ Hier könnt ihr nun Commits durchführen und diese mit eurer serverseitigen Kopi
 git push
 \end{shlst}
 
-Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \emphc{Pull Request} schicken, die mich auffordert, die einen Merge mit den Änderungen durchzuführen.
+Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, die einen Merge mit den Änderungen durchzuführen.
 
 Andere Entwickler, die mein Repository geklont haben, können diese Änderungen anschließend herunterladen. In dieser Form kann ein Open Source Programmierprojekt weltweit von interessierten Entwicklern weiterentwickelt werden. Und dem Seasonizer sind damit keine Grenzen gesetzt.
 

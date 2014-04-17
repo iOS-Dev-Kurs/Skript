@@ -97,7 +97,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_chooseteam.png}{img:helloworld_chooseteam}{Mit der Wahl des zugehörigen Developer Teams in der Project- und Targetkonfiguration verwendet Xcode automatisch das passende Provisioning Profile}
 
-\item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erschient wieder die Ausgabe \objc{Hello World!}, diesmal direkt vom Gerät ausgegeben.
+\item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erscheint wieder die Ausgabe \objc{Hello World!}, diesmal direkt vom Gerät ausgegeben.
 
 \end{enumerate}
 
@@ -145,7 +145,7 @@ int a = 20%3 // a ist jetzt 2
 \end{exc}
 
 
-\end{lecture} \end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture} % Lecture 2
@@ -159,27 +159,27 @@ int a = 20%3 // a ist jetzt 2
 
 \item Wählt hier \menuc{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst \objc{NSObject} als Superklasse und gebt der Klasse den Namen \objc{Person} \abbref{img:helloworld_personclass}.
 
-\includegraphicsc[\screenshotwidth]{img/helloworld_personclass.png}{img:helloworld_personclass}{Der 'New File' Dialog hilft bei der Konfiguration einer neuen Klasse}
+\includegraphicsc[\screenshotwidth]{img/helloworld_personclass.png}{img:helloworld_personclass}{Der \emph{New File} Dialog hilft bei der Konfiguration einer neuen Klasse}
 
-\item Stellt sicher, dass das Target 'helloworld' im daraufffolgenden Speicherdialog ausgewählt ist und speichert die Klasse im Projektverzeichnis.
+\item Stellt sicher, dass das Target \emph{helloworld} im daraufffolgenden Speicherdialog ausgewählt ist und speichert die Klasse im Projektverzeichnis.
 
-\item Im Project Navigator sind nun zwei neue Dateien erschienen: Die Main- und die Header-Datei der neuen Klasse. Klickt auf die Main-Datei 'Person.m', um sie im Editor zu öffnen. Wenn ihr in der Toolbar nun anstatt des Standard- den Assistant-Editor auswählt, erscheint die Header-Datei 'Person.h' automatisch auf der rechten Seite des Editors. Andernfalls klickt ihr auf die Jump bar des Assistant-Editors und wählt 'Counterparts' aus, sodass die Header-Datei angezeigt wird \abbref{img:helloworld_personclass2}.
+\item Im Project Navigator sind nun zwei neue Dateien erschienen: Die Main- und die Header-Datei der neuen Klasse. Klickt auf die Main-Datei \emph{Person.m}, um sie im Editor zu öffnen. Wenn ihr in der Toolbar nun anstatt des Standard- den Assistant-Editor auswählt, erscheint die Header-Datei \emph{Person.h} automatisch auf der rechten Seite des Editors. Andernfalls klickt ihr auf die Jump bar des Assistant-Editors und wählt \emph{Counterparts} aus, sodass die Header-Datei angezeigt wird \abbref{img:helloworld_personclass2}.
 
-\includegraphicsc[\screenshotwidth]{img/helloworld_personclass2.png}{img:helloworld_personclass2}{Der Assistant-Editor zeigt automatisch die Header-Datei zu einer geöffneten Main-Datei an, wenn die Option 'Counterparts' gewählt wird}
+\includegraphicsc[\screenshotwidth]{img/helloworld_personclass2.png}{img:helloworld_personclass2}{Der Assistant-Editor zeigt automatisch die Header-Datei zu einer geöffneten Main-Datei an, wenn die Option \emph{Counterparts} gewählt wird}
 
 \item Die neue Klasse soll Personen repräsentieren, die jeweils einen Namen besitzen. Die Header-Datei rechts im Assistant enthält das Interface der Klasse, also deren öffentliche Beschreibung. Hier definieren wir, dass jedes Objekt der Klasse 'Person' eine Variable \objc{name} des Typs \objc{NSString} haben soll. Außerdem soll die Klasse eine Methode mit dem Namen \objc{sayHello} ohne Rückgabewert implementieren, die später den Gruß ausgeben soll:
 
 \begin{objclst}
 @interface Person : NSObject // Das Interface der Klasse Person, Subklasse von NSObject, beginnt hier
 
-@property (strong, nonatomic) NSString *name; // Jedes Objekt der Klasse besitzt diese Variable
+@property (strong, nonatomic) NSString *name; // Jedes Objekt der Klasse besitzt dieses Attribut
 
 - (void)sayHello; // Die Klasse implementiert diese Methode, die von jedem ihrer Objekte ausgeführt werden kann
 
 @end
 \end{objclst}
 
-\item Um zu bestimmen, was bei der Ausführung der Methode passiert, müssen wir sie noch implementieren. Dies geschieht in der Main-Datei 'Person.m' links im Editor. Wir schreiben:
+\item Um zu bestimmen, was bei der Ausführung der Methode passiert, müssen wir sie noch implementieren. Dies geschieht in der Main-Datei \emph{Person.m} links im Editor. Wir schreiben:
 
 \begin{objclst}
 #import "Person.h"
@@ -193,19 +193,18 @@ int a = 20%3 // a ist jetzt 2
 @end
 \end{objclst}
 
-Es wird also zusätzlich zu dem bekannten Gruß noch der Wert der Variable \objc{name} in der Konsole ausgegeben. Dazu verwenden wir die dot-Syntax der Getter-Methode, die duch die Definition der Property im Interface automatisch generiert wird.
+Es wird also zusätzlich zu dem bekannten Gruß noch der Wert der Variable \objc{name} in der Konsole ausgegeben. Dazu verwenden wir die dot-Syntax der Getter-Methode, die durch die Definition des Attributs \objc{name} im Interface automatisch generiert wird.
 
-\item Unsere Klasse ist jetzt einsatzbereit und wir können Objekte nach ihrem Bauplan erstellen. Öffnen wir also wieder die Datei 'AppDelegate.m'.
+\item Unsere Klasse ist jetzt einsatzbereit und wir können Objekte nach ihrem Bauplan erstellen. Öffnen wir also wieder die Datei \emph{AppDelegate.m}, in der wir auch zuvor die Grundlagen der Programmierung ausprobiert haben.
 
-\item Damit wir die Klasse verwenden können, müssen wir zunächst ihr Interface importieren. Fügt also den Befehl \objc{#import "Person.h"} direkt über dem Beginn der Implementierung mit \objc{@implementation AppDelegate} ein.
+\item Damit wir die Klasse verwenden können, müssen wir zunächst ihr Interface importieren. Fügt also den Befehl \objc{#import "Person.h"} direkt über dem Beginn der Implementierung \objc{@implementation AppDelegate} ein.
 
 \item Nun können wir Personen-Objekte erstellen. Wir verwenden wieder die Methode \objc{application:didFinishLaunchingWithOptions} und schreiben:
 
 \begin{objclst}
 #import "AppDelegate.h"
 
-// Das Klasseninterface muss importiert werden, damit die Klasse hier verfügbar ist:
-#import "Person.h"
+#import "Person.h" // Das Klasseninterface muss importiert werden, damit die Klasse hier verfügbar ist
 
 @implementation AppDelegate
 
@@ -226,14 +225,14 @@ Es wird also zusätzlich zu dem bekannten Gruß noch der Wert der Variable \objc
 @end
 \end{objclst}
 
-\item Mit einem 'Build \& Run' führen wir die App aus und werden in der Konsole von Alice und Bob freundlich gegrüßt:
+\item Mit einem \emph{Build \& Run} führen wir die App aus und werden in der Konsole von Alice und Bob freundlich gegrüßt:
 
 \begin{objclst}
 Hello World! My name is Alice.
 Hello World! My name is Bob.
 \end{objclst}
 
-\item Natürlich können wir unsere Klasse nun noch erweitern und Objekte miteinander interagieren lassen. Fügen wir also dem Interface der Klasse 'Person' noch eine weitere Methode \objc{sayHelloTo:} hinzu und implementieren sie:
+\item Natürlich können wir unsere Klasse nun noch erweitern und Objekte miteinander interagieren lassen. Fügen wir also dem Interface der Klasse \objc{Person} noch eine weitere Methode \objc{sayHelloTo:} hinzu und implementieren sie:
 
 \begin{objclst}
 // in der Header-Datei
@@ -323,10 +322,10 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \begin{excitem}{scientists}{Scientists}
 
 \begin{enumerate}
-\item Erstellt eine weitere Klasse 'Scientist' als Subklasse von 'Person'.
+\item Erstellt eine weitere Klasse \objc{Scientist} als Subklasse von \objc{Person}.
 \item Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \objc{sayPrimeNumbersUpTo:} hinzu, die ein Argument des Datentyps \objc{int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
-\item Wir wollen uns vergewissern, dass die Klasse 'Scientist' die Attribute und Methoden ihrer Superklasse 'Person' erbt. Erstellt ein 'Scientist'-Objekt, gebt ihm einen Namen und lasst den 'Hello World'-Gruß ausgeben.
-\item Nach dem Prinzip der \strong{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der 'Scientist'-Klasse die Methode \objc{sayHello}, sodass zusätzlich 'I am a Scientist' ausgegeben wird.
+\item Wir wollen uns vergewissern, dass die Klasse \objc{Scientist} die Attribute und Methoden ihrer Superklasse \objc{Person} erbt. Erstellt ein \objc{Scientist}-Objekt, gebt ihm einen Namen und lasst den \objc{Hello World}-Gruß ausgeben.
+\item Nach dem Prinzip der \strong{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der \objc{Scientist}-Klasse die Methode \objc{sayHello}, sodass zusätzlich \objc{I know all prime numbers!} ausgegeben wird.
 \end{enumerate}
 
 \end{excitem}
@@ -334,12 +333,13 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \begin{excitem}{emails}{Emails}
 
 \begin{enumerate}
-\item Erweitert die Klasse \objc{Person} zunächst um ein Freundschaftssystem:\\
+\item Erweitert die Klasse \objc{Person} zunächst um ein Freundschaftssystem
+
 Jede Person besitzt ein (privates) Attribut \objc{NSMutableArray *friends}, das eine Liste ihrer Freunde darstellt. Das Aufrufen einer Instanzmethode \objc{makeFriendsWith:} fügt eine Person dieser Liste hinzu. Freundschaften werden immer in beide Richtungen geschlossen, also sollte die Methode \objc{makeFriendsWith:} dieselbe Methode der anderen Person aufrufen.
 
 \exchinweis{Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objc{containsObject:} von \objc{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:}
 \begin{objclst}
-if (self.friends!=nil) { // Testet, ob self.friends bereits ein Objekt hält
+if (self.friends==nil) { // Testet, ob self.friends bereits ein Objekt hält
     self.friends = [[NSMutableArray alloc] init]; // Weist dem Attribut self.friends eine neu erstellte Liste zu
 }
 \end{objclst}
@@ -356,9 +356,9 @@ if (self.friends!=nil) { // Testet, ob self.friends bereits ein Objekt hält
 
 Stellt eine Freundschaftsverbindung zwischen \objc{me} und jeder Person aus \objc{persons} her, sowie zwischen solchen Personen mit gleichem Anfangbuchstaben.
 
-\exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit \objc{==} mit einem anderen verglichen werden.}
+\exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit dem Operator \objc{==} mit einem anderen verglichen werden.}
 
-Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem 'Build \& Run' könnte das Tastenkürzel \keysc{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
+Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keysc{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
 \item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
 
 \end{enumerate}
@@ -368,7 +368,7 @@ Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlau
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture} % Lecture 3

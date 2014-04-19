@@ -6,6 +6,8 @@
 
 \input{include/code_listing}
 
+\usepackage{verbatim}
+
 \subtitle{Skript}
 \title{Softwareentwicklung für iOS mit Objective-C und Xcode}
 \author{Nils Fischer}
@@ -55,7 +57,7 @@ Um eigene Apps im Simulator zu testen, ist keine weitere Konfiguration nötig. Z
 
 Dieses Skript wird im Verlauf des Semesters auf der Vorlesungsseite \linkref{http://ios-dev-kurs.github.io/} kapitelweise zur Verfügung gestellt. Parallel dazu wird es für die Apps, die wir im Rahmen des Kurses erstellen werden, ein weiteres Dokument geben. Dieser \strong{App-Katalog} wird ebenfalls auf der Vorlesungsseite zu finden sein und enthält außerdem die Übungsaufgaben, die wöchentlich zu bearbeiten sind.
 
-Die Kursinhalte werden sich thematisch an der Struktur des Skriptes orientieren und ihr könnt es als Referenz bei der Lösung der Übungsaufgaben verwenden. Mit der dokumentübergreifenden Suche (\keysc{\cmdkey + F}) lässt sich gut nach Stichwörtern suchen.
+Die Kursinhalte werden sich thematisch an der Struktur des Skriptes orientieren und ihr könnt es als Referenz bei der Lösung der Übungsaufgaben verwenden. Mit der dokumentübergreifenden Suche (\keys{\cmdkey + F}) lässt sich gut nach Stichwörtern suchen.
 
 Das Skript ist kein Tutorial, sondern ist sehr allgemein gehalten und erläutert die Grundlagen der Kursthemen. Im ergänzenden App-Katalog findet ihr hingegen Schritt-für-Schritt Anleitungen.
 
@@ -89,7 +91,7 @@ Jedes Programmierprojekt wird in Xcode in Form eines \strong{Projekts} angelegt.
 
 \subsection{Neue Projekte anlegen}
 
-Mit \menuc{File > New > Project...} oder \keysc{\cmdkey + \shiftkey + N} erstellen wir ein neues Projekt und wählen im erscheinenden Dialogfenster \abbref{img:new_project_dialogue1} ein Template. Zum Ausprobieren der Grundlagen von Objective-C eignet sich das \menuc{OS X > Application > Command Line Tool}. In diesem Dialogfenster finden wir mit \menuc{Cocoa Application} auch das Template, um Mac OS X Apps zu schreiben. Für iOS Apps verwenden wir die Templates unter \menuc{iOS > Application}. Es kann prinzipiell mit einem beliebigen Template begonnen werden, diese unterscheiden sich nur in bereits vorkonfigurierten Programmelementen. Häufig ist es hilfreich, eines der Templates zu verwenden, das der Struktur der App entspricht, die wir programmieren wollen. Andernfalls kann mit \menuc{Empty Application} eine komplett leere App erstellt werden.
+Mit \menu{File > New > Project...} oder \keys{\cmdkey + \shiftkey + N} erstellen wir ein neues Projekt und wählen im erscheinenden Dialogfenster \abbref{img:new_project_dialogue1} ein Template. Zum Ausprobieren der Grundlagen von Objective-C eignet sich das \menu{OS X > Application > Command Line Tool}. In diesem Dialogfenster finden wir mit \menu{Cocoa Application} auch das Template, um Mac OS X Apps zu schreiben. Für iOS Apps verwenden wir die Templates unter \menu{iOS > Application}. Es kann prinzipiell mit einem beliebigen Template begonnen werden, diese unterscheiden sich nur in bereits vorkonfigurierten Programmelementen. Häufig ist es hilfreich, eines der Templates zu verwenden, das der Struktur der App entspricht, die wir programmieren wollen. Andernfalls kann mit \menu{Empty Application} eine komplett leere App erstellt werden.
 
 \includegraphicsc{img/new_project_dialogue1.png}{img:new_project_dialogue1}{Ein neues Xcode-Projekt anlegen}
 
@@ -115,7 +117,7 @@ Ein Projekt kann zur Entwicklung mehrerer Apps dienen, die einen direkten Bezug 
 
 Das Ergebnis des Compilers, also unsere fertige App, wird \strong{Product} genannt. Zu jedem Product gehört genau ein \strong{Target}. Das Target stellt die Repräsentation des Products in Xcode dar und gibt dem Compiler Auskunft über alle Konfigurationen, referenzierten Dateien und sonstige Informationen die zur Kompilierung benötigt werden.
 
-Wenn wir ein neues Projekt erstellen, wird automatisch ein Target mit den gegebenen Informationen generiert. Mit \menuc{New > Target} kann außerdem jederzeit ein neues Target hinzugefügt und konfiguriert werden. Jedes Target muss einen eindeutigen Bundle Identifier besitzen. Anschließend können wir die Targets separat kompilieren und so jeweils ein Product erhalten.
+Wenn wir ein neues Projekt erstellen, wird automatisch ein Target mit den gegebenen Informationen generiert. Mit \menu{New > Target} kann außerdem jederzeit ein neues Target hinzugefügt und konfiguriert werden. Jedes Target muss einen eindeutigen Bundle Identifier besitzen. Anschließend können wir die Targets separat kompilieren und so jeweils ein Product erhalten.
 
 \subsection{Projekt- und Target-Konfiguration}\label{sec:projkonfig}
 
@@ -170,7 +172,7 @@ Die ersten drei Buttons beziehen sich auf den Editor:
 
 Mit den weiteren drei Buttons können die Bereiche \strong{Navigator}, \strong{Debug} und \strong{Inspector} ein- und ausgeblendet werden.
 
-Es können ebenfalls mit \keysc{\cmdkey + T} weitere (browserähnliche) Tabs geöffnet werden.
+Es können ebenfalls mit \keys{\cmdkey + T} weitere (browserähnliche) Tabs geöffnet werden.
 
 \subsection{Build \& Run}\label{sec:buildandrun}
 
@@ -178,18 +180,18 @@ In der Toolbar finden wir links die Bedienelemente \emph{Build \& Run}, \emph{St
 
 Hier kann das zu kompilierende Target und das Zielsystem ausgewählt werden. Haben wir ein gültiges iOS Gerät angeschlossen, wird dieses an erster Stelle angezeigt, andernfalls erscheint \emph{iOS Device} und wir können einen iOS Simulator auswählen.
 
-Mit \emph{Build \& Run} starten wir den Compiler, woraufhin das gewählte Target kompiliert und das resultierende Product, also die App, auf dem gewählten Zielsystem ausgeführt wird. \emph{Stop} beendet den Prozess. Im Menü \menuc{Product} stehen noch weitere Optionen zur Verfügung. Da wir diese sehr häufig verwenden werden ist es sinnvoll, sich die Tastenkombinationen einzuprägen:
+Mit \emph{Build \& Run} starten wir den Compiler, woraufhin das gewählte Target kompiliert und das resultierende Product, also die App, auf dem gewählten Zielsystem ausgeführt wird. \emph{Stop} beendet den Prozess. Im Menü \menu{Product} stehen noch weitere Optionen zur Verfügung. Da wir diese sehr häufig verwenden werden ist es sinnvoll, sich die Tastenkombinationen einzuprägen:
 \begin{description}
-\item[Build] \keysc{\cmdkey + B} Startet den Compiler, ohne dass das Product anschließend ausgeführt wird. Diese Option ist hilfreich, um kurz die Ausführbarkeit des Targets zu prüfen und Fehler zu korrigieren.
-\item[Build \& Run] \keysc{\cmdkey + R} Kompiliert das Target und führt das resultierende Product auf dem Zielsystem aus.
-\item[Stop] \keysc{\cmdkey + .} Beendet den aktiven Prozess.
-\item[Clean] \keysc{\cmdkey + \shiftkey + K} Entfernt kompilierte Build-Dateien und führt zu einer vollständigen Neukompilierung beim nächsten 'Build' Aufruf. Da Xcode bereits verarbeitete Dateien wiederverwendet, solange sie nicht verändert wurden, löst diese Option manchmal Probleme, wenn Dateien außerhalb von Xcode bearbeitet wurde (bspw. Bilddateien).
+\item[Build] \keys{\cmdkey + B} Startet den Compiler, ohne dass das Product anschließend ausgeführt wird. Diese Option ist hilfreich, um kurz die Ausführbarkeit des Targets zu prüfen und Fehler zu korrigieren.
+\item[Build \& Run] \keys{\cmdkey + R} Kompiliert das Target und führt das resultierende Product auf dem Zielsystem aus.
+\item[Stop] \keys{\cmdkey + .} Beendet den aktiven Prozess.
+\item[Clean] \keys{\cmdkey + \shiftkey + K} Entfernt kompilierte Build-Dateien und führt zu einer vollständigen Neukompilierung beim nächsten 'Build' Aufruf. Da Xcode bereits verarbeitete Dateien wiederverwendet, solange sie nicht verändert wurden, löst diese Option manchmal Probleme, wenn Dateien außerhalb von Xcode bearbeitet wurde (bspw. Bilddateien).
 \item[Archive] Kompiliert das Target und erstellt ein Archiv. Dieses kann anschließend verwendet werden, um die App an Tester zu verteilen oder im App Store zu veröffentlichen.
 \end{description}
 
 \subsection{Navigator}\label{sec:navigator}
 
-Der \strong{Navigator} (blau) dient zur Übersicht über die Projektelemente. Es kann zwischen acht Tabs (sieben vor Xcode Version 5.0) gewählt werden, die über die Tastenkombinationen \keysc{\cmdkey + 1}  bis \keysc{\cmdkey + 8} erreichbar sind:
+Der \strong{Navigator} (blau) dient zur Übersicht über die Projektelemente. Es kann zwischen acht Tabs (sieben vor Xcode Version 5.0) gewählt werden, die über die Tastenkombinationen \keys{\cmdkey + 1}  bis \keys{\cmdkey + 8} erreichbar sind:
 \begin{enumerate}
 \item \strong{Project Navigator}: Übersicht über die Projektdateien
 \item Symbol Navigator: Übersicht über alle Programmcodeelemente des Projektes
@@ -238,11 +240,11 @@ Viele häufig auftretende Syntaxfehler werden schon bei der Codeeingabe von Xcod
 
 \subsubsection{Integrierte Dokumentation \& Links}\label{sec:quickdef}
 
-Mit einem \keysc{\altkey}-Klick auf ein Symbol im Code kann jederzeit eine kurze Definition desselben angezeigt werden, sofern es in der Dokumentation enthalten ist \abbref{img:xcode_quickdef}.
+Mit einem \keys{\altkey}-Klick auf ein Symbol im Code kann jederzeit eine kurze Definition desselben angezeigt werden, sofern es in der Dokumentation enthalten ist \abbref{img:xcode_quickdef}.
 
 \includegraphicsc{img/xcode_quickdef.png}{img:xcode_quickdef}{Alt-Klick auf ein Symbol zeigt eine kurze Definition}
 
-Ein \keysc{\cmdkey}-Klick wirkt wie ein Link im Internet und führt je nach Kontext direkt zur Deklaration des Symbols im Projekt oder zum Ziel des Aufrufs.
+Ein \keys{\cmdkey}-Klick wirkt wie ein Link im Internet und führt je nach Kontext direkt zur Deklaration des Symbols im Projekt oder zum Ziel des Aufrufs.
 
 \subsubsection{Jump bars \& Open Quickly}
 
@@ -250,7 +252,7 @@ Die Leiste oben im Editor-Bereich (genannt Jump bar) dient der Navigation und ze
 
 \strong{Tipp:} Ist im Code an einer Stelle der Ausdruck \objc{#pragma mark Section Title} zu finden, so erscheint \emph{Section Title} als Gliederung in dem Menü der Jump bar. Ein Gedankenstrich erzeugt eine horizontale Line: \objc{#pragma mark - Section Title}.
 
-Mit der \emph{Open Quickly} Funktion \keysc{\cmdkey + \shiftkey + O} kann ebenfalls schnell navigiert werden. Es öffnet sich ein Eingabefeld, mit dem auf die gesamte Indexierung des Projekts zugegriffen werden kann.
+Mit der \emph{Open Quickly} Funktion \keys{\cmdkey + \shiftkey + O} kann ebenfalls schnell navigiert werden. Es öffnet sich ein Eingabefeld, mit dem auf die gesamte Indexierung des Projekts zugegriffen werden kann.
 
 \subsubsection{Assistent}
 
@@ -262,10 +264,10 @@ Mit einem Klick auf eine Zeilennummer in der Leiste rechts vom Editorbereich kan
 
 \subsection{Inspektor}\label{sec:inspektor}
 
-Am rechten Bildschirmrand kann der Inspektor eingeblendet werden, dessen Tabs ähnlich wie beim Navigator mit den Tastenkombinationen \keysc{\cmdkey + \altkey + 1} bis \keysc{\cmdkey + \altkey + 6} erreichbar sind. Während Code geschrieben wird, sind hier nur zwei Tabs verfügbar:
+Am rechten Bildschirmrand kann der Inspektor eingeblendet werden, dessen Tabs ähnlich wie beim Navigator mit den Tastenkombinationen \keys{\cmdkey + \altkey + 1} bis \keys{\cmdkey + \altkey + 6} erreichbar sind. Während Code geschrieben wird, sind hier nur zwei Tabs verfügbar:
 \begin{enumerate}
 \item 'File Inspector': Optionen bezüglich der im Editor geöffneten Datei
-\item 'Quick Help Inspector': Kurze Dokumentation des ausgewählten Symbols im Editor, ähnlich den Informationen, die durch \keysc{\altkey} - Klick auf das Symbol erreichbar sind
+\item 'Quick Help Inspector': Kurze Dokumentation des ausgewählten Symbols im Editor, ähnlich den Informationen, die durch \keys{\altkey} - Klick auf das Symbol erreichbar sind
 \end{enumerate}
 Zur Codeeingabe wird der Inspektor meist ausgeblendet, doch für die Konfiguration von Benutzeroberflächen mit dem Interface Builder ist er unverzichtbar \secref{sec:ib}.
 
@@ -304,7 +306,7 @@ Bei Datein mit der Endung .xib oder .storyboard wird Xcode's Editor-Bereich auto
 
 Im unteren Bereich des Inspektors ist die \strong{Object Library} zu finden. Wir können Objekte aus dieser Liste auf ein Element im Interface Builder ziehen und es so hinzufügen. Zu diesen Objekten gehören sowohl Interfaceelemente wie Buttons und Labels als auch strukturgebende Elemente wie Navigation Controller. Diese Objekte lernen wir bei der Erstellung unserer Apps noch kennen.
 
-Anschließend können die Objekte in der Navigationsleiste links oder im Editor ausgewählt werden und mit dem Inspektor konfiguriert werden. Sind mehrere Elemente im Editor übereinander positioniert, hilft ein \keysc{\shiftkey}-Klick auf die entsprechende Stelle. Es wird eine Liste der unter dem Curser angeordneten Objekte angezeigt, aus dem das Gesuchte ausgewählt werden kann. 
+Anschließend können die Objekte in der Navigationsleiste links oder im Editor ausgewählt werden und mit dem Inspektor konfiguriert werden. Sind mehrere Elemente im Editor übereinander positioniert, hilft ein \keys{\shiftkey}-Klick auf die entsprechende Stelle. Es wird eine Liste der unter dem Curser angeordneten Objekte angezeigt, aus dem das Gesuchte ausgewählt werden kann. 
 
 \subsection{XIBs \& Storyboards}
 
@@ -348,7 +350,7 @@ Zur Laufzeit der App wird dieser Property dann das verbundene Objekt als Wert zu
 self.label = theLabel; // Sei theLabel das zuvor erstellte Objekt
 \end{objclst}
 
-Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menuc{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der die Property deklariert wurde. Mit gedrückter \keysc{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und der Property ziehen \abbref{img:xcode_iboutlet}. Häufig sollen solche Properties nicht öffentlich sein, da nur innerhalb der Klasse auf die Interfaceelemente zugegriffen wird. Dann sollten sie im privaten Interface in der Main-Datei definiert werden \secref{sec:intimpl}.
+Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menu{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der die Property deklariert wurde. Mit gedrückter \keys{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und der Property ziehen \abbref{img:xcode_iboutlet}. Häufig sollen solche Properties nicht öffentlich sein, da nur innerhalb der Klasse auf die Interfaceelemente zugegriffen wird. Dann sollten sie im privaten Interface in der Main-Datei definiert werden \secref{sec:intimpl}.
 
 Alternativ kann der Connection Inspector des Objekts \secref{sec:ibinspector} oder ein Rechtsklick auf das Objekt verwendet werden und ausgehend von dem Kreissymbol neben 'New Referencing Outlet' eine Verbindung gezogen wird. Wird die Verbindung nicht zu einem existierenden IBOutlet im Code, sondern auf eine leere Zeile gezogen, wird automatisch eine mit 'IBOutlet' gekennzeichnete Property erstellt. Anstatt den Assistant-Editor zu verwenden kann das Ziel der Verbindung auch im Interface Builder gesucht werden, also bspw. in der Navigationsleiste links.
 
@@ -371,9 +373,9 @@ Die Zuweisung einer IBAction-Verbindung ist dann äquivalent zu folgendem Code:
 
 \section{Dokumentation}\label{sec:xcode_documentation}
 
-Die Dokumentation von Apple's Frameworks ist exzellent mit Xcode verknüpft und sollte bei Unklarheiten immer als erste Referenz verwendet werden. In der immer verfügbaren Kurzdefinition per \keysc{\altkey}-Klick auf ein beliebiges Symbol im Code, ist immer ein Verweis auf die ausführliche Dokumentation enthalten \secref{sec:quickdef}. Ein Klick darauf öffnet den entsprechenden Abschnitt der Dokumentation im separaten Documentation-Fenster \abbref{img:documentation}.
+Die Dokumentation von Apple's Frameworks ist exzellent mit Xcode verknüpft und sollte bei Unklarheiten immer als erste Referenz verwendet werden. In der immer verfügbaren Kurzdefinition per \keys{\altkey}-Klick auf ein beliebiges Symbol im Code, ist immer ein Verweis auf die ausführliche Dokumentation enthalten \secref{sec:quickdef}. Ein Klick darauf öffnet den entsprechenden Abschnitt der Dokumentation im separaten Documentation-Fenster \abbref{img:documentation}.
 
-Dieses ist außerdem immer mit dem Tastenkürzel \keysc{\cmdkey + \altkey + ?} (bzw. \keysc{\cmdkey + \altkey + \shiftkey + ß} auf deutschen Tastaturen) erreichbar.
+Dieses ist außerdem immer mit dem Tastenkürzel \keys{\cmdkey + \altkey + ?} (bzw. \keys{\cmdkey + \altkey + \shiftkey + ß} auf deutschen Tastaturen) erreichbar.
 
 In dem Such-Eingabefeld oben kann selbstverständlich nach beliebigen Symbolen gesucht werden, während mit den Schaltflächen rechts davon die beiden Seitenleisten 'Bookmarks' und 'Overview' ein- und ausgeblendet werden können.
 
@@ -389,7 +391,7 @@ Der Simulator eignet sich sehr gut zum Testen eurer Apps. Er läuft auf der Arch
 
 Auf dem Simulator kann somit kein wirklichkeitsgetreues Testen stattfinden und es ist unumgänglich, Apps auch auf einem realen iOS Gerät zu testen.
 
-Xcode kann Apps nur auf Geräten installieren, deren Softwareversion mit der jeweiligen Version von Xcode kompatibel ist. Bei neueren Versionen von Xcode lassen sich unter \menuc{Preferences > Downloads} ältere iOS SDKs zusätzlich installieren, um diese Versionen zu unterstützen und als Base SDK \secref{sec:projkonfig} zu verwenden. Die Umkehrung gilt jedoch nicht: Geräte mit neueren Softwareversionen als die installierte iOS SDK Version können nicht zum Testen verwendet werden.
+Xcode kann Apps nur auf Geräten installieren, deren Softwareversion mit der jeweiligen Version von Xcode kompatibel ist. Bei neueren Versionen von Xcode lassen sich unter \menu{Preferences > Downloads} ältere iOS SDKs zusätzlich installieren, um diese Versionen zu unterstützen und als Base SDK \secref{sec:projkonfig} zu verwenden. Die Umkehrung gilt jedoch nicht: Geräte mit neueren Softwareversionen als die installierte iOS SDK Version können nicht zum Testen verwendet werden.
 
 Für diesen Kurs ist es empfehlenswert, die neueste Version von Xcode, dem iOS SDK und der auf dem Gerät installierten Software zu verwenden \secref{sec:hwsw}. Leider ist auf den Macs im Medienzentrum nur die Xcode Version 4.2 mit iOS SDK 5.0 installiert. Daher können mit diesen Macs keine Geräte mit einer neueren Softwareversion als iOS 5.0 zum Testen verwendet werden.
 
@@ -417,9 +419,9 @@ Ihr benötigt zunächst einen Apple Developer Account und müsst anschließend u
 \begin{enumerate}
 \item Erstellt eine Apple ID \linkref{https://developer.apple.com/register/} oder verwendet, soweit vorhanden, eure existierende Apple ID
 \item Schließt euer iOS Gerät mit dem USB-Kabel an.
-\item Öffnet in Xcode den \strong{Organizer} mit \keysc{\cmdkey + \shiftkey + 2}.
-\item Wählt dort den Tab \menuc{Devices} und in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
-\item Mit den Schaltflächen \menuc{Use for Development} oder \menuc{Add to Member Center}) können nur Admins des Developer Teams ihre Geräte direkt im Team registrieren. Stattdessen kopiert bitte die UDID eures iOS Geräts, also die lange Zeichenfolge mit dem Label \emph{Identifier}.
+\item Öffnet in Xcode den \strong{Organizer} mit \keys{\cmdkey + \shiftkey + 2}.
+\item Wählt dort den Tab \menu{Devices} und in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
+\item Mit den Schaltflächen \menu{Use for Development} oder \menu{Add to Member Center}) können nur Admins des Developer Teams ihre Geräte direkt im Team registrieren. Stattdessen kopiert bitte die UDID eures iOS Geräts, also die lange Zeichenfolge mit dem Label \emph{Identifier}.
 \item Teilt mir \strong{eure registrierte Apple ID} und \strong{die UDIDs aller eurer iOS Geräte} per Email \linkref{n.fischer@stud.uni-heidelberg.de} mit, sodass ich euch in das Developer Team einladen und die Geräte hinzufügen kann. Verwendet dazu bitte die Email, mit der ihr euch zum Kurs angemeldet habt.
 \item Mit dem Einladungslink, den ihr anschließend per Email von Apple erhaltet, könnt ihr dem Developer Team beitreten. Ihr müsst euch im erscheinenden Dialog nicht noch einmal registrieren, wählt hier einfach 'Sign in' und loggt euch mit der verwendeten Apple ID ein.
 \end{enumerate}
@@ -431,10 +433,10 @@ Ihr erhaltet damit Zugriff auf das iOS Dev Center \linkref{https://developer.app
 
 Nun integriert euren Apple Developer Account in Xcode:
 \begin{enumerate}
-\item Öffnet in Xcode \menuc{Preferences > Accounts} und fügt euren Apple Developer Account dort hinzu \abbref{img:xcode_accounts}.
-\item Auf der rechten Seite erscheinen die Developer Teams, denen ihr angehört. Wählt das Team der Uni Heidelberg aus und klickt \menuc{View Details}.
-\item Im erscheinenden Dialog könnt ihr nun eure Certificates und Provisioning Profiles verwalten \abbref{img:xcode_devteam}. Die Liste der Provisioning Profiles dient hier nur zur Information. Ihr benötigt nur ein Development Certificate, das ihr mit Klick auf \menuc{+ > iOS Development} anfordern könnt. Es muss nun zunächst von mir bestätigt werden, daher kann zunächst eine Fehlermeldung erscheinen.
-\item Ein Klick auf das \menuc{Refresh}-Symbol unten links aktualisiert die Liste und lädt verfügbare Certificates und Provisioning Profiles automatisch herunter. Diese sind außerdem jederzeit online im Member Center einsehbar \linkref{https://developer.apple.com/membercenter/}.
+\item Öffnet in Xcode \menu{Preferences > Accounts} und fügt euren Apple Developer Account dort hinzu \abbref{img:xcode_accounts}.
+\item Auf der rechten Seite erscheinen die Developer Teams, denen ihr angehört. Wählt das Team der Uni Heidelberg aus und klickt \menu{View Details}.
+\item Im erscheinenden Dialog könnt ihr nun eure Certificates und Provisioning Profiles verwalten \abbref{img:xcode_devteam}. Die Liste der Provisioning Profiles dient hier nur zur Information. Ihr benötigt nur ein Development Certificate, das ihr mit Klick auf \menu{+ > iOS Development} anfordern könnt. Es muss nun zunächst von mir bestätigt werden, daher kann zunächst eine Fehlermeldung erscheinen.
+\item Ein Klick auf das \menu{Refresh}-Symbol unten links aktualisiert die Liste und lädt verfügbare Certificates und Provisioning Profiles automatisch herunter. Diese sind außerdem jederzeit online im Member Center einsehbar \linkref{https://developer.apple.com/membercenter/}.
 \end{enumerate}
 
 \includegraphicsc{img/xcode_accounts.png}{img:xcode_accounts}{In den Einstellungen kann der Apple Developer Account hinzugefügt werden}
@@ -688,7 +690,7 @@ Betrachteten wir nun beispielsweise folgende Klasse:
 
 Eine Klasse besteht aus ihrem (öffentlichen und privaten) \strong{Interface} und ihrer \strong{Implementierung}. Meist werden diese in getrennten Dateien geschrieben: Das öffentliche Interface in der \strong{Header-Datei} mit Endung \emph{.h} und die Implementierung in der \strong{Main-Datei} mit Endung \emph{.m}.
 
-Damit der Compiler, der nur die Main-Dateien parst, auch den Code der zugehörigen Header-Datei berücksichtigt, müssen diese mit dem Aufruf \objc{#import "Klassenname.h"} zu Anfang der .m Datei eingebunden werden.
+Damit der Compiler, der nur die Main-Dateien parst, auch den Code der zugehörigen Header-Datei berücksichtigt, müssen diese mit dem Aufruf \objc{#import "Klassenname.h"} zu Anfang der Main-Datei eingebunden werden.
 
 Das öffentliche Interface stellt die Schnittstelle zum restlichen Programm dar und beschreibt, welche \strong{Attribute} und \strong{Methoden} die Klasse enthält.
 
@@ -700,7 +702,11 @@ Zusätzlich kann die Main-Datei noch ein privates Interface enthalten, auf das n
 
 Die Eigenschaften von Objekten einer Klasse werden durch ihre \strong{Attribute} oder \strong{Properties} repräsentiert.
 
-Im Codebeispiel oben \secref{sec:personclass} spezifizieren wir, dass eine Person immer eine Variable \objc{name} des Typs \objc{NSString} hat.
+Im Codebeispiel oben \secref{sec:personclass} spezifizieren wir, dass eine Person immer eine Variable \objc{name} des Typs \objc{NSString} hat:
+
+\begin{objclst}
+@property (strong, nonatomic) NSString *name;
+\end{objclst}
 
 \objc{strong} kennzeichnet hier eine Option zur Speicherverwaltung und bewirkt, dass der Wert der Variable im Speicher gehalten wird bis das Objekt diesen freigibt. Dagegen stellt \objc{weak} nur eine schwache Referenz auf den Speicher dar und verhindert nicht dessen Freigabe. Wir werden noch Übung in der richtigen Verwendung dieser Kennzeichnungen bekommen. Bei Properties mit primitiven Datentypen kann diese Kennzeichnung weggelassen werden.
 
@@ -766,7 +772,7 @@ Weiterhin können Methoden Parameter annehmen, die in ihrer Implementierung verw
 
 \subsection{Instanz- und Klassenmethoden}
 
-Im Allgemeinen verwenden wir Methoden, um mit bestimmten Objekten zu interagieren, sog. \strong{Instanzmethoden}. In deren Implementierung kann dann auch auf Attribute des entsprechenden Objekts zugegriffen werden. Instanzmethoden werden mit dem Zeichen \objc{-} vor der Deklarierung gekennzeichnet:
+Im Allgemeinen verwenden wir Methoden, um mit bestimmten Objekten zu interagieren, sog. \strong{Instanzmethoden}. In deren Implementierung kann dann auch auf Attribute des entsprechenden Objekts zugegriffen werden. Instanzmethoden werden mit einem Minuszeichen \objc{-} vor der Deklarierung gekennzeichnet:
 \begin{objclst}
 - (void)doSomething;
 \end{objclst}
@@ -1005,7 +1011,156 @@ for (NSObject *object in dic) {
 Als veränderbare Subklasse steht hier das \objc{NSMutableDictionary} zur Verfügung, das die Instanzmethoden \objc{setObject:forKey} und \objc{removeObjectForKey} implementiert.
 
 
+
+\chapter{Projektstrukturierung}
+
+
+\section{Versionskontrolle mit Git} \label{sec:git}
+
+Die Entwicklung von iOS Apps ist wie jedes Programmierprojekt ein fortschreitender Prozess. Während an Features und Mechaniken im Code gearbeitet wird, besteht immer wieder die Notwendigkeit, vorhandenen Code zu editieren und umzustrukturieren. Dabei bietet \strong{Versionskontrolle} (SCM / Software Configuration Management) u.a. die Möglichkeit, diese Änderungen in regelmäßigen Abständen zu sichern, zu vorherigen Versionen zurückzukehren und sogar an verschiedenen Versionen gleichzeitig und mit anderen zusammen zu arbeiten.
+
+Ein sehr beliebtes System der Versionskontrolle ist \strong{Git}. Git wird automatisch mit Xcode installiert und ist ein Kommandozeilenprogramm, auf das wir auf dem Mac mit der Terminal App zugreifen können.
+
+\subsection{Grundlagen der Kommandozeilensyntax}
+\begin{description}
+\item[Navigation] \sh{cd path/to/folder} navigiert zu dem angegebenen Pfad. Die Tilde \sh{\~} repräsentiert hier den Benutzerordner. \keys{\tabkey} vervollständigt das aktuelle Pfadsegment und zweimaliges Drücken von \keys{\tab} zeigt alle möglichen Vervollständigungen an.
+\item[Ordnerinhalt] \sh{ls} listet den Inhalt des aktuellen Verzeichnisses auf. Mit \sh{ls -a} werden auch versteckte Dateien angezeigt.
+\item[Dateien] \sh{touch filename} erstellt eine neue Datei mit dem angegebenen Dateinamen, während \sh{mkdir foldername} einen Ordner erstellt. \sh{rm filename} löscht die angegebene Datei und \sh{rm -r foldername} den angegebenen Ordner.
+\end{description}
+
+\subsection{Git Repository \& Commits}
+ 
+Während wir an unserem Projekt arbeiten, können wir Git verwenden, um Versionen unseres Codes möglichst häufig in Form von \strong{Commits} zu sichern. Dabei werden alle Änderungen an den Projektdateien, die seit dem letzten Commit durchgeführt wurden, in einem versteckten \sh{.git/} Verzeichnis, dem \strong{Repository}, hinterlegt.
+
+Bevor wir Commits sichern können, muss das Repository angelegt werden. Dazu navigieren wir im Terminal in den Projektordner und führend die Initialisierung durch:
+
+\begin{shlst}
+cd path/to/project
+git init
+>> Initialized empty Git repository in path/to/project/.git/
+git status
+>> On branch master
+>> 
+>> Initial commit
+>> 
+>> nothing to commit (create/copy files and use "git add" to track)
+\end{shlst}
+
+\sh{git status} ist sehr nützlich, um häufig die Situation des Repositories zu prüfen.
+
+Nun können wir Dateien in unserem Projekt verändern, indem wir Code schreiben oder löschen. Mit \sh{git status} sehen wir jederzeit, welche Dateien sich in Bezug auf den vorherigen Commit verändert haben. Befindet sich der Code in einem akzeptablen Zwischenzustand, können wir die Änderungen mit einem Commit im Repository sichern:
+
+\begin{shlst}
+git add --all
+git commit -m "Commit Message"
+>> [master (root-commit) a74833f] Commit Message
+>>  x files changed, y insertions(+), z deletions(-)
+git log
+\end{shlst}
+
+Hier ist zu beachten, dass die zu sichernden Änderungen dem anstehenden Commit zunächst mit \sh{git add filename} einzeln oder mit \sh{git add --all} zusammen hinzugefügt werden müssen. \sh{git commit} führt den Commit anschließend durch und erwartet einen String als kurze Beschreibung der Änderungen des Commits. \sh{git log} kann verwendet werden, um eine Liste der letzten Commits im Terminal auszugeben.
+
+
+\subsection{Branches}
+
+Git bietet weiterhin die sehr nützliche Möglichkeit, verschiedene Versionen eines Projekts zu verwalten, indem sich die Commitfolge an einer beliebigen Stelle verzweigt. Dazu können wir mit \sh{git branch} einen neuen \strong{Branch} erstellen. Es kann jederzeit mit \sh{git checkout} zwischen Branches gewechselt werden. Dabei passt Git die Dateien und deren Inhalt im Repository automatisch an.
+
+\begin{shlst}
+git branch new_feature
+git checkout new_feature
+# Abkürzung:
+git checkout -b new_feature
+\end{shlst}
+
+Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt. 
+
+Um Branches wieder zu vereinigen, bietet Git die \strong{Merge} und \strong{Rebase} Mechanismen. Dabei bestimmt \sh{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \sh{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
+
+\begin{shlst}
+git checkout master
+git merge new_feature
+\end{shlst}
+
+Git versucht bei einem Merge oder Rebase, die Änderungen der Branches zu vereinigen. Treten dabei Konflikte auf, wird der Vorgang unterbrochen und die Konflikte müssen zunächst im Code behoben werden. An den entsprechenden Stellen im Code sind dann Markierungen zu finden, die über eine projektübergreifende Suche in Xcode schnell gefunden werden.
+
+\begin{objclst}
+<<<<<<< HEAD:
+// alter Code
+=======
+// veränderter Code
+>>>>>>>
+\end{objclst}
+
+Sobald die Konflikte behoben wurden, kann der Vorgang wieder aufgenommen werden:
+
+\begin{shlst}
+git add --all
+git commit
+\end{shlst}
+
+\subsubsection{Feature Branches}
+
+In dieser Form werden bspw. sehr häufig \strong{Feature Branches} verwaltet. Dabei wird die stabile und häufig veröffentlichte Version des Projekts von dem \sh{master} Branch des Repositories repräsentiert. Für neue Features oder Umstrukturierungen wird dann eine Branchstruktur angelegt. So kann gearbeitet werden, ohne dass die stabile Version des Projekts verändert wird. Erreicht ein Branch einen stabilen Status und soll veröffentlicht werden, wird ein Merge mit dem \sh{master} Branch durchgeführt. Der Arbeitsbranch kann dabei jederzeit gewechselt werden. So kann bspw. schnell ein Fehler in der veröffentlichten Version in \sh{master} behoben und anschließend wieder zum Feature Branch gewechselt werden.
+
+\subsection{Zusammenarbeit mit Git \& GitHub}
+
+Git Repositories ermöglichen die reibungslose Zusammenarbeit mehrerer Entwickler an einem Projekt und ermöglichen dadurch erst die Entwicklung vieler komplexer Projekte, an denen Programmierer auf der ganzen Welt zusammenarbeiten.
+
+Befindet sich eine Kopie des Repositories auf einem Server, kann einem Branch ein serverseitiges Gegenstück zugewiesen werden. Mit \sh{git push} und \sh{git pull} können dieses \strong{Remote Repository} und die lokale Kopie abgeglichen werden.
+
+\sh{git pull} besteht dabei prinzipiell zunächst aus einem Aufruf von \sh{git fetch}, der die serverseitigen Änderungen herunterlädt, und einem anschließenden \sh{git merge}, um die Änderungen in den lokalen Branch zu integrieren.
+
+Die Git Dokumentation \secref{sec:git_doku} enthält detaillierte Beschreibungen zu Remote Repositories.
+
+An dieser Stelle darf der Service \strong{GitHub\linkref{http://www.github.com}} nicht unerwähnt bleiben, der Entwicklern eine Plattform für ihre Git Repositories bietet und für öffentliche Projekte kostenlos ist.
+
+Ein auf GitHub erstelltes Repository kann mit \sh{git clone} heruntergeladen werden, wobei den local Branches automatisch ihr entsprechendes remote Gegenstück zugewiesen wird. Anschließend können wir mit dem local Repository arbeiten und Commits mit dem remote Repository abgleichen.
+
+Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen oder solche anderer Entwickler weiterentwickeln. Letztere Mechanik wird \strong{Fork} genannt und bietet die Möglichkeit, an einem Repository eines anderen Entwicklers zu arbeiten und diesem anzubieten, die erstellten Commits in sein Repository zu integrieren. Dazu kann eine \strong{Pull Request} versandt werden, die der Besitzer des Repositories zunächst annehmen muss, damit die Änderungen in sein Repository übernommen werden.
+
+\subsubsection{Dieser Kurs auf GitHub}
+
+Git ist für viele Projekte nützlich und bei weitem nicht nur auf Programmcode beschränkt. So befindet sich bspw. neben der Vorlesungswebseite auch dieses Skript in einem Git Repository auf GitHub \linkref{https://github.com/iOS-Dev-Kurs}. Ihr könnt es also leicht klonen und aktualisieren, wenn Änderungen verfügbar sind:
+
+\begin{shlst}
+cd path/to/directory
+git clone https://github.com/iOS-Dev-Kurs/Skript
+# bei Änderungen:
+git pull
+\end{shlst}
+
+\subsection{Git in Xcode} 
+
+Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und Schaltflächen präsent. Das Menü \menu{Source Control} stellt bspw. einige Benutzeroberflächen zu Git Befehlen zur Verfügung, die die Kommandozeilenbedienung ersetzen können. Sehr hilfreich ist jedoch hauptsächlich der Version Editor \abbref{img:xcode_version_editor}, der mit der Schaltfläche rechts in der Toolbar alternativ zum Assistant Editor angezeigt werden kann. Im rechten Editorbereich wird dann die Version der links angezeigten Datei zu einem früheren Commit angezeigt und Änderungen visualisiert. Mit der Uhr-Schaltfläche unten in der Mittelleiste können wir frühere Commits auswählen.
+
+\includegraphicsc{img/xcode_version_editor.png}{img:xcode_version_editor}{Der Version Editor zeigt die links geöffnete Datei zu einem früheren Commit an und visualisiert Änderungen}
+
+\subsection{Gitignore}
+
+Elemente können von von der Erfassung durch Git ausgenommen, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \sh{.gitignore} Datei hinzugefügt.
+
+\begin{shlst}
+touch .gitignore
+open .gitignore
+\end{shlst}
+
+Mit einem Texteditor wie der TextEdit App oder \sh{vim} in der Konsole können wir diese Datei nun editieren. Sinnvolle Vorlagen für verschiedenste Programmiersprachen und Plattformen sind im GitHub Repository \emph{gitignore} \linkref{https://github.com/github/gitignore} zu finden. Kopiert für Xcode Projekte die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \sh{.gitignore} Datei.
+
+Die \sh{.gitignore} Datei muss dem Repository nun zunächst hinzugefügt werden, bevor sie wirksam wird:
+
+\begin{shlst}
+git add .gitignore
+git commit -m "Added .gitignore file"
+\end{shlst}
+
+\subsection{Dokumentation}\label{sec:git_doku}
+
+Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
+
+
+
 \end{document} % POINTER
+
 
 
 \chapter{iOS App Architektur}
@@ -1045,7 +1200,7 @@ int main(int argc, char * argv[])
 \end{objclst}
 
 Die \objc{main()} Methode wird auch als \strong{Entry Point} bezeichnet und entspricht ihrem Äquivalent in C und C++.
-\item \objc{main()} ruft \objc{UIApplicationMain()} auf. Mit einem \keysc{\altkey}-Klick auf den Methodennamen können wir die Dokumentaion dieser Methode in Apple's \objc{UIKit} Framework anschauen \abbref{img:lifecycle_uiapplicationmain}.
+\item \objc{main()} ruft \objc{UIApplicationMain()} auf. Mit einem \keys{\altkey}-Klick auf den Methodennamen können wir die Dokumentaion dieser Methode in Apple's \objc{UIKit} Framework anschauen \abbref{img:lifecycle_uiapplicationmain}.
 
 \includegraphicsc[\screenshotwidth]{img/lifecycle_uiapplicationmain.png}{img:lifecycle_uiapplicationmain}{Die integrierte Dokumentation ist hilfreich, um den App Lifecycle zu verstehen}
 
@@ -1218,7 +1373,7 @@ Ist Auto Layout eingeschaltet, können wir Constraints auf verschiedene Weise er
 
 \includegraphicsc[\iphonewidth]{img/autolayout_menus.png}{img:autolayout_menus}{Die Schaltflächen am unteren rechten Rand des Editorbereichs bieten Zugriff auf viele Auto Layout Optionen}
 
-Alternativ kann das von IBOutlets und IBActions bekannte Ziehen einer Verbindungslinie bei gehaltener \keysc{\ctrlkey}-Taste auch zum Erstellen von Constraints zwischen zwei Interfaceelementen verwendet werden \abbref{img:autolayout_drag}. Dabei wird abhängig von der Richtung der gezogenen Linie ein kontextabhängigeg Menü gezeit. Ziehen wir bspw. eine horizontale Linie, werden Constraint-Optionen bezüglich der Horizontalrichtung angezeigt.
+Alternativ kann das von IBOutlets und IBActions bekannte Ziehen einer Verbindungslinie bei gehaltener \keys{\ctrlkey}-Taste auch zum Erstellen von Constraints zwischen zwei Interfaceelementen verwendet werden \abbref{img:autolayout_drag}. Dabei wird abhängig von der Richtung der gezogenen Linie ein kontextabhängigeg Menü gezeit. Ziehen wir bspw. eine horizontale Linie, werden Constraint-Optionen bezüglich der Horizontalrichtung angezeigt.
 
 \includegraphicsc[\iphonewidth]{img/autolayout_drag.png}{img:autolayout_drag}{Constraints können ähnlich wie IBOutlets und IBActions durch Ziehen einer Verbindungslinie erstellt werden}
 
@@ -1362,7 +1517,7 @@ Zwischen Scenes vermitteln \strong{Segues}. Diese stellen Beziehungen zwischen V
 
 \includegraphicsc{img/segues.png}{img:segues}{Segues vermitteln zwischen Scenes}
 
-Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keysc{\ctrlkey}-Taste und die Verwendung des 'Triggered Segues' Abschnitts des Connection Inspectors.
+Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keys{\ctrlkey}-Taste und die Verwendung des 'Triggered Segues' Abschnitts des Connection Inspectors.
 
 Zwischen View Controllern kann es direkte Beziehungen geben, die durch eine \strong{Relationship Segue} gekennzeichnet werden. In dieser Form wird bspw. einem Navigation Controller sein Root View Controller zugewiesen.
 
@@ -1689,164 +1844,6 @@ Beispielsweise wird der Notifications Mechanismus häufig verwendet, um auf Änd
 \chapter{Entwicklungsprozess von iOS Apps}
 
 
-\section{Versionskontrolle mit Git} \label{sec:git}
-
-Die Entwicklung von iOS Apps ist wie jedes Programmierprojekt ein fortschreitender Prozess. Während an Features und Mechaniken im Code gearbeitet wird, besteht immer wieder die Notwendigkeit, vorhandenen Code zu editieren und umzustrukturieren. Dabei bietet \strong{Versionskontrolle} (SCM / Software Configuration Management) u.a. die Möglichkeit, diese Änderungen in regelmäßigen Abständen zu sichern, zu vorherigen Versionen zurückzukehren und sogar an verschiedenen Versionen gleichzeitig und mit anderen zusammen zu arbeiten.
-
-Ein sehr beliebtes System der Versionskontrolle ist \strong{Git}. Git wird automatisch mit Xcode installiert und ist ein Kommandozeilenprogramm, auf das wir auf dem Mac mit der Terminal App zugreifen können.
-
-\subsection{Grundlagen der Kommandozeilensyntax}
-\begin{description}
-\item[Navigation] \sh{cd path/to/folder} navigiert zu dem angegebenen Pfad. Die Tilde \sh{\~} repräsentiert hier den Benutzerordner.
-\item[Ordnerinhalt] \sh{ls} listet den Inhalt des aktuellen Ordners auf. Mit \sh{ls -a} werden auch versteckte Dateien angezeigt.
-\item[Dateien] \sh{touch filename} erstellt eine neue Datei mit dem angegebenen Dateinamen, während \sh{mkdir foldername} einen Ordner erstellt. \sh{rm filename} löscht die angegebene Datei und \sh{rm -r foldername} den angegebenen Ordner.
-\end{description}
-
-\subsection{Git Repository \& Commits}
- 
-Während wir an unserem Projekt arbeiten, können wir Git verwenden, um unseren Code möglichst häufig in Form von \strong{Commits} zu sichern. Dabei werden alle Änderungen an den Projektdateien, die seit dem letzten Commit durchgeführt wurden, in einem versteckten \sh{.git/} Verzeichnis, dem \strong{Repository}, hinterlegt.
-
-Bevor wir Commits sichern können, muss das Repository angelegt werden. Dazu navigieren wir im Terminal in den Projektordner und führend die Initialisierung durch:
-
-\begin{shlst}
-cd path/to/project
-git init
->> Initialized empty Git repository in path/to/project/.git/
-git status
-\end{shlst}
-
-\sh{git status} ist sehr nützlich, um häufig die Situation des Repositories zu prüfen.
-
-Nun können wir Dateien in unserem Projekt verändern, indem wir Code schreiben oder löschen. Mit \sh{git status} sehen wir jederzeit, welche Dateien sich in Bezug auf den vorherigen Commit verändert haben. Befindet sich der Code in einem akzeptablen Zwischenzustand, können wir die Änderungen mit einem Commit im Repository sichern:
-
-\begin{shlst}
-git add --all
-git commit -m "Commit Message"
->> [master (root-commit) a74833f] Commit Message
->>  x files changed, y insertions(+), z deletions(-)
-git log
-\end{shlst}
-
-Hier ist zu beachten, dass die zu sichernden Änderungen dem anstehenden Commit zunächst mit \sh{git add filename} einzeln oder mit \sh{git add --all} zusammen hinzugefügt werden müssen. \sh{git commit} führt den Commit anschließend durch und erwartet einen String als kurze Beschreibung der Änderungen des Commits. \sh{git log} kann verwendet werden, um eine Liste der letzten Commits im Terminal auszugeben.
-
-Noch nicht in einem Commit gesicherte Änderungen können mit \sh{git reset} verworfen werden:
-
-\begin{shlst}
-git reset --hard
-\end{shlst}
-
-\subsection{Branches}
-
-Git bietet weiterhin die sehr nützliche Möglichkeit, verschiedene Versionen eines Projekts zu verwalten, indem sich die Commitfolge an einer beliebigen Stelle verzweigt. Dazu können wir mit \sh{git branch} einen neuen \strong{Branch} erstellen. Es kann jederzeit mit \sh{git checkout} zwischen Branches gewechselt werden. Dabei passt Git die Dateien und deren Inhalt im Repository automatisch an.
-
-\begin{shlst}
-git branch new_feature
-git checkout new_feature
-# Abkürzung:
-git checkout -b new_feature
-\end{shlst}
-
-Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt. 
-
-Um Branches wieder zu vereinigen, bietet Git die \strong{Merge} und \strong{Rebase} Mechanismen. Dabei bestimmt \sh{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \sh{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
-
-\begin{shlst}
-git checkout master
-git merge new_feature
-\end{shlst}
-
-Git versucht bei einem Merge oder Rebase, die Änderungen der Branches zu vereinigen. Treten dabei Konflikte auf, wird der Vorgang unterbrochen und die Konflikte müssen zunächst im Code behoben werden. An den entsprechenden Stellen im Code sind dann Markierungen zu finden, die über eine projektübergreifende Suche in Xcode schnell gefunden werden.
-
-\begin{objclst}
-<<<<<<< HEAD:
-// alter Code
-=======
-// veränderter Code
->>>>>>>
-\end{objclst}
-
-Sobald die Konflikte behoben wurden, kann der Vorgang wieder aufgenommen werden:
-
-\begin{shlst}
-git add --all
-git commit
-\end{shlst}
-
-\subsubsection{Feature Branches}
-
-In dieser Form werden bspw. sehr häufig \strong{Feature Branches} verwaltet. Dabei wird die stabile und häufig veröffentlichte Version des Projekts von dem \sh{master} Branch des Repositories repräsentiert. Für neue Features oder Umstrukturierungen wird dann eine Branchstruktur angelegt. So kann gearbeitet werden, ohne dass die stabile Version des Projekts verändert wird. Erreicht ein Branch einen stabilen Status und soll veröffentlicht werden, wird ein Merge mit dem \sh{master} Branch durchgeführt. Der Arbeitsbranch kann dabei jederzeit gewechselt werden. So kann bspw. schnell ein Fehler in der veröffentlichten Version in \sh{master} behoben und anschließend wieder zum Feature Branch gewechselt werden.
-
-\subsection{Zusammenarbeit mit Git \& GitHub}
-
-Git Repositories ermöglichen die reibungslose Zusammenarbeit mehrerer Entwickler an einem Projekt und ermöglichen dadurch erst die Entwicklung vieler komplexer Projekte, an denen Programmierer auf der ganzen Welt zusammenarbeiten.
-
-Befindet sich eine Kopie des Repositories auf einem Server, kann einem Branch ein serverseitiges Gegenstück zugewiesen werden. Mit \sh{git push} und \sh{git pull} können dieses \strong{Remote Repository} und die lokale Kopie abgeglichen werden.
-
-\sh{git pull} besteht dabei prinzipiell zunächst aus einem Aufruf von \sh{git fetch}, der die serverseitigen Änderungen herunterlädt, und einem anschließenden \sh{git merge}, um die Änderungen in den lokalen Branch zu integrieren.
-
-Die Git Dokumentation \secref{sec:git_doku} enthält detaillierte Beschreibungen zu Remote Repositories.
-
-An dieser Stelle darf der Service \strong{GitHub\linkref{http://www.github.com}} nicht unerwähnt bleiben, der Entwicklern eine Plattform für ihre Git Repositories bietet und für öffentliche Projekte kostenlos ist.
-
-Ein auf GitHub erstelltes Repository kann mit \sh{git clone} heruntergeladen werden, wobei den local Branches automatisch ihr entsprechendes remote Gegenstück zugewiesen wird. Anschließend können wir mit dem local Repository arbeiten und Commits mit dem remote Repository abgleichen.
-
-Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen oder solche anderer Entwickler weiterentwickeln. Letztere Mechanik wird \strong{Fork} genannt und bietet die Möglichkeit, an einem Repository eines anderen Entwicklers zu arbeiten und diesem anzubieten, die erstellten Commits in sein Repository zu integrieren. Dazu kann eine \strong{Pull Request} versandt werden, die der Besitzer des Repositories zunächst annehmen muss, damit die Änderungen in sein Repository übernommen werden.
-
-\subsection{Git in Xcode} 
-
-Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und Schaltflächen präsent. Das Menü \menuc{Source Control} stellt bspw. einige Benutzeroberflächen zu Git Befehlen zur Verfügung, die die Kommandozeilenbedienung ersetzen können. Sehr hilfreich ist jedoch hauptsächlich der Version Editor \abbref{img:xcode_version_editor}, der mit der Schaltfläche rechts in der Toolbar alternativ zum Assistant Editor angezeigt werden kann. Im rechten Editorbereich wird dann die Version der links angezeigten Datei zu einem früheren Commit angezeigt und Änderungen visualisiert. Mit der Uhr-Schaltfläche unten in der Mittelleiste können wir frühere Commits auswählen.
-
-\includegraphicsc{img/xcode_version_editor.png}{img:xcode_version_editor}{Der Version Editor zeigt die links geöffnete Datei zu einem früheren Commit an und visualisiert Änderungen}
-
-\subsection{Gitignore}
-
-Elemente können von von der Erfassung durch Git ausgenommen, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \sh{.gitignore} Datei hinzugefügt.
-
-\begin{shlst}
-touch .gitignore
-open .gitignore
-\end{shlst}
-
-Mit einem Texteditor wie der TextEdit App oder \sh{vim} in der Konsole können wir diese Datei nun konfigurieren. Für Xcode Projekte bietet sich folgende Vorlage an:
-
-\begin{shlst}
-# Mac
-.DS_Store
-
-# Xcode
-*/build/*
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-profile
-*.moved-aside
-DerivedData
-.idea/
-*.hmap
-*.xccheckout
-
-#CocoaPods
-Pods
-\end{shlst}
-
-Die \sh{.gitignore} Datei muss dem Repository zunächst hinzugefügt werden, bevor sie wirksam wird.
-
-\begin{shlst}
-git add .gitignore
-git commit -m "Added .gitignore file"
-\end{shlst}
-
-\subsection{Dokumentation}\label{sec:git_doku}
-
-Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
-
-\pagebreak
 \section{Design \& Konzeption von iOS Apps}
 
 Eleganter und sinnvoll in Form der bereits diskutierten Architekturkonzepte strukturierter Programmcode bedingt natürlich die Performance unserer App, letztendlich sieht der Benutzer jedoch allein deren User Interface und beurteilt die Funktionsweise anstatt der Architektur. 
@@ -1924,9 +1921,9 @@ Außerdem ist zu beachten, dass der App Name entscheidend zum Suchergebnis beitr
 
 Um eine neue App oder ein Update zu veröffentlichen, muss die entsprechende App im iTunes Connect Interface durch  
 
-Mit Xcode kann ein \strong{Archive} kompiliert werden, das eine abgeschlossene Version der App darstellt. Wählt dazu \emph{iOS Gerät} als Target und anschließend \menuc{Product > Archive}.
+Mit Xcode kann ein \strong{Archive} kompiliert werden, das eine abgeschlossene Version der App darstellt. Wählt dazu \emph{iOS Gerät} als Target und anschließend \menu{Product > Archive}.
 
-Nach dem Kompilieren erscheint das Archive im Organizer, auch aufrufbar mit der Tastenkombination \keysc{\cmdkey+\shiftkey+2}. Ein Klick auf \emph{Distribute} öffnet den Dialog zum Upload zu iTunes Connect. Hier kann das entsprechende Distribution Provisioning Profile und der korrespondierende Eintrag in iTunes Connect ausgewählt werden. Letzterer erscheint nur, wenn die App im iTunes Connect Interface zuvor mit einem Klick auf \emph{Ready to upload binary} markiert wurde. Anschließend wird die App Binary auf Konfigurationsfehler geprüft und hochgeladen.
+Nach dem Kompilieren erscheint das Archive im Organizer, auch aufrufbar mit der Tastenkombination \keys{\cmdkey+\shiftkey+2}. Ein Klick auf \emph{Distribute} öffnet den Dialog zum Upload zu iTunes Connect. Hier kann das entsprechende Distribution Provisioning Profile und der korrespondierende Eintrag in iTunes Connect ausgewählt werden. Letzterer erscheint nur, wenn die App im iTunes Connect Interface zuvor mit einem Klick auf \emph{Ready to upload binary} markiert wurde. Anschließend wird die App Binary auf Konfigurationsfehler geprüft und hochgeladen.
 
 \subsection{App Review}
 
@@ -1972,7 +1969,7 @@ Die Integration von \strong{Werbung} in eine kostenlose App ist ein verbreitetes
 }
 \end{objclst}
 
-Damit das iAd Framework verwendet werden kann, muss es zunächst noch dem Projekt hinzugefügt werden. In der Targetkonfiguration \secref{sec:projkonfig} unter \menuc{General > Linked Frameworks and Libraries} genügt ein Klick auf den \menuc{+}-Button, woraufhin das iAd Framework ausgewählt werden kann.
+Damit das iAd Framework verwendet werden kann, muss es zunächst noch dem Projekt hinzugefügt werden. In der Targetkonfiguration \secref{sec:projkonfig} unter \menu{General > Linked Frameworks and Libraries} genügt ein Klick auf den \menu{+}-Button, woraufhin das iAd Framework ausgewählt werden kann.
 
 Der iAd Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/iAd_Guide/} enthält viele weiterführende Information, ist aber momentan leider nicht vollständig aktuell. Stattdessen sind die WWDC Videos empfehlenswert, die sich mit Neuerungen und Best Practices befassen, u.a. bezüglich iAd \secref{sec:docs}.
 

@@ -39,7 +39,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 
 \begin{enumerate}
 
-\item Mit \keysc{\cmdkey + \shiftkey + N} rufen wir zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menuc{iOS > Application > Singe View Application}.
+\item Mit \keys{\cmdkey + \shiftkey + N} rufen wir zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menu{iOS > Application > Singe View Application}.
 
 \item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \strong{helloworld}, euren Vor- und Nachnamen als Organization Name und \strong{de.uni-hd.deinname} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \strong{de.uni-hd.deinname.helloworld}. Einen Class Prefix benötigen wir erstmal nicht. Speichert das Projekt in einem Verzeichnis eurer Wahl.
 
@@ -51,7 +51,7 @@ Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello W
 
 \item Im Editor wird die Projekt- und Targetkonfiguration angezeigt. Hier können wir bspw. die Bundle ID unserer App anpassen, die wir zuvor bei der Erstellung des Projekts aus Product Name und Company Identifier zusammengesetzt haben.
 
-\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone Retina (3.5-inch)} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keysc{\cmdkey + .} die Ausführung gestoppt und mit \keysc{\cmdkey + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
+\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone Retina (3.5-inch)} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keys{\cmdkey + .} die Ausführung gestoppt und mit \keys{\cmdkey + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
 
 \end{enumerate}
 
@@ -155,9 +155,9 @@ int a = 20%3 // a ist jetzt 2
 
 \begin{enumerate}
 
-\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objc{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Dazu brauchen wir zunächst eine neue Klasse \objc{Person} und schreiben diese am besten in eine neue Datei. Mit dem Tastenkürzel \keysc{\cmdkey + N} rufen wir den \emph{New File} Dialog auf.
+\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objc{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Dazu brauchen wir zunächst eine neue Klasse \objc{Person} und schreiben diese am besten in eine neue Datei. Mit dem Tastenkürzel \keys{\cmdkey + N} rufen wir den \emph{New File} Dialog auf.
 
-\item Wählt hier \menuc{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst \objc{NSObject} als Superklasse und gebt der Klasse den Namen \objc{Person} \abbref{img:helloworld_personclass}.
+\item Wählt hier \menu{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst \objc{NSObject} als Superklasse und gebt der Klasse den Namen \objc{Person} \abbref{img:helloworld_personclass}.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_personclass.png}{img:helloworld_personclass}{Der \emph{New File} Dialog hilft bei der Konfiguration einer neuen Klasse}
 
@@ -358,7 +358,7 @@ Stellt eine Freundschaftsverbindung zwischen \objc{me} und jeder Person aus \obj
 
 \exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit dem Operator \objc{==} mit einem anderen verglichen werden.}
 
-Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keysc{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
+Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keys{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
 \item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
 
 \end{enumerate}
@@ -380,25 +380,25 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 \begin{enumerate}
 
-\item Zur Gestaltung der Benutzeroberfläche oder User Interface (UI) verwenden wir den in Xcode integrierten Interface Builder (IB). Wir haben bei der Projekterstellung dieser App das 'Single View'-Template ausgewählt und konfiguriert, dass sowohl iPhone als auch iPad unterstützt werden soll (Universal). Daher enthält das Projekt bereits ein Storyboard für beide Gerättypen. Wählt im Project Navigator die Datei 'Main\_iPhone.storyboard' aus.
+\item Zur Gestaltung der Benutzeroberfläche oder User Interface (UI) verwenden wir den in Xcode integrierten Interface Builder (IB). Wir haben bei der Projekterstellung dieser App das \emph{Single View}-Template ausgewählt und konfiguriert, dass sowohl iPhone als auch iPad unterstützt werden soll (Universal). Daher enthält das Projekt bereits ein Storyboard für beide Gerättypen. Wählt im Project Navigator die Datei \emph{Main\_iPhone.storyboard} aus.
 
-\item Der Editor-Bereich zeigt nun den Interface Builder an. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keysc{\cmdkey + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen in der Toolbar den Navigator- und Debug-Bereich aus und den Inspektor ein. Wählt dort außerdem zunächst den Standard-Editor \abbref{img:helloworld_ib}.
+\item Der Editor-Bereich zeigt nun den Interface Builder an. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmdkey + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen in der Toolbar den Navigator- und Debug-Bereich aus und den Inspektor ein. Wählt dort außerdem zunächst den Standard-Editor \abbref{img:helloworld_ib}.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_ib.png}{img:helloworld_ib}{Für den Interface Builder verwenden wir eine angepasste Fensterkonfiguration mit dem Inspektor anstatt des Navigators}
 
 \item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \strong{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt diesen Tab aus, wenn er noch nicht angezeigt wird.
 
-\item Durchsucht die Liste von Interfaceelementen nach dem Objekt 'Label', indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt 'Hello World!'.
+\item Durchsucht die Liste von Interfaceelementen nach dem Objekt \emph{Label}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \objc{Hello World!}.
 
-\item Ein 'Build \& Run' mit einem iPhone-Zielsystem zeigt diesen statischen Gruß nun auf dem Bildschirm an.
+\item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen statischen Gruß nun auf dem Bildschirm an.
 
 \item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im Identity Inspector könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, vom Typ \objc{UILabel} ist. Im Attributes Inspector stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
 
-\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein 'Button'- und 'Text Field'-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel 'Say Hello' geben und für das Text Field einen Placeholder 'Name' einstellen.
+\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \emph{Button}- und \emph{Text Field}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \objc{Say Hello} geben und für das Text Field einen Placeholder \objc{Name} einstellen.
 
 \includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
 
-\item Nun müssen wir zur Laufzeit der App auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren können. Dazu verwenden wir sog. \strong{IBOutlets} und \strong{IBActions}. Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf 'Automatic'. Im Assistant wird automatisch die Main-Datei des übergeordneten View Controllers eingeblendet.
+\item Nun müssen wir zur Laufzeit der App auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren können. Dazu verwenden wir sog. \strong{IBOutlets} und \strong{IBActions}. Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf \emph{Automatic}. Im Assistant wird automatisch die Main-Datei des übergeordneten View Controllers eingeblendet.
 
 \item Da auf die Interfaceelemente nicht von außerhalb der Klasse zugegriffen werden muss, können wir das private Interface oben in der Main-Datei verwenden. Schreibt dort:
 \begin{objclst}
@@ -411,9 +411,9 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 @end
 \end{objclst}
-Wir definieren also mit \objc{IBOutlet} gekennzeichnete Properties für das Text Field und das Label, die zur Laufzeit der App unsere erstellten Interfaceelemente halten sollen. Auf den Button müssen wir nicht zugreifen sondern nur das Event abfangen, wenn ein Benutzer darauf drückt. Also benötigen wir nur eine mit \objc{IBAction} gekennzeichnete Methode, die ausgeführt wird, wenn das Event eintritt.
+Wir definieren also mit \objc{IBOutlet} gekennzeichnete Attribute für das Text Field und das Label, die zur Laufzeit der App unsere erstellten Interfaceelemente halten sollen. Auf den Button müssen wir nicht zugreifen sondern nur das Event abfangen, wenn ein Benutzer darauf drückt. Also benötigen wir nur eine mit \objc{IBAction} gekennzeichnete Methode, die ausgeführt wird, wenn das Event eintritt.
 
-\item Nun zieht mit gedrückter \keysc{\ctrlkey}-Taste eine Linie von dem Text Field und dem Button im Interface Builder auf die jeweilige Property im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die eben definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen.
+\item Nun zieht mit gedrückter \keys{\ctrlkey}-Taste eine Linie von dem Text Field und dem Button im Interface Builder auf das jeweilige Attribut im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die eben definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen.
 
 \item Wenn der Benutzer auf den Button drückt wird nun die Methode \objc{sayHelloButtonPressed:} ausgeführt. Diese müssen wir jedoch erst implementieren:
 
@@ -431,13 +431,13 @@ Wir definieren also mit \objc{IBOutlet} gekennzeichnete Properties für das Text
 @end
 \end{objclst}
 
-Die Klasse \objc{UITextField} besitzt eine Property \objc{text} des Typs \objc{NSString}. Wir verwenden hier ihre automatische Getter-Methode in der Dot-Syntax, um den Inhalt des Text Fields zu erhalten.
+Die Klasse \objc{UITextField} besitzt ein Attribut \objc{text} des Typs \objc{NSString}. Wir verwenden hier ihre Getter-Methode in der Dot-Syntax, um den Inhalt des Text Fields zu erhalten.
 
-Nach einem 'Build \& Run' könnt ihr im Text Field einen Namen eintippen und werdet in der Konsole von einer virtuellen Person diesen Namens begrüßt. Entfernt vorher am besten den Code in der \objc{application:didFinishLaunchingWithOptions:}, wenn ihr es noch nicht getan habt, damit diese Ausgaben nicht stören.
+Nach einem \emph{Build \& Run} könnt ihr im Text Field einen Namen eintippen und werdet in der Konsole von einer virtuellen Person diesen Namens begrüßt. Entfernt vorher am besten den Code in der \objc{application:didFinishLaunchingWithOptions:}, wenn ihr es noch nicht getan habt, damit diese Ausgaben nicht stören.
 
-\item Damit der Gruß auf dem Bildschirm ausgegeben werden kann, benötigen wir eine Methode, die den Gruß nicht in der Konsole ausgibt sondern als Rückgabewert zurückgibt. Dazu wechseln wir wieder in die Konfiguration mit Project Navigator und ausgeblendetem Inspektor und wählen die 'Person.m' Datei.
+\item Damit der Gruß auf dem Bildschirm ausgegeben werden kann, benötigen wir eine Methode, die den Gruß nicht in der Konsole ausgibt sondern als Rückgabewert zurückgibt. Dazu wechseln wir wieder in die Konfiguration mit Project Navigator und ausgeblendetem Inspektor und wählen die \emph{Person.m} Datei.
 
-\item Fügt dem Interface der Klasse \objc{Person} die Definition der neuen Methode \objc{sayHello} mit Rückgabetyp \objc{NSString} hinzu:
+\item Fügt dem Interface der Klasse \objc{Person} die Definition der neuen Methode \objc{helloString} mit Rückgabetyp \objc{NSString} hinzu:
 \begin{objclst}
 - (NSString *)helloString;
 \end{objclst}
@@ -463,7 +463,7 @@ Diese müssen wir in der Main-Datei implementieren:
 
 Die Klasse \objc{NSString} besitzt eine Klassenmethode \objc{stringWithFormat:}, die ein neues \objc{NSString}-Objekt nach dem gleichen String-Formatierungs-Prinzip zurückgibt, das wir bereits aus \objc{NSLog()} kennen.
 
-\item Wählt nun im Project Navigator die Datei 'ViewController.m'. Hier haben wir zuvor die Methode \objc{sayHelloButtonPressed:} implementiert. Nun setzen wir jedoch anstatt \objc{sayHello} aufzurufen den angezeigten Text des Labels auf den Rückgabewert der neuen \objc{helloString} Methode:
+\item Wählt nun im Project Navigator die Datei \emph{ViewController.m}. Hier haben wir zuvor die Methode \objc{sayHelloButtonPressed:} implementiert. Nun setzen wir jedoch anstatt \objc{sayHello} aufzurufen den angezeigten Text des Labels auf den Rückgabewert der neuen \objc{helloString} Methode:
 
 \begin{objclst}
 - (IBAction)sayHelloButtonPressed:(id)sender {
@@ -473,7 +473,7 @@ Die Klasse \objc{NSString} besitzt eine Klassenmethode \objc{stringWithFormat:},
 }
 \end{objclst}
 
-\item Mit einem 'Build \& Run' erhalten wir unser erstes interaktives User Interface \abbref{img:helloworld_final}!
+\item Mit einem \emph{Build \& Run} erhalten wir unser erstes interaktives User Interface \abbref{img:helloworld_final}!
 
 \includegraphicsc[\iphonewidth]{img/helloworld_final.png}{img:helloworld_final}{Drücken wir auf den Button, grüßt uns eine virtuelle Person mit dem angegebenen Namen. Sehr praktisch!}
 
@@ -498,16 +498,16 @@ Das gleiche Resultat lässt sich aber auch mit \objc{stringWithFormat:} erzielen
 
 Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
 
-Lasst eurer Kreativität freien Lauf \strong{oder} implementiert zwei der folgenden Beispiele.
+Lasst eurer Kreativität freien Lauf \strong{oder} implementiert eines der folgenden Beispiele.
 
 \begin{description}
-\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln '+1', '-1' und 'Reset' ändern den Wert dieser Property entsprechend und rufen die Update-Methode auf.
+\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln '+1', '-1' und 'Reset' ändern den Wert dieser Property entsprechend und rufen die \objc{updateLabel}-Methode auf.
 \item[BMI] Nach Eingabe von Gewicht $m$ und Größe $l$ wird der Body-Mass-Index \linkref{http://de.wikipedia.org/wiki/Body-Mass-Index} $BMI=m/l^2$ berechnet und angezeigt. Als Erweiterung kann die altersabhängige Einordnung in die Gewichtskategorien angezeigt werden.
 \item[RGB] In drei Textfelder kann jeweils ein Wert zwischen \objc{0} und \objc{255} für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \objc{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \objc{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt.
 \end{description}
 
 \begin{exchinweise}
-\item Achtet darauf, dass ihr nach der Projekterstellung in der Targetkonfiguration die Bundle ID 'de.uni-hd.deinname.counter' eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
+\item Achtet darauf, dass ihr nach der Projekterstellung in der Targetkonfiguration die Bundle ID \objc{de.uni-hd.deinname.counter} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
 \item Es ist ausreichend, das User Interface entweder für iPhone oder iPad zu konfigurieren.
 \item \objc{NSString} besitzt Instanzmethoden wie \objc{floatValue} zur Umwandlung von Text in Zahlenwerte.
 \item Die Klassenmethode \objc{colorWithRed:green:blue:alpha:} von \objc{UIColor} nimmt Werte zwischen \objc{0} und \objc{1} an.
@@ -537,6 +537,167 @@ Lasst eurer Kreativität freien Lauf \strong{oder} implementiert zwei der folgen
 \begin{lecture} % Lecture 4
 
 
+\chapter{Versionskontrolle mit Git}
+
+Im Skript sind die Vorzüge der Versionskontrolle mit Git beschrieben, deren Grundlagen wir anhand einer unserer Apps anwenden können.
+
+\skriptref{Versionskontrolle mit Git}
+
+\begin{enumerate}
+
+\item Da Git in erster Linie ein Kommandozeilenprogramm ist, verwenden wir zunächst die Konsole. Später können wir auch bspw. die in Xcode integrierten Benutzeroberflächen verwenden. Öffnet die \emph{Terminal} App und navigiert in den Ordner, der das Xcode Projekt der \emph{Hello World} App beinhaltet. Dazu kann es hilfreich sein, zunächst \sh{cd} zu tippen und den Ordner dann auf das Terminal Fenster zu ziehen, wobei der Pfad automatisch eingegeben wird.
+
+\begin{shlst}
+cd path/to/project
+\end{shlst}
+
+\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \sh{git status} können wir prüfen, ob hier bereits ein Git Repository existiert und es ansonsten mit \sh{git init} erstellen.
+
+\begin{shlst}
+git status
+# Git Repository vorhanden:
+>> On branch master
+>> nothing to commit, working directory clean
+# kein Git Repository vorhanden:
+>> fatal: Not a git repository (or any of the parent directories): .git
+git init
+\end{shlst}
+
+\item Wir fügen dem Repository nun zunächst eine \sh{.gitignore} Datei hinzu, um verschiedene benutzerspezifische und temporäre Dateien des Xcode Projekts auszuschließen.
+
+\begin{shlst}
+touch .gitignore
+open .gitignore
+\end{shlst}
+
+Kopiert die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \sh{.gitignore} Datei.
+
+Nun können wir einen Commit ausführen, um die Datei dem Repository hinzuzufügen.
+
+\begin{shlst}
+git add .gitignore
+git commit -m "Added .gitignore file"
+\end{shlst}
+
+\item Jederzeit kann es hilfreich sein, die Situation des Git Repositories mit \sh{git status} zu überprüfen. Zeigt ein Aufruf dieses Befehls noch ungesicherte Änderungen an, könnt ihr diese in einem weiteren Commit sichern:
+
+\begin{shlst}
+git add --all
+git commit -m"Committed unsaved changes"
+\end{shlst}
+
+\sh{git log} zeigt die letzten Commits in der Konsole an.
+
+\item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.m} und fügt ihrer Implementierung folgendes Codesegment hinzu:
+
+\begin{objclst}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor redColor];
+}
+\end{objclst}
+
+Führt ihr die App nun aus, seht ihr einen roten Bildschirmhintergrund.
+
+In der Konsole sehen wir mit \sh{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
+
+\begin{shlst}
+git add ViewController.m # oder git add --all
+git commit -m "Changed background color"
+\end{shlst}
+
+\item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \sh{git checkout} einen bestimmten Commit laden, mit \sh{git reset} Commits entfernen oder sie mit \sh{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \sh{git log} angezeigt wird, oder mit \sh{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
+
+\begin{shlst}
+git reset --hard HEAD~1 # Verwendet diesen Befehl nicht leichtfertig, denn hier gibt es keine Undo-Funtion!
+\end{shlst}
+
+In der Dokumentation \linkref{http://git-scm.com/book/} kann sich ausführlich über die verschiedenen Möglichkeiten informiert werden.
+
+\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \sh{git branch}. Mit \sh{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
+
+\begin{shlst}
+git branch new_feature
+git checkout new_feature
+\end{shlst}
+
+\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne dass andere Branches wie der zuvor verwendete \sh{master} Branch verändert werden. Implementiert bspw. wieder eine \objc{viewDidLoad} Methode in der \emph{ViewController.m} Datei und führt einen Commit durch:
+
+\begin{objclst}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Feature!" message:@"Is it a bug or a feature?" delegate:nil cancelButtonTitle:@"Bug" otherButtonTitles:@"Feature", nil];
+    [alert show];
+}
+\end{objclst}
+
+\begin{shlst}
+git commit -a -m "Implemented new feature" # Der -a Flag fügt dem Commit automatisch alle veränderten Dateien hinzu
+\end{shlst}
+
+\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Bug gefunden hat, können wir problemlos zurück zum \sh{master} Branch wechseln und den Bug schnell beheben.
+
+\begin{shlst}
+git checkout master
+\end{shlst}
+
+Nachdem wir zurück zum \sh{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \sh{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Bug also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
+
+Anschließend wechseln wir wieder in unseren Feature Branch und arbeiten dort weiter, wo wir unterbrochen wurden.
+
+\begin{shlst}
+git checkout new_feature
+\end{shlst}
+
+\item Befindet sich der Feature Branch in einem Zustand, der veröffentlicht werden soll, muss er nur mit dem \sh{master} Branch vereinigt werden. Dazu führen wir einen Merge durch.
+
+\begin{shlst}
+git checkout master
+git merge new_feature
+\end{shlst}
+
+Wurden im \sh{master} Branch keine weiteren Commits hinzugefügt, können die Commits des Feature Branches einfach angehängt werden (\emph{Fast-Forward}). Gehen die Branches jedoch auseinander, versucht Git, die Änderungen zusammenzuführen. Mögliche Konflikte müssen dabei wie im Skript beschrieben im Code behoben werden.
+
+Der Feature Branch kann anschließend gelöscht werden:
+
+\begin{shlst}
+git branch -d new_feature
+\end{shlst}
+
+\item Versionskontrolle ist nicht nur für größere Projekte essentiell und hilft bei der Entwicklung jeder iOS App, sondern ermöglicht auch die Zusammenarbeit mehrerer Entwickler an einem Projekt. Im Skript ist dieses Thema kurz beschrieben und auch auf den Service GitHub \linkref{http://www.github.com} verwiesen, der weltweit von Entwicklern verschiedenster Plattformen verwendet wird, um an Projekten zusammenzuarbeiten.
+
+Auf GitHub ist bspw. auch dieses Skript zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/iOS-Dev-Kurs/Skript} und herunterladen.
+
+Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \sh{git clone} aus:
+
+\begin{shlst}
+cd path/to/directory
+git clone https://github.com/iOS-Dev-Kurs/Skript
+\end{shlst}
+
+Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \sh{dist/current/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
+
+Prinzipiell könnt ihr nun lokal an dem Repository weiterarbeiten und Commits durchführen, diese jedoch nicht hochladen. Zur Zusammenarbeit an Programmierprojekten werden entweder entsprechende Berechtigungen vergeben, oder das \strong{Fork} System auf GitHub verwendet.
+
+Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können diese geladen und mit dem lokalen \sh{master} Branch zusammengeführt werden:
+
+\begin{shlst}
+git pull
+\end{shlst}
+
+\end{enumerate}
+
+
+% TODO: Übungsaufgaben
+
+
+\end{lecture}
+
+
+\begin{lecture} % Lecture 5
+
+
 \chapter{iOS App Architektur}
 
 Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns viel Arbeit bei der Programmierung ab und reduzieren den zu schreibenden Code, indem große Teile des User Interface separat erstellt wird. Außerdem können wir mit erweiterten Targetkonfigurationen viel Arbeit an Apples Frameworks übergeben, ohne die Architektur unserer App selbst schreiben zu müssen.
@@ -544,13 +705,6 @@ Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns vi
 Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS App jedoch zunächst verstehen und selbst implementieren können.
 
 \skriptref{iOS App Architektur}
-
-\section{Startprozess einer iOS App}
-
-\begin{enumerate}
-\item Erstellt zunächst ein neues Projekt. Verwendet das 'Empty Application' Template und den Product Name \objc{custom}.
-\item Dieses Template enthält nur eine 'main.m' Datei und eine Klasse \objc{AppDelegate}. Im Skript ist der Startprozess von iOS Apps im Detail beschrieben, den ihr hier nachvollziehen könnt.
-\end{enumerate}
 
 \section{Handgeschriebene View Hierarchie}
 
@@ -593,7 +747,7 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 
 \begin{excitem}{view_hierarchy}{View Hierarchie}
 
-Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden \excref{exc:simpleui}.
+Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts \excref{exc:simpleui} oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden.
 
 \begin{exchinweise}
 \item Das Äquivalent zu einer IBOutlet Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
@@ -610,6 +764,12 @@ Der Methode wird also die Methode als spezielles Selector-Objekt übergeben, die
 \end{exc}
 
 
+\end{lecture}
+
+
+\begin{lecture}
+
+
 \section{Auto Layout}
 
 Eine View Hierarchie können wir offensichtlich ebenso im Code schreiben wie im Storyboard konfigurieren. Selbst für ein simples Interface wie im vorherigen Abschnitt implementiert ist jedoch viel Code notwendig, da jeder Parameter als Attribut gesetztz werden muss. Der Interface Builder bietet hier effiziente Möglichkeiten, Benutzeroberflächen ohne Code zu konfigurieren und trotzdem mit dem Code zu verknüpfen.
@@ -622,7 +782,7 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \begin{enumerate}
 
-\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Rotieren wir den Simulator mit \keysc{\cmdkey+\arrowkeyright} oder \keysc{\cmdkey+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
+\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Rotieren wir den Simulator mit \keys{\cmdkey+\arrowkeyright} oder \keys{\cmdkey+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
 
 \includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die Frames einfach erhalten}
 
@@ -630,7 +790,7 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \item Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option 'Use Autolayout' im File Inspector markiert sein.
 
-\item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keysc{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
+\item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keys{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
 
 \item Wenn die Constraints das Layout einer View eindeutig beschreiben, werden sie blau markiert. Bei der Definition von Constraints sollte immer auf die Eindeutigkeit des Layouts geachtet werden.
 
@@ -643,6 +803,8 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch (bei iPhone Storyboards) bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
 
 Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein 'View Controller' Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
+
+\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{BOOL hidden} verwendet werden, das auch im Storyboard verfügbar ist.}
 
 \begin{enumerate}
 
@@ -673,11 +835,15 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 
 \end{enumerate}
 
-\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{BOOL hidden} verwendet werden, das auch im Storyboard verfügbar ist.}
-
 \end{excitem}
 
 \end{exc}
+
+
+\end{lecture}
+
+
+\begin{lecture}
 
 
 \chapter{Cities}
@@ -700,7 +866,7 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \item Beginnen wir mit einem neuen Xcode Projekt nach dem 'Single View' Template und mit dem Product Name 'cities'. Es wird damit automatisch eine Klasse \objc{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objc{ViewController : UIViewController} in unserem Projekt.
 
-\item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menuc{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
+\item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menu{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
 
 \includegraphicsc[8cm]{img/refactor.png}{img:refactor}{Die Refactor Funktion ist sinnvoll, um Symbole im gesamten Projekt umzubennen}
 
@@ -780,7 +946,7 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beli
 
 Die Instanzmethode \objc{dismissViewControllerAnimated:completion:} von \objc{UIViewController} ist im Skript beschrieben.
 
-\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keysc{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen.
+\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen.
 
 \includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
 
@@ -859,13 +1025,19 @@ Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nac
 \end{exc}
 
 
+\end{lecture}
+
+
+\begin{lecture}
+
+
 \section{One City Navigation}
 
 UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarchie die Subklasse \objc{UINavigationController : UIViewController} zur Verfügung. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
 
 \begin{enumerate}
 
-\item Zieht einfach ein \objc{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objc{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keysc{\ctrlkey}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
+\item Zieht einfach ein \objc{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objc{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrlkey}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
 
 \includegraphicsc{img/nav_controller_segue.png}{img:nav_controller_segue}{Eine Relationship Segue markiert den Root View Controller eines Navigation Controllers}
 
@@ -910,7 +1082,7 @@ Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
 \begin{excitem}{continents}{Continents}
 
-Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. \strong{Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!}
+Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!
 
 \begin{enumerate}
 \item Wenn wir weitere Städte hinzufügen, kann es sinnvoll sein, sie in Kontinente (oder Planeten) einzuteilen. Erstellt eine neue Klasse \objc{Continent} und definiert analog zur \objc{City} Klasse die Attribute \objc{NSString *name} und \objc{UIImage *image}. Aufgrund der Analogien zwischen den beiden Klassen könnt ihr auch stattdessen eine Superklasse \objc{Location} erstellen, die die beiden Attribute definiert, und von der \objc{Continent} und \objc{City} abstammen.
@@ -923,6 +1095,12 @@ Erweitert die App um einen View Controller, der die Städte in Kontinente (oder 
 \end{excitem}
 
 \end{exc}
+
+
+\end{lecture}
+
+
+\begin{lecture}
 
 
 \section{More Cities}
@@ -1050,7 +1228,7 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \begin{excitem}{tableviews}{Table Views}
 
-Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View \strong{oder schreibt eine andere App, die Table Views verwendet}.
+Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View oder schreibt eine andere App, die Table Views verwendet.
 
 Ersetzt dazu die Content View des Continents View Controllers im Storyboard mit einer Table View, ändert dessen Klasse zu \objc{UITableViewController} und implementiert die benötigten Methoden der \objc{UITableViewDatasource} und objc{UITableViewDelegate} Protokolle.
 
@@ -1059,6 +1237,12 @@ Ersetzt dazu die Content View des Continents View Controllers im Storyboard mit 
 \end{excitem}
 
 \end{exc}
+
+
+\end{lecture}
+
+
+\begin{lecture}
 
 
 \chapter{Seasonizer}
@@ -1085,13 +1269,13 @@ Aus gegebenem Anlass implementieren wir in dieser App einige häufig verwendete 
 \item [extra] Implementiert, was euch einfällt! Ich bin auf eure Ideen gespannt.
 \end{description}
 
-Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige Schritt-für-Schritt Anleitung geben. Versucht stattdessen, die Funktionen der App zu implementieren, indem ihr die Hinweise und die Informationen der bisherigen Themen anwendet. Ich stehe dabei natürlich jederzeit gerne für Fragen zur Verfügung.
+Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige Schritt-für-Schritt Anleitung geben. Versucht stattdessen, die Funktionen der App zu implementieren, indem ihr die folgenden Hinweise und die Informationen der bisherigen Themen anwendet. Ich stehe dabei natürlich jederzeit gerne für Fragen zur Verfügung.
 
 \subsubsection{Hinweise}
 
 \begin{itemize}
 
-\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht einen sinnvollen Namen wie \objc{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
+\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht mithilfe der \emph{Refactor} Funktion einen sinnvollen Namen wie \objc{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
 
 \item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objc{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objc{UIBarButtonItem} bietet bereits viele Stile wie \objc{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
 
@@ -1540,143 +1724,11 @@ In einer Methode \objc{resetCanvas} kann die Benutzeroberfläche dann zurückges
 \end{itemize}
 
 
-\chapter{Versionskontrolle mit Git}
+\subsubsection{Der Seasonizer auf GitHub}
 
-Im Skript sind die Vorzüge der Versionskontrolle mit Git beschrieben. Anhand einer unserer Apps, bspw. der Seasonizer App, können wir die beschriebenen Grundlagen anwenden.
+Auf GitHub findet ihr eine Beispielimplementierung des Seasonizers \linkref{https://github.com/iOS-Dev-Kurs/seasonizer}, die ihr als Referenz verwenden und auch weiterentwickeln könnt.
 
-\skriptref{Versionskontrolle mit Git}
-
-\begin{enumerate}
-
-\item Da Git in erster Linie ein Kommandozeilenprogramm ist, verwenden wir zunächst die Terminal App. Später können wir auch bspw. die in Xcode integrierten Benutzeroberflächen verwenden. Öffnet die Terminal App und navigiert in den Ordner, der das Xcode Projekt beinhaltet. Dazu ist es hilfreich, zunächst \sh{cd} zu tippen und den Ordner dann auf das Terminal Fenster zu ziehen, wobei der Pfad automatisch eingegeben wird.
-
-\begin{shlst}
-cd path/to/project
-\end{shlst}
-
-\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \sh{git status} können wir prüfen, ob hier bereits ein Git Repository existiert und es ansonsten mit \sh{git init} erstellen.
-
-\begin{shlst}
-git status
-# Git Repository vorhanden:
->> # On branch master
->> nothing to commit, working directory clean
-# kein Git Repository vorhanden:
->> fatal: Not a git repository (or any of the parent directories): .git
-git init
-\end{shlst}
-
-\item Wir fügen dem Repository nun zunächst eine \sh{.gitignore} Datei hinzu, um verschiedene benutzerspezifische und temporäre Dateien des Xcode Projekts auszuschließen.
-
-\begin{shlst}
-touch .gitignore
-open .gitignore
-# Vorlage aus dem Skript kopieren
-\end{shlst}
-
-Nun können wir einen Commit ausführen, um die Datei dem Repository hinzuzufügen.
-
-\begin{shlst}
-git add .gitignore
-git commit -m "Added .gitignore file"
-\end{shlst}
-
-Jederzeit kann es hilfreich sein, die Situation des Git Repositories mit \sh{git status} zu überprüfen. \sh{git log} zeigt außerdem die letzten Commits in der Konsole an.
-
-\item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Verwendet bspw. die \objc{viewDidLoad} Methode des Initial View Controllers eurer App, um dessen Content View rot zu färben, oder ändert etwas anderes.
-
-\begin{objclst}
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor redColor];
-}
-\end{objclst}
-
-In der Konsole sehen wir mit \sh{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
-
-\begin{shlst}
-git add filename # oder git add --all
-git commit -m "Changed background color"
-\end{shlst}
-
-\item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \sh{git checkout} einen bestimmten Commit laden, mit \sh{git reset} Commits entfernen oder sie mit \sh{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \sh{git log} angezeigt wird, oder mit \sh{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
-
-\begin{shlst}
-git reset --hard HEAD~1
-\end{shlst}
-
-In der Dokumentation \linkref{http://git-scm.com/book/} kann sich ausführlich über die verschiedenen Möglichkeiten informiert werden.
-
-\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an wir unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \sh{git branch}. Mit \sh{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
-
-\begin{shlst}
-git branch new_feature
-git checkout new_feature
-\end{shlst}
-
-\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne dass andere Branches verändert werden. Fügt bspw. wieder der \objc{viewDidLoad} Methode des Initial View Controllers einige Änderungen hinzu und führt einen Commit durch.
-
-\begin{objclst}
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Feature!" message:@"Is it a bug or a feature?" delegate:nil cancelButtonTitle:@"Bug" otherButtonTitles:@"Feature", nil];
-    [alert show];
-}
-\end{objclst}
-
-\begin{shlst}
-git commit -a -m "Implemented new feature" # Der -a Flag fügt dem Commit automatisch veränderte Dateien hinzu
-\end{shlst}
-
-\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Bug gefunden hat, können wir problemlos zurück zum \sh{master} Branch wechseln und den Bug schnell beheben.
-
-\begin{shlst}
-git checkout master
-# edit code to resolve bug
-git commit -a -m "Resolved bug"
-\end{shlst}
-
-Nachdem wir zurück zum \sh{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \sh{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Bug also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
-
-Anschließend wechseln wir wieder in unseren Feature Branch und arbeiten dort weiter, wo wir unterbrochen wurden.
-
-\begin{shlst}
-git checkout new_feature
-# more feature commits
-\end{shlst}
-
-\item Befindet sich der Feature Branch in einem Zustand, der veröffentlicht werden soll, muss er nur mit dem \sh{master} Branch vereinigt werden. Dazu führen wir einen Merge durch.
-
-\begin{shlst}
-git checkout master
-git merge new_feature
-\end{shlst}
-
-Wurden im \sh{master} Branch keine weiteren Commits hinzugefügt, können die Commits des Feature Branches einfach angehängt werden (Fast-Forward). Gehen die Branches jedoch auseinander, versucht Git, die Änderungen zusammenzuführen. Mögliche Konflikte müssen dabei wie im Skript beschrieben im Code behoben werden.
-
-Der Feature Branch kann anschließend gelöscht werden:
-
-\begin{shlst}
-git branch -d new_feature
-\end{shlst}
-
-\item Versionskontrolle ist nicht nur für größere Projekte essentiell und hilft bei der Entwicklung jeder iOS App, sondern ermöglicht auch die Zusammenarbeit mehrerer Entwickler an einem Projekt. Im Skript ist dieses Thema kurz beschrieben und auch auf den Service GitHub \linkref{http://www.github.com} verwiesen, der weltweit von Entwicklern verschiedenster Plattformen verwendet wird, um an Projekten zusammenzuarbeiten.
-
-Auf GitHub ist bspw. meine Implementierung der Seasonizer App zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/ios-dev-kurs/seasonizer} und herunterladen.
-
-Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \sh{git clone} aus.
-
-\begin{shlst}
-cd path/to/directory
-git clone https://github.com/ios-dev-kurs/seasonizer
-\end{shlst}
-
-Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Ihr könnt lokal daran weiterarbeiten und Commits durchführen. Wenn ich Änderungen am Remote Repository auf Github vornehme, können diese mit einem \sh{git pull} geladen und mit dem lokalen \sh{master} Branch zusammengeführt werden. Die lokalen Änderungen können jedoch nicht mit dem Remote Repository abgeglichen werden, da dazu die Zugangsdaten zu dem entsprechenden GitHub Account benötigt werden.
-
-\item Github bietet für Situationen dieser Art das \strong{Fork} System an. Anstatt mein Repository direkt lokal zu Klonen, könnt ihr einen GitHub Account anlegen und den Fork Button \linkref{https://github.com/ios-dev-kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig auf eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen. Löscht dafür zunächst lokal das zuvor geklonte Repository.
+Anstatt mein Repository direkt lokal zu klonen, könnt ihr mit eurem eigenen GitHub Account den Fork Button \linkref{https://github.com/iOS-Dev-Kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig unter eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen:
 
 \begin{shlst}
 cd path/to/directory
@@ -1690,11 +1742,9 @@ Hier könnt ihr nun Commits durchführen und diese mit eurer serverseitigen Kopi
 git push
 \end{shlst}
 
-Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, die einen Merge mit den Änderungen durchzuführen.
+Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, einen Merge mit den Änderungen durchzuführen.
 
 Andere Entwickler, die mein Repository geklont haben, können diese Änderungen anschließend herunterladen. In dieser Form kann ein Open Source Programmierprojekt weltweit von interessierten Entwicklern weiterentwickelt werden. Und dem Seasonizer sind damit keine Grenzen gesetzt.
-
-\end{enumerate}
 
 
 \end{lecture}

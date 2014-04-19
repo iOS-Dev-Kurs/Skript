@@ -65,7 +65,7 @@ for (int i=1; i<1000; i++) { // loop through all numbers from 1 to 1000
 \begin{lsgitem}{scientists}{Scientists}
 
 \begin{enumerate}
-\item In Xcode könnt ihr eine neue Klasse mit \keysc{\cmdkey + N} erstellen. Nennt die Klasse 'Scientist' und wählt die Superklasse 'Person'. Die Main- und Header-Datei erscheinen nach dem Speichern im Project Navigator.
+\item In Xcode könnt ihr eine neue Klasse mit \keys{\cmdkey + N} erstellen. Nennt die Klasse 'Scientist' und wählt die Superklasse 'Person'. Die Main- und Header-Datei erscheinen nach dem Speichern im Project Navigator.
 \item Im Interface in der Header-Datei wird die neue Methode zunächst definiert:
 
 \begin{objclst}
@@ -343,7 +343,7 @@ Oder in Kurzform:
 \item Erstellen wir zunächst das User Interface. Wählt eine der Storyboard-Dateien im Project Navigator, entsprechend des Geräts, für das ihr das UI konfigurieren möchtet.
 \item Zieht zwei Labels und drei Buttons aus der Object Library unten im Inspektor in die erste und einzige Scene und konfiguriert sie mit dem Inspektor \abbref{img:counter_ui}.
 \includegraphicsc[.4\textwidth]{img/counter_ui.png}{img:counter_ui}{Einige Labels und Buttons sind für diese einfache App ausreichend}
-\item Wechselt in den Assistant-Editor, sodass die Datei 'ViewController.m' rechts angezeigt wird. Wählt diese wenn nötig in der Jump bar des Assistant-Editors unter \menuc{Automatic} aus.
+\item Wechselt in den Assistant-Editor, sodass die Datei 'ViewController.m' rechts angezeigt wird. Wählt diese wenn nötig in der Jump bar des Assistant-Editors unter \menu{Automatic} aus.
 \item Definiert eine Property im private Interface, die zur Laufzeit der App die Referenz zum Label hält. Zusätzlich kann hier direkt die Property \objc{int count} definiert werden, da diese ebenfalls nicht öffentlich sein muss. Definiert außerdem die benötigten Methoden:
 \begin{objclst}
 @interface ViewController ()
@@ -360,7 +360,7 @@ Oder in Kurzform:
 
 @end
 \end{objclst}
-\item Zieht mit gedrückter \keysc{\ctrlkey}-Taste eine Verbindung zwischen Label und Property, sowie zwischen Buttons und Methoden.
+\item Zieht mit gedrückter \keys{\ctrlkey}-Taste eine Verbindung zwischen Label und Property, sowie zwischen Buttons und Methoden.
 \item Implementiert die Methoden in der Main-Datei:
 \begin{objclst}
 - (void)updateLabel {
@@ -656,7 +656,7 @@ Anleitung im App Katalog…
 
 Zieht ein View Controller Objekt aus der Object Library auf das Storyboard. Im Identity Inspector könnt ihr den Namen der Klasse \objc{ContinentsViewController} eintragen. Zieht anschließend einen Button auf die Content View.
 
-Entfernt die Relationship Segue zwischen Navigation Controller und Cities View Controller und erstellt stattdessen eine solche zwischen Navigation Controller und Continents View Controller. Haltet dafür die \keysc{\ctrlkey}-Taste gedrückt und zieht eine Verbindung zwischen den View Controllern. Erstellt außerdem analog eine Push Segue von dem Button zum Cities View Controller.
+Entfernt die Relationship Segue zwischen Navigation Controller und Cities View Controller und erstellt stattdessen eine solche zwischen Navigation Controller und Continents View Controller. Haltet dafür die \keys{\ctrlkey}-Taste gedrückt und zieht eine Verbindung zwischen den View Controllern. Erstellt außerdem analog eine Push Segue von dem Button zum Cities View Controller.
 
 \item Fügt dem \objc{CitiesViewController} ein neues Attribut \objc{Continent *continent} hinzu:
 
@@ -820,9 +820,9 @@ Nun können wir die \objc{prepareForSegue:sender} Methode des \objc{ContinentsVi
 
 \begin{enumerate}
 
-\item Zunächst ziehen wir eine Table View aus der Object Library auf den Continents View Controller und ersetzen so dessen Content View. Mit gehaltener \keysc{\ctrlkey}-Taste ziehen wir eine Verbindung von der Table View zum Continent View Controller und weisen diesen somit sowohl dem Datasource als auch dem Delegate Attribut zu.
+\item Zunächst ziehen wir eine Table View aus der Object Library auf den Continents View Controller und ersetzen so dessen Content View. Mit gehaltener \keys{\ctrlkey}-Taste ziehen wir eine Verbindung von der Table View zum Continent View Controller und weisen diesen somit sowohl dem Datasource als auch dem Delegate Attribut zu.
 
-Anschließend kann eine Prototype Cell erstellt werden, indem ein Table View Cell Objekt aus der Object Library auf die Table View gezogen wird. Diese wird im Attributes Inspector mit dem \emph{Basic} Stil konfiguriert. Dann wird mit gehaltener \keysc{\ctrlkey}-Taste eine Push Segue Verbindung zum Cities View Controller gezogen.
+Anschließend kann eine Prototype Cell erstellt werden, indem ein Table View Cell Objekt aus der Object Library auf die Table View gezogen wird. Diese wird im Attributes Inspector mit dem \emph{Basic} Stil konfiguriert. Dann wird mit gehaltener \keys{\ctrlkey}-Taste eine Push Segue Verbindung zum Cities View Controller gezogen.
 
 Nun können wir die Methoden der Protokolle im Code implementieren und außerdem die anderen Methoden anpassen:
 

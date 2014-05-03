@@ -330,43 +330,48 @@ Im IB-Modus stehen im Inspektor zusätzlich zum File- und Quick-Help-Inspektor \
 
 \subsection{IBOutlets \& IBActions}\label{sec:iboutletsibactions}
 
-\strong{Hinweis:} Für diesen Abschnitt ist Kenntnis über \strong{Properties} \secref{sec:properties} und \strong{Methoden} \secref{sec:methoden} notwendig .
+\strong{Hinweis:} Für diesen Abschnitt ist Kenntnis über \strong{Attribute} \secref{sec:properties} und \strong{Methoden} \secref{sec:methoden} notwendig .
 
 \subsubsection{IBOutlets}
 
-Haben wir unser UI im Interface Builder konfiguriert, möchten wir häufig im Code auf die verwendeten Objekte zugreifen. Dazu verwenden wir sog. \strong{IBOutlets}. Dies sind speziell gekennzeichnete \strong{Properties} eine Klasse:
+Haben wir unser UI im Interface Builder konfiguriert, möchten wir häufig im Code auf die verwendeten Objekte zugreifen. Dazu verwenden wir sog. \strong{IBOutlets}. Dies sind speziell gekennzeichnete Attribute eine Klasse:
 \begin{objclst}
-@property (nonatomic, strong) IBOutlet UILabel *label; // diese Property ist als IBOutlet gekennzeichnet
+@property (nonatomic, strong) ^\objchighlight{IBOutlet}^ UILabel *label; // diese Property ist als IBOutlet gekennzeichnet
 \end{objclst}
 
 In der XIB oder dem Storyboard können wir dann eine Verbindung zwischen dem Objekt und dem IBOutlet herstellen \abbref{img:xcode_iboutlet}.
 
 \includegraphicsc{img/xcode_iboutlet.png}{img:xcode_iboutlet}{IBOutlets verbinden Interfaceelemente mit Properties im Code}
 
-Zur Laufzeit der App wird dieser Property dann das verbundene Objekt als Wert zugewiesen, sodass im Code darauf zugegriffen werden kann. Hätten wir das Objekt im Code erstellt, wäre eine IBOutlet-Verbindung also äquivalent zu folgendem Code:
+Zur Laufzeit der App wird diesem Attribut dann das verbundene Objekt als Wert zugewiesen, sodass im Code darauf zugegriffen werden kann. Hätten wir das Objekt im Code erstellt, wäre eine IBOutlet-Verbindung also äquivalent zu folgendem Code:
 \begin{objclst}
-self.label = theLabel; // Sei theLabel das zuvor erstellte Objekt
+// Sei theLabel das zuvor im Code erstellte Interface-Objekt
+self.label = theLabel;
 \end{objclst}
 
-Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menu{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der die Property deklariert wurde. Mit gedrückter \keys{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und der Property ziehen \abbref{img:xcode_iboutlet}. Häufig sollen solche Properties nicht öffentlich sein, da nur innerhalb der Klasse auf die Interfaceelemente zugegriffen wird. Dann sollten sie im privaten Interface in der Main-Datei definiert werden \secref{sec:intimpl}.
+Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menu{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der das Attribut deklariert wurde. Mit gedrückter \keys{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und dem Attribut ziehen \abbref{img:xcode_iboutlet}.
 
-Alternativ kann der Connection Inspector des Objekts \secref{sec:ibinspector} oder ein Rechtsklick auf das Objekt verwendet werden und ausgehend von dem Kreissymbol neben 'New Referencing Outlet' eine Verbindung gezogen wird. Wird die Verbindung nicht zu einem existierenden IBOutlet im Code, sondern auf eine leere Zeile gezogen, wird automatisch eine mit 'IBOutlet' gekennzeichnete Property erstellt. Anstatt den Assistant-Editor zu verwenden kann das Ziel der Verbindung auch im Interface Builder gesucht werden, also bspw. in der Navigationsleiste links.
+Alternativ kann der Connection Inspector des Objekts \secref{sec:ibinspector} oder ein Rechtsklick auf das Objekt verwendet werden und ausgehend von dem Kreissymbol neben \emph{New Referencing Outlet} eine Verbindung gezogen wird. Wird die Verbindung nicht zu einem existierenden IBOutlet im Code, sondern auf eine leere Zeile gezogen, wird automatisch eine mit \objc{IBOutlet} gekennzeichnete Property erstellt. Anstatt den Assistant-Editor zu verwenden kann das Ziel der Verbindung auch im Interface Builder gesucht werden, also bspw. in der Dokumentübersicht links.
+
+Als IBOutlets markierte Attribute werden nur sehr selten im öffentlich Interface in der Header-Datei deklariert, da meist nur innerhalb der Klasse auf die Interfaceelemente zugegriffen werden muss. Daher sollten sie stattdessen im privaten Interface in der Main-Datei definiert werden \secref{sec:intimpl}.
+
 
 \subsubsection{IBActions}
 
 \strong{IBActions} funktionieren ähnlich wie IBOutlets und stellen eine Verbindung zu \strong{Methoden} einer Klasse her.
 
-Einige Objekte stellen sog. \strong{Events} zur Verfügung, die in bestimmten Situationen ausgelöst werden. Dazu gehören bspw. Subklassen von UIControl, also u.a. UIButton, die das Event 'Touch Up Inside' auslösen, wenn der Benutzer seinen Finger im Bereich des Objekts anhebt.
+Einige Objekte stellen sog. \strong{Events} zur Verfügung, die in bestimmten Situationen ausgelöst werden. Dazu gehören bspw. Subklassen von \objc{UIControl}, also u.a. \objc{UIButton}, die das Event \emph{Touch Up Inside} auslösen, wenn der Benutzer seinen Finger im Bereich des Objekts anhebt.
 
-Diese Events können mit Methoden im Code verbunden werden, die mit 'IBAction' gekennzeichnet sind \abbref{img:xcode_ibaction}.
+Diese Events können mit Methoden im Code verbunden werden, die mit \objc{IBAction} gekennzeichnet sind \abbref{img:xcode_ibaction}. \objc{IBAction} ist als Rückgabewert der Methode äquivalent zu \objc{void}.
 
 \includegraphicsc{img/xcode_ibaction.png}{img:xcode_ibaction}{IBActions verbinden Events mit Methoden im Code}
 
-Die verbundene Methode wird dann ausgeführt, wenn das Event ausgelöst wird. Das auslösende Objekt wird der Methode als Parameter \objc{sender} des Typs \objc{id} (beliebiger Typ) übergeben.
+Die verbundene Methode wird dann ausgeführt, wenn das entsprechende Event ausgelöst wird. Das auslösende Objekt wird der Methode als Parameter \objc{sender} des Typs \objc{id} (beliebiger Typ) übergeben.
 
 Die Zuweisung einer IBAction-Verbindung ist dann äquivalent zu folgendem Code:
 \begin{objclst}
-[theButton addTarget:theReceiver action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside]; // Sei theButton das das Event auslösende Objekt und theReceiver das Objekt, das die Methode -(void)buttonPressed:(id)sender implementiert
+// Sei theButton das das Event auslösende Objekt und theReceiver das Objekt, das die Methode buttonPressed: implementiert
+[theButton addTarget:theReceiver action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
 \end{objclst}
 
 \section{Dokumentation}\label{sec:xcode_documentation}
@@ -932,7 +937,7 @@ Außerdem sollten unbedingt die folgenden Konventionen eingehalten werden. Achte
 \item \objc{filteredArrayUsingPredicate:}
 \item \objc{pushViewController:animated:}
 \end{itemize}
-\item Verwendet einen Klassenprefix für größere Projekte, sodass jede Klasse eindeutig benannt ist, denn es gibt keine Namespaces in Objective-C. Verwendet 2-3 Großbuchstaben, die eurem Company Identifier und/oder Product Name ähneln und beginnt jede Klasse diesem Prefix. Andernfalls besteht die Gefahr, dass Dateien gleichen Namens aus anderen Projekten zu Konflikten führen. Allen von Apple zur Verfügung gestellten Dateien steht ein 'NS' (für NextStep, die Programmiersprache des Betriebssystems aus dem das heutige Mac OS X hervorging) oder 'UI' (für User Interface, hauptsächlich bei iOS-relevanten Dateien) voran. Beispiele:
+\item Verwendet einen Klassenprefix für größere Projekte, sodass jede Klasse eindeutig benannt ist, denn es gibt keine Namespaces in Objective-C. Verwendet mindestens drei Großbuchstaben, die eurem Company Identifier und/oder Product Name ähneln und beginnt jede Klasse diesem Prefix. Andernfalls besteht die Gefahr, dass Dateien gleichen Namens aus anderen Projekten zu Konflikten führen. Allen von Apple zur Verfügung gestellten Dateien steht ein 'NS' (für NextStep, die Programmiersprache des Betriebssystems aus dem das heutige Mac OS X hervorging) oder 'UI' (für User Interface, hauptsächlich bei iOS-relevanten Dateien) voran. Beispiele:
 \begin{itemize}
 \item \objc{NSArray}
 \item \objc{UIView}

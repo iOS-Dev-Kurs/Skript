@@ -59,13 +59,13 @@ for (int i=1; i<1000; i++) { // loop through all numbers from 1 to 1000
 }
 \end{objclst}
 
-\end{lsgitem} \end{lsg}\end{document} % POINTER
+\end{lsgitem}
 
 
 \begin{lsgitem}{scientists}{Scientists}
 
 \begin{enumerate}
-\item In Xcode könnt ihr eine neue Klasse mit \keys{\cmdkey + N} erstellen. Nennt die Klasse 'Scientist' und wählt die Superklasse 'Person'. Die Main- und Header-Datei erscheinen nach dem Speichern im Project Navigator.
+\item In Xcode könnt ihr eine neue Klasse mit \keys{\cmdkey + N} erstellen. Nennt die Klasse \objc{Scientist} und wählt die Superklasse \objc{Person}. Die Main- und Header-Datei erscheinen nach dem Speichern im Project Navigator.
 \item Im Interface in der Header-Datei wird die neue Methode zunächst definiert:
 
 \begin{objclst}
@@ -92,7 +92,7 @@ Anschließend können wir sie in der Main-Datei implementieren:
 @end
 \end{objclst}
 
-In der nun schon häufiger verwendeten \objc{application:didFinishLaunchingWithOptions}-Methode in der 'AppDelegate.m'-Datei, wollen wir die neue Klasse ausprobieren:
+In der nun schon häufiger verwendeten \objc{application:didFinishLaunchingWithOptions:} Methode in der \emph{AppDelegate.m}-Datei, wollen wir die neue Klasse ausprobieren:
 
 \begin{objclst}
 #import "AppDelegate.h"
@@ -114,7 +114,7 @@ In der nun schon häufiger verwendeten \objc{application:didFinishLaunchingWithO
 
 Führen wir die App aus, werden alle Primzahlen bis 100 in der Konsole ausgegeben.
 
-\item Mit Objekten des Typs \objc{Scientist} kann genauso verfahren werden wie mit Objekten des Typs \objc{Person}, da sie voneinander abstammen und daher alle Attribute und Methoden erben. Schreibt also in der 'AppDelegate.m'-Datei:
+\item Mit Objekten des Typs \objc{Scientist} kann genauso verfahren werden wie mit Objekten des Typs \objc{Person}, da sie voneinander abstammen und daher alle Attribute und Methoden erben. Schreibt also in der \emph{AppDelegate.m}-Datei:
 
 \begin{objclst}
 #import "AppDelegate.h"
@@ -141,7 +141,7 @@ Es wird wieder ausgegeben:
 Hello World! My name is Alice.
 \end{objclst}
 
-\item Die 'Scientist'-Klasse besitzt bereits die Methode \objc{sayHello}, da sie in ihrer Superklasse 'Person' definiert und implementiert wird. Um sie zu überschreiben, müssen sie nur in der Main-Datei erneut implementieren:
+\item Die \objc{Scientist}-Klasse besitzt bereits die Methode \objc{sayHello}, da sie in ihrer Superklasse \objc{Person} definiert und implementiert wird. Um sie zu überschreiben, müssen wir sie nur in der Main-Datei erneut implementieren:
 
 \begin{objclst}
 #import "Scientist.h"
@@ -153,7 +153,7 @@ Hello World! My name is Alice.
 }
 
 - (void)sayHello {
-    NSLog(@"Hello World! My name is %@. I am a Scientist.", self.name);
+    NSLog(@"Hello World! My name is %@. I know all Prime Numbers.", self.name);
 }
 
 @end
@@ -170,7 +170,7 @@ Da wir der Implementierung der Superklasse im Prinzip nur etwas hinzufügen woll
 \begin{objclst}
 - (void)sayHello {
     [super sayHello]; // Die Implementierung Superklasse wird aufgerufen
-    NSLog(@"I am a Scientist.");
+    NSLog(@"I know all Prime Numbers.");
 }
 \end{objclst}
 
@@ -178,7 +178,7 @@ Ausgabe:
 
 \begin{objclst}
 Hello World! My name is Alice.
-I am a Scientist.
+I know all Prime Numbers.
 \end{objclst}
 
 \end{enumerate}
@@ -251,9 +251,12 @@ I am a Scientist.
 @implementation Person
 
 - (void)makeFriendsWith:(Person *)person {
+    // make sure to skip connection if already existent or redundant
     if (!person||person==self||[self.friends containsObject:person]) return;
+    // create friends array if not existent yet and add person
     if (!self.friends) self.friends = [[NSMutableArray alloc] init];
     [self.friends addObject:person];
+    // trigger reverse connection
     [person makeFriendsWith:self];
     NSLog(@"%@ <-> %@", self.name, person.name);
 }
@@ -294,6 +297,7 @@ I am a Scientist.
         [me makeFriendsWith:newPerson];
     }
 
+    // befriend persons with same initial letter
     for (Person *person in persons) {
         for (Person *other in persons) {
             if ([person.name characterAtIndex:0]==[other.name characterAtIndex:0]) {
@@ -302,6 +306,7 @@ I am a Scientist.
         }
     }
 
+    // start simulation
     [me sendEmail];
 
     return YES;
@@ -310,7 +315,7 @@ I am a Scientist.
 @end
 \end{objclst}
 
-\end{lsgitem}
+\end{lsgitem}\end{lsg}\end{document} % POINTER
 
 
 \begin{lsgitem}{scientists2}{Scientists 2}

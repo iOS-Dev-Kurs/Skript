@@ -368,7 +368,7 @@ Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlau
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture} % Lecture 3
@@ -388,13 +388,13 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 \item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \strong{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt diesen Tab aus, wenn er noch nicht angezeigt wird.
 
-\item Durchsucht die Liste von Interfaceelementen nach dem Objekt \emph{Label}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \objc{Hello World!}.
+\item Durchsucht die Liste von Interfaceelementen nach einem Objekt der Klasse \objc{UILabel}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \objc{Hello World!}.
 
-\item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen statischen Gruß nun auf dem Bildschirm an.
+\item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen Gruß nun statisch auf dem Bildschirm an.
 
-\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im Identity Inspector könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, vom Typ \objc{UILabel} ist. Im Attributes Inspector stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
+\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im \emph{Identity Inspector} könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, vom Typ \objc{UILabel} ist. Im \emph{Attributes Inspector} stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
 
-\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \emph{Button}- und \emph{Text Field}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \objc{Say Hello} geben und für das Text Field einen Placeholder \objc{Name} einstellen.
+\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \objc{UIButton}- und \objc{UITextField}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \objc{Say Hello!} geben und für das Text Field einen Placeholder \objc{Name} einstellen.
 
 \includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
 
@@ -450,12 +450,12 @@ Diese müssen wir in der Main-Datei implementieren:
 @implementation Person
 
 - (NSString *)helloString {
-    NSString *greeting = [NSString stringWithFormat:@"Hello World! My name is %@.", self.name];
-    return greeting;
+    return [NSString stringWithFormat:@"Hello World! My name is %@.", self.name];
 }
 
 - (void)sayHello {
-    NSLog([self helloString]); // Um nicht zwei nahezu gleiche Methoden implementiert zu haben, rufen wir hier stattdessen die neue Methode auf
+    // Um nicht zwei nahezu gleiche Methoden implementiert zu haben, rufen wir hier stattdessen die neue Methode auf
+    NSLog([self helloString]);
 }
 
 @end
@@ -469,7 +469,7 @@ Die Klasse \objc{NSString} besitzt eine Klassenmethode \objc{stringWithFormat:},
 - (IBAction)sayHelloButtonPressed:(id)sender {
     Person *newPerson = [[Person alloc] init];
     newPerson.name = self.nameTextfield.text;
-    self.helloLabel.text = [newPerson helloString];
+    ^\objchighlight{self.helloLabel.text = [newPerson helloString];}^
 }
 \end{objclst}
 
@@ -501,18 +501,18 @@ Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen,
 Lasst eurer Kreativität freien Lauf \strong{oder} implementiert eines der folgenden Beispiele.
 
 \begin{description}
-\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln '+1', '-1' und 'Reset' ändern den Wert dieser Property entsprechend und rufen die \objc{updateLabel}-Methode auf.
+\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln \emph{+1}, \emph{-1} und \emph{Reset} ändern den Wert dieser Property entsprechend und rufen die \objc{updateLabel}-Methode auf.
 \item[BMI] Nach Eingabe von Gewicht $m$ und Größe $l$ wird der Body-Mass-Index \linkref{http://de.wikipedia.org/wiki/Body-Mass-Index} $BMI=m/l^2$ berechnet und angezeigt. Als Erweiterung kann die altersabhängige Einordnung in die Gewichtskategorien angezeigt werden.
-\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen \objc{0} und \objc{255} für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \objc{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \objc{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt.
+\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen \objc{0} und \objc{255} für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \objc{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \objc{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt (s. Hinweis).
 \end{description}
 
 \begin{exchinweise}
-\item Achtet darauf, dass ihr nach der Projekterstellung in der Targetkonfiguration die Bundle ID \objc{de.uni-hd.deinname.counter} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
+\item Achtet darauf, dass ihr bei/nach der Projekterstellung in der Targetkonfiguration die Bundle ID \objc{de.uni-hd.deinname.productname} mit \objc{productname} z.B. \objc{counter}, \objc{bmi} oder \objc{rgb} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
 \item Es ist ausreichend, das User Interface entweder für iPhone oder iPad zu konfigurieren.
 \item \objc{NSString} besitzt Instanzmethoden wie \objc{floatValue} zur Umwandlung von Text in Zahlenwerte.
 \item Die Klassenmethode \objc{colorWithRed:green:blue:alpha:} von \objc{UIColor} nimmt Werte zwischen \objc{0} und \objc{1} an.
 \item Die Funktion \objc{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
-\item Wenn ein \objc{UISwitch} betätigt wird, sendet dieser ein Event \objc{UIControlEventValueChanged}, so wie ein \objc{UIButton} das Event \objc{UIControlEventTouchUpInside} sendet. Dieses Event kann genauso mit einer IBAction verbunden werden. Mit einer Property \objc{NSTimer *randomTimer} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
+\item Wenn ein \objc{UISwitch} betätigt wird, sendet dieser ein Event \objc{UIControlEventValueChanged}, so wie ein \objc{UIButton} das Event \objc{UIControlEventTouchUpInside} sendet. Dieses Event kann genauso mit einer IBAction verbunden werden. Mit einem Klassenattribut \objc{NSTimer *randomTimer} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
 \begin{objclst}
 - (IBAction)switchValueChanged:(UISwitch *)sender {
     if (sender.isOn) {
@@ -531,7 +531,7 @@ Lasst eurer Kreativität freien Lauf \strong{oder} implementiert eines der folge
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture} % Lecture 4

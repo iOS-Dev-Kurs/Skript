@@ -3,14 +3,46 @@
 \usepackage[ngerman]{babel}
 \usepackage{graphicx}
 \usepackage{enumitem}
-\usepackage[pdftex,
-            pdfauthor={Nils Fischer},
-            pdftitle={Softwareentwicklung für iOS mit Objective-C und Xcode}]{hyperref}
+\usepackage{hyperref}
+
+% PDF Meta Info
+\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle = {\@title{} \@subtitle},
+    pdfauthor = {\@author}
+  }
+}
+\makeatother
+
+% Titlepage
+\renewcommand{\maketitle}{
+    \input{include/titlepage.tex}
+}
+
+% Page Layout
+%\pagestyle{headings}
+\usepackage[textheight=640pt]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\AtBeginDocument{
+\fancyhf{}
+\lhead{\textit{Nils Fischer, Universität Heidelberg, \shortsemester}}
+\rhead{\textit{\shortdoctype{} \nouppercase{\leftmark}}}
+\renewcommand{\headrulewidth}{0.2pt}
+\cfoot{\thepage}
+}
 
 % Font
 \usepackage{fontspec}
 \setmainfont{Cardo}
 \usepackage{xunicode}
+
+% Headings
+\usepackage[bf]{titlesec}
+%\titleformat{\chapter}[display]{\large\bfseries}{\chaptertitlename\ \thechapter}{5pt}{\large}% NEW
+%\titlespacing*{\chapter}{0pt}{30pt}{20pt}% NEW
+
 
 % Menukeys
 \usepackage{menukeys}
@@ -20,12 +52,9 @@
 \newcommand\ctrlkey{{\ctrl}}
 \newcommand\tabkey{{\tab}}
 
-% Pagestyle
-\pagestyle{headings}
-
 % Style
 \newcommand\strong\textbf
-\newenvironment{filecontent}[1]{\subsubsection{#1}}{}
+\newenvironment{filecontent}[1]{\textbf{#1}}{}
 
 % References
 \newcommand{\linkref}[1]{[\footnote{\url{#1}}]}
@@ -52,4 +81,4 @@
 %\newenvironment{lsg}{\begin{enumerate}}{\end{enumerate}}
 \newenvironment{lsg}{}{}
 %\newenvironment{lsgitem}[2]{\item\label{lsg:#1}\addcontentsline{toc}{chapter}{\theenumi. #2}\strong{#2}}{}
-\newenvironment{lsgitem}[2]{\label{lsg:#1}\chapter{#2}}{}
+\newenvironment{lsgitem}[2]{\label{lsg:#1}\section{#2}}{}

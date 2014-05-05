@@ -1,25 +1,20 @@
 \documentclass[parskip=half, final]{scrreprt}
 
+\input{include/variables}
 \input{include/style}
-
 \input{include/code_listing}
+
+\renewcommand{\doctype}{Skript}
+\renewcommand{\shortdoctype}{Skript}
 
 \usepackage{verbatim}
 
-\subtitle{Skript}
-\title{Softwareentwicklung für iOS mit Objective-C und Xcode}
-\author{Nils Fischer}
-\date{Universität Heidelberg - Sommersemester 2014}
-
-\newcommand{\vxcode}{5.1}
-\newcommand{\vios}{7.1}
 
 \begin{document}
 
 \maketitle
 
 \tableofcontents
-
 
 \chapter{Organisatorisches}
 
@@ -451,7 +446,7 @@ Wenn Certificates oder Devices im Developer Team hinzugefügt werden, generiert 
 Nun könnt ihr Apps auf eurem iOS Gerät installieren und testen:
 \begin{enumerate}
 \item Stellt sicher, dass in der Target-Konfiguration unser Development Team ausgewählt ist und die Bundle ID dem beschriebenen Schema entspricht \secref{sec:projkonfig}.
-\item Wählt euer iOS Device als Zielsystem und führt einen 'Build \& Run' aus \secref{sec:buildandrun}.
+\item Wählt euer iOS Device als Zielsystem und führt einen \emph{Build \& Run} aus \secref{sec:buildandrun}.
 \item Die App wird nun auf dem angeschlossen Gerät ausgeführt!
 \end{enumerate}
 
@@ -919,7 +914,8 @@ Symbolnamen müssen in Objective-C bestimmte Bedingungen erfüllen:
 
 \begin{itemize}
 \item Namen beginnen immer mit einem Buchstaben oder Unterstrich \objc{_}
-\item Darauf folgt eine beliebige Kombination aus Buchstaben, Unterstrichen und Ziffern.\item Einige Symbole wie \objc{int} oder \objc{id} sind reserviert und können nicht verwendet werden.
+\item Darauf folgt eine beliebige Kombination aus Buchstaben, Unterstrichen und Ziffern.
+\item Einige Symbole wie \objc{int} oder \objc{id} sind reserviert und können nicht verwendet werden.
 \end{itemize}
 
 Außerdem sollten unbedingt die folgenden Konventionen eingehalten werden. Achtet bitte darauf diese Konventionen beim Schreiben von Objective-C Code zu verwenden, auch wenn ihr in anderen Programmiersprachen anders vorgeht. So kann bspw. die Autovervollständigung zuverlässig verwendet werden und die Lesbarkeit des Codes steigt.

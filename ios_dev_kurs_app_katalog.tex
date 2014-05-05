@@ -1,6 +1,6 @@
 \documentclass[parskip=half, final]{scrreprt}
 
-\input{include/variables.tex}
+\input{include/variables}
 \input{include/style}
 \input{include/code_listing}
 
@@ -532,7 +532,7 @@ Lasst eurer Kreativität freien Lauf \strong{oder} implementiert eines der folge
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture} % Lecture 4
@@ -552,7 +552,7 @@ Im Skript sind die Vorzüge der Versionskontrolle mit Git beschrieben, deren Gru
 cd path/to/project
 \end{shlst}
 
-\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \sh{git status} können wir prüfen, ob hier bereits ein Git Repository existiert und es ansonsten mit \sh{git init} erstellen.
+\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \sh{git status} können wir prüfen, ob hier bereits eines existiert und es ansonsten mit \sh{git init} erstellen.
 
 \begin{shlst}
 git status
@@ -681,7 +681,7 @@ Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unte
 
 Prinzipiell könnt ihr nun lokal an dem Repository weiterarbeiten und Commits durchführen, diese jedoch nicht hochladen. Zur Zusammenarbeit an Programmierprojekten werden entweder entsprechende Berechtigungen vergeben, oder das \strong{Fork} System auf GitHub verwendet.
 
-Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können diese geladen und mit dem lokalen \sh{master} Branch zusammengeführt werden:
+Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können ihr diese mit nur einem Befehl laden und mit dem lokalen \sh{master} Branch zusammenführen:
 
 \begin{shlst}
 git pull
@@ -693,7 +693,11 @@ git pull
 % TODO: Übungsaufgaben
 
 
-\end{lecture}
+\end{exc}
+
+
+
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture} % Lecture 5

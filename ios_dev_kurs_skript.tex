@@ -1018,8 +1018,6 @@ for (NSObject *object in dic) {
 Als veränderbare Subklasse steht hier das \objc{NSMutableDictionary} zur Verfügung, das die Instanzmethoden \objc{setObject:forKey} und \objc{removeObjectForKey} implementiert.
 
 
-\end{document} % POINTER
-
 
 \chapter{Projektstrukturierung}
 
@@ -1081,13 +1079,13 @@ git checkout new_feature
 git checkout -b new_feature
 \end{shlst}
 
-Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt. 
+Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt, während die anderen Branches unverändert bleiben. 
 
 Um Branches wieder zu vereinigen, bietet Git die \strong{Merge} und \strong{Rebase} Mechanismen. Dabei bestimmt \sh{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \sh{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
 
 \begin{shlst}
-git checkout master
-git merge new_feature
+git checkout master # Wechsle zurück in den Branch master
+git merge new_feature # Führe alle Commits aus dem Branch new_feature mit dem aktiven Branch zusammen
 \end{shlst}
 
 Git versucht bei einem Merge oder Rebase, die Änderungen der Branches zu vereinigen. Treten dabei Konflikte auf, wird der Vorgang unterbrochen und die Konflikte müssen zunächst im Code behoben werden. An den entsprechenden Stellen im Code sind dann Markierungen zu finden, die über eine projektübergreifende Suche in Xcode schnell gefunden werden.
@@ -1129,14 +1127,15 @@ Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen od
 
 \subsubsection{Dieser Kurs auf GitHub}
 
-Git ist für viele Projekte nützlich und bei weitem nicht nur auf Programmcode beschränkt. So befindet sich bspw. neben der Vorlesungswebseite auch dieses Skript in einem Git Repository auf GitHub \linkref{https://github.com/iOS-Dev-Kurs}. Ihr könnt es also leicht klonen und aktualisieren, wenn Änderungen verfügbar sind:
+Git ist für viele Projekte nützlich und bei weitem nicht nur auf Programmcode beschränkt. So befindet sich bspw. neben der Vorlesungswebseite auch dieses Skript in einem Git Repository auf GitHub \linkref{https://github.com/iOS-Dev-Kurs}. Ihr könnt es also leicht klonen und Aktualisierungen herunterladen, wenn diese online verfügbar sind:
 
 \begin{shlst}
 cd path/to/directory
 git clone https://github.com/iOS-Dev-Kurs/Skript
-# bei Änderungen:
+# zur Aktualisierung:
 git pull
 \end{shlst}
+
 
 \subsection{Git in Xcode} 
 
@@ -1146,14 +1145,14 @@ Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und S
 
 \subsection{Gitignore}
 
-Elemente können von von der Erfassung durch Git ausgenommen, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \sh{.gitignore} Datei hinzugefügt.
+Elemente können von von der Erfassung durch Git ausgenommen werden, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \sh{.gitignore} Datei hinzugefügt.
 
 \begin{shlst}
 touch .gitignore
 open .gitignore
 \end{shlst}
 
-Mit einem Texteditor wie der TextEdit App oder \sh{vim} in der Konsole können wir diese Datei nun editieren. Sinnvolle Vorlagen für verschiedenste Programmiersprachen und Plattformen sind im GitHub Repository \emph{gitignore} \linkref{https://github.com/github/gitignore} zu finden. Kopiert für Xcode Projekte die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \sh{.gitignore} Datei.
+Mit einem Texteditor wie der TextEdit App oder \sh{vim} in der Konsole können wir diese Datei nun editieren. Sinnvolle Vorlagen für verschiedenste Programmiersprachen und Plattformen sind im GitHub Repository \emph{gitignore} \linkref{https://github.com/github/gitignore} zu finden. Kopiert für Xcode Projekte die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \sh{.gitignore} Datei. Letztere Vorlage enthält bspw. die Zeile \sh{.DS_Store}. So heißen versteckte Dateien in Mac OS X, die dem Betriebssystem verschiedene Informationen über den Ordner bereitstellen \linkref{http://en.wikipedia.org/wiki/.DS_Store} und nicht in das Git Repository übernommen werden sollen.
 
 Die \sh{.gitignore} Datei muss dem Repository nun zunächst hinzugefügt werden, bevor sie wirksam wird:
 
@@ -1166,6 +1165,8 @@ git commit -m "Added .gitignore file"
 
 Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
 
+
+\end{document} % POINTER
 
 
 \chapter{iOS App Architektur}

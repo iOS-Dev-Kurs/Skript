@@ -319,12 +319,12 @@ I know all Prime Numbers.
 \end{objclst}
 \end{filecontent}
 
-\end{lsgitem}\end{lsg}\end{document} % POINTER
+\end{lsgitem}
 
 
 \begin{lsgitem}{scientists2}{Scientists 2}
 
-Die Methode \objc{sayHello} muss nicht mehr implementiert werden, denn eine Überschreibung der Superklassenimplementierung ist nicht mehr notwendig. Diese ruft nämlich nur die Methode \objc{helloString} auf und gibt den Rückgabewert in der Konsole aus. Stattdessen müssen wir also \objc{helloString} überschreiben, damit der Zusatz 'I am a Scientist' verwendet wird:
+Die Methode \objc{sayHello} muss nicht mehr implementiert werden, denn eine Überschreibung der Superklassenimplementierung ist nicht mehr notwendig. Diese ruft nämlich nur die Methode \objc{helloString} auf und gibt den Rückgabewert in der Konsole aus. Stattdessen müssen wir also \objc{helloString} überschreiben, damit der Zusatz \emph{I know all Prime Numbers.} ausgegeben wird:
 
 \begin{objclst}
 - (NSString *)helloString {
@@ -346,14 +346,14 @@ Oder in Kurzform:
 
 \begin{lsgitem}{simpleui}{Simple UI}
 
-\section{Counter App}
+\subsection{Counter App}
 
 \begin{enumerate}
 \item Erstellen wir zunächst das User Interface. Wählt eine der Storyboard-Dateien im Project Navigator, entsprechend des Geräts, für das ihr das UI konfigurieren möchtet.
 \item Zieht zwei Labels und drei Buttons aus der Object Library unten im Inspektor in die erste und einzige Scene und konfiguriert sie mit dem Inspektor \abbref{img:counter_ui}.
 \includegraphicsc[.4\textwidth]{img/counter_ui.png}{img:counter_ui}{Einige Labels und Buttons sind für diese einfache App ausreichend}
-\item Wechselt in den Assistant-Editor, sodass die Datei 'ViewController.m' rechts angezeigt wird. Wählt diese wenn nötig in der Jump bar des Assistant-Editors unter \menu{Automatic} aus.
-\item Definiert eine Property im private Interface, die zur Laufzeit der App die Referenz zum Label hält. Zusätzlich kann hier direkt die Property \objc{int count} definiert werden, da diese ebenfalls nicht öffentlich sein muss. Definiert außerdem die benötigten Methoden:
+\item Wechselt in den Assistant-Editor, sodass die Datei \emph{ViewController.m} rechts angezeigt wird. Wählt diese wenn nötig in der Jump bar des Assistant-Editors unter \menu{Automatic} aus.
+\item Definiert eine Property im privaten Interface, die zur Laufzeit der App die Referenz zum Label hält. Zusätzlich kann hier direkt die Property \objc{int count} definiert werden, da diese ebenfalls nicht öffentlich sein muss. Definiert außerdem die benötigten Methoden:
 \begin{objclst}
 @interface ViewController ()
 
@@ -392,7 +392,7 @@ Oder in Kurzform:
 \item Build \& Run !
 \end{enumerate}
 
-\section{BMI App}
+\subsection{BMI App}
 
 Analog zur Counter App erstellen wir ein neues Projekt und konfigurieren das User Interface im Storyboard \abbref{img:bmi_ui}.
 
@@ -425,7 +425,7 @@ Analog zur Counter App erstellen wir ein neues Projekt und konfigurieren das Use
 \end{objclst}
 \end{filecontent}
 
-\section{RGB App}
+\subsection{RGB App}
 
 \includegraphicsc[.4\textwidth]{img/rgb_ui.png}{img:rgb_ui}{Die RGB App zeigt Eingabefelder für die Farbkomponenten der Hintergrundfarbe}
 
@@ -474,7 +474,7 @@ Analog zur Counter App erstellen wir ein neues Projekt und konfigurieren das Use
 \end{objclst}
 \end{filecontent}
 
-\end{lsgitem}
+\end{lsgitem}\end{lsg}\end{document} % POINTER
 
 
 \begin{lsgitem}{view_hierarchie}{View Hierarchie}

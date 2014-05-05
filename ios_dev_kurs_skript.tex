@@ -706,7 +706,12 @@ Im Codebeispiel oben \secref{sec:personclass} spezifizieren wir, dass eine Perso
 @property (strong, nonatomic) NSString *name;
 \end{objclst}
 
-\objc{strong} kennzeichnet hier eine Option zur Speicherverwaltung und bewirkt, dass der Wert der Variable im Speicher gehalten wird bis das Objekt diesen freigibt. Dagegen stellt \objc{weak} nur eine schwache Referenz auf den Speicher dar und verhindert nicht dessen Freigabe. Wir werden noch Übung in der richtigen Verwendung dieser Kennzeichnungen bekommen. Bei Properties mit primitiven Datentypen kann diese Kennzeichnung weggelassen werden.
+\objc{strong} kennzeichnet hier eine Option zur Speicherverwaltung und bewirkt, dass der Wert der Variable im Speicher gehalten wird bis das Objekt diesen freigibt. Dagegen stellt \objc{weak} nur eine schwache Referenz auf den Speicher dar und verhindert nicht dessen Freigabe. Betrachtet zur Veranschaulichung folgendes Beispiel:
+\begin{objclst}
+@property (strong, nonatomic) NSString *name; // Wenn die Person "stirbt", verfällt auch ihr Name: strong
+@property (weak, nonatomic) Person *friend; // Eine hier referenzierte Person lebt dagegen weiter: weak
+\end{objclst}
+Wir werden noch Übung in der richtigen Verwendung dieser Kennzeichnungen bekommen. Bei Properties mit primitiven Datentypen kann diese Kennzeichnung weggelassen werden.
 
 Wenn nicht mit mehreren Threads gearbeitet wird, sollten Properties immer mit \objc{nonatomic} gekennzeichnet werden. Andernfalls treten einige ressourcenintensive Mechanismen in Kraft, um sicherzustellen, dass nicht gleichzeitig geschrieben und gelesen wird. Threads sind gleichzeitig ausgeführte Befehlssequenzen um beispielsweise in einem Hintergrundprozess Daten herunterzuladen und gleichzeitig das UI mit dem Ladefortschritt zu aktualisieren.
 
@@ -887,7 +892,7 @@ Der Aufruf \objc{#import "Klassenname.h"} bindet im Prinzip den Code der angegeb
 
 In solchen Situationen, in denen zwei Klassen jeweils voneinander abhängig sind, wird eine sog. \strong{Forward Declaration} verwendet. Dabei wird die benötigte Klasse im Header zunächst nur mit dem Aufruf \objc{@class Klassenname;} als verfügbar gekennzeichnet und dann erst in der Main-Datei importiert.
 
-\subsubsection{A.h}
+\begin{filecontent}{A.h}
 \begin{objclst}
 @class B; // Forward Declaration, um B im Interface zu verwenden
 
@@ -897,7 +902,9 @@ In solchen Situationen, in denen zwei Klassen jeweils voneinander abhängig sind
 
 @end
 \end{objclst}
-\subsubsection{A.m}
+\end{filecontent}
+
+\begin{filecontent}{A.m}
 \begin{objclst}
 #import "B.h" // Echter Import erst in der Main-Datei
 
@@ -905,6 +912,7 @@ In solchen Situationen, in denen zwei Klassen jeweils voneinander abhängig sind
 
 @end
 \end{objclst}
+\end{filecontent}
 
 Es gilt außerdem die Konvention, Klassen nur in Main-Dateien zu importieren und in Headern stattdessen die Forward Declaration zu verwenden.
 

@@ -357,6 +357,9 @@ Stellt eine Freundschaftsverbindung zwischen \objc{me} und jeder Person aus \obj
 \exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit dem Operator \objc{==} mit einem anderen verglichen werden.}
 
 Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keys{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
+
+\exchinweis{Wenn die Simulation in einer Endlosschleife läuft, steht nach einer Weile nicht mehr genug Speicherplatz zur Verfügung, um den nächsten Methodenaufruf auszuführen \linkref{http://en.wikipedia.org/wiki/Stack_overflow}. Ihr erhaltet dann den berüchtigten \objc{EXC_BAD_ACCESS} Fehler und die Ausführung der App bricht ab. In anderen Situationen, in denen keine Endlosschleife ausgeführt wird, ist dieser Fehler ein Hinweis auf fehlerhaftes Speichermanagement. Dazu gehört bspw. der Zugriff auf ein Objekt, das bereits (möglicherweise aufgrund der Kennzeichnung des Attributs als \objc{weak}) aus dem Speicher entfernt wurde.}
+
 \item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
 
 \end{enumerate}

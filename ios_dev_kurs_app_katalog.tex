@@ -689,9 +689,71 @@ git pull
 
 \end{enumerate}
 
+\begin{exc}
 
-% TODO: Übungsaufgaben
+\begin{excitem}{chatter}{Chatter}
 
+In dieser Aufgabe schreiben wir zusammen an einer App!
+
+\begin{exchinweis}
+Aus naheliegenden Gründen funktioniert es insgesamt besser, wenn ihr diese Aufgabe nicht alle erst am Sonntagabend erledigt…
+\end{exchinweis}
+
+\begin{enumerate}[label=\roman*.]
+
+\item Auf GitHub verwalte ich das Repository der \emph{chatter} App \linkref{https://github.com/iOS-Dev-Kurs/chatter}. Ihr könnt es zwar in dieser Form mit \sh{git clone} herunterladen, jedoch keine Änderungen im Original-Repository auf dem Server veröffentlichen. Stattdessen benötigt ihr einen eigenen \strong{Fork}, mit dem ihr arbeiten könnt. Erstellt dazu zunächst einen GitHub Account \linkref{https://github.com/join}, wenn ihr noch keinen habt.
+
+\item Loggt euch mit eurem GitHub Account ein und befolgt die Anweisungen der GitHub Dokumentation \linkref{https://help.github.com/articles/fork-a-repo}, um einen Fork des \emph{chatter} Repositories \linkref{https://github.com/iOS-Dev-Kurs/chatter} zu erstellen. Dort ist insbesondere auch beschrieben, wie ihr das Repository anschließend lokal klont und das Original-Repository als Remote \sh{upstream} hinzufügt.
+
+\item Ihr habt das Projekt nun lokal auf eurem Mac. Es ist sowohl mit eurem Fork des Repositories (\sh{origin}) als auch mit meinem Original-Repository (\sh{upstream}) verbunden. Ihr könnt jetzt jederzeit die Änderungen herunterladen, die ich oder andere Teilnehmer unseres Kurses am Original-Repository vornehmen, indem ihr von \sh{upstream} pullt:
+
+\begin{shlst}
+git pull upstream master
+\end{shlst}
+
+Dies solltet ihr häufig tun, unter anderem immer bevor ihr beginnt, an dem Projekt zu arbeiten.
+
+\item Öffnet nun das Projekt in Xcode. Die \emph{chatter} App ist in der im Repository enthaltenen \emph{README.md} Datei beschrieben. Diese und die Kommentare im Code sollen euch bezüglich der App als Referenz dienen. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren.
+
+\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \objc{CHTRChatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \objc{CHTRChatter} Klasse dokumentiert sind.
+
+Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und sie mithilfe von Git den anderen zur Verfügung zu stellen! Ihr könnt bspw. versuchen, einen bekannten Charakter darzustellen, oder etwas völlig neues erschaffen. Lasst eurer Kreativität freien Lauf!
+
+Erstellt dazu einfach eine neue Subklasse von \objc{CHTRChatter} mit dem Namen eures Charakters und platziert die beiden zugehörigen Dateien im Xcode Projekt Navigator unter \menu{chatter > Model > Custom Subclasses}.
+
+\item Überschreibt nun die relevanten Methoden wie in der \emph{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
+
+In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objc{CHTRMessage} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
+
+\item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert:
+
+\begin{shlst}
+git add filename # Achtet bitte darauf, nur Änderungen eurer Subklasse und nur wenn nötig Änderungen in anderen Dateien zu committen
+git status # häufig den Status prüfen
+git commit -m"describe your changes here"
+\end{shlst}
+
+\item Die neuen Commits sind zunächst nur lokal verfügbar. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
+
+\begin{shlst}
+git pull upstream master
+\end{shlst}
+
+Das Repository enthält dann sowohl den aktuellen Stand des Original-Repositories, als auch eure Änderungen. Dies könnt ihr auf euren Fork auf GitHub hochladen:
+
+\begin{shlst}
+git push origin master
+\end{shlst}
+
+\item Wenn ihr mit eurer neuen \objc{CHTRChatter} Subklasse zufrieden sein, schickt mir eine \strong{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \sh{git pull} durchführen.
+
+GitHub beschreibt das System der Pull Requests recht ausführlich in ihrer Dokumentation \linkref{https://help.github.com/articles/using-pull-requests}. Wie dort beschrieben, müsst ihr den Prozess dazu mit Klick auf den \emph{Compare \& review} Button initiieren, noch einmal die Änderungen prüfen und anschließend absenden. Ich erhalte dann eine Benachrichtigung und muss dem Merge mit dem Original-Repository nur noch großzügig zustimmen.
+
+Ich bin gespannt auf eure Implementierungen!
+
+\end{enumerate}
+
+\end{excitem}
 
 \end{exc}
 

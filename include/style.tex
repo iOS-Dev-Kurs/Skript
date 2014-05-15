@@ -1,5 +1,5 @@
 
-% Packages
+% General Packages
 \usepackage[ngerman]{babel}
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -67,6 +67,13 @@
 \newcommand{\includegraphicsc}[4][\textwidth]{{\begin{figure}[ht]\centering\includegraphics[width=#1]{#2}\caption{#4}\label{#3}\end{figure}}}
 \newcommand{\screenshotwidth}{.8\textwidth}
 \newcommand{\iphonewidth}{.4\textwidth}
+
+% Margin Images
+\usepackage{marginnote}
+\newcommand{\mvcindicatorview}{\reversemarginpar\marginnote{\centering
+    \includegraphics[width=1cm]{img/mvc_view}\\
+    \textbf{\small View}
+}}
 
 % Lecture structure
 \newenvironment{lecture}{}{\pagebreak}

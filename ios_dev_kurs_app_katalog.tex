@@ -758,8 +758,7 @@ Ich bin gespannt auf eure Implementierungen!
 \end{exc}
 
 
-
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture} % Lecture 5
@@ -767,20 +766,22 @@ Ich bin gespannt auf eure Implementierungen!
 
 \chapter{iOS App Architektur}
 
-Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns viel Arbeit bei der Programmierung ab und reduzieren den zu schreibenden Code, indem große Teile des User Interface separat erstellt wird. Außerdem können wir mit erweiterten Targetkonfigurationen viel Arbeit an Apples Frameworks übergeben, ohne die Architektur unserer App selbst schreiben zu müssen.
+Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns viel Arbeit bei der Programmierung ab und reduzieren den zu schreibenden Code, indem große Teile des User Interface separat erstellt werden. Außerdem können wir mit erweiterten Targetkonfigurationen viel Arbeit an Apples Frameworks übergeben, ohne die Architektur unserer App selbst schreiben zu müssen.
 
 Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS App jedoch zunächst verstehen und selbst implementieren können.
 
-\skriptref{iOS App Architektur}
 
 \section{Handgeschriebene View Hierarchie}
+
+\skriptref{Das Model-View-Controller Konzept, View Hierarchie}
 
 \begin{enumerate}
 \item Die iOS App Entwicklung orientiert sich konsequent an dem \strong{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber unbedingt im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
 \item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zurück zu Schritt 1.!
-\item Wir betrachten nun zunöchst die \strong{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \strong{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
-\item Betrachtet dazu wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem vorherigen Abschnitt wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
-\item Da wir mit dem 'Empty Application' Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
+\item Wir betrachten nun zunächst die \strong{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \strong{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
+\item Erstellt ein neues Projekt mit dem Product Name \emph{viewhierarchy}. Verwendet das \emph{Empty Application} Template, sodass keine Interfaceelemente vorkonfiguriert werden.
+\item Betrachtet nun wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem vorherigen Abschnitt wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
+\item Da wir mit dem \emph{Empty Application} Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
 \begin{objclst}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -800,9 +801,9 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
     [self.window makeKeyAndVisible];
 
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.window.frame.size.width, 50)];
-    [self.window addSubview:label];
     label.text = @"Hello World!";
     label.backgroundColor = [UIColor redColor];
+    [self.window addSubview:label];
 
     return YES;
 }
@@ -817,12 +818,12 @@ Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS
 Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts \excref{exc:simpleui} oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden.
 
 \begin{exchinweise}
-\item Das Äquivalent zu einer IBOutlet Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
-\item Eine IBAction Verbindung hingegen ist durch die Instanzmethode \objc{addTarget:action:forControlEvents:} von \objc{UIControl} gegeben. \objc{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objc{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
+\item Das Äquivalent zu einer \objc{IBOutlet} Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
+\item Eine \objc{IBAction} Verbindung hingegen ist durch die Instanzmethode \objc{addTarget:action:forControlEvents:} von \objc{UIControl} gegeben. \objc{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objc{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
 \begin{objclst}
 [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
 \end{objclst}
-Der Methode wird also die Methode als spezielles Selector-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
+Der Methode wird also die Methode als spezielles \objc{selector}-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
 \item Ein \objc{UIButton} besitzt das Attribut \objc{UILabel *titleLabel}, doch es gilt die Konvention, die Instanzmethode \objc{setTitle:forState:} zu verwenden. Für verschiedene Modi wie \objc{UIControlStateNormal} oder \objc{UIControlStateSelected} können damit unterschiedliche Titel angegeben werden. Wird kein anderer Titel spezifiziert, wird der Titel von \objc{UIControlStateNormal} verwendet.
 \end{exchinweise}
 
@@ -831,7 +832,7 @@ Der Methode wird also die Methode als spezielles Selector-Objekt übergeben, die
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture}

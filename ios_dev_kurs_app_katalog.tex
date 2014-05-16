@@ -708,7 +708,7 @@ Aus naheliegenden Gründen funktioniert es insgesamt besser, wenn ihr diese Aufg
 \item Ihr habt das Projekt nun lokal auf eurem Mac. Es ist sowohl mit eurem Fork des Repositories (\sh{origin}) als auch mit meinem Original-Repository (\sh{upstream}) verbunden. Ihr könnt jetzt jederzeit die Änderungen herunterladen, die ich oder andere Teilnehmer unseres Kurses am Original-Repository vornehmen, indem ihr von \sh{upstream} pullt:
 
 \begin{shlst}
-git pull upstream master
+git pull --rebase upstream master # Ein Rebase ist hier angebrachter als ein Merge, im Skript ist der Unterschied kurz beschrieben
 \end{shlst}
 
 Dies solltet ihr häufig tun, unter anderem immer bevor ihr beginnt, an dem Projekt zu arbeiten.
@@ -736,7 +736,7 @@ git commit -m"describe your changes here"
 \item Die neuen Commits sind zunächst nur lokal verfügbar. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
 
 \begin{shlst}
-git pull upstream master
+git pull --rebase upstream master
 \end{shlst}
 
 Das Repository enthält dann sowohl den aktuellen Stand des Original-Repositories, als auch eure Änderungen. Dies könnt ihr auf euren Fork auf GitHub hochladen:
@@ -758,7 +758,7 @@ Ich bin gespannt auf eure Implementierungen!
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture} % Lecture 5

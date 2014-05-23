@@ -770,23 +770,26 @@ Ich bin gespannt auf eure Implementierungen!
 \begin{lecture} % Lecture 5
 
 
-\chapter{iOS App Architektur}
+\chapter{View Hierarchie}
 
-Konzepte der iOS App Entwicklung wie Storyboarding und Auto Layout nehmen uns viel Arbeit bei der Programmierung ab und reduzieren den zu schreibenden Code, indem große Teile des User Interface separat erstellt werden. Außerdem können wir mit erweiterten Targetkonfigurationen viel Arbeit an Apples Frameworks übergeben, ohne die Architektur unserer App selbst schreiben zu müssen.
+Die iOS App Entwicklung orientiert sich konsequent am \strong{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \objc{Foundation} und \objc{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Programmierung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
 
-Um die verfügbaren Mechanismen zu nutzen, müssen wir die Architektur einer iOS App jedoch zunächst verstehen und selbst implementieren können.
+\skriptref{Das Model-View-Controller Konzept}
+
+Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \objc{UIView} Klasse des \objc{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \strong{View Hierarchie} kennenlernen, \objc{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \strong{Auto Layout} Konzepts das User Interface dynamisch anpassen.
 
 
 \section{Handgeschriebene View Hierarchie}
 
-\skriptref{Das Model-View-Controller Konzept, View Hierarchie}
+\mvcindicatorview
+
+\skriptref{View Hierarchie}
 
 \begin{enumerate}
-\item Die iOS App Entwicklung orientiert sich konsequent an dem \strong{Model-View-Controller Konzept} der Programmierung. Informiert euch darüber unbedingt im Skript, da es die Grundlage für die weitere Konzeption unserer Apps darstellt.
-\item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zurück zu Schritt 1.!
-\item Wir betrachten nun zunächst die \strong{View} Komponente des Konzepts. Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die \strong{View Hierarchie} unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
+\item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zeit, einen Blick ins Skript zu werfen!
+\item Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die View Hierarchie unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
 \item Erstellt ein neues Projekt mit dem Product Name \emph{viewhierarchy}. Verwendet das \emph{Empty Application} Template, sodass keine Interfaceelemente vorkonfiguriert werden.
-\item Betrachtet nun wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem vorherigen Abschnitt wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
+\item Betrachtet nun wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem Skript (\emph{iOS App Lifecycle}) wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
 \item Da wir mit dem \emph{Empty Application} Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
 \begin{objclst}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -914,7 +917,7 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture}

@@ -841,13 +841,15 @@ Der Methode wird also die Methode als spezielles \objc{selector}-Objekt übergeb
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture}
 
 
 \section{Auto Layout}
+
+\mvcindicatorview
 
 Eine View Hierarchie können wir offensichtlich ebenso im Code schreiben wie im Storyboard konfigurieren. Selbst für ein simples Interface wie im vorherigen Abschnitt implementiert ist jedoch viel Code notwendig, da jeder Parameter als Attribut gesetztz werden muss. Der Interface Builder bietet hier effiziente Möglichkeiten, Benutzeroberflächen ohne Code zu konfigurieren und trotzdem mit dem Code zu verknüpfen.
 
@@ -859,17 +861,21 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \begin{enumerate}
 
-\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Rotieren wir den Simulator mit \keys{\cmdkey+\arrowkeyright} oder \keys{\cmdkey+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
+\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Ihr könnt auch das Projekt einer anderen App mit vergleichsweise einfachem Interface öffnen. Rotieren wir den Simulator mit \keys{\cmdkey+\arrowkeyright} oder \keys{\cmdkey+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
 
 \includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die Frames einfach erhalten}
 
-\item Nach dem Auto Layout Konzept können wir nun Constraints definieren und also \objc{NSLayoutConstraint} Objekte einer View hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass ihre Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
+\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \objc{NSLayoutConstraint} Objekte einer View hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
 
-\item Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option 'Use Autolayout' im File Inspector markiert sein.
+\item Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option \emph{Use Autolayout} im File Inspector markiert sein.
 
 \item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keys{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
 
-\item Wenn die Constraints das Layout einer View eindeutig beschreiben, werden sie blau markiert. Bei der Definition von Constraints sollte immer auf die Eindeutigkeit des Layouts geachtet werden.
+\item Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \objc{x}, \objc{y}, \objc{width} und \objc{height} von \objc{frame} eindeutig festzulegen. Beachtet dabei die \strong{Intrinsic Content Size}!
+
+In einem eindeutigen Layout werden die Constraints blau markiert und ihr könnt das \emph{Resolve Auto Layout Issues} Menü verwenden, um mit einem Klick auf \emph{Update All Frames in View Controller} alle Views entsprechend ihrer Constraints zu positionieren. Bei einem eindeutigen Layout werden die Frames anschließend automatisch angepasst, wenn ihr die Konstanten der Constraints verändert.
+
+\item Wählt ihr im Interface Builder das \emph{View Controller} Objekt aus, so könnt ihr im Attributes Inspector \menu{Orientation > Landscape} wählen. Die View wird dann mit entsprechend angepasstem Frame angezeigt und ihr könnt die Funktionsweise eurer Constraints testen.
 
 \end{enumerate}
 
@@ -877,38 +883,57 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \begin{excitem}{autolayout}{Auto Layout}
 
-Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch (bei iPhone Storyboards) bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
+Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
 
-Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein 'View Controller' Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
+Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein \emph{View Controller} Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
 
-\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{BOOL hidden} verwendet werden, das auch im Storyboard verfügbar ist.}
+\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.}
 
 \begin{enumerate}
 
-\item Eine \objc{UISegmentedControl} und eine \objc{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objc{UIView} füllt den verbleibenden Platz.
-\begin{center}
-\includegraphics[width=\iphonewidth]{img/al_21.png}
-\includegraphics[height=\iphonewidth]{img/al_22.png}
-\end{center}
+\item Eine \objc{UISegmentedControl} und eine \objc{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objc{UIView} füllt den verbliebenen Platz.
+
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_21.png}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_22.png}
+\end{minipage}
 
 \item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objc{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
-\begin{center}
-\includegraphics[width=\iphonewidth]{img/al_31.png}
-\includegraphics[width=\iphonewidth]{img/al_32.png}
-\end{center}
+
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_31.png}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_32.png}
+\end{minipage}
 
 \item Zwei Views haben (Platzhalter-) Intrinsic Content Sizes von 300x300pt und 100x100pt. Die größere wird wenn möglich vertikal zentriert, hat jedoch immer einen Abstand von mindestens 20pt zur darunter befindlichen kleineren View. Beide sind horizontal zentriert. Die kleinere View ist außerdem immer mindestens 20pt vom unteren Bildschirmrand entfernt. Wird der verfügbare Platz kleiner, wird die größere View vor der kleineren gestaucht.
-\begin{center}
-\includegraphics[width=\iphonewidth]{img/al_11.png}
-\includegraphics[width=\iphonewidth]{img/al_12.png}
-\includegraphics[height=\iphonewidth]{img/al_13.png}
-\end{center}
+
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_11.png}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_13.png}
+\end{minipage}
 
 \item Drei Views füllen jeweils den verfügbaren vertikalen Platz mit einem Abstand von 20pt zur Begrenzung. Horizontal sind sie gleichmäßig verteilt.
-\begin{center}
-\includegraphics[width=\iphonewidth]{img/al_02.png}
-\includegraphics[height=\iphonewidth]{img/al_01.png}
-\end{center}
+
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_02.png}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_01.png}
+\end{minipage}
 
 \end{enumerate}
 

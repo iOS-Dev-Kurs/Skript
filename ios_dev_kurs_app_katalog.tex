@@ -942,13 +942,15 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture}
 
 
 \chapter{Cities}
+
+\mvcindicatorcontroller
 
 iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \objc{UIView} Objekt in der View Hierarchie des übergeordneten \objc{UIWindow} Objekts dargestellt wird.
 
@@ -966,17 +968,17 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \begin{enumerate}
 
-\item Beginnen wir mit einem neuen Xcode Projekt nach dem 'Single View' Template und mit dem Product Name 'cities'. Es wird damit automatisch eine Klasse \objc{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objc{ViewController : UIViewController} in unserem Projekt.
+\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{cities}. Es wird damit automatisch eine Klasse \objc{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objc{ViewController : UIViewController} in unserem Projekt.
 
 \item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menu{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
 
 \includegraphicsc[8cm]{img/refactor.png}{img:refactor}{Die Refactor Funktion ist sinnvoll, um Symbole im gesamten Projekt umzubennen}
 
-\item Im Storyboard finden wir eine Scene mit einem Objekt dieser (nun umbenannten) \objc{CitiesViewController} Klasse. Wie im Skript dargestellt, können wir uns im Identity Inspector davon überzeugen, dass die Klasse des View Controller Objekts tatsächlich \objc{CitiesViewController} ist. Zur Laufzeit wird also ein solches Objekt erzeugt und dem \objc{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als 'Initial Scene' gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt.
+\item Im Storyboard finden wir eine Scene mit einem Objekt dieser (nun umbenannten) \objc{CitiesViewController} Klasse. Wie im Skript dargestellt, können wir uns im Identity Inspector davon überzeugen, dass die Klasse des View Controller Objekts tatsächlich \objc{CitiesViewController} ist. Zur Laufzeit wird also ein solches Objekt erzeugt und dem \objc{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt.
 
 \item Ziehen wir nun \objc{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
 
-Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beliebigen Stadt \abbref{img:one_city_ui}. Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo.
+Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beliebigen Stadt \abbref{img:one_city_ui}. Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
 
 \includegraphicsc[\iphonewidth]{img/one_city_ui.png}{img:one_city_ui}{Ein Button soll bei Betätigung Informationen über die entsprechende Stadt anzeigen}
 
@@ -1008,18 +1010,18 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beli
 \begin{objclst}
 // CityDetailViewController.h
 
-@class City; // Forward Declaration (s. Skript)
+@class City; // Forward Declaration
 
 @interface CityDetailViewController : UIViewController
 
-@property (strong, nonatomic) City *city;
+^\objchighlight{@property (strong, nonatomic) City *city;}^
 
 @end
 \end{objclst}
 
-\item Nun verwenden wir wieder das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt nun im Identity Inspector des hinzugefügten View Controllers das Eingabefeld 'Class' und gebt den Namen der neuen \objc{UIViewController} Subklasse \objc{CityDetailViewController} ein.
+\item Nun verwenden wir wieder das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt nun im Identity Inspector des hinzugefügten View Controllers das Eingabefeld \emph{Class} und gebt den Namen der neuen \objc{UIViewController} Subklasse \objc{CityDetailViewController} ein.
 
-\item Platziert ein \objc{UILabel} und ein \objc{UIImageView} Objekt in der Content View des \objc{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen 'Zurück' Button hinzu und verbindet dessen \objc{UIControlEventTouchUpInside} Event mit einer IBAction. Diese können wir direkt implementieren:
+\item Platziert ein \objc{UILabel} und ein \objc{UIImageView} Objekt in der Content View des \objc{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \emph{Zurück} Button hinzu.
 
 \includegraphicsc[\iphonewidth]{img/city_detail_ui.png}{img:city_detail_ui}{Der City Detail View Controller soll Information über die ausgewählte Stadt anzeigen}
 
@@ -1030,27 +1032,17 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beli
 
 @interface CityDetailViewController ()
 
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-
-- (IBAction)backButtonPressed:(id)sender;
-
-@end
-
-@implementation CityDetailViewController
-
-- (IBAction)backButtonPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+^\objchighlight{@property (strong, nonatomic) IBOutlet UILabel *nameLabel;}^
+^\objchighlight{@property (strong, nonatomic) IBOutlet UIImageView *imageView;}^
 
 @end
 \end{objclst}
 
-Die Instanzmethode \objc{dismissViewControllerAnimated:completion:} von \objc{UIViewController} ist im Skript beschrieben.
-
-\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen.
+\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. 
 
 \includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
+
+Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen. Hier kann außerdem ein \emph{Identifier} für die Segue vergeben werden. Setzt diesen auf \emph{showCityDetail}.
 
 \item Dem erstellten City Detail View Controller muss vor der Präsentation ein \objc{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \objc{prepareForSegue:sender:} in unserer \objc{CitiesViewController} Klasse.
 
@@ -1067,12 +1059,15 @@ Die Instanzmethode \objc{dismissViewControllerAnimated:completion:} von \objc{UI
 
 @implementation CitiesViewController
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    City *city = [[City alloc] init];
-    city.name = @"Melbourne";
-    city.image = [UIImage imageNamed:@"melbourne"];
-    CityDetailViewController *cityDetailVC = segue.destinationViewController;
-    cityDetailVC.city = city;
+^\objchighlight{- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender}^
+{
+    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
+        City *city = [[City alloc] init];
+        city.name = @"Melbourne";
+        city.image = [UIImage imageNamed:@"melbourne"];
+        CityDetailViewController *cityDetailVC = segue.destinationViewController;
+        cityDetailVC.city = city;
+    }
 }
 
 @end
@@ -1080,7 +1075,7 @@ Die Instanzmethode \objc{dismissViewControllerAnimated:completion:} von \objc{UI
 
 Hier erstellen wir bei dem Übergang zum City Detail View Controller ein neues \objc{City} Objekt und geben es an den City Detail View Controller weiter. Im Allgemeinen wird in einer solchen Situation natürlich auf die Model-Komponente der App zurückgegriffen.
 
-Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Später werden wir Xcode Asset Catalogs für die Bilddateien unserer Apps verwenden.
+\strong{Hinweis:} Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
 
 \item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objc{City} Objekts konfigurieren. Dies geschieht am besten in einer Implementierung der \objc{viewWillAppear:} Instanzmethode in der \objc{CityDetailViewController} Klasse.
 
@@ -1093,28 +1088,66 @@ Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
-- (IBAction)backButtonPressed:(id)sender;
-
 @end
 
 @implementation CityDetailViewController
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    self.nameLabel.text = self.city.name;
-    self.imageView.image = self.city.image;
-}
-
-- (IBAction)backButtonPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    ^\objchighlight{self.nameLabel.text = self.city.name;}^
+    ^\objchighlight{self.imageView.image = self.city.image;}^
 }
 
 @end
 \end{objclst}
 
-\item Betätigt ihr nun den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \objc{City} Objekt konfiguriert \abbref{img:one_city_run}.
+Betätigt ihr nun den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \objc{City} Objekt konfiguriert \abbref{img:one_city_run}.
 
 \includegraphicsc[\iphonewidth]{img/one_city_run.png}{img:one_city_run}{Wird der Button betätigt, zeigt der City Detail View Controller die Informationen zu der ausgewählten Stadt}
+
+\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \strong{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir \emph{dem präsentierenden View Controller} (nicht dem \emph{präsentierten}) eine Methode \objc{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
+
+\begin{objclst}
+// CitiesViewController.m
+
+#import "CitiesViewController.h"
+#import "City.h"
+#import "CityDetailViewController.h"
+
+@interface CitiesViewController ()
+
+^\objchighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue;}^
+
+@end
+
+@implementation CitiesViewController
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
+        City *city = [[City alloc] init];
+        city.name = @"Melbourne";
+        city.image = [UIImage imageNamed:@"melbourne"];
+        CityDetailViewController *cityDetailVC = segue.destinationViewController;
+        cityDetailVC.city = city;
+    }
+}
+
+^\objchighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue}^
+{
+    // no implementation necessary
+}
+
+@end
+\end{objclst}
+
+\item Im Storyboard können wir nun das \objc{UIControlEventTouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrlkey}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \emph{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \objc{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
+
+\includegraphicsc[\iphonewidth]{img/cities_unwind_segue.png}{img:cities_unwind_segue}{Die \emph{Exit} Schaltfläche präsentiert alle Unwind Segues in der View Controller Hierarchie}
+
+Führt ihr die App nun aus und betätigt den \emph{Zurück} Button, so wird die Unwind Segue zum Cities View Controller ausgeführt und damit der City Detail View Controller wieder ausgeblendet.
 
 \end{enumerate}
 
@@ -1127,7 +1160,7 @@ Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nac
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture}

@@ -4,6 +4,8 @@
 \input{include/style}
 \input{include/code_listing}
 
+\usepackage{enumitem}
+
 \renewcommand{\doctype}{Beispiellösungen der Übungsaufgaben}
 \renewcommand{\shortdoctype}{Beispiellösungen}
 
@@ -570,14 +572,14 @@ Als Beispiel ist hier die RGB App implementiert:
 \end{objclst}
 \end{filecontent}
 
-\end{lsgitem}\end{lsg}\end{document} % POINTER
+\end{lsgitem}
 
 
 \begin{lsgitem}{autolayout}{Auto Layout}
 
 Die möglichen Constraints sind in Gleichungsform oder Visual Format Syntax angegeben. \objc{contentView} bezeichnet die View an erster Stelle der Hierarchie.
 
-\begin{enumerate}
+\begin{enumerate}[label=\alph*)]
 \item
 \begin{itemize}
 \item \objc{segmentedControl.centerX = contentView.centerX}
@@ -617,7 +619,7 @@ Die \objc{buttonCenterView} besitzt damit eine Intrinsic Content Size, die von d
 \end{itemize}
 \end{enumerate}
 
-\end{lsgitem}
+\end{lsgitem}\end{lsg}\end{document} % POINTER
 
 
 \begin{lsgitem}{cities}{Cities}

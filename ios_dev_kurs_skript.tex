@@ -1367,7 +1367,7 @@ Bei der Konstruktion der Constraints sollte unbedingt auf ein eindeutiges Layout
 
 \subsection{Intrinsic Content Size}
 
-Subklassen von \objc{UIView} wie repräsentieren häufig Inhalt, dessen Darstellung eine bestimmte Größe erfordert. Dazu gehören bspw. \objc{UILabel} oder \objc{UIImageView} Objekte, deren Größe durch ihren Text- oder Bildinhalt bestimmt werden.
+Subklassen von \objc{UIView} repräsentieren häufig Inhalt, dessen Darstellung eine bestimmte Größe erfordert. Dazu gehören bspw. \objc{UILabel} oder \objc{UIImageView} Objekte, deren Größe durch ihren Text- oder Bildinhalt bestimmt werden.
 
 Diese \strong{Intrinsic Content Size} wird verwendet, um die Größe einer View zu berechnen. In den meisten Fällen sollte die Intrinsic Content Size nicht durch explizite \objc{width} und \objc{height} Constraints beschränkt werden.
 
@@ -1425,11 +1425,6 @@ NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-[view
 \end{objclst}
 
 
-
-\end{document} % POINTER
-
-
-
 %\section{Ereignisgesteuerte Programmierung}
 %
 %Im Unterschied zu sequentiell ablaufenden Skripten ist die Ausführung von iOS Apps \strong{ereignisgesteuert} oder \strong{event-driven}. Zur Laufzeit der App wird auf System- und Benutzerereignisse reagiert. Die App muss diese Ereignisse verarbeiten und das UI entsprechend anpassen.
@@ -1439,11 +1434,13 @@ NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-[view
 
 \section{View Controller Hierarchie}
 
+\mvcindicatorcontroller
+
 Eine App besteht im Allgemeinen aus verschiedenen Bildschirmansichten, die jeweils eine Komponente der Benutzeroberfläche repräsentieren. Daher verwalten wir die View Hierarchie unserer App nicht zentral, bspw. im Application Delegate, sondern verwenden einzelne Klassen, die jeweils einen Teil der View Hierarchie verwalten.
 
 Diese Subklassen von \objc{UIViewController} sind der \strong{Controller}-Komponente des Model-View-Controller Konzepts zugeordnet \secref{sec:mvc}.
 
-Jeder View Controller ist für die Verwaltung seiner eigenen \strong{Content View} zuständig. \objc{UIViewController} besitzt dafür ein Attribut \objc{UIView *view}.
+Jeder View Controller ist für die Verwaltung seiner eigenen \strong{Content View} zuständig. \objc{UIViewController} besitzt dafür ein Attribut \objc{view}.
 
 Zu den Aufgaben eines View Controllers gehören:
 \begin{itemize}
@@ -1458,16 +1455,16 @@ Nach dem Prinzip des \strong{View Controller Containment} gibt es auch hier, äh
 \clearpage
 \includegraphicsc{img/vc_containment.png}{img:vc_containment}{Jeder View Controller verwaltet seine Content View, die einen Teil der View Hierarchie darstellt}
 
-Die oberste Instanz der View Hierarchie ist ein Objekt der \objc{UIWindow} Klasse. Analog besitzt \objc{UIWindow} ein Attribut \objc{UIViewController *rootViewController}, das die oberste Instanz der View Controller Hierarchie darstellt. Weisen wir diesem Attribut ein View Controller Objekt zu, so wird dessen Content View der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt. Wird ein Storyboard verwendet, geschieht dies automatisch mit der Option 'Initial View Controller' im Attributes Inspektor des entsprechenden View Controllers.
+Die oberste Instanz der View Hierarchie ist ein Objekt der \objc{UIWindow} Klasse. Analog besitzt \objc{UIWindow} ein Attribut \objc{rootViewController}, das die oberste Instanz der View Controller Hierarchie darstellt. Weisen wir diesem Attribut ein View Controller Objekt zu, so wird dessen Content View der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt. Wird ein Storyboard verwendet, geschieht dies automatisch mit der Option \emph{Initial View Controller} im Attributes Inspektor des entsprechenden View Controllers.
 
-Während nur in wenigen Fällen Subklassen von \objc{UIView} implementiert werden, wird man keine iOS App ohne mindestens eine Subklasse von \objc{UIViewController} finden. Meist stellt die Implementierung der View Controller den Großteil der Programmierung von iOS Apps dar.
+Während nur in wenigen Fällen Subklassen von \objc{UIView} implementiert werden, wird man kaum eine iOS App ohne mindestens eine Subklasse von \objc{UIViewController} finden. Häufig stellt die Implementierung der View Controller den Großteil der Programmierung von iOS Apps dar.
 
 \subsection{View Controller Lifecycle}
 
 Im Verlauf der Präsentation eines View Controllers können verschiedene Instanzmethoden überschrieben werden, um auf Änderungen der Darstellung zu reagieren:
 \begin{itemize}
 \item \objc{viewDidLoad} wird aufgerufen, sobald die Content View geladen wurde. An dieser Stelle können Attribute, die im Storyboard nicht hinreichend konfiguriert werden können, dynamisch angepasst werden, um einen Ausgangspunkt für die Präsentation zu schaffen.
-\item \objc{viewWillAppear:}, \objc{viewWillDisappear:}, \objc{viewDidAppear:} und \objc{viewDidDisappear:} können verwendet werden, um die Inhalte der Content View zu aktualisieren oder Vorgänge zu beginnen/anzuhalten.
+\item \objc{viewWillAppear:}, \objc{viewDidAppear:}, \objc{viewWillDisappear:} und \objc{viewDidDisappear:} können verwendet werden, um die Inhalte der Content View zu aktualisieren oder Vorgänge zu beginnen/anzuhalten.
 \item \objc{didReceiveMemoryWarning} wird aufgerufen, wenn das System die App auffordert, Speicher freizugeben. Hier sollten nicht mehr benötigte Objekte oder solche, die leicht wieder zu erstellen sind, freigegeben werden.
 \end{itemize}
 
@@ -1488,7 +1485,7 @@ Das UIKit Framework stellt einige nützliche Subklassen von \objc{UIViewControll
 
 Insbesondere werden wir uns noch genauer mit dem äußerst vielseitigen \objc{UITableViewController} befassen. Dieser gehört mit \objc{UICollectionViewController} zu den inhaltsbasierten Subklassen von \objc{UIViewController}.
 
-\objc{UINavigationController} und \objc{UITabBarController} hingegen sind als Container View Controller konzipiert. Sie enthalten selbst nur wenige Subviews in Form von Leisten. Stattdessen verwalten sie eine Hierarchie von weiteren View Controllern und präsentieren deren Content Views.
+\objc{UINavigationController} und \objc{UITabBarController} hingegen sind als \strong{Container View Controller} konzipiert. Sie enthalten selbst nur wenige Subviews, bspw. in Form von Leisten. Stattdessen verwalten sie eine Hierarchie von weiteren View Controllern und präsentieren deren Content Views.
 
 \subsubsection{Navigation Controller}
 
@@ -1526,13 +1523,13 @@ Wird ein View Controller ausgewählt, können wir dessen Identität anpassen und
 
 Anschließend stehen die im Code definierten IBOutlets und IBActions der \objc{UIViewController} Subklasse im Interface Builder zur Verfügung und können mit Interfaceelementen verbunden werden.
 
-\subsubsection{Segues}
+\subsection{Segues}
 
 Zwischen Scenes vermitteln \strong{Segues}. Diese stellen Beziehungen zwischen View Controllern dar und können zu deren Präsentation verwendet werden \abbref{img:segues}.
 
 \includegraphicsc{img/segues.png}{img:segues}{Segues vermitteln zwischen Scenes}
 
-Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keys{\ctrlkey}-Taste und die Verwendung des 'Triggered Segues' Abschnitts des Connection Inspectors.
+Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keys{\ctrlkey}-Taste und die Verwendung des \emph{Triggered Segues} Abschnitts des Connection Inspectors.
 
 Zwischen View Controllern kann es direkte Beziehungen geben, die durch eine \strong{Relationship Segue} gekennzeichnet werden. In dieser Form wird bspw. einem Navigation Controller sein Root View Controller zugewiesen.
 
@@ -1541,19 +1538,37 @@ Außerdem können Subklassen von \objc{UIControl} wie bspw. \objc{UIButton} bei 
 \begin{itemize}
 \item \strong{Modal Segues} sind das Äquivalent zum Aufruf der \objc{presentViewController:animated:completion:} Methode.
 \item Befindet sich der View Controller des Ausgangspunkts der Segue in der View Hierarchie eines Navigation Controllers, kann eine \strong{Push Segue} als Äquivalent zu der \objc{pushViewController:animated:} Methode erstellt werden.
+\item Außerdem kann jeder View Controller \strong{Unwind Segues} zur Verfügung stellen, die innerhalb dessen View Controller Hierarchie verwendet werden können, um zu diesem zurückzukehren.
+
+Dazu ist lediglich die Definition und (ggf. leere) Implementierung einer Methode mit Rückgabetyp \objc{IBAction} und genau einem Argument vom Typ \objc{UIStoryboardSegue} im Interface des View Controllers erforderlich. Der Methodenname sollte das Ziel der Unwind Segue beschreiben, also den implementierenden View Controller.
+
+\begin{objclst}
+- (IBAction)unwindToXYZ:(UIStoryboardSegue *)sender;
+\end{objclst}
+
+Die Unwind Segue ist anschließend im Storyboard in jedem View Controller in der Hierarchie des implementierenden View Controllers unter der \emph{Exit} Schaltfläche verfügbar und kann mit einem \objc{UIControlEvent} verbunden werden \abbref{img:unwind_segue}.
+
+\includegraphicsc[\iphonewidth]{img/unwind_segue.png}{img:unwind_segue}{Die \emph{Exit} Schaltfläche stellt alle Unwind Segues in der View Controller Hierarchie zur Verfügung}
+
 \end{itemize}
 
-Im Attributes Inspector können Optionen bezüglich Übergangsanimation und Präsentationsmodus gewählt werden. Zusätzlich sollte hier ein Identifier vergeben werden.
+Im Attributes Inspector können Optionen bezüglich Übergangsanimation und Präsentationsmodus verschiedener Segues gewählt werden. Zusätzlich sollte hier ein Identifier vergeben werden.
 
 Im Code können wir auf das Auslösen einer Segue reagieren, um den View Controller des Ziels entsprechend zu konfigurieren. Dazu überschreiben wir die \objc{prepareForSegue:sender:} Instanzmethode und verwenden den Identifier:
 
 \begin{objclst}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([segue.identifier isEqualToString:@"showDetailSegue"]) {
         segue.destinationViewController.detailObject = detailObject;
     }
 }
 \end{objclst}
+
+
+
+\end{document} % POINTER
+
 
 
 \section{Das Delegate Konzept}\label{sec:delegate_konzept}

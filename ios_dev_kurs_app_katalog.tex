@@ -978,7 +978,7 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \item Ziehen wir nun \objc{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
 
-Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beliebigen Stadt \abbref{img:one_city_ui}. Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
+Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \emph{City name} o.ä. wählen, da wir diesen im Code anpassen.
 
 \includegraphicsc[\iphonewidth]{img/one_city_ui.png}{img:one_city_ui}{Ein Button soll bei Betätigung Informationen über die entsprechende Stadt anzeigen}
 
@@ -1005,7 +1005,77 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit dem Namen einer beli
 @end
 \end{objclst}
 
-\item Um nun einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \objc{UIViewController}. Erstellt also eine neue Klasse \objc{CityDetailViewController : UIViewController}. Dieser Klasse übergeben wir das ausgewählte \objc{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also ein Attribut \objc{City *city} im Header der \objc{CityDetailViewController} Klasse.
+\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine. Fügt daher ein Attribut \objc{City *city} im öffentlichen Interface hinzu.
+
+\begin{objclst}
+// CitiesViewController.h
+
+@class City; // Forward Declaration
+
+@interface CitiesViewController : UIViewController
+
+^\objchighlight{@property (strong, nonatomic) City *city;}^
+
+@end
+\end{objclst}
+
+\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \objc{City} Objekte, aufzusetzen und an die View Controller weiterzugeben. Implementiert daher folgende \objc{application:didFinishLaunchingWithOptions:} Methode.
+
+\begin{objclst}
+// AppDelegate.m
+
+#import "AppDelegate.h"
+#import "City.h"
+#import "CitiesViewController.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    City *city = [[City alloc] init];
+    city.name = @"Melbourne";
+    city.image = [UIImage imageNamed:@"melbourne"];
+
+    CitiesViewController *citiesVC = self.window.rootViewController;
+    citiesVC.city = city;
+    
+    return YES;
+}
+
+@end
+\end{objclst}
+
+Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
+
+\strong{Hinweis:} Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
+
+\item Im Cities View Controller überschreiben wir die \objc{viewWillAppear:} Methode, um das Interface entsprechend des \objc{City} Objekts zu konfigurieren.
+
+\begin{objclst}
+// CitiesViewController.m
+
+#import "CitiesViewController.h"
+#import "City.h"
+
+@interface CitiesViewController ()
+
+@property (strong, nonatomic) IBOutlet UIButton *cityButton;
+
+@end
+
+@implementation CitiesViewController
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.cityButton setTitle:self.city.name forState:UIControlStateNormal];
+}
+
+@end
+\end{objclst}
+
+\item Um nun einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \objc{UIViewController}. Erstellt also eine neue Klasse \objc{CityDetailViewController : UIViewController}. Dieser Klasse übergeben wir das ausgewählte \objc{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \objc{City *city} im Header der \objc{CityDetailViewController} Klasse.
 
 \begin{objclst}
 // CityDetailViewController.h
@@ -1055,29 +1125,33 @@ Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen ve
 
 @interface CitiesViewController ()
 
+@property (strong, nonatomic) IBOutlet UIButton *cityButton;
+
 @end
 
 @implementation CitiesViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.cityButton setTitle:self.city.name forState:UIControlStateNormal];
+}
+
 ^\objchighlight{- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender}^
 {
     if ([segue.identifier isEqualToString:@"showCityDetail"]) {
-        City *city = [[City alloc] init];
-        city.name = @"Melbourne";
-        city.image = [UIImage imageNamed:@"melbourne"];
         CityDetailViewController *cityDetailVC = segue.destinationViewController;
-        cityDetailVC.city = city;
+        cityDetailVC.city = self.city;
     }
 }
 
 @end
 \end{objclst}
 
-Hier erstellen wir bei dem Übergang zum City Detail View Controller ein neues \objc{City} Objekt und geben es an den City Detail View Controller weiter. Im Allgemeinen wird in einer solchen Situation natürlich auf die Model-Komponente der App zurückgegriffen.
+Hier geben wir das \objc{City} Objekt also einfach an den City Detail View Controller weiter.
 
-\strong{Hinweis:} Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
-
-\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objc{City} Objekts konfigurieren. Dies geschieht am besten in einer Implementierung der \objc{viewWillAppear:} Instanzmethode in der \objc{CityDetailViewController} Klasse.
+\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objc{City} Objekts konfigurieren. Dies geschieht am besten in einer weiteren Implementierung der \objc{viewWillAppear:} Instanzmethode in der \objc{CityDetailViewController} Klasse.
 
 \begin{objclst}
 #import "CityDetailViewController.h"

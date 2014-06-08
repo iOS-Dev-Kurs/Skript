@@ -1234,7 +1234,7 @@ Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nac
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture}
@@ -1252,7 +1252,7 @@ UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarc
 
 \item Ihr könnt nun die Modal Segue zwischen \objc{CitiesViewController} und \objc{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \strong{Push Segue} ändern. Nun wird automatisch statt der \objc{presentViewController:animated:completion} Methode von \objc{UIViewController} die \objc{pushViewController:animated:} Methode von \objc{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
 
-\item Den 'Zurück' Button könnt ihr nun entfernen, da \objc{UINavigationController} einen eigenen Mechanismus implementiert und eine \objc{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objc{NSString *title} Attribut von \objc{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
+\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \objc{UINavigationController} einen eigenen Mechanismus implementiert und eine \objc{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objc{NSString *title} Attribut von \objc{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
 
 \includegraphicsc{img/nav_controller_ui.png}{img:nav_controller_ui}{Navigation Controller zeigen eine Navigation Bar an}
 
@@ -1281,35 +1281,19 @@ UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarc
 
 Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
-\item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus UIKit, diese sich durch die Verwendung von Subklassen und sog. Delegates vielseitig anpassen lassen \abbref{img:nav_controller_run}.
+\item Da wir den Initial View Controller und damit den Root View Controller des Window Objekts verändert haben, müssen wir noch kurz die Implementierung des App Delegates anpassen, um das City Objekt korrekt weiterzugeben.
+
+\begin{objclst}
+// App Delegate.m > application:didFinishLaunchingWithOptions:
+CitiesViewController *citiesVC = [(UINavigationController *)self.window.rootViewController viewControllers][0];
+\end{objclst}
+
+
+\item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus UIKit, die sich bspw. durch die Verwendung von Subklassen und sog. Delegates vielseitig anpassen lassen \abbref{img:nav_controller_run}.
 
 \includegraphicsc[\iphonewidth]{img/nav_controller_run.png}{img:nav_controller_run}{Navigation Controller stellen Standardanimationen und -mechanismen zur Verfügung}
 
 \end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{continents}{Continents}
-
-Erweitert die App um einen View Controller, der die Städte in Kontinente (oder Planeten) einteilt. Alternativ könnt ihr natürlich auch gene kreativ werden und eine eigene App schreiben, in der zwischen verschiedenen View Controllern gewechselt wird!
-
-\begin{enumerate}
-\item Wenn wir weitere Städte hinzufügen, kann es sinnvoll sein, sie in Kontinente (oder Planeten) einzuteilen. Erstellt eine neue Klasse \objc{Continent} und definiert analog zur \objc{City} Klasse die Attribute \objc{NSString *name} und \objc{UIImage *image}. Aufgrund der Analogien zwischen den beiden Klassen könnt ihr auch stattdessen eine Superklasse \objc{Location} erstellen, die die beiden Attribute definiert, und von der \objc{Continent} und \objc{City} abstammen.
-\item Modifiziert die Benutzerführung der Cities App durch die Einführung eines neuen View Controllers \objc{ContinentsViewController}, der bei der Ausführung zuerst angezeigt werden soll. Konfiguriert einen Button mit dem Namen eines Kontinenten und stellt eine Push Segue Verbindung zum Cities View Controller her.
-\item Implementiert die \objc{prepareForSegue:sender:} Methode des \objc{ContinentsViewController}. Übergebt hier einem neuen Attribut \objc{Continent *continent} des Cities View Controller ein \objc{Continent} Objekt entsprechend des betätigten Buttons.
-\item Verwendet die \objc{viewWillAppear:} Methode, um den Kontinentnamen als Titel des Cities View Controller entsprechend des übergebenen \objc{Continent} Objekts anzuzeigen.
-\item \excextra{Erweitert die Klasse \objc{Location} (bzw. \objc{Continent}) um ein Attribut \objc{NSArray *subLocations} für die enthaltenen Orte. Fügt den View Controllern \objc{ContinentsViewController} und \objc{CitiesViewController} jeweils einen weiteren Button für einen zweiten Ort hinzu. Versucht nun die Implementierungen anzupassen, sodass die Betätigung eines Buttons den entsprechenden Ort an den nächsten View Controller weitergibt. Die Cities View Controller soll also bswp. die Namen der beiden Städte an Position 0 und 1 des \objc{subLocations} Attributs des \objc{Continent} Objekts anzeigen. Eine Limitierung auf 2 Orte ist hier ausreichend, im nächsten Abschnitt werden wir für Situationen dieser Art dynamische Table Views verwenden.}
-\end{enumerate}
-
-\end{excitem}
-
-\end{exc}
-
-
-\end{lecture}
-
-
-\begin{lecture}
 
 
 \section{More Cities}
@@ -1320,65 +1304,57 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \begin{enumerate}
 
-\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \objc{CitiesViewController} von \objc{UIViewController} zu \objc{UITableViewController}. Außerdem können wir die IBOutlets entfernen.
+\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \objc{CitiesViewController} von \objc{UIViewController} zu \objc{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
 
-\item Ein Table View Controller hat ein Objekt der \objc{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt im Navigationsbereich ziehen.
+\item Ein Table View Controller hat ein Objekt der \objc{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
 
-\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden.
+\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \objc{UITableView} als Content View
 
-\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus 'Dynamic Properties' auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den 'Bauplan' für jede Zelle dieser Art definieren. Fügt dafür eine \objc{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
+\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \objc{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
 
-\item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst 'Basic' \abbref{img:morecities_prototypecells}.
+\item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst einfach \emph{Basic} \abbref{img:morecities_prototypecells}.
 
 \includegraphicsc[\iphonewidth]{img/morecities_prototypecells.png}{img:morecities_prototypecells}{Prototype Cells dienen als Vorlage für die Zellen der Table View}
 
-\item Um Prototype Cells zu identifizieren, sollte ihnen ein \strong{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier 'cityCell' ein.
+\item Um Prototype Cells zu identifizieren, sollte ihnen ein \strong{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier \emph{cityCell} ein. Wie im Skript erklärt kann die Table View damit Zellen, die gerade nicht angezeigt werden, an anderer Stelle wiederverwenden.
 
-\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu 'erfragen', wenn sie sie benötigt. Dazu ruft das \objc{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objc{UITableView} teilt diese Anfragen in die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objc{id<UITableViewDatasource> datasource} und \objc{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objc{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
+\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \objc{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objc{UITableView} teilt diese Anfragen in die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objc{id<UITableViewDatasource> datasource} und \objc{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objc{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
 
-\item Im Allgemeinen repräsentiert eine Table View ein \objc{NSArray}. Definiert also im Interface des \objc{CitiesViewController} ein Attribut \objc{NSArray *cities} und überschreibt die Getter Methode des Attributs, um die Liste auf Anfrage zu erstellen und zurückzugeben:
+\item Im Allgemeinen repräsentiert eine Table View ein \objc{NSArray}. Definiert also im öffentlichen Interface des \objc{CitiesViewController} ein Attribut \objc{NSArray *cities} anstatt des bisherigen \objc{City *city} Attributs.
 
 \begin{objclst}
-#import "CitiesViewController.h"
-#import "City.h"
+// CitiesViewController.h
 
-@interface CitiesViewController ()
+@interface CitiesViewController : UITableViewController
 
 @property (strong, nonatomic) NSArray *cities;
 
 @end
+\end{objclst}
 
-@implementation CitiesViewController
+Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attribut nun eine Liste von Städten zuzuweisen.
 
-- (NSArray *)cities {
-    /* Da wir die Getter Methode hier überschreiben, können wir nicht self.cities verwenden, da die Dot-Syntax die Getter Methode aufruft (Endlosschleife). Stattdessen verwenden wir die ebenfalls (für jede Property) automatisch generierte Instanzvariable _cities (s. Skript). */
-    if (!_cities) {
+\begin{objclst}
+// AppDelegate.m
 
-        City *melbourne = [[City alloc] init];
-        melbourne.name = @"Melbourne";
-        melbourne.image = [UIImage imageNamed:@"melbourne"];
-        City *sydney = [[City alloc] init];
-        sydney.name = @"Sydney";
-        sydney.image = [UIImage imageNamed:@"sydney"];
-        City *brisbane = [[City alloc] init];
-        brisbane.name = @"Brisbane";
-        brisbane.image = [UIImage imageNamed:@"brisbane"];
-        City *adelaide = [[City alloc] init];
-        adelaide.name = @"Adelaide";
-        adelaide.image = [UIImage imageNamed:@"adelaide"];
-        City *perth = [[City alloc] init];
-        perth.name = @"Perth";
-        perth.image = [UIImage imageNamed:@"perth"];
-        City *canberra = [[City alloc] init];
-        canberra.name = @"Canberra";
-        canberra.image = [UIImage imageNamed:@"canberra"];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // create some city objects
+    City *melbourne = [[City alloc] init];
+    melbourne.name = @"Melbourne";
+    melbourne.image = [UIImage imageNamed:@"melbourne"];
+    City *sydney = [[City alloc] init];
+    sydney.name = @"Sydney";
+    sydney.image = [UIImage imageNamed:@"sydney"];
+    // (...)
 
-        _cities = @[melbourne, sydney, brisbane, adelaide, perth, canberra];
-    }
-    return _cities;
+    // provide root view controller with model objects
+    CitiesViewController *citiesVC = [(UINavigationController *)self.window.rootViewController viewControllers][0];
+    citiesVC.cities = @[melbourne, sydney];
+    
+    return YES;
 }
 
-@end
 \end{objclst}
 
 \item Als Subklasse von \objc{UITableViewController} erbt \objc{CitiesViewController} leere Implementierungen der \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
@@ -1400,7 +1376,7 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
     City *city = [self.cities objectAtIndex:indexPath.row];
 
     // Erstellt ein neues UITableViewCell Objekt entsprechend der im Storyboard definierten Prototype Cell mit dem gegebenen Identifier oder verwendet eine existierende, momentan nicht verwendete Zelle mit diesem Identifier
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell" forIndexPath:indexPath];
 
     // Konfiguriert die View entsprechend des Models
     cell.textLabel.text = city.name;
@@ -1410,45 +1386,63 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 }
 \end{objclst}
 
-\objc{#pragma mark} kennzeichnet eine Überschrift ähnlich eines Kommentars und wird zusätzlich in der Jump Bar angezeigt. Ein Bindestrich \objc{-} erzeugt dort eine horizontale Trennlinie
+\objc{#pragma mark} kennzeichnet eine Überschrift ähnlich eines Kommentars und wird zusätzlich in der Jump Bar angezeigt. Ein Bindestrich \objc{-} erzeugt dort eine horizontale Trennlinie.
+
+Die zuvor implementierten Methoden werden nicht mehr benötigt.
 
 \item Diese drei Methoden des \objc{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
 
 \includegraphicsc[\iphonewidth]{img/cities_tableview.png}{img:cities_tableview}{Eine Table View stellt Anfragen an ihr Datasource und Delegate Objekt, um Zellen dynamisch anzuzeigen}
 
-\item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Push Segue von der Prototype Cell zum Detail City View Controller erstellen.
+\item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Push Segue von der Prototype Cell zum Detail City View Controller erstellen und ihr erneut den Identifier \emph{showCityDetail} geben.
 
 \item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \objc{prepareForSegue:sender:} Methode zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
 
 \begin{objclst}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//  ViewController.m
 
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    City *city = [self.cities objectAtIndex:indexPath.row];
+#import "CitiesViewController.h"
+#import "City.h"
+#import "CityDetailViewController.h"
 
-    CityDetailViewController *cityDetailVC = segue.destinationViewController;
-    cityDetailVC.city = city;
+@implementation CitiesViewController
+
+#pragma mark - User Interaction
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
+
+        City *city = [self.cities objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        
+        CityDetailViewController *cityDetailVC = segue.destinationViewController;
+        cityDetailVC.city = city;
+    }
 }
+
+#pragma mark - Table View Datasource
+
+// (...)
+
+@end
 \end{objclst}
+
+\item Wird nun eine Stadt in der Liste ausgewählt, wird der City Detail View Controller entsprechend konfiguriert und angezeigt. Beachtet, dass wir an dessen Implementierung nichts geändert haben!
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{tableviews}{Table Views}
+\begin{excitem}{tableviews}{Cities 2}
 
-Verwendet nun analog auch für den Continents View Controller aus der vorherigen Übungsaufgabe eine dynamische Table View oder schreibt eine andere App, die Table Views verwendet.
-
-Ersetzt dazu die Content View des Continents View Controllers im Storyboard mit einer Table View, ändert dessen Klasse zu \objc{UITableViewController} und implementiert die benötigten Methoden der \objc{UITableViewDatasource} und objc{UITableViewDelegate} Protokolle.
-
-\exchinweis{Vergesst nicht, der Table View den Continents View Controller als Datasource und Delegate Objekt zuzuweisen, sodass die Methoden überhaupt aufgerufen werden. Im Storyboard stehen dazu die IBOutlets der Table View zur Verfügung.}
+Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachvollzieht.
 
 \end{excitem}
 
 \end{exc}
 
 
-\end{lecture}
+\end{lecture}\end{document} % POINTER
 
 
 \begin{lecture}

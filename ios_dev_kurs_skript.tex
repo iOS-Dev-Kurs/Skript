@@ -1566,11 +1566,6 @@ Im Code können wir auf das Auslösen einer Segue reagieren, um den View Control
 \end{objclst}
 
 
-
-\end{document} % POINTER
-
-
-
 \section{Das Delegate Konzept}\label{sec:delegate_konzept}
 
 In der Programmierung komplexerer Apps ist es häufig notwendig, dass Klassen Informationen untereinander austauschen. Das \strong{Delegate Konzept} ist ein einfacher und vielverwendeter Mechanismus der \strong{einseitigen} Kommunikation zwischen Klassen, das einem einfachen \strong{Frage-Antwort-Prinzip} folgt \abbref{img:delegation}.
@@ -1579,9 +1574,9 @@ In der Programmierung komplexerer Apps ist es häufig notwendig, dass Klassen In
 
 Die aktive (fragende) Klasse stellt in ihrem öffentlichen Header ein \strong{Protokoll} zur Verfügung, das die verwendeten Methoden definiert. Außerdem besitzt sie ein öffentliches Attribut, häufig \objc{delegate} genannt, das eine Referenz zu einem Objekt der passiven (antwortenden) Klasse hält. Diese implementiert die Methoden des Protokolls, die in entsprechenden Situationen von der aktiven Klasse aufgerufen werden können.
 
-Methoden in einem Protokoll dienen in den meisten Fällen einem von zwei Zwecken:
+Methoden in einem Protokoll dienen in den meisten Fällen zwei Zwecken:
 \begin{itemize}
-\item Von dem Delegate Objekt werden Informationen angefordert, oder
+\item Von dem Delegate Objekt werden Informationen angefordert, \emph{und/oder}
 \item Das Delegate Objekt wird benachrichtigt, wenn eine bestimmte Situation eintritt.
 \end{itemize}
 
@@ -1695,7 +1690,7 @@ Das Delegate Konzept ist häufig hilfreich, um erforderliche Informationen anzuf
 
 \section{Table Views \& Table View Controller}
 
-Aufgrund des eingeschränkten Platzes auf Geräten der iOS Plattform verwenden sehr viele Apps \objc{UIScrollView} oder Subklassen derselben, um Views über die Bildschirmgröße hinaus darzustellen. \objc{UITableView} ist eine solche Subklasse, die in einem Großteil der iOS Apps zu finden ist.
+Aufgrund des eingeschränkten Platzes auf Geräten der iOS Plattform verwenden sehr viele Apps \objc{UIScrollView} oder Subklassen davon, um Views über die Bildschirmgröße hinaus darzustellen. \objc{UITableView} ist eine solche Subklasse, die in einem Großteil der iOS Apps zu finden ist.
 
 \strong{Table Views} stellen eine Liste von \objc{UITableViewCell : UIView} Objekten dar und verwenden den Scrollmechanismus von \objc{UIScrollView}.
 
@@ -1729,7 +1724,7 @@ Prinzipiell kann die Table View an einer beliebigen Stelle der View Hierarchie d
 
 In den meisten Fällen verwenden wir jedoch die Table View selbst als Content View des View Controllers. UIKit stellt hierzu die vereinfachende Subklasse \objc{UITableViewController : UIViewController} zur Verfügung, die das Content View Attribut \objc{UIView *view} mit \objc{UITableView *tableView} ersetzt und darüber hinaus einige hilfreiche Mechanismen implementiert.
 
-In der Implementierung der \objc{UITableViewController} Subklasse können wir nun die Methoden der Datasource und Delegate Protokolle implementieren. Die Dokumentation beschreibt die Protokolle in gewohnter ausführlicher Form.
+In der Implementierung der \objc{UITableViewController} Subklasse können wir nun die Methoden der Datasource und Delegate Protokolle implementieren. Die Dokumentation beschreibt die Protokolle in gewohnt ausführlicher Form.
 
 Folgende Methoden sollten jedoch in keiner \objc{UITableViewDatasource} Implementierung fehlen:
 
@@ -1743,7 +1738,7 @@ Folgende Methoden sollten jedoch in keiner \objc{UITableViewDatasource} Implemen
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Bestimmt die Anzahl der Rows für die angegebene Section
-    return [self.objects count];
+    return self.objects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1784,6 +1779,12 @@ Alternativ zur Implementierung dieser Delegate Methode können auch Storyboard S
 
 }
 \end{objclst}
+
+
+
+\end{document} % POINTER
+
+
 
 \section{Data Persistance}
 
@@ -1842,7 +1843,7 @@ Core Data stellt die Grundlage vieler iOS Apps dar und ist eine sehr komplexe un
 
 \subsection{State Preservation}
 
-UIKit bietet ein sehr einfach zu integrierendes System zur Wiederherstellung der Benutzeroberfläche, das jedoch konzeptionell nicht zur Speicherung von Daten den Model Komponente dienen soll. Das State Preservation System ist damit der View- und View Controller Komponente zugeordnet, während für die Model Komponente häufig Core Data verwendet wird.
+UIKit bietet ein sehr einfach zu integrierendes System zur Wiederherstellung der Benutzeroberfläche, das jedoch konzeptionell nicht zur Speicherung von Daten der Model Komponente dienen soll. Das State Preservation System ist damit der View- und View Controller Komponente zugeordnet, während für die Model Komponente häufig Core Data verwendet wird.
 
 Elemente der Benutzeroberfläche werden hier anhand des \objc{NSString* restorationIdentifier} Attributs identifiziert. Bei der Wiederherstellung wird für jeden dieser Identifier ein entsprechendes Objekt angefordert, oder bei Verwendung eines Storyboards automatisch erstellt. View Controller und Views können dann die \objc{encodeRestorableStateWithCoder:} und \objc{decodeRestorableStateWithCoder:} Methoden implementieren, um ihre Darstellung zu archivieren und wiederherzustellen. Im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} ist das State Preservation System ausführlich dokumentiert.
 
@@ -1882,7 +1883,7 @@ Aufgrund der mobilen Natur der iOS Plattform und der einfachen Handhabung von Ap
 
 Dabei wird sich bspw. kaum ein Benutzer über eine leicht verlängerte Laufzeit eines Prozesses aufgrund eines ineffektiven Algorithmus beschweren, solange ihm der Fortschritt auf dem Bildschirm präsentiert wird. Eine 'eingefrorene' App, die jedoch auf effektivste Weise arbeitet, stört das Benutzererlebnis dagegen enorm und wird schnell wieder gelöscht.
 
-Auch auf der iOS Plattform ist Sturgeon's Gesetz deutlich erkennbar: \emph{"ninety percent of everything is crap"}. Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen sich durch eine intuitive Benutzerführung aus. Ein Benutzer sollte jederzeit ohne Nachzudenken wissen, wie er handeln muss, um eine bestimmte Wirkung hervorzurufen. Dieses generelle Designkonzept ist nicht auf iOS Apps beschränkt sondern kann auch in vielen anderen Kontexten beobachtet werden \abbref{img:intuitive_doors}.
+Auch auf der iOS Plattform ist Sturgeon's Gesetz deutlich erkennbar: \emph{"ninety percent of everything is crap"}. Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen sich durch eine intuitive Benutzerführung aus. Ein Benutzer sollte jederzeit ohne Nachzudenken wissen, wie er handeln muss, um eine bestimmte Wirkung hervorzurufen. Dieses generelle Designkonzept ist nicht allein auf iOS Apps beschränkt sondern kann auch in vielen anderen Kontexten beobachtet werden \abbref{img:intuitive_doors}.
 
 %***\includegraphicsc{img/intuitive_doors.png}{img:intuitive_doors}{Öffnet sich eine Tür nur in einer Richtung, wird sie jede zweite Person zunächst falsch zu öffnen versuchen. Beschriftungen helfen hier (nach eigener Erfahrung) meist nur bedingt. Besitzt sie jedoch in der Öffnungsrichtung eine Druckfläche und entgegen der Öffnungsrichtung einen Griff, wird sie jede Person sofort richtig bedienen.}
 
@@ -1923,7 +1924,7 @@ Während ihr auch ohne einen solchen bezahlten Entwickleraccount Apps schreiben 
 
 \subsection{Unternehmensanmeldung}
 
-\emph{Hinweis:} Natürlich bin ich weder Anwalt noch Finanzberater und kann hier allein meine eigene Erfahrung wiedergeben. Wertvolle Informationen zu Themen dieser Art kann hingegen die lokale \strong{IHK / Industrie- und Handelskammer} geben.
+\strong{Hinweis:} Natürlich bin ich weder Anwalt noch Finanzberater und kann hier allein meine eigene Erfahrung wiedergeben. Wertvolle Informationen zu Themen dieser Art kann hingegen die lokale \strong{IHK / Industrie- und Handelskammer} geben.
 
 Es ist unumgänglich, aber sehr einfach, für die Teilnahme am iOS Developer Program ein Unternehmen anzumelden. Dazu ist lediglich ein Besuch beim nächsten \strong{Gewerbeamt}, die Angabe einiger Daten und die Bezahlung einer geringen Gebühr von etwa 30€ erforderlich.
 

@@ -1018,6 +1018,22 @@ for (NSObject *object in dic) {
 Als veränderbare Subklasse steht hier das \objc{NSMutableDictionary} zur Verfügung, das die Instanzmethoden \objc{setObject:forKey} und \objc{removeObjectForKey} implementiert.
 
 
+\section{Ein bisschen Swift}
+
+Am 2. Juni hat Apple auf der WWDC 2014 die Programmiersprache \strong{Swift \linkref{http://developer.apple.com/swift}} vorgestellt und damit Objective-C einen Nachfolger gegeben. Swift ist eine völlig neue Programmiersprache, die in Anlehnung an Skriptsprachen wie Python viele moderne Konzepte bietet aber auch die deskriptive Syntax von Objective-C aufgreift.
+
+Natürlich besitzen bis heute sämtliche iOS Apps im App Store eine Codebasis in Objective-C. Da Swift und Objective-C jedoch derart miteinander kompatibel sind, dass die Programmiersprache auf Dateibasis wechseln kann und das Produkt dennoch auf älteren System ausführbar bleibt, kann die neue Sprache graduell in existierende Projekte integriert werden.
+
+Im iBooks Store \linkref{https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11} ist eine ausführliche Dokumentation zu finden. Außerdem steht dort ein Dokument bezüglich der Integration mit Objektive-C \linkref{https://itunes.apple.com/us/book/using-swift-cocoa-objective/id888894773?mt=11} zur Verfügung. Nachfolgend sind einige der neuen Mechaniken zusammengefasst.
+
+\begin{itemize}
+\item In Swift werden entweder \strong{Variablen} mit \swift{var} oder \strong{Konstanten} mit \swift{let} deklariert. Konstanten ändern per Definition ihren Wert nicht. Nur wenn nötig sollten Variablen verwendet werden, sodass der Code effizienter kompiliert und zuverlässiger ausgeführt werden kann. Dieses Konzept vereinfacht außerdem die Struktur der \emph{veränderlichen Subklassen} wie \objc{NSMutableArray}, da stattdessen einfach die Deklaration mit \swift{var} oder \swift{let} die Veränderlichkeit bestimmt.
+\item Anstatt mithilfe verschiedener Symbole wie \objc{nil}, \objc{0} oder \objc{NSNull} die Abwesenheit eines Wertes darzustellen, werden in Swift elegant \strong{Optionals} eingesetzt. Eine Variable, deren Typ mit einem Fragezeichen gekennzeichnet ist, kann zur Laufzeit entweder einen Wert oder \swift{nil}, also \emph{kein Wert}, annehmen. Nicht-optionale Variablen haben dagegen immer einen Wert. So steigt die Verlässlichkeit und Sicherheit des Codes, da an den richtigen Stellen auf die Abwesenheit eines Werts geprüft werden kann und muss.
+\item Mithilfe von \strong{Property Observers} kann in einfacher Syntax einem \swift{var} Attribut ein Codeblock hinzugefügt werden, der bei Veränderung des Attributwerts ausgeführt wird. Zusammen mit \strong{Lazy Properties}, die erst beim ersten Zugriff geladen werden, und \strong{Computed Properties}, die keiner Instanzvariablen entsprechen sondern in einem Codeblock direkt einen Rückgabewert berechnen, bietet Swift konzeptionell sinnvollere Mechaniken als das Überschreiben der Getter- und Setter Methoden.
+\item In Swift können \strong{Subscripts}, also Rückgabewerte des Operators \swift{[]}, sowie eigene Operatoren definiert werden. Subscripts werden von Arrays und Dictionaries verwendet, um Zugriff auf einzelne Objekte oder auch ganze Bereiche von Objekten mithilfe der \strong{Ranges} Syntax zu erhalten. Mit dem Array \swift{x} gibt also \swift{x[0..5]} die Objekte mit Index \swift{0} bis \swift{4} und \swift{x[0...5]} die Objekte mit Index \swift{0} bis \swift{5} zurück.
+
+\end{itemize}
+
 
 \chapter{Projektstrukturierung}
 
@@ -1576,7 +1592,7 @@ Die aktive (fragende) Klasse stellt in ihrem öffentlichen Header ein \strong{Pr
 
 Methoden in einem Protokoll dienen in den meisten Fällen zwei Zwecken:
 \begin{itemize}
-\item Von dem Delegate Objekt werden Informationen angefordert, \emph{und/oder}
+\item Von dem Delegate Objekt werden Informationen angefordert
 \item Das Delegate Objekt wird benachrichtigt, wenn eine bestimmte Situation eintritt.
 \end{itemize}
 

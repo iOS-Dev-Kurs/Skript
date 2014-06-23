@@ -1272,7 +1272,7 @@ UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarc
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    ^\objchighlight{self.title = self.city.name;}^
+    ^\objchighlight{self.navigationItem.title = self.city.name;}^
     self.imageView.image = self.city.image;
 }
 
@@ -1285,7 +1285,7 @@ Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
 \begin{objclst}
 // App Delegate.m > application:didFinishLaunchingWithOptions:
-CitiesViewController *citiesVC = [(UINavigationController *)self.window.rootViewController viewControllers][0];
+CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
 \end{objclst}
 
 
@@ -1327,7 +1327,7 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 @interface CitiesViewController : UITableViewController
 
-@property (strong, nonatomic) NSArray *cities;
+^\objchighlight{@property (strong, nonatomic) NSArray *cities;}^
 
 @end
 \end{objclst}
@@ -1349,7 +1349,7 @@ Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attri
     // (...)
 
     // provide root view controller with model objects
-    CitiesViewController *citiesVC = [(UINavigationController *)self.window.rootViewController viewControllers][0];
+    CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
     citiesVC.cities = @[melbourne, sydney];
     
     return YES;

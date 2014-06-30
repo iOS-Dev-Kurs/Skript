@@ -1442,7 +1442,7 @@ Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachv
 \end{exc}
 
 
-\end{lecture}\end{document} % POINTER
+\end{lecture}
 
 
 \begin{lecture}
@@ -1452,13 +1452,15 @@ Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachv
 
 Mit den Apps der vergangenen Vorlesungen haben wir die Grundlagen der Programmierung für iOS Geräte und einige wichtige Architekturkonzepte kennengelernt. Mit diesem Wissen lässt sich bereits ein Großteil der zur Verfügung stehenden Frameworks anwenden und viele Funktionen, die iOS Geräte bieten, in unsere eigenen Apps integrieren.
 
-Aus gegebenem Anlass implementieren wir in dieser App einige häufig verwendete Funktionen wie Multi-Touch Gesten und Kamera Integration, um beim nächsten Familienfest nicht nur mit unseren neu erworbenen Programmierfähigkeiten anzugeben, sondern auch noch Fotos von Familienmitgliedern festlich dekorieren zu können \abbref{img:seasonizer}.
+%Aus gegebenem Anlass implementieren wir in dieser App einige häufig verwendete Funktionen wie Multi-Touch Gesten und Kamera Integration, um beim nächsten Familienfest nicht nur mit unseren neu erworbenen Programmierfähigkeiten anzugeben, sondern auch noch Fotos von Familienmitgliedern festlich dekorieren zu können \abbref{img:seasonizer}.
 
-\includegraphicsc[\iphonewidth]{img/seasonizer.png}{img:seasonizer}{Mit der Seasonizer App lassen sich Familienmitglieder festlich dekorieren und ungewollte Haarfarben verdecken}
+Zusammenfassend implementieren wir in dieser App einige häufig verwendete Funktionen wie Multi-Touch Gesten und Kamera Integration, um beim nächsten Familienurlaub nicht nur mit unseren neu erworbenen Programmierfähigkeiten anzugeben, sondern auch noch Fotos von Familienmitgliedern sommerlich dekorieren zu können \abbref{img:seasonizer}.
+
+\includegraphicsc[\iphonewidth]{img/seasonizer_summer.png}{img:seasonizer}{Mit der Seasonizer App lassen sich Familienmitglieder dekorieren und ungewollte Haarfarben verdecken}
 
 \subsubsection{Funktionen der Seasonizer App}
 
-\emph{Das Schneeflockensystem kennzeichnet die Schwierigkeit der Funktion von * (machbar) bis *** (unmöglich).}
+\emph{Das Sternsystem kennzeichnet die Schwierigkeit der Funktion von * (machbar) bis *** (unmöglich).}
 
 \begin{description}
 \item [*] Die App besitzt eine Hauptansicht mit Navigation Bar und Toolbar. Den Inhalt füllt eine Image View für das Foto und eine darüberliegende View mit transparentem Hintergrund für die Accessories.
@@ -1468,7 +1470,8 @@ Aus gegebenem Anlass implementieren wir in dieser App einige häufig verwendete 
 \item [*] Mit einem Action Button kann das Bild über verschiedene Kanäle wie Nachrichten, Email oder Facebook verteilt werden.
 \item [**] Die Elemente wie Bild und Accessories werden gespeichert und beim nächsten Start der App wiederhergestellt.
 \item [*] Ein Toolbar Button dient dem Zurücksetzen der Benutzeroberfläche.
-\item [extra] Es schneit in der App!
+%\item [extra] Es schneit in der App!
+\item [extra] Es regnet in der App! Das passiert ja auch mal.
 \item [extra] Implementiert, was euch einfällt! Ich bin auf eure Ideen gespannt.
 \end{description}
 
@@ -1541,23 +1544,23 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 - (NSArray *)accessories {
     if (!_accessories) {
         
-        Accessory *antlers = [[Accessory alloc] init];
-        antlers.title = @"Geweih";
-        antlers.image = [UIImage imageNamed:@"reindeer_antlers"];
+        Accessory *sunglasses = [[Accessory alloc] init];
+        sunglasses.title = @"Sonnenbrille";
+        sunglasses.image = [UIImage imageNamed:@"sunglasses"];
 
-        Accessory *santaHat = [[Accessory alloc] init];
-        santaHat.title = @"Weihnachtsmannmütze";
-        santaHat.image = [UIImage imageNamed:@"santa_hat"];
-        
+        Accessory *sunhat = [[Accessory alloc] init];
+        sunhat.title = @"Sonnenhut";
+        sunhat.image = [UIImage imageNamed:@"sunhat"];
+
         // ...
         
-        _accessories = @[antlers, santaHat];
+        _accessories = @[sunglasses, sunhat];
     }
     return _accessories;
 }
 \end{objclst}
 
-\item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und so referenzieren, oder \strong{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \strong{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
+\item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und damit referenzieren, oder \strong{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \strong{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
 
 \item Die Auswahl eines Accessories kann mithilfe eines eigenen Delegate Protokolls implementiert werden. Dazu benötigt der Accessory List View Controller ein öffentliches Attribut \objc{id <AccessorySelectionDelegate> delegate} und sollte das Protokoll in seinem Header definieren:
 
@@ -1772,7 +1775,7 @@ In dieser Methode wird auf die Getter Methode eines Attributs \objc{UIImage *ren
 
 Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für das Foto) und der Accessory View (für die Accessories) konfiguriert.
 
-\item Als kleines Extra können wir es in der App schneien lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \strong{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{snowflake.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
+\item Als kleines Extra können wir es in der App regnen lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \strong{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{raindrop.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
 
 \begin{objclst}
 // in CanvasViewController.m
@@ -1781,15 +1784,14 @@ Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für da
     [super viewDidLoad];
 
     CAEmitterCell *cell = [CAEmitterCell emitterCell];
-    cell.name = @"snowflake";
+    
+    cell.name = @"raindrop";
     cell.birthRate = 50.;
-    cell.velocity = 30.;
-    cell.velocityRange = cell.velocity;
+    cell.velocity = 250.;
+    cell.velocityRange = cell.velocity / 2.;
     cell.yAcceleration = 10.;
-    cell.spinRange = M_PI;
     cell.emissionLongitude = M_PI_2;
-    cell.emissionRange = M_PI_4;
-    cell.contents = (id)[UIImage imageNamed:@"snowflake"].CGImage;
+    cell.contents = (id)[UIImage imageNamed:@"raindrop"].CGImage;
     cell.lifetime = 7.;
     cell.alphaRange = 1.;
     cell.alphaSpeed = -1./cell.lifetime;

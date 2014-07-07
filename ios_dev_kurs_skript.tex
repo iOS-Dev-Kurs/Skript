@@ -1884,11 +1884,56 @@ Beispielsweise wird der Notifications Mechanismus häufig verwendet, um auf Änd
 
 
 
+\chapter{Entwicklungsprozess von iOS Apps}
+
+
+\section{Unit Tests \& Test Driven Development}
+
+Während der Softwareentwicklung werden häufig Umstrukturierungen vorgenommen, Features ergänzt oder verändert und Schnittstellen angepasst. Die Orientierung an grundlegenden Konzepten der Softwarestrukturierung wie dem Model-View-Controller Konzept vereinfacht solche Codeänderungen natürlich, doch es besteht weiterhin immer die Gefahr, dass zuvor funktionierender Code plötzlich Fehler aufwirft, die schwierig zu finden und zu beheben sein können.
+
+Ein sehr sinnvolles Instrument zur Sicherung stabiler Software sind \strong{Unit Tests}. Dies sind Methoden, die einzelne Codeblöcke (\emph{Units of Code}) testen und immer entweder mit \emph{Fail} oder \emph{Pass} abschließen. Ein solcher Codeblock bezeichnet dabei \emph{die kleinste testbare Einheit}. Häufig sind dies einzelne Methoden im Model, deren Rückgabewert kontextbedingt überprüft wird.
+
+Einmal geschrieben werden alle Unit Tests häufig ausgeführt, bspw. periodisch auf einem Server oder bei Gelegenheit lokal. Treten dabei Probleme auf, sind die Ursachen bei gut geschriebenen Tests leicht zu finden. Häufig können so sogar Fehler gefunden werden, die bei normalem "{}User testing"{} übersehen werden.
+
+Meist sind die Testmethoden in Subklassen einer bestimmten Klasse des entsprechenden Unit Test Frameworks organisiert. In Objective-C steht dazu das \emph{XCTest} Framework \linkref{https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html} mit der Klasse \objc{XCTestCase} zur Verfügung. Jede Testmethode ist durch den Prefix \objc{test} des Methodennamens gekennzeichnet und erscheint damit bspw. automatisch im Xcode \emph{Test Navigator} \secref{sec:navigator} und wird bei Betätigung von \keys{\cmdkey + U} automatisch ausgeführt. Außerdem werden die beiden Methoden \objc{setUp} und \objc{tearDown} der entsprechenden \objc{XCTestCase} Subklasse vor bzw. nach dem Test ausgeführt.
+
+Ein Beispiel für einen Unit Test ist folgende Methode in einer \objc{XCTestCase} Subklasse:
+
+\begin{objclst}
+- (void)testEqualityOfDifferentStringsWithEqualContent
+{
+    NSString *string = @"content";
+    NSString *otherString = @"content";
+    XCTAssertEqual(string, otherString, @"Strings with equal content are not equal.");
+}
+\end{objclst}
+
+Das \emph{Foundation} Framework sollte diesen Test stets erfüllen, da \objc{NSString} die \objc{isEqual:} Methode als Vergleich der enthaltenen Zeichenketten implementiert. Apple könnte diesen Test implementieren, sodass dieses Verhalten bei Codeänderungen im \emph{Foundation} Framework immer überprüft und abgesichert wird.
+
+Unit Tests sollten Teil jedes größeren Softwareprojekts sein. Einige Entwickler gehen sogar noch einen Schritt weiter und schreiben nach dem Prinzip des \strong{Test Driven Development (TDD)} \linkref{http://en.wikipedia.org/wiki/Test-driven_development} bei jedem Abschnitt des Entwicklungsprozesses zuallererst die Unit Tests, die der Code letztendlich erfüllen soll und die die gewünschte Funktionalität definieren. Dann wird daran gearbeitet, diese Tests möglichst einfach zu erfüllen, bevor die nächsten Unit Tests definiert werden. Diese Vorgehensweise führt zu Code, bei dem idealerweise kein aufwändiges Debugging betrieben werden muss, da er aus einzelnen, umfassend getesteten Segmenten besteht.
+
+
+\section{Open Source Libraries \& CocoaPods}
+
+Zur Entwicklung unserer Apps haben wir bisher die von Apple bereitgestellten Frameworks wie \emph{Foundation} und \emph{UIKit} verwendet. Diese bilden die Grundlage jeder iOS App, doch natürlich stoßen wir im Verlauf der Entwicklung einer oder mehrerer Apps auf Code, den wir wiederholt schreiben und in eigene Libraries auslagern möchten. So kann solcher Code wiederverwendet und ggf. an andere Entwickler weitergegeben werden. Es hat sich mittlerweile eine rasch wachsende Open Source Community um die iOS Entwicklung gebildet. Nicht zuletzt ist dies dem \emph{CocoaPods} \linkref{http://cocoapods.org} Projekt zu verdanken.
+
+CocoaPods ist ein Dependency Manager für Objective-C. Entwickler, die ihre Library zur Verfügung stellen möchten, registrieren ihr Repository in Form eines \emph{CocoaPod}. Anschließend kann ein solcher Pod im eigenen Projekt integriert werden, indem eine Datei \emph{Podfile} mit der Zeile \sh{pod 'PodName'} erstellt und im Terminal \sh{pod install} ausgeführt wird.
+
+CocoaPods vereinfacht den Prozess damit erheblich, eine Open Source Library (ggf. mit eigenen Dependencies) eines anderen Entwicklers einzubinden, unter möglichen Versionierungseinschränkungen aktuell zu halten und in Xcode zu integrieren. Die meisten Open Source Libraries der iOS Plattform sind mittlerweile als CocoaPod verfügbar. Einen Überblick über die beliebtesten Projekte gibt eine GitHub Suche nach den \emph{Most Starred} Objective-C Repositories \linkref{https://github.com/search?l=Objective-C&q=stars\%3A\%3E0&ref=searchresults&type=Repositories}.
+
+Natürlich gibt es auch andere Möglichkeiten, öffentlichen Code im eigenen Projekt zu integrieren:
+
+\begin{itemize}
+\item Das öffentliche Repository kann heruntergeladen und die Dateien dem Projekt manuell hinzugefügt werden, doch Aktualisierungen gestalten sich dann natürlich schwierig.
+\item \emph{Git Submodules} \linkref{http://git-scm.com/book/de/Git-Tools-Submodule} sind situationsbedingt eine sinnvolle Alternative zu CocoaPods. Diese verhalten sich wie eigene Git Repositories eingebettet in ihrem Parent-Repository und sind nützlich, wenn kein CocoaPod angeboten wird oder zeitgleich an dem eingebundenen Repository weitergearbeitet werden soll.
+
+Ich verwende bspw. in fast jedem meiner Projekte ein Repository \linkref{https://github.com/viWiD/VIOSFramework} als Submodule, in dem viele meiner häufig verwendeten Klassen ausgelagert sind. Dazu gehören bspw. Klassen wie \objc{VIArrayDataSource} \linkref{https://github.com/viWiD/VIOSFramework/tree/master/Data\%20Sources/VIArrayDataSource}, die eine Implementierung des \objc{UITableViewDataSource} Protokolls für Arrays darstellt und einfach wiederverwendet werden kann oder \objc{VILogger} \linkref{https://github.com/viWiD/VIOSFramework/tree/master/VILogger} als Ersatz für \objc{NSLog()}.
+\end{itemize}
+
+
+
 \end{document} % POINTER
 
-
-
-\chapter{Entwicklungsprozess von iOS Apps}
 
 
 \section{Design \& Konzeption von iOS Apps}
@@ -1897,9 +1942,9 @@ Eleganter und sinnvoll in Form der bereits diskutierten Architekturkonzepte stru
 
 Aufgrund der mobilen Natur der iOS Plattform und der einfachen Handhabung von Appinstallationen steht (gerade kostenlosen) Apps nur eine begrenzte Zeit zur Verfügung, den Benutzer zu überzeugen. Selten nehmen sich Benutzer die Zeit, sich mit den Funktionen einer App im Detail auseinanderzusetzen, wenn die Benutzerführung nicht sofort intuitiv klar ist.
 
-Dabei wird sich bspw. kaum ein Benutzer über eine leicht verlängerte Laufzeit eines Prozesses aufgrund eines ineffektiven Algorithmus beschweren, solange ihm der Fortschritt auf dem Bildschirm präsentiert wird. Eine 'eingefrorene' App, die jedoch auf effektivste Weise arbeitet, stört das Benutzererlebnis dagegen enorm und wird schnell wieder gelöscht.
+Dabei wird sich bspw. kaum ein Benutzer über eine leicht verlängerte Laufzeit eines Prozesses aufgrund eines ineffektiven Algorithmus beschweren, solange ihm der Fortschritt auf dem Bildschirm präsentiert wird. Eine "{}eingefrorene"{} App, die jedoch auf effektivste Weise arbeitet, stört das Benutzererlebnis dagegen enorm und wird schnell wieder gelöscht.
 
-Auch auf der iOS Plattform ist Sturgeon's Gesetz deutlich erkennbar: \emph{"ninety percent of everything is crap"}. Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen sich durch eine intuitive Benutzerführung aus. Ein Benutzer sollte jederzeit ohne Nachzudenken wissen, wie er handeln muss, um eine bestimmte Wirkung hervorzurufen. Dieses generelle Designkonzept ist nicht allein auf iOS Apps beschränkt sondern kann auch in vielen anderen Kontexten beobachtet werden \abbref{img:intuitive_doors}.
+Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen sich durch eine intuitive Benutzerführung aus. Ein Benutzer sollte jederzeit ohne Nachzudenken wissen, wie er handeln muss, um eine bestimmte Wirkung hervorzurufen. Dieses generelle Designkonzept ist nicht allein auf iOS Apps beschränkt sondern kann auch in vielen anderen Kontexten beobachtet werden \abbref{img:intuitive_doors}.
 
 %***\includegraphicsc{img/intuitive_doors.png}{img:intuitive_doors}{Öffnet sich eine Tür nur in einer Richtung, wird sie jede zweite Person zunächst falsch zu öffnen versuchen. Beschriftungen helfen hier (nach eigener Erfahrung) meist nur bedingt. Besitzt sie jedoch in der Öffnungsrichtung eine Druckfläche und entgegen der Öffnungsrichtung einen Griff, wird sie jede Person sofort richtig bedienen.}
 

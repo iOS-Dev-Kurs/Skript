@@ -16,35 +16,7 @@
 
 \tableofcontents
 
-\chapter{Organisatorisches}
-
-\section{Über meine Person}
-
-Mein Name ist Nils Fischer und ich bin Physikstudent im 4. Semester an der Uni Heidelberg. Mit der Softwareentwicklung für iOS Geräte beschäftige ich mich nun schon seit einigen Jahren und bin mit drei eigenen und sechs Apps für Kunden im App Store vertreten.
-
-Ihr könnt mich jederzeit über meine Email \linkref{n.fischer@stud.uni-heidelberg.de} erreichen. Ich freue mich immer über Feedback und Vorschläge von euch.
-
-Außerdem steht für organisatorische Fragen Prof. Dr. Peter Fischer \linkref{peter.fischer@ziti.uni-heidelberg.de} als Ansprechpartner zur Verfügung.
-
-\section{Über diesen Kurs}
-
-Der Kurs findet im \strong{Mac-Pool (Medienzentrum, INF 293, Raum 214) des URZ} statt.
-
-\strong{Jeden Montag um 16h ct.} während des Semesters wird es zunächst eine Vorlesungseinheit über ein neues Thema geben und ein zugehöriges Übungsblatt verteilt. Zu Beginn der folgenden Vorlesung werden dessen Lösungen besprochen und vorzugsweise von einem von euch vorgestellt. Der Übungsteil schließt sich direkt an die Vorlesung an und bietet für euch die Möglichkeit, das neue Übungsblatt zu bearbeiten und Fragen zur Vorlesung oder eigenen Projekten zu stellen.
-
-Um langfristig mitzukommen ist es am Wichtigsten, die wöchentlichen Übungen selbst zu bearbeiten und nicht nur zuzuhören und Code von anderen zu kopieren. Für die regelmäßige Anwesenheit und Mitarbeit in den Übungen werden \strong{2 LP} vergeben. Es wird keine Klausur oder Note geben.
-
-\section{Hardware und Software} \label{sec:hwsw}
-
-Für die Teilnahme an diesem Kurs ist Zugang zu einem Intel-Mac mit Mac OS 10.7.4 Lion oder neuer (empfohlen Mac OS 10.8.4 Mountain Lion oder neuer) erforderlich. Im Mac-Pool stehen 8 Mac Pro's für diejenigen Teilnehmer zur Verfügung, die keinen eigenen Mac mitbringen. Allen anderen wird jedoch empfohlen, mit ihren eigenen Macs zu arbeiten.
-
-Wir arbeiten fast ausschließlich mit \strong{Xcode}, Apple's Integrierter Entwicklungsumgebung (IDE), in Version 4.2 oder neuer (empfohlen Version \vxcode{}) oder neuer). Die neueste Version kann und sollte schon vor Beginn des Kurses im Mac App Store (kostenlos) heruntergeladen und installiert werden \linkref{https://itunes.apple.com/de/app/xcode/id497799835?mt=12}.
-
-Die Installation von Xcode enthält dann das iOS SDK (Software Development Kit) entsprechend in Version 5.0 (bei Xcode Version 4.2) bis zu \vios{} (bei Xcode Version \vxcode{}) oder neuer.
-
-Screenshots und Referenzen auf Bedienelemente in Xcode werden in diesem Skript in englischer Sprache sein. Es bietet sich ohnehin an, die englische Sprachversion von Xcode zu installieren, da ein Großteil der online verfügbaren Dokumentationen und Tutorials auf englisch ist.
-
-Um eigene Apps im Simulator zu testen, ist keine weitere Konfiguration nötig. Zum Testen auf eigenen iOS Geräten (iPhone / iPad / iPod Touch) ist ein Lizensierungsprozess erforderlich, den wir noch durchführen werden \secref{sec:testondevice}. Führt bitte ein Softwareupdate eurer Geräte auf die neueste Version durch.
+\chapter{Einführung}
 
 \section{Über dieses Skript}
 
@@ -56,14 +28,28 @@ Das Skript ist kein Tutorial, sondern ist sehr allgemein gehalten und erläutert
 
 Die Inhalte basieren auf der Xcode Version \vxcode{} und dem iOS SDK \vios{}. Die meisten Erläuterungen und Screenshots lassen sich ebenso auf frühere Versionen von Xcode und dem iOS SDK beziehen, doch einige neuere Funktionen sind der aktuellen Version vorbehalten.
 
+
+\section{Programmieren in Swift}
+
+Bis Apple auf der WWDC im Juni 2014 die völlig neue Programmiersprache \emph{Swift} vorstellte, wurde Software für die iOS und Mac Plattformen fast ausschließlich in der auf C basierenden Programmiersprache \emph{Objective-C} geschrieben. Seitdem hat Swift bereits enormen Zulauf erhalten und wird Objective-C langfristig ersetzen.
+
+Swift bedient sich vieler Konzepte moderner Programmiersprachen und legt besonderen Wert auf eine aussagekräftige Syntax und sicher ausführbaren Code. Swift's Grammatik ist sehr klein gehalten und viele grundlegende Typen, Funktionen und Operatoren sind stattdessen in der Sprache selbst in der \emph{Swift standard library} definiert.
+
+Noch immer befindet sich Swift stark in Entwicklung und neue Versionen werden häufig veröffentlicht. Statt in diesem Skript eine Einführung in diese Sprache zu geben, verweise ich auf das Buch \emph{The Swift Programming Language} von Apple, das sowohl online \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/} als auch im iBooks Store \linkref{https://itunes.apple.com/de/book/swift-programming-language/id881256329?mt=11} vorliegt und uns in diesem Kurs als Referenz dienen wird.
+
+Zu Beginn des Kurses lernen wir die Grundlagen der objektorientieren Programmierung in Swift anhand dieses Buches und werden dann sehr schnell anfangen, unsere ersten iOS Apps zu schreiben.
+
+Ich möchte an dieser Stelle jeden Leser, der seine Lieblingsprogrammiersprache nicht an Swift verlieren möchte, vor der Lektüre dieses Buches warnen.
+
+
 \section{Dokumentationen und Referenzen}\label{sec:docs}
 
-Zusätzlich zur in Xcode integrierten und online verfügbaren Dokumentation \secref{sec:xcode_documentation} bietet Apple einige Ressourcen für iOS Developer an:
+Zusätzlich zu der in Xcode integrierten \secref{sec:xcode_documentation} und online verfügbaren Dokumentation der Frameworks der iOS Plattform bietet Apple einige Ressourcen für iOS Developer an:
 
 \begin{description}
 \item[iOS Dev Center] \linkref{https://developer.apple.com/devcenter/ios/} ist Apple's Onlineplattform für iOS Entwickler. Hier ist auch das Member Center zur Accountverwaltung und das Provisioning Portal zur Verwaltung der Certificates und Provisioning Profiles \secref{sec:provisioning} zu finden.
-\item[iOS Human Interface Guidelines (HIG)] \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/} ist ein Dokument, das jeder iOS Developer gelesen haben sollte. Die hier besprochenen Richtlinien bezüglich der Gestaltung von Benutzeroberflächen auf der iOS Plattform sind sehr aufschlussreich und haben sicherlich ihren Teil zum Erfolg der iOS Geräte beigetragen. Ein entsprechendes Dokument gibt es auch für Mac \linkref{https://developer.apple.com/library/mac/documentation/userexperience/Conceptual/AppleHIGuidelines/}.
-\item[iOS App Programming Guide] \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide} stellt eine Übersicht über die Architektur von iOS Apps dar.
+\item[iOS Human Interface Guidelines (HIG)] \linkref{https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/} ist ein Dokument, das jeder iOS Developer gelesen haben sollte. Die hier besprochenen Richtlinien bezüglich der Gestaltung von Benutzeroberflächen auf der iOS Plattform sind sehr aufschlussreich und haben sicherlich ihren Teil zum Erfolg der iOS Geräte beigetragen. Ein entsprechendes Dokument gibt es auch für Mac \linkref{https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/}.
+\item[iOS App Programming Guide] \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} stellt eine Übersicht über die Architektur von iOS Apps dar.
 \item[WWDC Videos] \linkref{https://developer.apple.com/wwdc/videos/} werden während der jährlichen Worldwide Developer Conference veröffentlicht. Apple Entwickler führen sehr anschaulich in neue, grundlegende und fortgeschrittene Technologien und Methoden ein und geben Best-Practices.
 \end{description}
 
@@ -72,7 +58,7 @@ Hier darf natürlich auch die Community-basierte Q\&A-Seite \strong{Stack Overfl
 
 \chapter{Xcode}
 
-\strong{Xcode} ist Apple's Integrierte Entwicklungsumgebung (IDE) und wird von allen Entwicklern verwendet, die native Apps für die iOS oder Mac Plattformen schreiben. Siehe auch \ref{sec:hwsw} für Informationen zu den Hardware- und Softwarevorraussetzungen für diesen Kurs.
+\strong{Xcode} ist Apple's Integrierte Entwicklungsumgebung (IDE) und wird von allen Entwicklern verwendet, die native Apps für die iOS oder Mac Plattformen schreiben. Apple bietet online \linkref{https://developer.apple.com/library/mac/documentation/ToolsLanguages/Conceptual/Xcode_Overview/} eine umfassende Dokumentation über den Funktionsumfang von Xcode an.
 
 Wir werden lernen, Xcode's zahlreiche Funktionen zu nutzen, um nicht nur effizient Programmcode zu schreiben, sondern auch unsere Programmierprojekte zu verwalten, Apps auf eigenen iOS Geräten zu testen, Benutzerinterfaces zu gestalten, Datenstrukturen zu erstellen und unsere Apps schließlich zu veröffentlichen.
 
@@ -84,7 +70,7 @@ Jedes Programmierprojekt wird in Xcode in Form eines \strong{Projekts} angelegt.
 
 \subsection{Neue Projekte anlegen}
 
-Mit \menu{File > New > Project...} oder \keys{\cmdkey + \shiftkey + N} erstellen wir ein neues Projekt und wählen im erscheinenden Dialogfenster \abbref{img:new_project_dialogue1} ein Template. Zum Ausprobieren der Grundlagen von Objective-C eignet sich das \menu{OS X > Application > Command Line Tool}. In diesem Dialogfenster finden wir mit \menu{Cocoa Application} auch das Template, um Mac OS X Apps zu schreiben. Für iOS Apps verwenden wir die Templates unter \menu{iOS > Application}. Es kann prinzipiell mit einem beliebigen Template begonnen werden, diese unterscheiden sich nur in bereits vorkonfigurierten Programmelementen. Häufig ist es hilfreich, eines der Templates zu verwenden, das der Struktur der App entspricht, die wir programmieren wollen. Andernfalls kann mit \menu{Empty Application} eine komplett leere App erstellt werden.
+Mit \menu{File > New > Project...} oder \keys{\cmdkey + \shiftkey + N} erstellen wir ein neues Projekt und wählen im erscheinenden Dialogfenster \abbref{img:new_project_dialogue1} ein Template. In diesem Dialogfenster finden wir mit \menu{OS X > Application > Cocoa Application} auch das Template, um Mac OS X Apps zu schreiben. Für iOS Apps verwenden wir die Templates unter \menu{iOS > Application}. Es kann prinzipiell mit einem beliebigen Template begonnen werden, diese unterscheiden sich nur in bereits vorkonfigurierten Programmelementen. Häufig ist es hilfreich, eines der Templates zu verwenden, das der Struktur der App entspricht, die wir programmieren wollen.
 
 \includegraphicsc{img/new_project_dialogue1.png}{img:new_project_dialogue1}{Ein neues Xcode-Projekt anlegen}
 
@@ -95,18 +81,18 @@ Nach der Wahl des Templates werden weitere Optionen für das Projekt präsentier
 \begin{description}
 \item[Product Name] identifiziert die resultierende App im Projekt. Es können später in einem Projekt weitere Produkte hinzugefügt werden \secref{sec:targets}. Diesen müssen unterschiedliche Product Names zugewiesen werden. Als Product Name wird häufig ein kurzer Codename des Projekts gewählt.
 \item[Organization Name] wird in jeder erstellten Datei hinterlegt.
-\item[Company Identifier] identifiziert den Ersteller der Produkte. Nach Konvention wird hier eine sog. 'Reverse DNS' verwendet mit dem Schema 'com.yourcompany'. Verwendet in diesem Kurs bitte immer \strong{'de.uni-hd.deinname'} als Company Identifier.
-\item[Bundle Identifier] setzt sich nach dem 'Reverse DNS' Schema aus Company Identifier und Product Name zusammen und hat dann die Form 'com.yourcompany.productname' bzw. in unserem Kurs 'de.uni-hd.deinname.productname'. Der Bundle Identifier identifiziert eine App eindeutig im App Store und auf Apple's Servern.
-\item[Class Prefix] wird den Dateinamen aller erstellten Dateien vorangestellt \secref{sec:konventionen}.
+\item[Company Identifier] identifiziert den Ersteller der Produkte. Nach Konvention wird hier eine sog. \emph{Reverse DNS} verwendet mit dem Schema \str{com.yourcompany}. Verwendet in diesem Kurs bitte immer \str{de.uni-hd.deinname} als Company Identifier.
+\item[Bundle Identifier] setzt sich nach dem Reverse DNS Schema aus Company Identifier und Product Name zusammen und hat dann die Form \str{com.yourcompany.productname} bzw. in unserem Kurs \str{de.uni-hd.deinname.productname}. Der Bundle Identifier identifiziert eine App eindeutig im App Store und auf Apple's Servern.
+\item[Language] bietet die Auswahl zwischen Swift und Objective-C als Basis-Programmiersprache für das Projekt. Code der anderen Sprache kann ebenfalls eingebunden werden.
 \item[Devices] gibt die Möglichkeit, die App für iPhone, iPad oder Universal zu konfigurieren.
 \item[Use Core Data] fügt dem Projekt direkt die benötigten Elemente zur Core Data Integration hinzu. Dies ist eine Datenbanktechnologie auf Basis von SQL \secref{sec:coredata}.
 \end{description}
 
-Anschließend kann ein Speicherort für den Projektordner gewählt werden. Hier besteht zusätzlich die Möglichkeit, direkt ein Git Repository für das Projekt anzulegen. Git werden wir zu einem späteren Zeitpunkt noch thematisieren \secref{sec:git}.
+Anschließend kann ein Speicherort für den Projektordner gewählt werden. Hier besteht zusätzlich die Möglichkeit, direkt ein Git Repository für das Projekt anzulegen. Git werden wir zu einem späteren Zeitpunkt noch ausführlich thematisieren \secref{sec:git}.
 
 \subsection{Targets und Products}\label{sec:targets}
 
-Ein Projekt kann zur Entwicklung mehrerer Apps dienen, die einen direkten Bezug zueinender haben und sich meist einen Großteil des Programmcodes teilen. Dazu gehören vor allem Testversionen mit reduziertem Funktionsumfang oder einzelne Appversionen für iPhone und iPad, wenn man sich gegen die empfohlene Universal-Methode entscheidet.
+Ein Projekt kann zur Entwicklung mehrerer Apps dienen, die einen direkten Bezug zueinender haben und sich meist einen Großteil des Programmcodes teilen. Dazu gehören vor allem Testversionen mit reduziertem Funktionsumfang oder einzelne Appversionen für iPhone und iPad, wenn man sich gegen die (empfohlene) Universal-Methode entscheidet.
 
 Das Ergebnis des Compilers, also unsere fertige App, wird \strong{Product} genannt. Zu jedem Product gehört genau ein \strong{Target}. Das Target stellt die Repräsentation des Products in Xcode dar und gibt dem Compiler Auskunft über alle Konfigurationen, referenzierten Dateien und sonstige Informationen die zur Kompilierung benötigt werden.
 
@@ -125,13 +111,13 @@ Hier können alle wichtigen Einstellungen bearbeitet werden, die die App als Gan
 Hier ist eine Auswahl wichtiger Optionen zur Konfiguration unserer App zu finden, von denen viele direkt mit dem jeweiligen Eintrag im Tab 'Info' korrespondieren.
 
 \begin{description}
-\item[Bundle Identifier] wurde bereits besprochen und kann hier verändert werden. Wenn der Bundle Identifier einen hellgrauen, nicht editierbaren Teil enthält (meist der Product Name), dann wird dieser Teil aus einer Variable entnommen. Er kann dann im Tab 'Info' editiert werden. Verwendet bitte das Schema 'de.uni-hd.deinname.productname' für Apps, die unserem Developer Team zugeordnet sind.
+\item[Bundle Identifier] wurde bereits besprochen und kann hier verändert werden. Wenn der Bundle Identifier einen hellgrauen, nicht editierbaren Teil enthält (meist der Product Name), dann wird dieser Teil aus einer Variable entnommen. Er kann dann im Tab \emph{Info} editiert werden. Verwendet bitte das Schema \str{de.uni-hd.deinname.productname} für Apps, die unserem Developer Team zugeordnet sind.
 \item[Version/Build] gibt die aktuelle Versionsnummer an.
 \item[Team] bestimmt die Zugehörigkeit der App zu einem Developer Team, sodass Xcode das richtige Provisioning Profile zur Signierung der App auswählen oder ein passendes Provisioning Profile erstellen kann \secref{sec:testondevice}.
-\item[Deployment Target] bestimmt die iOS Version, die für die Installation der App auf dem Zielsystem \strong{mindestens} installiert sein muss. Zusätzlich gibt es im 'Info' Tab die \strong{Base SDK} Einstellung. Diese gibt an, für welche iOS Version die App kompiliert wird. Letztendlich bedeutet dies: Im Code können nur Features verwendet werden, die in der Base SDK Version (meist die neueste iOS Version) enthalten sind. Ist die Deployment Target Version geringer (um auch ältere Geräte zu unterstützen), so muss aufgepasst werden, dass bei neueren Features im Code immer zuerst deren Verfügbarkeit geprüft wird.
-\item[Devices] gibt an, ob die App nur für iPhone \strong{oder} iPad oder Universal für beide Geräte entwickelt wird.
-\item[Main Interface] bestimmt die Interface-Datei, die beim Starten der App geladen wird. Diese Option hat weitreichende Auswirkungen auf die initiale Startsequenz der App, die wir noch thematisieren werden \secref{sec:launchprocess}. In den meisten Fällen sollte hier die Storyboard-Datei für iPhone bzw. iPad ausgewählt werden.
-\item[App Icons / Launch Images] referenziert die jeweiligen Bilddateien. Diese sollten für optimale Performance in einem sog. \strong{Asset Catalog} zusammengefasst werden.
+\item[Deployment Target] bestimmt die iOS Version, die für die Installation der App auf dem Zielsystem \strong{mindestens} installiert sein muss. Zusätzlich gibt es im \emph{Info} Tab die \emph{Base SDK} Einstellung. Diese gibt an, für welche iOS Version die App kompiliert wird. Letztendlich bedeutet dies: Im Code können nur Features verwendet werden, die in der Base SDK Version (meist die neueste iOS Version) enthalten sind. Ist die Deployment Target Version geringer (um auch ältere Geräte zu unterstützen), so muss aufgepasst werden, dass bei neueren Features im Code immer zuerst deren Verfügbarkeit geprüft wird.
+\item[Devices] gibt an, ob die App nur für iPhone \emph{oder} iPad oder Universal für beide Geräte entwickelt wird.
+\item[Main Interface] bestimmt die Interface-Datei, die beim Starten der App geladen wird. Diese Option hat weitreichende Auswirkungen auf die initiale Startsequenz der App, die wir noch thematisieren werden \secref{sec:launchprocess}. In den meisten Fällen sollte hier die Storyboard-Datei ausgewählt werden.
+\item[App Icons / Launch Images] referenziert die jeweiligen Bilddateien. Diese sollten für optimale Performance in einem sog. \emph{Asset Catalog} zusammengefasst werden.
 \end{description}
 
 \subsubsection{Capabilities}
@@ -140,11 +126,11 @@ Einige häufig verwendete Features von iOS Apps, für deren Verwendung ansonsten
 
 \subsubsection{Info}
 
-Dieser Tab ist hauptsächlich eine Repräsentation der 'Info.plist'-Datei. Alle Einstellungen, die nicht den Compiler betreffen, sondern dem ausführenden Gerät zur Verfügung gestellt werden, werden in dieser Datei gespeichert. Die meisten Optionen im 'General'-Tab verändern direkt die Einträge dieser Datei. Mittlerweile muss hier nur noch selten manuell etwas geändert werden.
+Dieser Tab ist hauptsächlich eine Repräsentation der \filename{Info.plist}-Datei. Alle Einstellungen, die nicht den Compiler betreffen, sondern dem ausführenden Gerät zur Verfügung gestellt werden, werden in dieser Datei gespeichert. Die meisten Optionen im \emph{General}-Tab verändern direkt die Einträge dieser Datei. Mittlerweile muss hier nur noch selten manuell etwas geändert werden.
 
 \subsubsection{Build Settings}
 
-Hier wird der Compiler konfiguriert. Beispielsweise kann der Product Name hier verändert werden und die Base SDK Version angepasst werden, wenn nicht für 'Latest iOS', sondern eine vorherige iOS Version kompiliert werden soll. Auch die hier zu findenden Optionen sollten mittlerweile nur noch selten benötigt werden.
+Hier wird der Compiler konfiguriert. Beispielsweise kann der Product Name hier verändert werden und die Base SDK Version angepasst werden, wenn nicht für \emph{Latest iOS}, sondern eine vorherige iOS Version kompiliert werden soll. Auch die hier zu findenden Optionen sollten mittlerweile nur noch selten benötigt werden.
 
 \section{Benutzerinterface}
 
@@ -216,7 +202,7 @@ Xcode indexiert sowohl Apple's Frameworks als euren eigenen Code und besitzt som
 
 In den meisten Fällen gibt es ein Symbol nicht, wenn es von der Autovervollständigung nicht vorgeschlagen wird! Das betrifft auch selbstgeschriebenen Code.
 
-Objective-C ist eine sehr deskriptive Programmiersprache, deren Symbole nach Konventionen benannt sind \secref{sec:konventionen}. So können mit etwas Übung und Hilfe der Autovervollständigung auch unbekannte Symbole aus Apple's Frameworks gefunden werden, ohne erst die Dokumentation zu durchsuchen. Suchen wir beispielsweise eine bestimmte Konstante, die das Verhalten einer Animation eines \objc{UIView}-Objekts bestimmt, so ist es typisch, die Autovervollständigung folgendermaßen zu verwenden:
+Objective-C ist eine sehr deskriptive Programmiersprache, deren Symbole nach Konventionen benannt sind. So können mit etwas Übung und Hilfe der Autovervollständigung auch unbekannte Symbole aus Apple's Frameworks gefunden werden, ohne erst die Dokumentation zu durchsuchen. Suchen wir beispielsweise eine bestimmte Konstante, die das Verhalten einer Animation eines \objc{UIView}-Objekts bestimmt, so ist es typisch, die Autovervollständigung folgendermaßen zu verwenden:
 \begin{enumerate}
 \item Wir beginnen mit dem Tippen von \objc{UIVi}, verwenden die Tab-Taste, um zur nächsten uneindeutigen Stelle zu springen und erhalten \objc{UIView}.
 \item In der Liste der Vorschläge sehen wir unter anderem Symbole, die mit \objc{UIViewAnimation} beginnen. Mit den Pfeiltasten wählen wir eines aus und drücken wieder Tab.
@@ -243,13 +229,13 @@ Ein \keys{\cmdkey}-Klick wirkt wie ein Link im Internet und führt je nach Konte
 
 Die Leiste oben im Editor-Bereich (genannt Jump bar) dient der Navigation und zeigt den Pfad der geöffneten Datei im Projekt an. Mit einem Klick auf ein Pfadsegment kann auf die Dateistruktur zugegriffen werden. Sehr praktisch ist, dass hier sofort etwas getippt werden kann, woraufhin die Liste gefiltert wird. Das gilt auch für das letzte Pfadsegment, das die Position im Code der geöffneten Datei anzeigt und der schnellen Navigation innerhalb deren Symbole dient.
 
-\strong{Tipp:} Ist im Code an einer Stelle der Ausdruck \objc{#pragma mark Section Title} zu finden, so erscheint \emph{Section Title} als Gliederung in dem Menü der Jump bar. Ein Gedankenstrich erzeugt eine horizontale Line: \objc{#pragma mark - Section Title}.
+\strong{Tipp:} Ist im Code an einer Stelle der Ausdruck \swift{// MARK: Section Title} zu finden, so erscheint \emph{Section Title} als Gliederung in dem Menü der Jump bar. Ein Gedankenstrich erzeugt eine horizontale Line: \objc{// MARK: - Section Title}.
 
 Mit der \emph{Open Quickly} Funktion \keys{\cmdkey + \shiftkey + O} kann ebenfalls schnell navigiert werden. Es öffnet sich ein Eingabefeld, mit dem auf die gesamte Indexierung des Projekts zugegriffen werden kann.
 
 \subsubsection{Assistent}
 
-Im Assistant-Mode wird der Editor-Bereich zweigeteilt. Während der linke Teil die geöffnete Datei anzeigt, kann im rechten Teil mit Klick auf das erste Segment der Jump bar eine zugehörige Datei geöffnet werden. Empfehlenswert ist hier die Option \emph{Counterpart}, die zu einer Main-Datei immer die entsprechende Header-Datei anzeigt \secref{sec:intimpl}. Diese Ansicht werden wir hauptsächlich verwenden, es stehen jedoch noch weitere situationsbedingte Optionen zur Verfügung.
+Im Assistant-Mode wird der Editor-Bereich zweigeteilt. Während der linke Teil die geöffnete Datei anzeigt, kann im rechten Teil mit Klick auf das erste Segment der Jump bar eine zugehörige Datei geöffnet werden. Häufig werden wir den Assistent verwenden, um Interface und Code nebeneinander anzuzeigen und miteinander zu verbinden.
 
 \subsubsection{Breakpoints}\label{sec:breakpoints}
 
@@ -259,8 +245,8 @@ Mit einem Klick auf eine Zeilennummer in der Leiste rechts vom Editorbereich kan
 
 Am rechten Bildschirmrand kann der Inspektor eingeblendet werden, dessen Tabs ähnlich wie beim Navigator mit den Tastenkombinationen \keys{\cmdkey + \altkey + 1} bis \keys{\cmdkey + \altkey + 6} erreichbar sind. Während Code geschrieben wird, sind hier nur zwei Tabs verfügbar:
 \begin{enumerate}
-\item 'File Inspector': Optionen bezüglich der im Editor geöffneten Datei
-\item 'Quick Help Inspector': Kurze Dokumentation des ausgewählten Symbols im Editor, ähnlich den Informationen, die durch \keys{\altkey} - Klick auf das Symbol erreichbar sind
+\item File Inspector: Optionen bezüglich der im Editor geöffneten Datei
+\item Quick Help Inspector: Kurze Dokumentation des ausgewählten Symbols im Editor, ähnlich den Informationen, die durch \keys{\altkey} - Klick auf das Symbol erreichbar sind
 \end{enumerate}
 Zur Codeeingabe wird der Inspektor meist ausgeblendet, doch für die Konfiguration von Benutzeroberflächen mit dem Interface Builder ist er unverzichtbar \secref{sec:ib}.
 
@@ -293,7 +279,7 @@ So gut euer Code auch geschrieben sein mag - Benutzer werden nur die Benutzerobe
 
 In Xcode ist, wie in vielen IDEs, ein graphischer Editor genannt \emph{Interface Builder (IB)} integriert, der bei der UI-Gestaltung hilft. Alles, was mit dem Interface Builder erstellt wird, kann natürlich auch stattdessen in Code geschrieben werden. Doch bereits bei simplen UIs vereinfacht IB die Gestaltung um ein Vielfaches und hilft mit Konzepten wie Storyboarding und Auto Layout zusätzlich bei der Strukturierung der gesamten Benutzerführung und der dynamischen Anpassung des UI's an verschiedene Displaygrößen und -orientierungen. Für komplexere UIs werden wir die Vorteile des Interface Builders daher schnell zu schätzen lernen.
 
-Bei Datein mit der Endung .xib oder .storyboard wird Xcode's Editor-Bereich automatisch mit dem Interface Builder ersetzt. Wir verwenden dann meist einen neuen Tab mit angepasster Konfiguration, blenden den Navigator- und Debug-Bereich aus und den Inspektor-Bereich ein \abbref{img:xcode_ib}. Im Editor-Bereich wird situationsbedingt der Standard- oder Assistant-Editor verwendet. Im IB-Modus wird im Editor-Bereich dann auf den linken Seite eine Navigationsleiste eingeblendet, die die Elemente in der geöffneten Datei anzeigt. Diese kann mit der Schaltfläche unten ein- und ausgeblendet werden.
+Bei Datein mit der Endung \filename{.xib} oder \filename{.storyboard} wird Xcode's Editor-Bereich automatisch mit dem Interface Builder ersetzt. Wir verwenden dann meist einen neuen Tab mit angepasster Konfiguration, blenden den Navigator- und Debug-Bereich aus und den Inspektor-Bereich ein \abbref{img:xcode_ib}. Im Editor-Bereich wird situationsbedingt der Standard- oder Assistant-Editor verwendet. Im IB-Modus wird im Editor-Bereich dann auf den linken Seite eine Navigationsleiste eingeblendet, die die Elemente in der geöffneten Datei anzeigt. Diese kann mit der Schaltfläche unten ein- und ausgeblendet werden.
 
 \includegraphicsc{img/xcode_ib.png}{img:xcode_ib}{Um möglichst viel Platz zur UI-Gestaltung zu erhalten, verwenden wir für den Interface Builder eine angepasste Konfiguration}
 
@@ -303,7 +289,7 @@ Anschließend können die Objekte in der Navigationsleiste links oder im Editor 
 
 \subsection{XIBs \& Storyboards}
 
-Bevor das \strong{Storyboarding}-Konzept eingeführt wurde, wurden für die Interfacegestaltung einzelne \emph{.xib}-Dateien verwendet (auch aufgrund ihrer ursprünglichen Endung \emph{NIB-Dateien} genannt). Storyboards hingegen vereinen meist die Interfaceelemente der gesamten App und auch ihre benutzerführenden Verbindungen in einer \emph{.storyboard}-Datei.
+Bevor das \strong{Storyboarding}-Konzept eingeführt wurde, wurden für die Interfacegestaltung einzelne \filename{.xib}-Dateien verwendet (auch aufgrund ihrer ursprünglichen Endung \emph{NIB-Dateien} genannt). Storyboards hingegen vereinen meist die Interfaceelemente der gesamten App und auch ihre benutzerführenden Verbindungen in einer \filename{.storyboard}-Datei.
 
 Das UI einer App wird dann hauptsächlich in seinem Storyboard konfiguriert, während es im Code mit Inhalten gefüllt und gesteuert wird.
 
@@ -317,7 +303,7 @@ Zwischen den Scenes vermitteln \strong{Segues}. Diese können eine Verbindung zw
 
 Im IB-Modus stehen im Inspektor zusätzlich zum File- und Quick-Help-Inspektor \secref{sec:inspektor} vier weitere Tabs zur Verfügung, mit denen ein ausgewähltes Objekt im Interface Builder konfiguriert wird:
 \begin{description}
-\item[Identity Inspector] dient dem Einstellen der Identität des Objekts, also hauptsächlich seiner Klasse \secref{sec:klassenobjekte}.
+\item[Identity Inspector] dient dem Einstellen der Identität des Objekts, also hauptsächlich seiner Klasse.
 \item[Attributes Inspector] zeigt alle Konfigurationsoptionen bezüglich der Eigenschaften des Objekts nach Subklasse sortiert an. Dazu gehören bspw. Hintergrund- und Textfarben.
 \item[Size Inspector] enthält Optionen zu Größe und Position des Objekts.
 \item[Connections Inspector] zeigt die verbundenen IBOutlets und IBActions des Objekts an \secref{sec:iboutletsibactions}.
@@ -325,14 +311,14 @@ Im IB-Modus stehen im Inspektor zusätzlich zum File- und Quick-Help-Inspektor \
 
 \subsection{IBOutlets \& IBActions}\label{sec:iboutletsibactions}
 
-\strong{Hinweis:} Für diesen Abschnitt ist Kenntnis über \strong{Attribute} \secref{sec:properties} und \strong{Methoden} \secref{sec:methoden} notwendig .
+\strong{Hinweis:} Für diesen Abschnitt sind Kenntnisse über \emph{Attribute} und \emph{Methoden} der objektorientierten Programmierung notwendig.
 
 \subsubsection{IBOutlets}
 
-Haben wir unser UI im Interface Builder konfiguriert, möchten wir häufig im Code auf die verwendeten Objekte zugreifen. Dazu verwenden wir sog. \strong{IBOutlets}. Dies sind speziell gekennzeichnete Attribute eine Klasse:
-\begin{objclst}
-@property (nonatomic, strong) ^\objchighlight{IBOutlet}^ UILabel *label; // diese Property ist als IBOutlet gekennzeichnet
-\end{objclst}
+Haben wir unser UI im Interface Builder konfiguriert, möchten wir häufig im Code auf die verwendeten Objekte zugreifen. Dazu verwenden wir sog. \strong{IBOutlets}. Dies sind speziell gekennzeichnete \strong{Attribute} eine Klasse:
+\begin{swiftlst}
+^\codehighlight{@IBOutlet}^ var label: UILabel! // Dieses Attribut ist als IBOutlet gekennzeichnet.
+\end{swiftlst}
 
 In der XIB oder dem Storyboard können wir dann eine Verbindung zwischen dem Objekt und dem IBOutlet herstellen \abbref{img:xcode_iboutlet}.
 
@@ -341,7 +327,7 @@ In der XIB oder dem Storyboard können wir dann eine Verbindung zwischen dem Obj
 Zur Laufzeit der App wird diesem Attribut dann das verbundene Objekt als Wert zugewiesen, sodass im Code darauf zugegriffen werden kann. Hätten wir das Objekt im Code erstellt, wäre eine IBOutlet-Verbindung also äquivalent zu folgendem Code:
 \begin{objclst}
 // Sei theLabel das zuvor im Code erstellte Interface-Objekt
-self.label = theLabel;
+self.label = theLabel
 \end{objclst}
 
 Um sehr einfach IBOutlets zu erstellen, wechseln wir in den Assistant-Editor. Im Editor Bereich wird dann rechts der Assistent angezeigt. Hier können wir oben in der Jump bar \menu{Automatic > Klassenname.h} wählen, also die zugehörige Header-Datei, in der das Attribut deklariert wurde. Mit gedrückter \keys{\ctrlkey}-Taste können wir nun eine Verbindung zwischen dem Interfaceelement und dem Attribut ziehen \abbref{img:xcode_iboutlet}.
@@ -355,19 +341,23 @@ Als IBOutlets markierte Attribute werden nur sehr selten im öffentlich Interfac
 
 \strong{IBActions} funktionieren ähnlich wie IBOutlets und stellen eine Verbindung zu \strong{Methoden} einer Klasse her.
 
-Einige Objekte stellen sog. \strong{Events} zur Verfügung, die in bestimmten Situationen ausgelöst werden. Dazu gehören bspw. Subklassen von \objc{UIControl}, also u.a. \objc{UIButton}, die das Event \emph{Touch Up Inside} auslösen, wenn der Benutzer seinen Finger im Bereich des Objekts anhebt.
+Einige Objekte stellen sog. \strong{Events} zur Verfügung, die in bestimmten Situationen ausgelöst werden. Dazu gehören bspw. Subklassen von \swift{UIControl}, also u.a. \swift{UIButton}, die das Event \emph{Touch Up Inside} auslösen, wenn der Benutzer seinen Finger im Bereich des Objekts anhebt.
 
-Diese Events können mit Methoden im Code verbunden werden, die mit \objc{IBAction} gekennzeichnet sind \abbref{img:xcode_ibaction}. \objc{IBAction} ist als Rückgabewert der Methode äquivalent zu \objc{void}.
+Diese Events können mit Methoden im Code verbunden werden, die mit \swift{@IBAction} gekennzeichnet sind \abbref{img:xcode_ibaction}:
+
+\begin{swiftlst}
+^\codehighlight{@IBAction}^ func buttonPressed(sender: UIButton) { } // Diese Methode ist als IBAction gekennzeichnet.
+\end{swiftlst}
 
 \includegraphicsc{img/xcode_ibaction.png}{img:xcode_ibaction}{IBActions verbinden Events mit Methoden im Code}
 
-Die verbundene Methode wird dann ausgeführt, wenn das entsprechende Event ausgelöst wird. Das auslösende Objekt wird der Methode als Parameter \objc{sender} des Typs \objc{id} (beliebiger Typ) übergeben.
+Die verbundene Methode wird dann ausgeführt, wenn das entsprechende Event ausgelöst wird. Das auslösende Objekt wird der Methode als Parameter \objc{sender} übergeben.
 
 Die Zuweisung einer IBAction-Verbindung ist dann äquivalent zu folgendem Code:
-\begin{objclst}
+\begin{swiftlst}
 // Sei theButton das das Event auslösende Objekt und theReceiver das Objekt, das die Methode buttonPressed: implementiert
-[theButton addTarget:theReceiver action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-\end{objclst}
+theButton.addTarget(theReceiver, action: "buttonPressed", forControlEvents: .TouchUpInside)
+\end{swiftlst}
 
 \section{Dokumentation}\label{sec:xcode_documentation}
 
@@ -391,7 +381,6 @@ Auf dem Simulator kann somit kein wirklichkeitsgetreues Testen stattfinden und e
 
 Xcode kann Apps nur auf Geräten installieren, deren Softwareversion mit der jeweiligen Version von Xcode kompatibel ist. Bei neueren Versionen von Xcode lassen sich unter \menu{Preferences > Downloads} ältere iOS SDKs zusätzlich installieren, um diese Versionen zu unterstützen und als Base SDK \secref{sec:projkonfig} zu verwenden. Die Umkehrung gilt jedoch nicht: Geräte mit neueren Softwareversionen als die installierte iOS SDK Version können nicht zum Testen verwendet werden.
 
-Für diesen Kurs ist es empfehlenswert, die neueste Version von Xcode, dem iOS SDK und der auf dem Gerät installierten Software zu verwenden \secref{sec:hwsw}. Leider ist auf den Macs im Medienzentrum nur die Xcode Version 4.2 mit iOS SDK 5.0 installiert. Daher können mit diesen Macs keine Geräte mit einer neueren Softwareversion als iOS 5.0 zum Testen verwendet werden.
 
 \subsection{Der Provisioning Prozess}\label{sec:provisioning}
 
@@ -417,8 +406,7 @@ Ihr benötigt zunächst einen Apple Developer Account und müsst anschließend u
 \begin{enumerate}
 \item Erstellt eine Apple ID \linkref{https://developer.apple.com/register/} oder verwendet, soweit vorhanden, eure existierende Apple ID
 \item Schließt euer iOS Gerät mit dem USB-Kabel an.
-\item Öffnet in Xcode den \strong{Organizer} mit \keys{\cmdkey + \shiftkey + 2}.
-\item Wählt dort den Tab \menu{Devices} und in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
+\item Öffnet in Xcode den \strong{Devices} Bereich mit \keys{\cmdkey + \shiftkey + 2} und wählt in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
 \item Mit den Schaltflächen \menu{Use for Development} oder \menu{Add to Member Center}) können nur Admins des Developer Teams ihre Geräte direkt im Team registrieren. Stattdessen kopiert bitte die UDID eures iOS Geräts, also die lange Zeichenfolge mit dem Label \emph{Identifier}.
 \item Teilt mir \strong{eure registrierte Apple ID} und \strong{die UDIDs aller eurer iOS Geräte} per Email \linkref{n.fischer@stud.uni-heidelberg.de} mit, sodass ich euch in das Developer Team einladen und die Geräte hinzufügen kann. Verwendet dazu bitte die Email, mit der ihr euch zum Kurs angemeldet habt.
 \item Mit dem Einladungslink, den ihr anschließend per Email von Apple erhaltet, könnt ihr dem Developer Team beitreten. Ihr müsst euch im erscheinenden Dialog nicht noch einmal registrieren, wählt hier einfach 'Sign in' und loggt euch mit der verwendeten Apple ID ein.
@@ -449,591 +437,6 @@ Nun könnt ihr Apps auf eurem iOS Gerät installieren und testen:
 \item Wählt euer iOS Device als Zielsystem und führt einen \emph{Build \& Run} aus \secref{sec:buildandrun}.
 \item Die App wird nun auf dem angeschlossen Gerät ausgeführt!
 \end{enumerate}
-
-
-\chapter{Objective-C}
-
-In diesem Kurs lernen wir zunächst die Grundlagen der objektorientierten Programmierung und werden dann sehr schnell anfangen, unsere ersten iOS Apps zu schreiben. Dabei lernen wir im Verlauf des Kurses viele wichtige und allgemeingültige Konzepte und Methoden der Programmierung und Projektstrukturierung kennen, die auch problemlos auf andere Plattformen und Programmiersprachen übertragen werden können.
-
-Software für die iOS und Mac Plattformen wird fast ausschließlich in Objective-C geschrieben. Objective-C ist eine auf C basierende, objektorientierte Programmiersprache, die in den letzten Jahren großen Zulauf erhalten hat und sehr ähnlich zu C++ ist.
-
-Im Unterschied zu C++ wird in Objective-C vieles zur Laufzeit anstatt bei der Kompilierung ausgeführt, was auf den Fokus auf benutzergesteuerte Programmelemente zurückzuführen ist. Außerdem wird viel Wert auf eine einfache und lesbare Code-Syntax gelegt, die wir im Folgenden noch kennenlernen werden.
-
-\section{Grundlagen der Programmierung}
-
-Programmieren besteht letztendlich darin, dem ausführenden System eine Befehlssequenz mitzuteilen. Zur Programmlaufzeit wird diese dann sequenziell abgearbeitet.
-
-Ein Befehl kann beispielsweise eine einfache Zuweisung sein:
-\begin{objclst}
-int a = 1; // Der Variable a des Typs int wird der Wert 1 zugewiesen
-\end{objclst}
-
-Dieser Befehl stellt eigentlich schon eine Abkürzung dar und besteht aus zwei Komponenten:
-\begin{objclst}
-int a; // Eine neue Variable a des Typs int wird deklariert
-a = 1; // Der Variable a wird der Wert 1 zugewiesen
-\end{objclst}
-
-Jeder Befehl in Objective-C muss mit einem Semikolon enden.
-
-\subsection{Primitive Datentypen}
-
-Die wichtigsten primitiven Datentypen sind:
-
-\begin{description}
-\item[int] integer: Ganze Zahl, z.B. \objc{int a = -42;}
-\item[uint] unsigned integer: Nichtnegative ganze Zahl, z.B. \objc{uint a = 1;}
-\item[char] character: Einzelnes Zeichen, z.B. \objc{char a = 'x';}
-\item[float] floating-point number: Dezimalzahl, z.B. \objc{float a = 3.14;}
-\item[double] double precision floating-point: Sehr lange Dezimalzahl
-\item[BOOL] boolean: Entweder wahr (\objc{YES}) oder falsch (\objc{NO}), z.B \objc{BOOL a = YES;}
-\end{description}
-
-Die primitiven Datentypen in Objective-C und C sind äquivalent und ineinander überführbar. Deswegen kann beispielsweise statt \objc{BOOL} auch \objc{bool} oder \objc{Boolean} verwendet werden. Die korrekte Objective-C Syntax ist aber \objc{BOOL}.
-
-\subsection{Kommentare}
-
-In Objective-C wird Text, der wie im obigen Beispiel in einer einzelnen Zeile hinter zwei Schrägstrichen steht, als Kommentar aufgefasst und nicht ausgeführt.
-Mehzeilige Kommentare beginnen mit der Zeichenfolge \objc{/*} und enden mit \objc{*/}:
-\begin{objclst}
-/* Der folgende Befehl
-gibt den Text "Hello World"
-als Output in der Konsole aus */
-NSLog(@"Hello World");
-// Ausgabe: Hello World
-\end{objclst}
-
-Kommentare sind sehr wichtig, um Code lesbarer und sowohl für andere als auch für sich selbst längerer Zeit nachvollziebar zu gestalten.
-
-Verwendet in den Übungen häufig Kommentare!
-
-\subsection{Output}
-
-Der Befehl \objc{NSLog(@"Text");} wie im obigen Beispiel ist eigentlich C-Syntax, ist aber sehr nützlich um beliebigen Text in der Konsole ausgeben zu lassen. Dies dient hauptsächlich dazu, Ausgaben an bestimmten Stellen im Programmablauf zu platzieren um diesen nachvollziehen zu können und Fehler zu finden (Debugging).
-
-\subsection{Einfache Operationen}
-
-Die einfachen Rechenoperationen \objc{+}, \objc{-}, \objc{*}, \objc{/} und \objc{\%} (Modulo) sind direkt in Objective-C verfügbar.
-
-Wichtig ist, zu beachten, dass zwischen integer- und floating-point-Division unterschieden wird. Nur wenn mindestens einer der Operanden ein floating-point Wert ist, wird auch ein solcher zurückgegeben, sonst wird abgerundet. Dies ist eine häufige Fehlerquelle!
-
-Typen können mit der sog. \strong{cast} Operation ineinander umgewandelt werden, bei der der Wert als der Typ interpretiert wird, der in Klammern davor angegeben wird:\\
-Mit \objc{int a = (int) 3.14;} hat \objc{a} nun den Wert \objc{3}.
-
-\begin{objclst}
-int a = (1 + 2) * 3; // a ist jetzt 9
-float b = a / 2 // b ist jetzt 4, da sowohl a als auch 2 integer sind
-float c; // Die neue Variable c wird als floating-point deklariert
-/* Alle folgenden Operationen sind äquivalent und
-setzen c auf 4.5, da floating-point Division verwendet wird */
-c = a / 2.0
-c = a / 2.
-c = a / 2f
-c = a / (float) 2
-c = (float) a / 2
-\end{objclst}
-
-Für die häufig verwendeten Operationen \emph{um 1 erhöhen/verringern} gibt es die Abkürzungen \objc{a++;} bzw. \objc{a--;}.
-\begin{objclst}
-int a = 0;
-// Folgende Operationen sind äquivalent
-a = a + 1;
-a++;
-// und
-a = a - 1;
-a--;
-\end{objclst}
-
-\subsection{Abfragen}
-
-Grundlegend für die Programmierung sind weiterhin einfache wenn-dann Abfragen, die in Objective-C folgende Syntax haben:
-\begin{objclst}
-// Sei year eine Variable, z.B.:
-int year = 2014;
-
-if (year < 2014) {
-    NSLog(@"Vergangenheit");
-} else if (year == 2014) {
-    NSLog(@"Gegenwart");
-} else if (year > 2014) {
-    NSLog(@"Zukunft");
-} else {
-    NSLog(@"unmöglich!");
-}
-\end{objclst}
-Der Code in geschweiften Klammern wird also nur ausgeführt, wenn die Bedingung im if-Statement wahr (\objc{YES}) ist.
-
-Logische Operatoren:
-\begin{description}
-\item[a == b] gleich
-\item[a != b] ungleich
-\item[a > b] größer, entsprechend auch \objc{>=}, \objc{<}, \objc{<=}
-\item[!a] logische Negation
-\item[a \&\& b] logisches Und
-\item[a || b] logisches Oder
-\end{description}
-
-\subsection{Schleifen}
-
-Zusätzlich zu Abfragen bilden Schleifen einen weiteren Grundbaustein der Programmierung, um den gleichen Codeblock häufig hintereinander auszuführen.
-
-\objc{for}-Schleifen enthalten drei Segmente im Argument und einen Codeblock:
-
-\begin{objclst}
-int a = 1;
-for (int i=1; i<=10; i++) {
-    a = a * i;
-}
-// a ist jetzt 10! (Fakultät)
-\end{objclst}
-
-Das erste Segment \objc{int i=1} (\emph{Initialisierung}) wird zu Beginn der Schleife ausgeführt und initialisiert hier die Variable \objc{int i} mit dem Wert \objc{1}. Anschließend wird die Schleife beendet, wenn der bool'sche Ausdruck im zweiten Segment (\emph{Test}) falsch ist, also \objc{NO} zurückgibt. Andernfalls wird der Codeblock zwischen den geschweiften Klammern ausgeführt. Dann wird das dritte Segment (\emph{Fortsetzung}) ausgeführt, das hier die Variable \objc{i} um eins erhöht. Nun wird wieder der Ausdruck im zweiten Segment geprüft.
-
-\objc{while}-Schleifen enthalten nur ein Segment und einen Codeblock:
-
-\begin{objclst}
-int a = 1;
-while (a < 100) {
-    a = a * 2;
-}
-// a ist jetzt 128
-\end{objclst}
-
-Die Schleife wird beendet, wenn der boolsche Ausdruck im Argument falsch ist, andernfalls wird der Codeblock zwischen den geschweiften Klammern ausgeführt und wieder der boolsche Ausdruck geprüft.
-
-In beiden Schleifen kann mit dem Befehl \objc{continue} der restliche Code des aktuellen Durchlaufs übersprungen werden. Der Befehl \objc{break} bricht die Schleife ab.
-
-\subsection{Strings}
-
-Im \objc{NSLog(@"Hello World!");} Befehl sind uns schon Zeichenfolgen, sog. \strong{Strings}, begegnet. Ein String kann genau wie ein integer oder floating-point einer Variablen zugewiesen werden. Der zugehörige Typ ist \objc{NSString}.
-
-Der Präfix \objc{NS} wird uns noch häufiger begegnen, da er vom Namen der Programmiersprache für das Betriebssystem NeXTStep stammt, aus dem sich später Mac OS X entwickelt hat. Viele grundlegende Komponenten von Objective-C beginnen mit diesem Präfix.
-
-Strings sind keine primitiven Datentypen mehr wie z.B. \objc{int}, sondern Objekte, die wir im Folgenden noch genauer kennenlernen werden (\emph{Objective}-C…). Variablen, die auf Objekte verweisen, müssen bei der Deklaration mit einem \objc{*} vor dem Variablennamen gekennzeichnet werden.
-
-Eine Zeichenfolge wie \objc{@"text"} erzeugt immer einen neuen String, der im Allgemeinen nicht veränderlich ist (\emph{immutable}). Einer Variable kann aber natürlich zu einem späteren Zeitpunkt ein anderer String zugewiesen werden.
-
-\begin{objclst}
-NSString *einName = @"Alice";
-NSLog(einName); // Ausgabe: Alice
-einName = @"Bob";
-NSLog(einName); // Ausgabe: Bob
-\end{objclst}
-
-\subsection{String Formatierung}\label{sec:stringformat}
-
-In Objective-C können Werte aus Variablen verschiedenen Typs in einen String eingefügt werden, indem ein Platzhalter verwendet wird, der dann mit dem entsprechenden Wert gefüllt wird. Die wichtigsten Platzhalter sind:
-\begin{description}
-\item[\%i] für \objc{int} und \objc{uint}
-\item[\%f] für \objc{float}, die Anzahl der Dezimalstellen kann dabei mit \objc{\%.3f} für beispielsweise 3 Dezimalstellen spezifiziert werden.
-\item[\%d] für \objc{double} mit der gleichen Syntax für Dezimalstellen wie bei \objc{float}
-\item[\%c] für \objc{char}
-\item[\%@] für Strings
-\end{description}
-
-Platzhalter werden in der Reihenfolge, wie sie im String auftauchen, mit dem Wert der folgendenden, kommagetrennten Variablen ersetzt:
-\begin{objclst}
-int a = 1;
-NSLog(@"a hat den Wert %i", a); // Ausgabe: a hat den Wert 1
-\end{objclst}
-
-
-\section{Grundlagen der objektorientierten Programmierung}
-
-Bei der Softwareentwicklung ist es nicht nur wichtig, Programme zu schreiben, die funktionieren und die richtigen Ergebnisse liefern, sondern auch den Programmcode sinnvoll zu strukturieren. Sobald ein Softwareprojekt wächst und nicht mehr nur einfache Skripte darstellt, sondern Komponenten wie Benutzeroberflächen und Datenstrukturen enthält, wird es schnell unübersichtlich und damit fehleranfällig. Projekte umfassen schnell einige Tausend Zeilen Code und sollten trotzdem einfach zu ergänzen und zu erweitern sein.
-
-Bei der objektorientierten Programmierung strukturieren wir den Code in sinnvolle Einzelteile, die jeweils ein bestimmtes Element in unserem Programm repräsentieren. Dazu gehören bspw. Datenstrukturen oder auch Interfaceelemente wie Buttons und Labels.
-
-\subsection{Klassen \& Objekte}\label{sec:klassenobjekte}
-
-Arbeiten wir also beispielsweise an einer Software, die Informationen zu verschiedenen Personen beinhaltet. Wir erstellen eine sog. \strong{Klasse}, eine abstrakte Beschreibung oder "Bauplan"{} einer Person. In unserem Programm können dann beliebig viele Instanzen dieser Klasse, oder \strong{Objekte}, erzeugt werden, die nach diesem Bauplan erstellt wurden, aber voneinander unabhängig sind und jeweils eine bestimmte Person repräsentieren.
-
-Wir können auch auf Basis einer existierenden Klasse eine sog. \strong{Subklasse} definieren, die oft einen Spezialfall oder bestimmte Ausprägung dieser Klasse darstellt. Nach dem Prinzip der \strong{Vererbung} erbt die Subklasse den "Bauplan"{} ihrer Superklasse und kann diesen überschreiben oder erweitern.
-
-Betrachteten wir nun beispielsweise folgende Klasse:
-
-\begin{filecontent}{Person.h}\label{sec:personclass}
-\begin{objclst}
-@interface Person : NSObject
-
-// Attribute
-@property (strong, nonatomic) NSString *name;
-
-// Methoden
-- (void)sayHi;
-
-@end
-\end{objclst}
-\end{filecontent}
-
-\begin{filecontent}{Person.m}
-\begin{objclst}
-#import "Person.h"
-
-@interface Person ()
-// Privates Interface
-@end
-
-@implementation Person
-
-- (void)sayHi {
-    NSLog(@"Hi, my name is %@", self.name);
-}
-
-@end
-\end{objclst}
-\end{filecontent}
-
-\subsection{Interface \& Implementierung}\label{sec:intimpl}
-
-Eine Klasse besteht aus ihrem (öffentlichen und privaten) \strong{Interface} und ihrer \strong{Implementierung}. Meist werden diese in getrennten Dateien geschrieben: Das öffentliche Interface in der \strong{Header-Datei} mit Endung \emph{.h} und die Implementierung in der \strong{Main-Datei} mit Endung \emph{.m}.
-
-Damit der Compiler, der nur die Main-Dateien parst, auch den Code der zugehörigen Header-Datei berücksichtigt, müssen diese mit dem Aufruf \objc{#import "Klassenname.h"} zu Anfang der Main-Datei eingebunden werden.
-
-Das öffentliche Interface stellt die Schnittstelle zum restlichen Programm dar und beschreibt, welche \strong{Attribute} und \strong{Methoden} die Klasse enthält.
-
-Im Codebeispiel oben geben wir zunächst an, dass die Klasse \objc{Person} eine Subklasse von \objc{NSObject} ist. \objc{NSObject} ist die Basisstruktur von Objective-C mit wichtigen Mechanismen wie der Speicherverwaltung. Fast jede Klasse in Objective-C geht auf \objc{NSObject} zurück und erbt damit diese Mechanismen.
-
-Zusätzlich kann die Main-Datei noch ein privates Interface enthalten, auf das nur innerhalb der Klasse zugegriffen werden kann. Dieses schreiben wir in der Main-Datei vor der Implementierung. Hier werden Attribute und Methoden deklariert, die nur innerhalb der Klasse verwendet werden. Bei einer eleganten Programmierweise werden nur solche Attribute und Methoden im öffentlichen Interface präsentiert, die zur Kommunikation mit dem restlichen Programm notwendig sind.
-
-\subsection{Attribute}\label{sec:properties}
-
-Die Eigenschaften von Objekten einer Klasse werden durch ihre \strong{Attribute} oder \strong{Properties} repräsentiert.
-
-Im Codebeispiel oben \secref{sec:personclass} spezifizieren wir, dass eine Person immer eine Variable \objc{name} des Typs \objc{NSString} hat:
-
-\begin{objclst}
-@property (strong, nonatomic) NSString *name;
-\end{objclst}
-
-\objc{strong} kennzeichnet hier eine Option zur Speicherverwaltung und bewirkt, dass der Wert der Variable im Speicher gehalten wird bis das Objekt diesen freigibt. Dagegen stellt \objc{weak} nur eine schwache Referenz auf den Speicher dar und verhindert nicht dessen Freigabe. Betrachtet zur Veranschaulichung folgendes Beispiel:
-\begin{objclst}
-@property (strong, nonatomic) NSString *name; // Wenn die Person "stirbt", verfällt auch ihr Name: strong
-@property (weak, nonatomic) Person *friend; // Eine hier referenzierte Person lebt dagegen weiter: weak
-\end{objclst}
-Wir werden noch Übung in der richtigen Verwendung dieser Kennzeichnungen bekommen. Bei Properties mit primitiven Datentypen kann diese Kennzeichnung weggelassen werden.
-
-Wenn nicht mit mehreren Threads gearbeitet wird, sollten Properties immer mit \objc{nonatomic} gekennzeichnet werden. Andernfalls treten einige ressourcenintensive Mechanismen in Kraft, um sicherzustellen, dass nicht gleichzeitig geschrieben und gelesen wird. Threads sind gleichzeitig ausgeführte Befehlssequenzen um beispielsweise in einem Hintergrundprozess Daten herunterzuladen und gleichzeitig das UI mit dem Ladefortschritt zu aktualisieren.
-
-Typische Attributdeklarationen im Interface sehen also wie folgt aus:
-
-\begin{objclst}
-// Objekte mit starker Referenz, die der Klasse konzeptionell direkt angehören und erst freigegeben werden, wenn das auch das Mutterobjekt freigegeben wird:
-@property (strong, nonatomic) NSString *name;
-\end{objclst}
-
-\begin{objclst}
-// Objekte mit schwacher Referenz, deren Existenz im Speicher nicht durch das Mutterobjekt bedingt sein soll
-@property (weak, nonatomic) NSObject *delegate;
-\end{objclst}
-
-\begin{objclst}
-// Primitive Datentypen
-@property (nonatomic) int number;
-\end{objclst}
-
-\subsection{Methoden}\label{sec:methoden}
-
-Die Interaktion von Objekten miteinander geschieht auf Basis von Nachrichten, die untereinander ausgetauscht werden. Ein Objekt \objc{sender} sendet eine solche Nachricht, indem es eine sog. \strong{Methode} \objc{doSomething} eines Objekts \objc{receiver} aufruft:
-\begin{objclst}
-[receiver doSomething];
-\end{objclst}
-
-Methoden können entweder einfach wieder eine Befehlsfolge abarbeiten oder zusätzlich einen Rückgabewert zurückgeben, der an der entsprechenden Stelle weiterverwendet werden kann.
-
-Eine Methode definieren wir im öffentlichen Interface einer Klasse. Damit geben wir die Möglichkeit an, solche Nachrichten zu empfangen:
-\begin{objclst}
-- (void)doSomething;
-\end{objclst}
-
-Die Implementierung der Methode in der Main-Datei enthält dann den auszuführenden Code, wenn diese Methode aufgerufen wird. Innerhalb der Implementierung kann mit dem Symbol \objc{self} auf die eigene Instanz der abstrakten Klasse zugegriffen werden, also auf das Objekt selbst, das die Methode ausführt.
-\begin{objclst}
-- (void)doSomething {
-    // Auszuführender Code
-}
-\end{objclst}
-
-Im Codebeispiel \secref{sec:personclass} geben wir bspw. an, dass die Methode \objc{sayHi} keinen Rückgabewert hat: \objc{(void)}. Andernfalls wird stattdessen der Typ des Rückgabewerts angegeben, also z.B. \objc{(int)} oder \objc{(NSString *)}.
-
-Hat die Methode einen Rückgabewert, kann er natürlich auch einer Variablen zugewiesen werden:
-\begin{objclst}
-int count = [countingObject countSomething];
-\end{objclst}
-
-Weiterhin können Methoden Parameter annehmen, die in ihrer Implementierung verwendet werden. Parameter werden mit ihrem Datentypen hinter einem Doppelpunkt angegeben:
-\begin{objclst}
-// im Interface:
-- (float)divideNumber:(float)number byDivisor:(float)divisor;
-\end{objclst}
-\begin{objclst}
-// in der Implementierung:
-- (float)divideNumber:(float)number byDivisor:(float)divisor {
-    float result = number/divisor;
-    return result;
-}
-\end{objclst}
-
-\subsection{Instanz- und Klassenmethoden}
-
-Im Allgemeinen verwenden wir Methoden, um mit bestimmten Objekten zu interagieren, sog. \strong{Instanzmethoden}. In deren Implementierung kann dann auch auf Attribute des entsprechenden Objekts zugegriffen werden. Instanzmethoden werden mit einem Minuszeichen \objc{-} vor der Deklarierung gekennzeichnet:
-\begin{objclst}
-- (void)doSomething;
-\end{objclst}
-
-Es gibt Situationen, in denen eine Methode keinen Bezug zu einem bestimmten Objekt der Klasse hat. Wenn bspw. nur allgemeine Informationen über die Klasse abgefragt werden, kann eine Methode stattdessen mit dem Zeichen \objc{+} als \strong{Klassenmethode} gekennzeichnet werden.
-
-Die Syntax zum Aufruf von Klassenmethoden ist äquivalent zu Instanzmethoden und verwendet das Symbol der Klasse als Empfänger:
-\begin{objclst}
-[ReceivingClass getSomething];
-\end{objclst}
-In Apple's Frameworks sind Klassenmethoden häufig implementiert, um schnell häufig verwendete Objekte zu erstellen. Die Klassenmethode liefert dann als Rückgabewert ein neues Objekt der Klasse:
-\begin{objclst}
-NSArray *array = [NSArray arrayWithObjects:a, b, c, nil];
-NSString *string = [NSString stringWithFormat:@"Name: %@", self.name]
-\end{objclst}
-
-\subsection{Polymorphie}
-
-Wir haben gelernt, dass Subklassen ihre Attribute und Methoden von ihrer Superklasse erben. Das Prinzip der Polymorphie ermöglicht uns, die Implementierung der Methoden der Superklasse zu überschreiben (sog. \strong{overriding}).
-
-In der Subklasse kann die Methode einfach erneut implementiert werden. Wird sie dann von einem Objekt aufgerufen, wird diese Implementierung anstatt der der Superklasse ausgeführt.
-
-Es kann innerhalb einer Klasse außerdem mit dem Symbol \objc{super} auf die Superklasse zugegriffen werden. So können Methodenaufrufe an die Implementierung der Superklasse weitergeleitet werden.
-
-In einer Subklasse der Klasse \objc{Person} können wir also beispielsweise die Methode \objc{sayHi} erneut implementieren. Wird die Methode aufgerufen, wird dann stattdessen diese Neuimplementierung ausgeführt. Soll beim Methodenaufruf einfach etwas zusätzlich ausgeführt werden, so können wir die Superklassenimplementierung aufrufen und den zusätzlichen Code anschließend ausführen:
-
-\begin{objclst}
-- (void)sayHi { // Die Implementierung der Superklasse wird mit dieser Implementierung überschrieben
-    [super sayHi]; // Hier wird die Superklassenimplementierung aufgerufen
-    // zusätzlicher Code hier
-}
-\end{objclst}
-
-\subsection{Getter und Setter Methoden}\label{sec:gettersetter}
-
-Um auf Attribute einer Klasse zuzugreifen, werden wiederum Methoden verwendet.
-
-Für jedes Attribut wird automatisch eine \strong{Getter}- und einer \strong{Setter}-Methode generiert.
-
-Die Getter-Methode ist einfach eine Methode mit gleichem Namen wie das Attribut, die den Wert desselben als Rückgabewert liefert. Die Setter-Methode stellt dem großgeschriebenen Attributnamen ein \objc{set} voran und nimmt als Parameter den neuen Wert an.
-
-Sie sind somit definiert als:
-\begin{objclst}
-// Getter
-- (Type)variable;
-// Setter
-- (void)setVariable:(Type)value;
-\end{objclst}
-
-Die Verwendung erfolgt wie bei regulären Methoden:
-\begin{objclst}
-// Getter
-Type *v = [self variable] // Rückgabewert: Wert der Variable
-// Setter
-[self setVariable:value]; // Setzt den Wert der Variable auf value
-\end{objclst}
-
-Äquivalent zum Methodenaufruf in eckigen Klammern ist die häufig verwendete \strong{dot-Syntax}:
-\begin{objclst}
-// Getter
-Type *v = self.variable // äquivalent zu [self variable]
-// Setter
-self.variable = value; // äquivalent zu [self setVariable:value]
-\end{objclst}
-
-Zusätzlich wird automatisch für jede Property eine Instanzvariable mit dem gleichen Namen und einem vorangestellten Unterstrich \objc{_} generiert. Diese kann innerhalb der Klasse ebenso verwendet werden, um auf ein Attribut zuzugreifen:
-\begin{objclst}
-_variable // Gibt den Wert der Variable zurück
-_variable = value; // Setzt den Wert der Variable auf value
-\end{objclst}
-Anders als bei der Dot-Syntax werden in diesem Fall jedoch \strong{nicht} die Getter- und Setter-Methoden aufgerufen. Außer in bestimmten Situationen, von denen eine unten beschrieben ist, sollte immer die Methoden- oder Dot-Syntax verwendet werden.
-
-Getter- und Setter-Methoden können wie jede andere Methode überschrieben werden. Wir können sie also in unserer Klasse selbst implementieren, sodass nicht die automatisch generierten Methoden sondern unsere eigene Implementierung verwendet wird. In dieser Implementierung können wir dann offensichtlich nicht die entsprechende Getter- oder Setter-Methode aufrufen, da dies in den meisten Fällen zu einer Endlosschleife führt. Daher wird hier auf die Instanzvariable zurückgegriffen.
-
-\begin{objclst}
-// Getter
-- (Type)variable {
-    // do something
-    return _variable;
-}
-\end{objclst}
-
-\begin{objclst}
-- (void)setVariable:(Type)value {
-    _variable = value; 
-    // do something
-}
-\end{objclst}
-
-Im Allgemeinen gibt die Getter-Methode den Wert der Variable zurück, während die Setter-Methode diesen entsprechend des Arguments der Methode setzt.
-
-Wir können diese Methoden jedoch auch verwenden, um beliebige Werte zurückzugeben oder zu setzen. Häufig werden in der Getter-Methode bspw. auf Anfrage Objekte instanziert:
-
-\begin{objclst}
-- (Type)variable {
-    if (!_variable) _variable = [[Type alloc] init];
-    return _variable;
-}
-\end{objclst}
-
-\subsection{Instanzierung von Objekten}
-
-An beliebigen Stellen im Code kann ein neues Objekt einer Klasse erstellt werden, also eine neue Instanz nach dem "Bauplan"{} der Klasse:
-\begin{objclst}
-Person *alice = [[Person alloc] init];
-\end{objclst}
-\objc{[Person alloc]} ist ein Methodenaufruf, der Speicher für ein neues Objekt der Klasse \objc{Person} bereitstellt. Anschließend wird das Objekt mit \objc{init} initialisiert und der Variable \objc{alice} vom Typ \objc{Person} zugeordnet.
-
-\subsection{Verfügbarkeit von Klassen}
-Es kann nur auf Klassen zugegriffen werden, wenn diese dem Compiler an der entsprechenden Stelle bekannt sind. Am Anfang der entsprechenden Datei muss das Klasseninterface also mit dem Aufruf \objc{#import "Klassenname.h"} verfügbar gemacht werden. Das gilt auch für die Main-Datei der gleichen Klasse!
-
-\subsubsection{Forward Declarations}
-Der Aufruf \objc{#import "Klassenname.h"} bindet im Prinzip den Code der angegebenen Datei direkt an der entsprechenden Stelle ein, sodass dieser dem Compiler zur Verfügung steht. Dieser Aufruf kann jedoch zu einer Endlosschleife führen, wenn in der eingebundenen Datei wiederum die Einbindende importiert wird.
-
-In solchen Situationen, in denen zwei Klassen jeweils voneinander abhängig sind, wird eine sog. \strong{Forward Declaration} verwendet. Dabei wird die benötigte Klasse im Header zunächst nur mit dem Aufruf \objc{@class Klassenname;} als verfügbar gekennzeichnet und dann erst in der Main-Datei importiert.
-
-\begin{filecontent}{A.h}
-\begin{objclst}
-@class B; // Forward Declaration, um B im Interface zu verwenden
-
-@interface A : NSObject
-
-@property (strong, nonatomic) B *b;
-
-@end
-\end{objclst}
-\end{filecontent}
-
-\begin{filecontent}{A.m}
-\begin{objclst}
-#import "B.h" // Echter Import erst in der Main-Datei
-
-@implementation A
-
-@end
-\end{objclst}
-\end{filecontent}
-
-Es gilt außerdem die Konvention, Klassen nur in Main-Dateien zu importieren und in Headern stattdessen die Forward Declaration zu verwenden.
-
-\section{Symbolnamen \& Konventionen}\label{sec:konventionen}
-
-Symbolnamen müssen in Objective-C bestimmte Bedingungen erfüllen:
-
-\begin{itemize}
-\item Namen beginnen immer mit einem Buchstaben oder Unterstrich \objc{_}
-\item Darauf folgt eine beliebige Kombination aus Buchstaben, Unterstrichen und Ziffern.
-\item Einige Symbole wie \objc{int} oder \objc{id} sind reserviert und können nicht verwendet werden.
-\end{itemize}
-
-Außerdem sollten unbedingt die folgenden Konventionen eingehalten werden. Achtet bitte darauf diese Konventionen beim Schreiben von Objective-C Code zu verwenden, auch wenn ihr in anderen Programmiersprachen anders vorgeht. So kann bspw. die Autovervollständigung zuverlässig verwendet werden und die Lesbarkeit des Codes steigt.
-
-\begin{itemize}
-\item Variablen- und Methodennamen beginnen mit einem Kleinbuchstaben, Klassennamen mit einem Großbuchstaben
-\item Zur Repräsentation mehrerer Wörter werden keine Unterstriche verwendet. Stattdessen wird der Anfangsbuchstabe jedes folgenden Worts großgeschrieben (\emph{camel case}). Beispiele:
-\begin{itemize}
-\item \objc{isEnabled}
-\item \objc{objectForIndex:}
-\item \objc{viewDidLoad}
-\end{itemize}
-\item Ein Methodenname beginnt mit einer Beschreibung des Rückgabewerts oder der ausführenden Aktion und bezieht ihre Argumente in den Namen ein. Beispiele:
-\begin{itemize}
-\item \objc{filteredArrayUsingPredicate:}
-\item \objc{pushViewController:animated:}
-\end{itemize}
-\item Verwendet einen Klassenprefix für größere Projekte, sodass jede Klasse eindeutig benannt ist, denn es gibt keine Namespaces in Objective-C. Verwendet mindestens drei Großbuchstaben, die eurem Company Identifier und/oder Product Name ähneln und beginnt jede Klasse diesem Prefix. Andernfalls besteht die Gefahr, dass Dateien gleichen Namens aus anderen Projekten zu Konflikten führen. Allen von Apple zur Verfügung gestellten Dateien steht ein 'NS' (für NextStep, die Programmiersprache des Betriebssystems aus dem das heutige Mac OS X hervorging) oder 'UI' (für User Interface, hauptsächlich bei iOS-relevanten Dateien) voran. Beispiele:
-\begin{itemize}
-\item \objc{NSArray}
-\item \objc{UIView}
-\end{itemize}
-\item Methodennamen besitzen kein Prefix und müssen nur innerhalb der Klasse eindeutig sein. In verschiedenen Klassen wird sogar häufig der gleiche Methodenname verwendet, wenn diese Methoden einen ähnlichen Sinn erfüllen. So überschreiben bspw. viele Klassen die Methode \objc{description}, deren Rückgabewert vom Typ \objc{NSString} eine Textrepräsentation des Objekts darstellen soll.
-
-\end{itemize}
-
-\section{Einige wichtige Klassen}
-
-In Objective-C sind viele Grundelemente der Programmierung Objekte. Dazu gehören die folgenden häufig verwendet Datenstrukturen. Diese sind ausführlich in der Dokumentation beschrieben \secref{sec:xcode_documentation}.
-
-\subsubsection{NSString}
-Objekte der Klasse \objc{NSString} repräsentieren Zeichenfolgen und können schnell mit der abkürzenden Syntax \objc{@"text"} erstellt werden.
-
-Häufig verwenden wir die Klassenmethode \objc{stringWithFormat:}, um Werte von Variablen nach der Syntax der String Formatierung einzubinden \secref{sec:stringformat}.
-
-\begin{objclst}
-NSString *s = @"text";
-NSString *t = [NSString stringWithFormat:@"number %i (%@)", 1, @"one"];
-\end{objclst}
-
-\subsubsection{NSNumber}
-\objc{NSNumber} kann als Alternative zu primitiven Datentypen zur Repräsentation von Zahlen verwendet werden und bietet die notwendigen Mechanismen, um numerische Datentypen als Objekte zu behandeln und weiterzuverwenden. Aus den meisten numerischen Datentypen (so auch \objc{BOOL}) kann mit der Syntax \objc{@(x)} ein \objc{NSNumber}-Objekt erstellt werden. \objc{NSNumber} implementiert außerdem Methoden, um wieder primitive Datentypen zurückzuerhalten.
-
-\begin{objclst}
-NSNumber *a = @(3.14);
-NSNumber *b = @(YES);
-float c = [a floatValue]; // 3.14
-int d = [b intValue] // 1
-BOOL e = [b boolValue] // YES
-\end{objclst}
-
-\subsubsection{NSArray}
-\objc{NSArray} stellt eine geordnete Liste von Objekten dar und bietet viele Mechanismen, mit diesen Objekten zu arbeiten. Die abkürzende Syntax \objc{@[a, b, c]} erstellt ein \objc{NSArray} mit den entsprechenden Objekten in der angegebenen Reihenfolge.
-
-Die Instanzmethode \objc{objectAtIndex:} bietet dann Zugriff auf das Objekt mit dem entsprechenden Index in der Liste.
-
-Um Listen schnell durchzugehen, existiert die erweiterte \strong{Fast Enumeration} Syntax der \objc{for}-Schleife in Objective-C:
-\begin{objclst}
-NSArray *list = @[a, b, c];
-
-for (NSObject *object in list) {
-    // do something
-}
-\end{objclst}
-
-Listen sind zunächst nicht veränderbar, es können also keine Objekte hinzugefügt oder entfernt werden. Stattdessen wird die Subklasse \objc{NSMutableArray} verwendet, um solche veränderbaren Listen darzustellen. Diese implementiert die Instanzmethoden \objc{addObject:} und \objc{removeObject:}, sowie zusätzliche Möglichkeiten zur Manipulation der Liste.
-
-\begin{objclst}
-NSArray *a = @[@"one", @"two", @"three"];
-NSString *s = [a objectAtIndex:0];
-NSMutableArray *m = [a mutableCopy];
-[m addObject:@"four"];
-\end{objclst}
-
-
-\subsubsection{NSDictionary}
-
-Analog zu Listen repräsentieren Objekte der Klasse \objc{NSDictionary} ungeordnete Key-Value Paare. Jedem Key des Typs \objc{NSString} wird ein beliebiges Objekt (Value) zugeordnet. Abkürzend schreiben wir dann \objc{@\{@"key1":value1, @"key2":value2\}}.
-
-Auf ein bestimmtes Objekt kann mit der Instanzmethode \objc{objectForKey:} zugegriffen werden.
-
-Außerdem kann die gleiche Syntax zur Fast Enumeration verwendet werden wir bezüglich \objc{NSArray}, wobei jedoch keine Reihenfolge der Aufzählung definiert ist.
-
-\begin{objclst}
-NSDictionary *dic = @{@"key1":value1, @"key2":value2};
-
-for (NSObject *object in dic) {
-    // do something
-}
-\end{objclst}
-
-Als veränderbare Subklasse steht hier das \objc{NSMutableDictionary} zur Verfügung, das die Instanzmethoden \objc{setObject:forKey} und \objc{removeObjectForKey} implementiert.
-
-
-\section{Ein bisschen Swift}
-
-Am 2. Juni hat Apple auf der WWDC 2014 die Programmiersprache \strong{Swift \linkref{http://developer.apple.com/swift}} vorgestellt und damit Objective-C einen Nachfolger gegeben. Swift ist eine völlig neue Programmiersprache, die in Anlehnung an Skriptsprachen wie Python viele moderne Konzepte bietet aber auch die deskriptive Syntax von Objective-C aufgreift.
-
-Natürlich besitzen bis heute sämtliche iOS Apps im App Store eine Codebasis in Objective-C. Da Swift und Objective-C jedoch derart miteinander kompatibel sind, dass die Programmiersprache auf Dateibasis wechseln kann und das Produkt dennoch auf älteren System ausführbar bleibt, kann die neue Sprache graduell in existierende Projekte integriert werden.
-
-Im iBooks Store \linkref{https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11} ist eine ausführliche Dokumentation zu finden. Außerdem steht dort ein Dokument bezüglich der Integration mit Objektive-C \linkref{https://itunes.apple.com/us/book/using-swift-cocoa-objective/id888894773?mt=11} zur Verfügung. Nachfolgend sind einige der neuen Mechaniken zusammengefasst.
-
-\begin{itemize}
-\item In Swift werden entweder \strong{Variablen} mit \swift{var} oder \strong{Konstanten} mit \swift{let} deklariert. Konstanten ändern per Definition ihren Wert nicht. Nur wenn nötig sollten Variablen verwendet werden, sodass der Code effizienter kompiliert und zuverlässiger ausgeführt werden kann. Dieses Konzept vereinfacht außerdem die Struktur der \emph{veränderlichen Subklassen} wie \objc{NSMutableArray}, da stattdessen einfach die Deklaration mit \swift{var} oder \swift{let} die Veränderlichkeit bestimmt.
-\item \strong{Type Inference:} Wann immer der Compiler den Typ einer Variable oder Konstante aus dem Kontext eindeutig erschließen kann, muss dieser nicht angegeben werden.
-\item Anstatt mithilfe verschiedener Symbole wie \objc{nil}, \objc{0} oder \objc{NSNull} die Abwesenheit eines Wertes darzustellen, werden in Swift elegant \strong{Optionals} eingesetzt. Eine Variable, deren Typ mit einem Fragezeichen gekennzeichnet ist, kann zur Laufzeit entweder einen Wert oder \swift{nil}, also \emph{kein Wert}, annehmen. Nicht-optionale Variablen haben dagegen immer einen Wert. So steigt die Verlässlichkeit und Sicherheit des Codes, da an den richtigen Stellen auf die Abwesenheit eines Werts geprüft werden kann und muss.
-\item Mithilfe von \strong{Property Observers} kann in einfacher Syntax einem \swift{var} Attribut ein Codeblock hinzugefügt werden, der bei Veränderung des Attributwerts ausgeführt wird. Zusammen mit \strong{Lazy Properties}, die erst beim ersten Zugriff geladen werden, und \strong{Computed Properties}, die keiner Instanzvariablen entsprechen sondern in einem Codeblock direkt einen Rückgabewert berechnen, bietet Swift konzeptionell sinnvollere Mechaniken als das Überschreiben der Getter- und Setter Methoden.
-\item In Swift können \strong{Subscripts}, also Rückgabewerte des Operators \swift{[]}, sowie eigene Operatoren definiert werden. Subscripts werden von Arrays und Dictionaries verwendet, um Zugriff auf einzelne Objekte oder auch ganze Bereiche von Objekten mithilfe der \strong{Ranges} Syntax zu erhalten. Mit dem Array \swift{x} gibt also \swift{x[0..5]} die Objekte mit Index \swift{0} bis \swift{4} und \swift{x[0...5]} die Objekte mit Index \swift{0} bis \swift{5} zurück.
-
-\end{itemize}
 
 
 \chapter{Projektstrukturierung}

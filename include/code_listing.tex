@@ -6,7 +6,7 @@
 \definecolor{atnotation}{RGB}{204,0,164}
 \definecolor{import}{RGB}{128,70,30}
 \definecolor{comment}{RGB}{0,140,0}
-\definecolor{string}{RGB}{229,0,0}
+\definecolor{string}{RGB}{196,26,22}
 \definecolor{method}{RGB}{70,0,134}
 \definecolor{class}{RGB}{59,131,138}
 \definecolor{custommethod}{RGB}{32,90,95}
@@ -95,10 +95,14 @@
 
 \newcommand{\objc}[1]{{\lstinline{#1}}}
 \newcommand{\swift}[1]{{\objc{#1}}}
+\lstnewenvironment{swiftlst}{\lstset{language=[Objective]C}}{}
 \lstnewenvironment{objclst}{\lstset{language=[Objective]C}}{}
-\newcommand{\objchighlight}[1]{\colorbox{highlight}{#1}}
+\newcommand{\objchighlight}[1]{\codehighlight{#1}}
+\newcommand{\codehighlight}[1]{\colorbox{highlight}{#1}}
 
 \newcommand{\sh}[1]{{\lstinline{#1}}}
 \lstnewenvironment{shlst}{\lstset{language=bash}}{}
+\newcommand\str[1]{\textcolor{string}{"#1"}}
+\newcommand\filename[1]{\str{#1}}
 
 

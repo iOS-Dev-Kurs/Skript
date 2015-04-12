@@ -6,9 +6,24 @@ Resources/
 
 # LaTeX
 *.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+
+## Build tool auxiliary files:
+*.synctex
+*.synctex.gz
+*.synctex.gz(busy)
 
 # Texpad
 .texpadtmp/
+
+# minted
+_minted*
+*.pyg
 
 # Mac Noise
 .DS_Store

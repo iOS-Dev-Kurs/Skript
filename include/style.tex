@@ -1,9 +1,17 @@
 
 % General Packages
 \usepackage[ngerman]{babel}
-\usepackage{graphicx}
+\usepackage[xetex]{graphicx}
 \usepackage{enumitem}
 \usepackage{hyperref}
+
+
+% Font
+\usepackage{fontspec,xunicode}
+\setmainfont{Cardo}
+\setsansfont{Avenir Next}
+\setmonofont[Scale=MatchLowercase]{Menlo} % MatchLowercase is pretty cool
+
 
 % PDF Meta Info
 \makeatletter
@@ -15,10 +23,12 @@
 }
 \makeatother
 
+
 % Titlepage
 \renewcommand{\maketitle}{
     \input{include/titlepage}
 }
+
 
 % Page Layout
 %\pagestyle{headings}
@@ -33,11 +43,6 @@
 \cfoot{\thepage}
 }
 
-% Font
-\usepackage{fontspec}
-\setmainfont{Cardo}
-\setmonofont{Menlo}
-\usepackage{xunicode}
 
 % Headings
 \usepackage[bf]{titlesec}
@@ -47,15 +52,19 @@
 
 % Menukeys
 \usepackage{menukeys}
-\newcommand\cmdkey{{\cmd}}
-\newcommand\shiftkey{{\shift}}
-\newcommand\altkey{{\Alt}}
-\newcommand\ctrlkey{{\ctrl}}
-\newcommand\tabkey{{\tab}}
+
 
 % Style
+
 \newcommand\strong\textbf
+
+\usepackage{color,xcolor}
+\definecolor{string}{RGB}{196,26,22}
+\newcommand\str[1]{\textcolor{string}{\texttt{"#1"}}}
+
+\newcommand\filename[1]{\str{#1}}
 \newenvironment{filecontent}[1]{\textbf{#1}}{}
+
 
 % References
 \newcommand{\linkref}[1]{[\footnote{\url{#1}}]}
@@ -64,10 +73,12 @@
 \newcommand{\excref}[1]{\emph{(\hyperref[#1]{s. S. \pageref{#1}, Übungsaufgabe \ref{#1}})}}
 \newcommand{\skriptref}[1]{\emph{Relevante Kapitel im Skript: #1}}
 
+
 % Images
 \newcommand{\includegraphicsc}[4][\textwidth]{{\begin{figure}[ht]\centering\includegraphics[width=#1]{#2}\caption{#4}\label{#3}\end{figure}}}
 \newcommand{\screenshotwidth}{.8\textwidth}
 \newcommand{\iphonewidth}{.4\textwidth}
+
 
 % Margin Images
 \usepackage{marginnote}
@@ -80,15 +91,18 @@
     \textbf{\small Controller}
 }}
 
+
 % Lecture structure
 \newenvironment{lecture}{}{\pagebreak}
+
 
 % Exercise Style
 \newcounter{exc}
 \newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
-\newenvironment{excitem}[2]{\item\label{exc:#1}\strong{#2}}{}
+\newenvironment{excitem}[3]{\item\label{exc:#1}\strong{#2}\hfill [#3 P.]}{}
 \newcommand{\excextra}[1]{\strong{Extra:} #1}
 \newcommand{\exchinweis}[1]{\strong{Hinweis:} #1}
+\newenvironment{hinweis}{\strong{Hinweis:} }{}
 \newenvironment{exchinweise}{\strong{Hinweise:}\begin{itemize}}{\end{itemize}}
 %\newenvironment{lsg}{\begin{enumerate}}{\end{enumerate}}
 \newenvironment{lsg}{}{}

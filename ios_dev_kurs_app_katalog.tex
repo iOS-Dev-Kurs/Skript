@@ -16,11 +16,9 @@
 
 \chapter{Über dieses Dokument}
 
-Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungsseite \linkref{http://ios-dev-kurs.github.io/} zur Verfügung gestellt.
+Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungswebseite \linkref{http://ios-dev-kurs.github.io/} zur Verfügung gestellt.
 
 Er dient jedoch nur als Ergänzung zum parallel verfügbaren \strong{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
-
-Beispiellösungen zu den Übungsaufgaben sind ebenfalls auf der Vorlesungsseite zu finden.
 
 
 \begin{lecture} % Lecture 1
@@ -28,91 +26,46 @@ Beispiellösungen zu den Übungsaufgaben sind ebenfalls auf der Vorlesungsseite 
 
 \chapter{Hello World}
 
-Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung eingeführt.
+Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung in \emph{Swift} eingeführt.
 
-\skriptref{Xcode, Objective-C}
-
-
-\section{Das erste Xcode Projekt}
-
-\begin{enumerate}
-
-\item Mit \keys{\cmdkey + \shiftkey + N} rufen wir zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menu{iOS > Application > Singe View Application}.
-
-\item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \strong{helloworld}, euren Vor- und Nachnamen als Organization Name und \strong{de.uni-hd.deinname} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \strong{de.uni-hd.deinname.helloworld}. Einen Class Prefix benötigen wir erstmal nicht. Speichert das Projekt in einem Verzeichnis eurer Wahl.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_xcproj.png}{img:helloworld_xcproj}{Damit es keine Konflikte zwischen verschiedenen Apps gibt, gibt es Konventionen bei der Konfiguration}
-
-\item Wir sehen nun Xcodes Benutzeroberfläche und können sie mit den Schaltflächen rechts in der Toolbar anpassen. Verwendet zunächst die Konfiguration mit eingeblendetem Navigator, verstecktem Debug-Bereich und Inspektor und Standard-Editor. Wählt im Project Navigator das Projekt selbst aus \abbref{img:helloworld_targetconfig}.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_targetconfig.png}{img:helloworld_targetconfig}{Wird das Projekt ausgewählt, sehen wir im Editor die Projekt- und Targetkonfiguration.}
-
-\item Im Editor wird die Projekt- und Targetkonfiguration angezeigt. Hier können wir bspw. die Bundle ID unserer App anpassen, die wir zuvor bei der Erstellung des Projekts aus Product Name und Company Identifier zusammengesetzt haben.
-
-\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone Retina (3.5-inch)} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. Das kann bei der ersten Ausführung durchaus etwas dauern oder einen Fehler generieren. In Xcode kann mit \keys{\cmdkey + .} die Ausführung gestoppt und mit \keys{\cmdkey + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
-
-\end{enumerate}
+\skriptref{Xcode, Programmieren in Swift} sowie das Buch \emph{The Swift Programming Language} \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/}
 
 
-\section{@"{}Hello World!"{}}
+\section{Grundlagen der Programmierung in Swift}
+
+Anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} lernen wir zunächst die Grundlagen der Programmierung in Swift kennen.
 
 \begin{enumerate}
 
-\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir eine Ausgabe hinzufügen. Wählt die Datei \emph{AppDelegate.m} im Project Navigator aus.
+\item Öffnet Xcode und erstellt zunächst einen \emph{Playground} mit \keys{\cmd + \shift + \Alt + N}. Playgrounds sind interaktive Skripte, mit denen sich ideal Code ausprobieren lässt. Gebt der Datei einen Namen wie \str{01 - Grundlagen der Programmierung in Swift} und speichert sie in einem Verzeichnis für diesen Kurs.
+\item Ein Playground besteht aus einem Editor- und einem Inspektorbereich und führt geschriebenen Code automatisch aus. Ausgaben und Laufzeitinformationen werden im Inspektor angezeigt. In nur einer Zeile Code können wir den traditionellen \emph{Hello World!}-Gruß ausgeben lassen \abbref{img:playground_helloworld}.
 
-\item Die Methode \objc{application:didFinishLaunchingWithOptions:} wird zu Beginn der Ausführung der App aufgerufen. Zwischen den geschweiften Klammern ist bisher noch nicht viel zu finden:
+\begin{swiftcode}
+println("Hello World!")	
+\end{swiftcode}
+	
+\item Nun lernen wir anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} zunächst die Grundlagen der Programmierung in Swift. Macht euch dabei mit folgenden Begriffen vertraut:
 
-\begin{objclst}
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
-}
-\end{objclst}
-
-\item Ersetzt den Kommentar mit einem Befehl zur Ausgabe von Text in der Konsole:
-
-\begin{objclst}
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSLog(@"Hello World!"); // Dieser Befehl gibt den Text Hello World! in der Konsole aus
-    return YES;
-}
-\end{objclst}
-
-\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} kompilieren und ausführen, sehen wir den Text \objc{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
-
-\end{enumerate}
-
-
-\section{@"Hello World!"{} on Device}
-
-\begin{enumerate}
-
-\item Nun möchten wir unsere neue App natürlich auch auf einem realen iOS Gerät anstatt des Simulators testen. Im Skript findet ihr eine Anleitung, wie ihr mit euren iOS Geräten unserem Developer Team der Uni Heidelberg beitreten könnt.
-
-\item Habt ihr die Schritte befolgt und euren freigeschalteten Apple Developer Account in den Xcode-Accounteinstellungen hinzugefügt, öffnet ihr wieder die Project- und Targetkonfiguration im Project Navigator und wählt dort unser Developer Team \abbref{img:helloworld_chooseteam} aus. Nun wird automatisch das richtige Provisioning Profile für die Bundle ID des Targets verwendet.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_chooseteam.png}{img:helloworld_chooseteam}{Mit der Wahl des zugehörigen Developer Teams in der Project- und Targetkonfiguration verwendet Xcode automatisch das passende Provisioning Profile}
-
-\item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erscheint wieder die Ausgabe \objc{Hello World!}, diesmal direkt vom Gerät ausgegeben.
-
-\end{enumerate}
-
-
-\section{Grundlagen der Programmierung}
-
-\begin{enumerate}
-
-\item Wir können nun beginnen, Objective-C Code zu schreiben. Öffnet dafür wieder die Datei \emph{AppDelegate.m}.
-
-\item In der Methode \objc{application:didFinishLaunchingWithOptions:}, die wir schon zuvor verwendet haben, können wir nun zunächst die Grundlagen der Programmierung wie im Skript beschrieben ausprobieren.
+	\begin{itemize}
+		\item Variablen (\swiftinline{var}) und Konstanten(\swiftinline{let})
+		\item Einfache Datentypen (\swiftinline{Int}, \swiftinline{Float}, \swiftinline{Double}, \swiftinline{Bool}, \swiftinline{String}, \swiftinline{Array}, \swiftinline{Dictionary} und \swiftinline{Set})
+		\item Type Inference
+		\item String-Formatierung
+		\item Einfache Operatoren (\swiftinline{+}, \swiftinline{-}, \swiftinline{*}, \swiftinline{/}, \swiftinline{\%})
+		\item Abfragen (\swiftinline{if}, \swiftinline{switch}) und Schleifen (\swiftinline{for}, \swiftinline{while})
+		\item Optionals
+		\item Funktionen
+	\end{itemize}
+	
+	Im zweiten Kapitel \emph{Language Guide} werden diese Konzepte noch einmal detailliert erklärt. Informiert euch dort gerne genauer darüber. Zunächst genügt es jedoch, einen Überblick zu erhalten. Im Verlauf des Kurses werden wir noch viel Übung im Umgang mit diesen Konzepten bekommen.
+	
+\includegraphicsc[\screenshotwidth]{img/playground_helloworld.png}{img:playground_helloworld}{Playgrounds eignen sich ideal zum Ausprobieren von Swift Code.}
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{fibonacci}{Fibonacci}
+\begin{excitem}{fibonacci}{Fibonacci}{1}
 
 \begin{enumerate}
 \item Schreibt einen Algorithmus, der alle Folgenglieder $F_n < 1000$ der Fibonaccifolge
@@ -128,15 +81,81 @@ in der Konsole ausgibt.
 
 \end{excitem}
 
-\begin{excitem}{primenumbers}{Primzahlen}
+\begin{excitem}{primenumbers}{Primzahlen}{2}
 
-Schreibt einen Algorithmus, der alle Primzahlen $p_n<1000$ in der Konsole ausgibt. 
 
-\exchinweis{Mit dem Modulo-Operator \objc{\%} kann der Rest der Division zweier Integer gefunden werden:}
+\begin{enumerate}
 
-\begin{objclst}
-int a = 20%3 // a ist jetzt 2
-\end{objclst}
+\item Schreibt eine Funktion \swiftinline{primeNumbersUpTo:}, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis \swiftinline{maxNumber} als Liste \swiftinline{[Int]} zurückgibt.
+
+\exchinweis{Mit dem Modulo-Operator \swiftinline{|\%|} kann der Rest der Division zweier Integer gefunden werden:}
+
+\begin{swiftcode}
+let a = 20%3 // a ist jetzt Int(2)
+\end{swiftcode}
+
+\item \emph{Optionals} sind eines der elegantesten Konzepte in Swift, und sind auch in anderen modernen Sprachen zu finden. Informiert euch darüber im Kapitel \emph{Language Guide > The Basics > Optionals} in \emph{The Swift Programming Language}. Dieses Kapitel (bis einschließlich \emph{Implicitly Unwrapped Optionals}) ist sehr wichtig, da wir in der iOS App Programmierung häufig mit Optionals arbeiten werden!
+
+\item Verwendet eure Liste von Primzahlen aus der vorigen Aufgabe, um effizienter zu prüfen, ob eine Zahl eine Primzahl ist.
+
+Schreibt dazu eine Funktion \swiftinline{isPrimeNumber:cachedPrimeNumbers:}, die eine Zahl \swiftinline{n: Int} und eine \strong{optionale} Liste von Primzahlen \swiftinline{cachedPrimeNumbers: [Int]?} annimmt. Verwendet die \emph{Optional Binding} Syntax \swiftinline{if let} um mit dieser Liste zu arbeiten, wenn eine solche übergeben wurde und lang genug ist. Dann genügt es zu prüfen, ob die Zahl in der Liste enthalten ist. Wenn kein Liste übergeben wurde, soll die Primzahl wie in a) manuell geprüft werden.
+
+\begin{exchinweise}
+
+\item Dem Argument \swiftinline{cachedPrimeNumbers} können wir einen \emph{default} Wert \swiftinline{nil} zuweisen:
+
+\begin{swiftcode}
+func isPrimeNumber(n: Int, cachedPrimeNumbers: [Int]? = nil) -> Bool {
+    // ...
+}	
+\end{swiftcode}
+
+So kann die Funktion auch ohne dieses Argument aufgerufen werden:
+
+\begin{swiftcode}
+isPrimeNumber(7, cachedPrimeNumbers: [ 1, 2, 3, 7 ]) // vollständiger Funktionsaufruf, verwendet übergebene Liste zum Nachschlagen
+isPrimeNumber(7) // äquivalent zu:
+isPrimeNumber(7, cachedPrimeNumbers: nil) // Prüft Primzahl manuell
+\end{swiftcode}
+
+\item Die globale Funktion \swiftinline{contains} prüft ob eine Element in einer Liste enthalten ist:
+
+\begin{swiftcode}
+contains([ 1, 2, 3, 7 ], 7) // true
+\end{swiftcode}
+
+\item Testet eure Funktion, indem Ihr bspw. folgenden Code ans Ende des Storyboards setzt:
+
+\begin{swiftcode}
+//: ## Testing
+
+let n = 499 // Number to test
+let cachedMax = 500 // Prime numbers up to this number will be cached
+import Foundation
+var startDate: NSDate
+
+startDate = NSDate()
+let cachedPrimeNumbers = primeNumbersUpTo(cachedMax)
+println("Time for caching prime numbers up to \(cachedMax): \(-startDate.timeIntervalSinceNow)s")
+
+startDate = NSDate()
+if isPrimeNumber(n) {
+    println("\(n) is a prime number.")
+} else {
+    println("\(n) is not a prime number.")
+}
+let withoutCacheTime = -startDate.timeIntervalSinceNow
+println("Time without cache: \(withoutCacheTime)s")
+
+startDate = NSDate()
+isPrimeNumber(n, cachedPrimeNumbers: cachedPrimeNumbers)
+let withCacheTime = -startDate.timeIntervalSinceNow
+println("Time with cache: \(withCacheTime)s (\((1 - withCacheTime / withoutCacheTime) * 100)% faster)")
+\end{swiftcode}
+
+\end{exchinweise}
+
+\end{enumerate}
 
 \end{excitem}
 
@@ -146,172 +165,127 @@ int a = 20%3 // a ist jetzt 2
 \end{lecture}
 
 
+% MARKER %
+\end{document}
+
+
 \begin{lecture} % Lecture 2
 
 
-\section{Objektorientiertes @"{}Hello World!"{}}
+\section{Objektorientiertes "{}Hello World!"{}}
 
 \begin{enumerate}
 
-\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objc{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Dazu brauchen wir zunächst eine neue Klasse \objc{Person} und schreiben diese am besten in eine neue Datei. Mit dem Tastenkürzel \keys{\cmdkey + N} rufen wir den \emph{New File} Dialog auf.
+\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objcinline{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Erstellt dazu einen Xcode Playground bspw. mit Title \str{02 - Objektorientierte Programmierung in Swift}.
 
-\item Wählt hier \menu{iOS > Cocoa Touch > Objective-C class} aus. Im nächsten Dialog können wir unsere neue Klasse konfigurieren. Wählt zunächst \objc{NSObject} als Superklasse und gebt der Klasse den Namen \objc{Person} \abbref{img:helloworld_personclass}.
+\item Verschafft euch anhand \emph{The Swift Programming Language} einen Überblick über folgende Konzepte der objektorientierten Programmierung in Swift:
 
-\includegraphicsc[\screenshotwidth]{img/helloworld_personclass.png}{img:helloworld_personclass}{Der \emph{New File} Dialog hilft bei der Konfiguration einer neuen Klasse}
+\begin{itemize}
+	\item Klassen und Objekte
+	\item Attribute mit oder ohne Startwert
+	\item Initializer
+	\item Instanz- und Klassenmethoden
+	\item Subklassen und Überschreiben von Methoden
+\end{itemize}
 
-\item Stellt sicher, dass das Target \emph{helloworld} im daraufffolgenden Speicherdialog ausgewählt ist und speichert die Klasse im Projektverzeichnis.
+\item Eine neue \emph{Klasse} soll Personen repräsentieren, die jeweils einen Namen besitzen. Dafür definieren wir, dass jedes Objekt der Klasse \swiftinline{Person} eine Konstante \swiftinline{name} des Typs \swiftinline{String} haben soll. Ein \emph{Initializer} setzt den Wert dieser Konstanten, wenn ein solches Objekt erstellt wird. Wurde der Initializer ausgeführt, \strong{muss} jedes Attribut einen Wert besitzen!
 
-\item Im Project Navigator sind nun zwei neue Dateien erschienen: Die Main- und die Header-Datei der neuen Klasse. Klickt auf die Main-Datei \emph{Person.m}, um sie im Editor zu öffnen. Wenn ihr in der Toolbar nun anstatt des Standard- den Assistant-Editor auswählt, erscheint die Header-Datei \emph{Person.h} automatisch auf der rechten Seite des Editors. Andernfalls klickt ihr auf die Jump bar des Assistant-Editors und wählt \emph{Counterparts} aus, sodass die Header-Datei angezeigt wird \abbref{img:helloworld_personclass2}.
+\begin{swiftcode}
+class Person {
+    
+    /// Der Name der Person. Jedes Objekt der Klasse besitzt dieses Attribut.
+    let name: String
+    
+    // Neue Objekte dieser Klasse werden durch Aufruf des Initializers erstellt. Wurde dieser ausgeführt, muss jedes Attribut einen Wert besitzen.
+    init(name: String) {
+        self.name = name
+        self.sayHello()
+    }
+    
+}
+\end{swiftcode}
 
-\includegraphicsc[\screenshotwidth]{img/helloworld_personclass2.png}{img:helloworld_personclass2}{Der Assistant-Editor zeigt automatisch die Header-Datei zu einer geöffneten Main-Datei an, wenn die Option \emph{Counterparts} gewählt wird}
+\item Außerdem implementieren wir eine \emph{Instanzmethode} \swiftinline{sayHello}, die einen Gruß in der Konsole ausgibt. Am Ende des Initializers fügen wir einen Aufruf dieser Methode hinzu, sodass uns jedes neue Objekt der Klasse grüßt:
 
-\item Die neue Klasse soll Personen repräsentieren, die jeweils einen Namen besitzen. Die Header-Datei rechts im Assistant enthält das Interface der Klasse, also deren öffentliche Beschreibung. Hier definieren wir, dass jedes Objekt der Klasse 'Person' eine Variable \objc{name} des Typs \objc{NSString} haben soll. Außerdem soll die Klasse eine Methode mit dem Namen \objc{sayHello} ohne Rückgabewert implementieren, die später den Gruß ausgeben soll:
+\begin{swiftcode}
+class Person {
+    
+    let name: String
+    
+    init(name: String) {
+        self.name = name
+        self.sayHello() // Jedes neu erstellte Objekt grüßt uns
+    }
+    
+    /// Diese Methode gibt einen Gruß in der Konsole aus, wenn sie aufgerufen wird.
+    func sayHello() {
+        println("Hello World! My name is \(name).")
+    }
+    
+}	
+\end{swiftcode}
 
-\begin{objclst}
-@interface Person : NSObject // Das Interface der Klasse Person, Subklasse von NSObject, beginnt hier
+\item Unsere Klasse ist jetzt einsatzbereit und wir können Objekte nach ihrem Bauplan erstellen. Dies geschieht durch Aufruf des Initializers:
 
-@property (strong, nonatomic) NSString *name; // Jedes Objekt der Klasse besitzt dieses Attribut
-
-- (void)sayHello; // Die Klasse implementiert diese Methode, die von jedem ihrer Objekte ausgeführt werden kann
-
-@end
-\end{objclst}
-
-\item Um zu bestimmen, was bei der Ausführung der Methode passiert, müssen wir sie noch implementieren. Dies geschieht in der Main-Datei \emph{Person.m} links im Editor. Wir schreiben:
-
-\begin{objclst}
-#import "Person.h"
-
-@implementation Person
-
-- (void)sayHello {
-    NSLog(@"Hello World! My name is %@.", self.name);
+\begin{swiftcode}
+class Person {
+    ...
 }
 
-@end
-\end{objclst}
+let alice = Person(name: "Alice")
+let bob = Person(name: "Bob")	
+\end{swiftcode}
 
-Es wird also zusätzlich zu dem bekannten Gruß noch der Wert der Variable \objc{name} in der Konsole ausgegeben. Dazu verwenden wir die dot-Syntax der Getter-Methode, die durch die Definition des Attributs \objc{name} im Interface automatisch generiert wird.
+Lassen wir uns nun mit \keys{\cmd + \Alt + \return} oder \menu{View > Assistant Editor > Show Assistant Editor} die Konsole im Assistant Editor anzeigen, so sehen wir einen Gruß von jedem neu erstellten Objekt der Klasse \swiftinline{Person} \abbref{img:personhelloworld}.
 
-\item Unsere Klasse ist jetzt einsatzbereit und wir können Objekte nach ihrem Bauplan erstellen. Öffnen wir also wieder die Datei \emph{AppDelegate.m}, in der wir auch zuvor die Grundlagen der Programmierung ausprobiert haben.
+\includegraphicsc[\screenshotwidth]{img/personhelloworld.png}{img:personhelloworld}{Wenn wir neue Objekte der Klasse \swiftinline{Person} erstellen, grüßen sie uns in der Konsole.}
 
-\item Damit wir die Klasse verwenden können, müssen wir zunächst ihr Interface importieren. Fügt also den Befehl \objc{#import "Person.h"} direkt über dem Beginn der Implementierung \objc{@implementation AppDelegate} ein.
-
-\item Nun können wir Personen-Objekte erstellen. Wir verwenden wieder die Methode \objc{application:didFinishLaunchingWithOptions} und schreiben:
-
-\begin{objclst}
-#import "AppDelegate.h"
-
-#import "Person.h" // Das Klasseninterface muss importiert werden, damit die Klasse hier verfügbar ist
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    Person *aPerson = [[Person alloc] init]; // Ein neues Objekt der Klasse Person wird erstellt
-    aPerson.name = @"Alice"; // Der Variable name dieses Objekts wird der Wert @"Alice" zugewiesen.
-    [aPerson sayHello]; // Die Methode sayHello dieses Objekts wird aufgerufen, in der auf die Variable zugegriffen wird
-
-    // Es können weitere, unabhängige Objekte nach dem gleichen Bauplan der Klasse erstellt werden
-    Person *anotherPerson = [[Person alloc] init];
-    anotherPerson.name = @"Bob";
-    [anotherPerson sayHello];
-
-    return YES;
-}
-
-@end
-\end{objclst}
-
-\item Mit einem \emph{Build \& Run} führen wir die App aus und werden in der Konsole von Alice und Bob freundlich gegrüßt:
-
-\begin{objclst}
+\begin{shcode}
 Hello World! My name is Alice.
 Hello World! My name is Bob.
-\end{objclst}
+\end{shcode}
 
-\item Natürlich können wir unsere Klasse nun noch erweitern und Objekte miteinander interagieren lassen. Fügen wir also dem Interface der Klasse \objc{Person} noch eine weitere Methode \objc{sayHelloTo:} hinzu und implementieren sie:
+\item Natürlich können wir unsere Klasse nun noch erweitern und Objekte miteinander interagieren lassen. Fügen wir also der Klasse \swiftinline{Person} noch eine weitere Methode \swiftinline{sayHelloTo:} hinzu und implementieren diese:
 
-\begin{objclst}
-// in der Header-Datei
+\begin{swiftcode}
+class Person {
+	...
+	/// Diese Methode grüßt eine andere Person, die als Argument übergeben wird.
+    func sayHelloTo(otherPerson: Person) {
+        println("Hi \(otherPerson.name)! My name is \(name)")
+    }
+}
+\end{swiftcode}
 
-@interface Person : NSObject
+Die neue Methode nimmt ein Argument in Form eines anderen Objekts der Klasse \swiftinline{Person} an und gibt dessen Wert der Variable \swiftinline{name} zusätzlich in der Konsole aus.
 
-@property (strong, nonatomic) NSString *name;
+\item Wir können diese Methode auf einem beliebigen Objekt der Klasse \swiftinline{Person} aufrufen, und ihr ein andere Objekt der Klasse übergeben:
 
-- (void)sayHello;
-- (void)sayHelloTo:(Person *)otherPerson;
+\begin{swiftcode}
+// Rufe die Methode sayHelloTo: auf dem Objekt alice auf und übergebe bob als argument
+alice.sayHelloTo(bob) // Ausgabe: Hi Bob! My name is Alice.
+\end{swiftcode}
 
-@end
+\item Nun steht uns die Welt der objektorientierten Programmierung offen (beschränkt auf sich grüßende Personen)! Wichtig ist der Umgang mit Listen, also Objekten vom Typ Array:
 
-// in der Main-Datei
+\begin{swiftcode}
+// Erstelle eine Liste von Namen, also ein Array<String>
+let names = ["Alice", "Bob", "Cindy", "Bruce", "Chris", "Bill", "Susan"]
+// Erstelle eine leere Liste von Personen
+var people = Array<Person>()
 
-#import "Person.h"
-
-@implementation Person
-
-- (void)sayHello {
-    NSLog(@"Hello World! My name is %@.", self.name);
+// Erstelle ein neues Objekt der Klasse Person für jeden Namen und füge es der Liste hinzu
+for name in names {
+    let newPerson = Person(name: name)
+    people.append(newPerson)
 }
 
-- (void)sayHelloTo:(Person *)otherPerson {
-    NSLog(@"Hi %@! My name is %@.", otherPerson.name, self.name);
+// Lass dich von jeder Person in der hingebungsvoll Liste grüßen!
+let me = Person(name: "Nils")
+for person in people {
+    person.sayHelloTo(me)
 }
-
-@end
-\end{objclst}
-
-Die neue Methode nimmt ein Argument in Form eines anderen Objekts der Klasse \objc{Person} an und gibt dessen Wert der Variable \objc{name} zusätzlich in der Konsole aus.
-
-\item In der \objc{application:didFinishLaunchingWithOptions}-Methode fügen wir nun einen Aufruf dieser Methode hinzu:
-
-\begin{objclst}
-Person *aPerson = [[Person alloc] init];
-aPerson.name = @"Alice";
-[aPerson sayHello];
-
-Person *anotherPerson = [[Person alloc] init];
-anotherPerson.name = @"Bob";
-[anotherPerson sayHello];
-
-[anotherPerson sayHelloTo:aPerson]; // Die Methode sayHelloTo: wird vom Objekt anotherPerson aufgerufen und es wird ihr das Objekt aPerson als Argument übergeben
-\end{objclst}
-
-Ausgabe:
-
-\begin{objclst}
-Hello World! My name is Alice.
-Hello World! My name is Bob.
-Hi Alice! My name is Bob.
-\end{objclst}
-
-\item Abgesehen von den primitiven Datentypen, die wir bereits kennengelernt haben, sind viele Grundelemente der Programmierung in Objective-C Objekte. Im Skript werden einige wichtige beschrieben. Dazu gehört das (statische) \objc{NSArray} und sein (veränderbares) Pendant \objc{NSMutableArray}. Mit Arrays können wir Listen von Objekten erstellen:
-
-\begin{objclst}
-NSArray *persons = @[aPerson, anotherPerson]; // Erstellt ein Objekt der Klasse NSArray mit den gegebenen Person-Objekten
-
-for (Person *person in persons) { // Die Objekte im Array persons werden durchgegangen (enumerated)
-    [person sayHello];
-}
-\end{objclst}
-
-oder:
-
-\begin{objclst}
-NSArray *names = @[@"Alice", @"Bob", @"Cindy", @"Bruce", @"Chris", @"Bill", @"Susan"];
-
-NSMutableArray *persons = [[NSMutableArray alloc] init]; // Ein veränderbares Array wird erstellt
-
-for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des Arrays names ausgeführt
-    Person *newPerson = [[Person alloc] init];
-    newPerson.name = [names objectAtIndex:i]; // Einem neuen Person-Objekt wird das NSString-Objekt am aktuellen Index als Name zugewiesen
-
-    [persons addObject:newPerson]; // Das Person-Objekt wird der Liste persons hinzugefügt
-
-    [newPerson sayHello];
-}
-\end{objclst}
-
+\end{swiftcode}
 
 \end{enumerate}
 
@@ -320,10 +294,21 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \begin{excitem}{scientists}{Scientists}
 
 \begin{enumerate}
-\item Erstellt eine weitere Klasse \objc{Scientist} als Subklasse von \objc{Person}.
-\item Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \objc{sayPrimeNumbersUpTo:} hinzu, die ein Argument des Datentyps \objc{int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
-\item Wir wollen uns vergewissern, dass die Klasse \objc{Scientist} die Attribute und Methoden ihrer Superklasse \objc{Person} erbt. Erstellt ein \objc{Scientist}-Objekt, gebt ihm einen Namen und lasst den \objc{Hello World}-Gruß ausgeben.
-\item Nach dem Prinzip der \strong{Polymorphie} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine normale Person. Informiert euch über Polymorphie im Skript und überschreibt in der \objc{Scientist}-Klasse die Methode \objc{sayHello}, sodass zusätzlich \objc{I know all prime numbers!} ausgegeben wird.
+\item Erstellt eine weitere Klasse \objcinline{Scientist} als \emph{Subklasse} von \objcinline{Person}.
+
+Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \objcinline{sayPrimeNumbersUpTo:} hinzu, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
+
+\begin{hinweis}
+Wie in \emph{The Swift Programming Language} beschrieben, erbt eine Subklasse die Attribute und Methoden ihrer Superklasse und kann diese überschreiben:
+\begin{swiftcode}
+class Scientist: Person {
+	...
+}	
+\end{swiftcode}
+\end{hinweis}
+
+\item Wir wollen uns vergewissern, dass die Klasse \objcinline{Scientist} die Attribute und Methoden ihrer Superklasse \objcinline{Person} erbt. Erstellt ein \objcinline{Scientist}-Objekt, gebt ihm einen Namen und lasst den \objcinline{Hello World}-Gruß ausgeben.
+\item Nach dem Prinzip des \emph{Überschreiben} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine "{}normale"{} Person. Überschreibt in der \swiftinline{Scientist}-Klasse die Methode \swiftinline{sayHello}, sodass zusätzlich \str{Ask me for prime numbers!} ausgegeben wird.
 \end{enumerate}
 
 \end{excitem}
@@ -331,34 +316,34 @@ for (int i=0; i<[names count]; i++) { // Die Schleife wird für jeden Index des 
 \begin{excitem}{emails}{Emails}
 
 \begin{enumerate}
-\item Erweitert die Klasse \objc{Person} zunächst um ein Freundschaftssystem
+\item Erweitert die Klasse \objcinline{Person} nun zunächst um ein Freundschaftssystem.
 
-Jede Person besitzt ein (privates) Attribut \objc{NSMutableArray *friends}, das eine Liste ihrer Freunde darstellt. Das Aufrufen einer Instanzmethode \objc{makeFriendsWith:} fügt eine Person dieser Liste hinzu. Freundschaften werden immer in beide Richtungen geschlossen, also sollte die Methode \objc{makeFriendsWith:} dieselbe Methode der anderen Person aufrufen.
+Jede Person besitzt ein Attribut \swiftinline{friends: Array<Person>}, das eine Liste ihrer Freunde darstellt. Das Aufrufen einer Instanzmethode \swiftinline{makeFriendsWith:} fügt eine Person dieser Liste hinzu. Freundschaften werden immer in beide Richtungen geschlossen, also sollte die Methode \objcinline{makeFriendsWith:} dieselbe Methode der anderen Person aufrufen.
 
-\exchinweis{Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objc{containsObject:} von \objc{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:}
-\begin{objclst}
+\exchinweis{Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objcinline{containsObject:} von \objcinline{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:}
+\begin{objccode}
 if (self.friends==nil) { // Testet, ob self.friends bereits ein Objekt hält
     self.friends = [[NSMutableArray alloc] init]; // Weist dem Attribut self.friends eine neu erstellte Liste zu
 }
-\end{objclst}
+\end{objccode}
 
-\item Erstellt eine neue Klasse \objc{Email : NSObject}. Wir simulieren nun das Senden und Weiterleiten von Emails. Die neue Klasse \objc{Email} benötigt nur eine Instanzmethode \objc{sendTo:}, die eine Liste von Personen \objc{NSArray *recipients} als Argument annimmt. Die Implementierung dieser Methode ruft \objc{receiveEmail:} auf jedem Objekt der Liste auf.
-\item Erweitert die Klasse \objc{Person} um die Instanzmethoden \objc{sendEmail} und \objc{receiveEmail:}.
+\item Erstellt eine neue Klasse \objcinline{Email : NSObject}. Wir simulieren nun das Senden und Weiterleiten von Emails. Die neue Klasse \objcinline{Email} benötigt nur eine Instanzmethode \objcinline{sendTo:}, die eine Liste von Personen \objcinline{NSArray *recipients} als Argument annimmt. Die Implementierung dieser Methode ruft \objcinline{receiveEmail:} auf jedem Objekt der Liste auf.
+\item Erweitert die Klasse \objcinline{Person} um die Instanzmethoden \objcinline{sendEmail} und \objcinline{receiveEmail:}.
 
-\objc{sendEmail} sendet eine neue Email an die Liste der Freunde der Person.
-\objc{receiveEmail:} akzeptiert ein Argument \objc{Email *email} und leitet die Email an alle Freunde weiter.
+\objcinline{sendEmail} sendet eine neue Email an die Liste der Freunde der Person.
+\objcinline{receiveEmail:} akzeptiert ein Argument \objcinline{Email *email} und leitet die Email an alle Freunde weiter.
 
-\exchinweis{Damit die Klassen \objc{Email} und \objc{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \strong{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
+\exchinweis{Damit die Klassen \objcinline{Email} und \objcinline{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \strong{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
 
-\item Verwendet die bekannte Methode \objc{application:didFinishLaunchingWithOptions:}, um die Simulation zu starten. Erstellt eine Person \objc{Person *me} mit eurem eigenen Namen und eine Liste \objc{NSMutableArray *persons} mit weiteren Personen, beispielsweise mit den zuvor im Beispiel verwendeten Namen.
+\item Verwendet die bekannte Methode \objcinline{application:didFinishLaunchingWithOptions:}, um die Simulation zu starten. Erstellt eine Person \objcinline{Person *me} mit eurem eigenen Namen und eine Liste \objcinline{NSMutableArray *persons} mit weiteren Personen, beispielsweise mit den zuvor im Beispiel verwendeten Namen.
 
-Stellt eine Freundschaftsverbindung zwischen \objc{me} und jeder Person aus \objc{persons} her, sowie zwischen solchen Personen mit gleichem Anfangbuchstaben.
+Stellt eine Freundschaftsverbindung zwischen \objcinline{me} und jeder Person aus \objcinline{persons} her, sowie zwischen solchen Personen mit gleichem Anfangbuchstaben.
 
-\exchinweis{Die Instanzmethode \objc{characterAtIndex:} von \objc{NSString} gibt den entsprechenden Buchstaben als Datentyp \objc{char} zurück und kann einfach mit dem Operator \objc{==} mit einem anderen verglichen werden.}
+\exchinweis{Die Instanzmethode \objcinline{characterAtIndex:} von \objcinline{NSString} gibt den entsprechenden Buchstaben als Datentyp \objcinline{char} zurück und kann einfach mit dem Operator \objcinline{==} mit einem anderen verglichen werden.}
 
-Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objc{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keys{\cmdkey + .} zum Stoppen der Ausführung sinnvoll sein...
+Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objcinline{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keys{\cmd + .} zum Stoppen der Ausführung sinnvoll sein...
 
-\exchinweis{Wenn die Simulation in einer Endlosschleife läuft, steht nach einer Weile nicht mehr genug Speicherplatz zur Verfügung, um den nächsten Methodenaufruf auszuführen \linkref{http://en.wikipedia.org/wiki/Stack_overflow}. Ihr erhaltet dann den berüchtigten \objc{EXC_BAD_ACCESS} Fehler und die Ausführung der App bricht ab. In anderen Situationen, in denen keine Endlosschleife ausgeführt wird, ist dieser Fehler ein Hinweis auf fehlerhaftes Speichermanagement. Dazu gehört bspw. der Zugriff auf ein Objekt, das bereits (möglicherweise aufgrund der Kennzeichnung des Attributs als \objc{weak}) aus dem Speicher entfernt wurde.}
+\exchinweis{Wenn die Simulation in einer Endlosschleife läuft, steht nach einer Weile nicht mehr genug Speicherplatz zur Verfügung, um den nächsten Methodenaufruf auszuführen \linkref{http://en.wikipedia.org/wiki/Stack_overflow}. Ihr erhaltet dann den berüchtigten \objcinline{EXC_BAD_ACCESS} Fehler und die Ausführung der App bricht ab. In anderen Situationen, in denen keine Endlosschleife ausgeführt wird, ist dieser Fehler ein Hinweis auf fehlerhaftes Speichermanagement. Dazu gehört bspw. der Zugriff auf ein Objekt, das bereits (möglicherweise aufgrund der Kennzeichnung des Attributs als \objcinline{weak}) aus dem Speicher entfernt wurde.}
 
 \item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
 
@@ -375,155 +360,188 @@ Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlau
 \begin{lecture} % Lecture 3
 
 
-\section{Graphisches @"Hello World!"{}}
-
-Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts mitbekommen. Diese dienen bei der Programmierung hauptsächlich dazu, Abläufe im Code nachzuvollziehen und Fehler zu finden. Unsere App ist also nur sinnvoll, wenn wir die Ausgaben auch auf dem Bildschirm darstellen können.
+\section{Das erste Xcode Projekt}
 
 \begin{enumerate}
 
-\item Zur Gestaltung der Benutzeroberfläche oder User Interface (UI) verwenden wir den in Xcode integrierten Interface Builder (IB). Wir haben bei der Projekterstellung dieser App das \emph{Single View}-Template ausgewählt und konfiguriert, dass sowohl iPhone als auch iPad unterstützt werden soll (Universal). Daher enthält das Projekt bereits ein Storyboard für beide Gerättypen. Wählt im Project Navigator die Datei \emph{Main\_iPhone.storyboard} aus.
+\item Um nun eine erste iOS App zu erstellen, rufen wir mit \keys{\cmd + \shift + N} zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menu{iOS > Application > Single View Application}.
 
-\item Der Editor-Bereich zeigt nun den Interface Builder an. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmdkey + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen in der Toolbar den Navigator- und Debug-Bereich aus und den Inspektor ein. Wählt dort außerdem zunächst den Standard-Editor \abbref{img:helloworld_ib}.
+\item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \strong{helloworld}, euren Vor- und Nachnamen als Organization Name und \strong{de.uni-hd.deinname} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \strong{de.uni-hd.deinname.helloworld}. Wählt \emph{Swift}, \emph{Universal} und entfernt die Auswahl von \emph{Use Core Data}. Speichert das Projekt in einem Verzeichnis eurer Wahl.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_xcproj.png}{img:helloworld_xcproj}{Damit es keine Konflikte zwischen verschiedenen Apps gibt, gibt es Konventionen bei der Konfiguration}
+
+\item Wir sehen nun Xcodes Benutzeroberfläche und können sie mit den Schaltflächen rechts in der Toolbar anpassen. Verwendet zunächst die Konfiguration mit eingeblendetem Navigator, verstecktem Debug-Bereich und Inspektor und Standard-Editor. Wählt im Project Navigator das Projekt selbst aus \abbref{img:helloworld_targetconfig}.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_targetconfig.png}{img:helloworld_targetconfig}{Wird das Projekt ausgewählt, sehen wir im Editor die Projekt- und Targetkonfiguration.}
+
+\item Im Editor wird die Projekt- und Targetkonfiguration angezeigt. Hier können wir bspw. die Bundle ID unserer App anpassen, die wir zuvor bei der Erstellung des Projekts aus Product Name und Company Identifier zusammengesetzt haben.
+
+\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone 6} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. In Xcode kann mit \keys{\cmd + .} die Ausführung gestoppt und mit \keys{\cmd + R} (Tastenkürzel für \emph{Build \& Run}) dann neu gestartet werden.
+
+\end{enumerate}
+
+
+\section{"{}Hello World!"{} on Simulator}
+
+\begin{enumerate}
+
+\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir eine Ausgabe hinzufügen. Wählt die Datei \emph{AppDelegate.swift} im Project Navigator aus.
+
+\item Die Methode \objcinline{application:didFinishLaunchingWithOptions:} wird zu Beginn der Ausführung der App aufgerufen. Zwischen den geschweiften Klammern ist bisher noch nicht viel zu finden:
+
+\begin{swiftcode}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    // Override point for customization after application launch.
+    return true
+}
+\end{swiftcode}
+
+\item Ersetzt den Kommentar mit dem bekannten Gruß zur Ausgabe in der Konsole:
+
+\begin{swiftcode}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    println("Hello World!")
+    return true
+}
+\end{swiftcode}
+
+\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} kompilieren und ausführen, sehen wir den Text \swiftinline{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
+
+\end{enumerate}
+
+
+\section{"Hello World!"{} on Device}
+
+\begin{enumerate}
+
+\item Nun möchten wir unsere neue App natürlich auch auf einem realen iOS Gerät anstatt des Simulators testen. Im Skript findet ihr eine Anleitung, wie ihr mit euren iOS Geräten unserem Developer Team der Uni Heidelberg beitreten könnt.
+
+\item Habt ihr die Schritte befolgt und euren freigeschalteten Apple Developer Account in den Xcode-Accounteinstellungen hinzugefügt, öffnet ihr wieder die Projekt- und Targetkonfiguration im Project Navigator und wählt dort unser Developer Team \abbref{img:helloworld_chooseteam} aus. Nun wird automatisch das richtige Provisioning Profile für die Bundle ID des Targets verwendet.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_chooseteam.png}{img:helloworld_chooseteam}{Mit der Wahl des zugehörigen Developer Teams in der Project- und Targetkonfiguration verwendet Xcode automatisch das passende Provisioning Profile}
+
+\item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erscheint wieder die Ausgabe \objcinline{Hello World!}, diesmal direkt vom Gerät ausgegeben.
+
+\end{enumerate}
+
+
+\section{Graphisches "{}Hello World!"{}}
+
+Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts mitbekommen. Diese dienen bei der Programmierung hauptsächlich dazu, Abläufe im Code nachzuvollziehen und Fehler zu finden. Unsere App ist also nur sinnvoll, wenn wir die Ausgaben auch auf dem Bildschirm darstellen können.
+
+\skriptref{Xcode}
+
+\begin{enumerate}
+
+\item Zur Gestaltung der Benutzeroberfläche oder User Interface (UI) verwenden wir den in Xcode integrierten Interface Builder (IB). Wir haben bei der Projekterstellung der ersten App das \emph{Single View}-Template ausgewählt, daher enthält das Projekt bereits ein \emph{Storyboard}. Öffnet das Projekt und wählt im Navigator die Datei \emph{Main.storyboard} aus.
+
+\item Der Editor-Bereich zeigt nun den Interface Builder. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmd + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen in der Toolbar den Navigator- und Debug-Bereich aus und den Inspektor ein. Wählt dort außerdem zunächst den Standard-Editor \abbref{img:helloworld_ib}.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_ib.png}{img:helloworld_ib}{Für den Interface Builder verwenden wir eine angepasste Fensterkonfiguration mit dem Inspektor anstatt des Navigators}
 
-\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \strong{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt diesen Tab aus, wenn er noch nicht angezeigt wird.
+\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \emph{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt den entsprechenden Tab aus, wenn er noch nicht angezeigt wird \abbref{img:helloworld_ib}.
 
-\item Durchsucht die Liste von Interfaceelementen nach einem Objekt der Klasse \objc{UILabel}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \objc{Hello World!}.
+\item Durchsucht die Liste von Interfaceelementen nach einem Objekt der Klasse \swiftinline{UILabel}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \str{Hello World!}.
 
 \item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen Gruß nun statisch auf dem Bildschirm an.
 
-\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im \emph{Identity Inspector} könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, vom Typ \objc{UILabel} ist. Im \emph{Attributes Inspector} stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
+\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im \emph{Identity Inspector} könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, vom Typ \swiftinline{UILabel} ist. Im \emph{Attributes Inspector} stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
 
-\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \objc{UIButton}- und \objc{UITextField}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \objc{Say Hello!} geben und für das Text Field einen Placeholder \objc{Name} einstellen.
+\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \swiftinline{UIButton}- und \swiftinline{UITextField}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \str{Say Hello!} geben und für das Text Field einen Placeholder \str{Name} einstellen.
 
 \includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
 
-\item Nun müssen wir zur Laufzeit der App auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren können. Dazu verwenden wir sog. \strong{IBOutlets} und \strong{IBActions}. Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf \emph{Automatic}. Im Assistant wird automatisch die Main-Datei des übergeordneten View Controllers eingeblendet.
+\item Zur Laufzeit der App wird für jedes im Storyboard konfigurierte Interfaceelement ein Objekt der entsprechenden Klasse erstellt und dessen Attribute gesetzt. Um nun im Code auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren zu können, verwenden wir \emph{IBOutlets} und \emph{IBActions}.
+	
+	Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf \emph{Automatic}. Im Assistant wird automatisch die Implementierung des übergeordneten View Controllers eingeblendet \abbref{img:helloworld_assistant}.
 
-\item Da auf die Interfaceelemente nicht von außerhalb der Klasse zugegriffen werden muss, können wir das private Interface oben in der Main-Datei verwenden. Schreibt dort:
-\begin{objclst}
-@interface ViewController ()
+\includegraphicsc[\iphonewidth]{img/helloworld_assistant.png}{img:helloworld_assistant}{Mithilfe des Assistants können Interface-Builder und Code nebeneinander angezeigt werden.}
 
-@property (strong, nonatomic) IBOutlet UITextField *nameTextfield;
-@property (strong, nonatomic) IBOutlet UILabel *helloLabel;
+	\emph{View Controller} sind Objekte einer Subklasse von \swiftinline{UIViewController}, die jeweils einen Teil der App steuern. Diese sind zentrale Bestandteile einer App, mit denen wir uns noch detailliert beschäftigen werden. Ein erster View Controller zur Steuerung dieser ersten Ansicht wurde bereits bei der Projekterstellung automatisch hinzugefügt.
 
-- (IBAction)sayHelloButtonPressed:(id)sender;
+\item Fügt dieser Klasse \swiftinline{ViewController: UIViewController} Attribute für das \swiftinline{UILabel} und das \swiftinline{UITextField} hinzu und kennzeichnet diese mit \swiftinline{@IBOutlet}. Implementiert außerdem eine mit \swiftinline{IBAction} gekennzeichnete Methode, die aufgerufen werden soll, wenn der Benutzer den \swiftinline{UIButton} betätigt:
 
+\begin{swiftcode}
+import UIKit
+
+class ViewController: UIViewController {
+
+    @IBOutlet var nameTextfield: UITextField!
+    @IBOutlet var greetingLabel: UILabel!
+
+    @IBAction func greetingButtonPressed(sender: UIButton) {
+        println("Hello World!")
+    }
+    
+}
 @end
-\end{objclst}
-Wir definieren also mit \objc{IBOutlet} gekennzeichnete Attribute für das Text Field und das Label, die zur Laufzeit der App unsere erstellten Interfaceelemente halten sollen. Auf den Button müssen wir nicht zugreifen sondern nur das Event abfangen, wenn ein Benutzer darauf drückt. Also benötigen wir nur eine mit \objc{IBAction} gekennzeichnete Methode, die ausgeführt wird, wenn das Event eintritt.
+\end{swiftcode}
 
-\item Nun zieht mit gedrückter \keys{\ctrlkey}-Taste eine Linie von dem Text Field und dem Button im Interface Builder auf das jeweilige Attribut im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die eben definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen.
+\item Nun zieht mit gedrückter \keys{\ctrl}-Taste eine Linie von dem Textfeld und dem Label im Interface Builder auf das jeweilige Attribut im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die zuvor definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen. Dieser Prozess ist im Skript noch detaillierter beschrieben.
 
-\item Wenn der Benutzer auf den Button drückt wird nun die Methode \objc{sayHelloButtonPressed:} ausgeführt. Diese müssen wir jedoch erst implementieren:
+\item Versucht nun einen \emph{Build \& Run}! Betätigt ihr den Button, wird die Methode ausgeführt und der Gruß \str{Hello World!} in der Konsole ausgegeben!
 
-\begin{objclst}
-#import "Person.h"
+\item Um die App nun alltagstauglich zu gestalten, muss dieser Gruß natürlich personalisiert und auf dem Bildschirm angezeigt werden. Dazu verwenden wir das Attribut \swiftinline{text} der Klassen \swiftinline{UITextField} und \swiftinline{UILabel}:
 
-@implementation ViewController
-
-- (IBAction)sayHelloButtonPressed:(id)sender {
-    Person *newPerson = [[Person alloc] init];
-    newPerson.name = self.nameTextfield.text;
-    [newPerson sayHello];
+\begin{swiftcode}
+@IBAction func greetingButtonPressed(sender: UIButton) {
+    self.greetingLabel.text = "Hello \(self.nameTextfield.text)!"
 }
+\end{swiftcode}
 
-@end
-\end{objclst}
+	Nach einem \emph{Build \& Run} erhalten wir unser erstes interaktives Interface, in dem ihr im Textfeld einen Namen eintippen könnt und persönlich begrüßt werdet \abbref{img:helloworld_final}!
 
-Die Klasse \objc{UITextField} besitzt ein Attribut \objc{text} des Typs \objc{NSString}. Wir verwenden hier ihre Getter-Methode in der Dot-Syntax, um den Inhalt des Text Fields zu erhalten.
-
-Nach einem \emph{Build \& Run} könnt ihr im Text Field einen Namen eintippen und werdet in der Konsole von einer virtuellen Person diesen Namens begrüßt. Entfernt vorher am besten den Code in der \objc{application:didFinishLaunchingWithOptions:}, wenn ihr es noch nicht getan habt, damit diese Ausgaben nicht stören.
-
-\item Damit der Gruß auf dem Bildschirm ausgegeben werden kann, benötigen wir eine Methode, die den Gruß nicht in der Konsole ausgibt sondern als Rückgabewert zurückgibt. Dazu wechseln wir wieder in die Konfiguration mit Project Navigator und ausgeblendetem Inspektor und wählen die \emph{Person.m} Datei.
-
-\item Fügt dem Interface der Klasse \objc{Person} die Definition der neuen Methode \objc{helloString} mit Rückgabetyp \objc{NSString} hinzu:
-\begin{objclst}
-- (NSString *)helloString;
-\end{objclst}
-
-Diese müssen wir in der Main-Datei implementieren:
-
-\begin{objclst}
-#import "Person.h"
-
-@implementation Person
-
-- (NSString *)helloString {
-    return [NSString stringWithFormat:@"Hello World! My name is %@.", self.name];
-}
-
-- (void)sayHello {
-    // Um nicht zwei nahezu gleiche Methoden implementiert zu haben, rufen wir hier stattdessen die neue Methode auf
-    NSLog([self helloString]);
-}
-
-@end
-\end{objclst}
-
-Die Klasse \objc{NSString} besitzt eine Klassenmethode \objc{stringWithFormat:}, die ein neues \objc{NSString}-Objekt nach dem gleichen String-Formatierungs-Prinzip zurückgibt, das wir bereits aus \objc{NSLog()} kennen.
-
-\item Wählt nun im Project Navigator die Datei \emph{ViewController.m}. Hier haben wir zuvor die Methode \objc{sayHelloButtonPressed:} implementiert. Nun setzen wir jedoch anstatt \objc{sayHello} aufzurufen den angezeigten Text des Labels auf den Rückgabewert der neuen \objc{helloString} Methode:
-
-\begin{objclst}
-- (IBAction)sayHelloButtonPressed:(id)sender {
-    Person *newPerson = [[Person alloc] init];
-    newPerson.name = self.nameTextfield.text;
-    ^\objchighlight{self.helloLabel.text = [newPerson helloString];}^
-}
-\end{objclst}
-
-\item Mit einem \emph{Build \& Run} erhalten wir unser erstes interaktives User Interface \abbref{img:helloworld_final}!
-
-\includegraphicsc[\iphonewidth]{img/helloworld_final.png}{img:helloworld_final}{Drücken wir auf den Button, grüßt uns eine virtuelle Person mit dem angegebenen Namen. Sehr praktisch!}
+\includegraphicsc[\iphonewidth]{img/helloworld_final.png}{img:helloworld_final}{Drücken wir auf den Button, werden wir persönlich begrüßt. Sehr praktisch!}
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{scientists2}{Scientists 2}
-
-Überlegt euch, wie die Subklasse \objc{Scientist} von \objc{Person} angepasst werden muss, damit die Methoden \objc{sayHello} und \objc{helloString} die richtigen Ergebnisse liefern. Ändert die Klasse des Objekts, das bei Drücken des Buttons erzeugt wird, zu \objc{Scientist}.
-
-\exchinweis{Die Instanzmethode \objc{stringByAppendingString:} von Objekten der Klasse \objc{NSString} gibt ein neues \objc{NSString}-Objekt zurück, das aus dem Text des Empfängerobjekts mit angefügtem Text des Arguments besteht:}
-\begin{objclst}
-NSString *combinedString = [@"first" stringByAppendingString:@"second"];
-// Wert von combinedString: firstsecond
-\end{objclst}
-Das gleiche Resultat lässt sich aber auch mit \objc{stringWithFormat:} erzielen.
-
-\end{excitem}
-
 \begin{excitem}{simpleui}{Simple UI}
 
 Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
 
-Lasst eurer Kreativität freien Lauf \strong{oder} implementiert eines der folgenden Beispiele.
+Lasst eurer Kreativität freien Lauf oder implementiert eines der folgenden Beispiele:
 
 \begin{description}
-\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert einer Property \objc{int count} anzeigt, wenn eine Methode \objc{updateLabel} aufgerufen wird. Buttons mit den Titeln \emph{+1}, \emph{-1} und \emph{Reset} ändern den Wert dieser Property entsprechend und rufen die \objc{updateLabel}-Methode auf.
+\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert eines Attributs \swiftinline{var count: Int} anzeigt, wenn eine Methode \swiftinline{updateLabel} aufgerufen wird. Buttons mit den Titeln \str{+1}, \str{-1} und \str{Reset} ändern den Wert dieses Attributs entsprechend und rufen die \swiftinline{updateLabel}-Methode auf.
 \item[BMI] Nach Eingabe von Gewicht $m$ und Größe $l$ wird der Body-Mass-Index \linkref{http://de.wikipedia.org/wiki/Body-Mass-Index} $BMI=m/l^2$ berechnet und angezeigt. Als Erweiterung kann die altersabhängige Einordnung in die Gewichtskategorien angezeigt werden.
-\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen \objc{0} und \objc{255} für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \objc{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \objc{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt (s. Hinweis).
+\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen 0 und 255 für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \swiftinline{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \swiftinline{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt (s. Hinweis).
 \end{description}
 
 \begin{exchinweise}
-\item Achtet darauf, dass ihr bei/nach der Projekterstellung in der Targetkonfiguration die Bundle ID \objc{de.uni-hd.deinname.productname} mit \objc{productname} z.B. \objc{counter}, \objc{bmi} oder \objc{rgb} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
-\item Es ist ausreichend, das User Interface entweder für iPhone oder iPad zu konfigurieren.
-\item \objc{NSString} besitzt Instanzmethoden wie \objc{floatValue} zur Umwandlung von Text in Zahlenwerte.
-\item Die Klassenmethode \objc{colorWithRed:green:blue:alpha:} von \objc{UIColor} nimmt Werte zwischen \objc{0} und \objc{1} an.
-\item Die Funktion \objc{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
-\item Wenn ein \objc{UISwitch} betätigt wird, sendet dieser ein Event \objc{UIControlEventValueChanged}, so wie ein \objc{UIButton} das Event \objc{UIControlEventTouchUpInside} sendet. Dieses Event kann genauso mit einer IBAction verbunden werden. Mit einem Klassenattribut \objc{NSTimer *randomTimer} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
-\begin{objclst}
-- (IBAction)switchValueChanged:(UISwitch *)sender {
-    if (sender.isOn) {
-        self.randomTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(randomButtonPressed:) userInfo:nil repeats:YES];
+\item Achtet darauf, dass ihr bei/nach der Projekterstellung in der Targetkonfiguration die Bundle ID \swiftinline{de.uni-hd.deinname.productname} mit \objcinline{productname} z.B. \swiftinline{Counter}, \objcinline{BMI} oder \objcinline{RGB} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
+\item Die Klasse \swiftinline{NSString} aus Apple's \swiftinline{Foundation} Framework besitzt Instanzmethoden wie \swiftinline{floatValue} zur Umwandlung von Text in Zahlenwerte. \swiftinline{String} und \swiftinline{NSString} sind direkt ineinander überführbar:
+	\begin{swiftcode}
+	let s = "0.1"
+	let f: Float = (s as NSString).floatValue
+	\end{swiftcode}
+
+	Eleganter ist die Verwendung eines \swiftinline{NSNumberFormatter}. Solche Formatter, wie auch der \swiftinline{NSDateFormatter}, berücksichtigen bspw. Gerätesprache und Länderspezifische Einstellungen und sollten stets verwendet werden, wenn Benutzereingaben interpretiert oder Ausgaben generiert werden:
+	\begin{swiftcode}
+    let decimalNumberFormatter = NSNumberFormatter()
+    decimalNumberFormatter.numberStyle = .DecimalStyle
+    let s: String = "0.1"
+    let f: Float? = decimalNumberFormatter.numberFromString(s)?.floatValue
+	\end{swiftcode}
+
+
+\item Der Initializer \swiftinline{UIColor(red:green:blue:alpha:)} von \swiftinline{UIColor} nimmt Werte zwischen 0 und 1 an.
+\item Die Funktion \swiftinline{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
+\item Wenn ein \swiftinline{UISwitch} betätigt wird, sendet dieser ein Event \swiftinline{UIControlEvent.ValueChanged}, so wie ein \swiftinline{UIButton} das Event \swiftinline{UIControlEvent.TouchUpInside} sendet. Dieses Event kann genauso mit einer IBAction verbunden werden. Mit einem Attribut \swiftinline{var randomTimer: NSTimer?} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
+\begin{swiftcode}
+@IBAction func switchValueChanged(sender: UISwitch) {
+    if sender.on {
+        self.randomTimer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: "randomButtonPressed:", userInfo: nil, repeats: true)
     } else {
-        [self.randomTimer invalidate];
-        self.randomTimer = nil;
+        self.randomTimer?.invalidate()
+        self.randomTimer = nil
     }
 }
-\end{objclst}
+\end{swiftcode}
+	Somit wird bei periodisch die Methode \swiftinline{randomButtonPressed:} aufgerufen, die natürlich implementiert sein muss.
 
 \end{exchinweise}
 
@@ -546,15 +564,15 @@ Im Skript sind die Vorzüge der Versionskontrolle mit Git beschrieben, deren Gru
 
 \begin{enumerate}
 
-\item Da Git in erster Linie ein Kommandozeilenprogramm ist, verwenden wir zunächst die Konsole. Später können wir stattdessen auch bspw. die in Xcode integrierten Benutzeroberflächen verwenden. Öffnet die \emph{Terminal} App und navigiert in den Ordner, der das Xcode Projekt der \emph{Hello World} App beinhaltet. Dazu kann es hilfreich sein, zunächst \sh{cd} zu tippen und den Ordner dann auf das Terminal Fenster zu ziehen, wobei der Pfad automatisch eingegeben wird.
+\item Da Git in erster Linie ein Kommandozeilenprogramm ist, verwenden wir zunächst die Konsole. Später können wir stattdessen auch bspw. die in Xcode integrierten Benutzeroberflächen verwenden. Öffnet die \emph{Terminal} App und navigiert in den Ordner, der das Xcode Projekt der \emph{Hello World} App beinhaltet. Dazu kann es hilfreich sein, zunächst \shinline{cd} zu tippen und den Ordner dann auf das Terminal Fenster zu ziehen, wobei der Pfad automatisch eingegeben wird.
 
-\begin{shlst}
+\begin{shcode}
 cd path/to/project
-\end{shlst}
+\end{shcode}
 
-\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \sh{git status} können wir prüfen, ob hier bereits eines existiert und es ansonsten mit \sh{git init} erstellen.
+\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \shinline{git status} können wir prüfen, ob hier bereits eines existiert und es ansonsten mit \shinline{git init} erstellen.
 
-\begin{shlst}
+\begin{shcode}
 git status
 # Git Repository vorhanden:
 >> On branch master
@@ -562,130 +580,130 @@ git status
 # kein Git Repository vorhanden:
 >> fatal: Not a git repository (or any of the parent directories): .git
 git init
-\end{shlst}
+\end{shcode}
 
-\item Wir fügen dem Repository nun zunächst eine \sh{.gitignore} Datei hinzu, um verschiedene benutzerspezifische und temporäre Dateien des Xcode Projekts auszuschließen.
+\item Wir fügen dem Repository nun zunächst eine \shinline{.gitignore} Datei hinzu, um verschiedene benutzerspezifische und temporäre Dateien des Xcode Projekts auszuschließen.
 
-\begin{shlst}
+\begin{shcode}
 touch .gitignore
 open .gitignore
-\end{shlst}
+\end{shcode}
 
-Kopiert die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \sh{.gitignore} Datei.
+Kopiert die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \shinline{.gitignore} Datei.
 
 Nun können wir einen Commit ausführen, um die Datei dem Repository hinzuzufügen.
 
-\begin{shlst}
+\begin{shcode}
 git add .gitignore
 git commit -m "Added .gitignore file"
-\end{shlst}
+\end{shcode}
 
-\item Jederzeit kann es hilfreich sein, die Situation des Git Repositories mit \sh{git status} zu überprüfen. Zeigt ein Aufruf dieses Befehls noch ungesicherte Änderungen an, könnt ihr diese in einem weiteren Commit sichern:
+\item Jederzeit kann es hilfreich sein, die Situation des Git Repositories mit \shinline{git status} zu überprüfen. Zeigt ein Aufruf dieses Befehls noch ungesicherte Änderungen an, könnt ihr diese in einem weiteren Commit sichern:
 
-\begin{shlst}
+\begin{shcode}
 git add --all
 git commit -m"Committed unsaved changes"
-\end{shlst}
+\end{shcode}
 
-\sh{git log} zeigt die letzten Commits in der Konsole an.
+\shinline{git log} zeigt die letzten Commits in der Konsole an.
 
 \item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.m} und fügt ihrer Implementierung folgendes Codesegment hinzu:
 
-\begin{objclst}
+\begin{objccode}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor redColor];
 }
-\end{objclst}
+\end{objccode}
 
 Führt ihr die App nun aus, seht ihr einen roten Bildschirmhintergrund.
 
-In der Konsole sehen wir mit \sh{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
+In der Konsole sehen wir mit \shinline{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
 
-\begin{shlst}
+\begin{shcode}
 git add ViewController.m # oder git add --all
 git commit -m "Changed background color"
-\end{shlst}
+\end{shcode}
 
-\item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \sh{git checkout} einen bestimmten Commit laden, mit \sh{git reset} Commits entfernen oder sie mit \sh{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \sh{git log} angezeigt wird, oder mit \sh{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
+\item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \shinline{git checkout} einen bestimmten Commit laden, mit \shinline{git reset} Commits entfernen oder sie mit \shinline{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \shinline{git log} angezeigt wird, oder mit \shinline{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
 
-\begin{shlst}
+\begin{shcode}
 git reset --hard HEAD~1 # Verwendet diesen Befehl nicht leichtfertig, denn hier gibt es keine Undo-Funtion!
-\end{shlst}
+\end{shcode}
 
 In der Dokumentation \linkref{http://git-scm.com/book/} kann sich ausführlich über die verschiedenen Möglichkeiten informiert werden.
 
-\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \sh{git branch}. Mit \sh{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
+\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \shinline{git branch}. Mit \shinline{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
 
-\begin{shlst}
+\begin{shcode}
 git branch new_feature
 git checkout new_feature
-\end{shlst}
+\end{shcode}
 
-\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne dass andere Branches wie der zuvor verwendete \sh{master} Branch verändert werden. Implementiert bspw. wieder eine \objc{viewDidLoad} Methode in der \emph{ViewController.m} Datei und führt einen Commit durch:
+\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne dass andere Branches wie der zuvor verwendete \shinline{master} Branch verändert werden. Implementiert bspw. wieder eine \objcinline{viewDidLoad} Methode in der \emph{ViewController.m} Datei und führt einen Commit durch:
 
-\begin{objclst}
+\begin{objccode}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Feature!" message:@"Is it a bug or a feature?" delegate:nil cancelButtonTitle:@"Bug" otherButtonTitles:@"Feature", nil];
     [alert show];
 }
-\end{objclst}
+\end{objccode}
 
-\begin{shlst}
+\begin{shcode}
 git commit -a -m "Implemented new feature" # Der -a Flag fügt dem Commit automatisch alle veränderten Dateien hinzu
-\end{shlst}
+\end{shcode}
 
-\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Bug gefunden hat, können wir problemlos zurück zum \sh{master} Branch wechseln und den Bug schnell beheben.
+\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Bug gefunden hat, können wir problemlos zurück zum \shinline{master} Branch wechseln und den Bug schnell beheben.
 
-\begin{shlst}
+\begin{shcode}
 git checkout master
-\end{shlst}
+\end{shcode}
 
-Nachdem wir zurück zum \sh{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \sh{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Bug also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
+Nachdem wir zurück zum \shinline{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \shinline{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Bug also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
 
 Anschließend wechseln wir wieder in unseren Feature Branch und arbeiten dort weiter, wo wir unterbrochen wurden.
 
-\begin{shlst}
+\begin{shcode}
 git checkout new_feature
-\end{shlst}
+\end{shcode}
 
-\item Befindet sich der Feature Branch in einem Zustand, der veröffentlicht werden soll, muss er nur mit dem \sh{master} Branch vereinigt werden. Dazu führen wir einen Merge durch.
+\item Befindet sich der Feature Branch in einem Zustand, der veröffentlicht werden soll, muss er nur mit dem \shinline{master} Branch vereinigt werden. Dazu führen wir einen Merge durch.
 
-\begin{shlst}
+\begin{shcode}
 git checkout master
 git merge new_feature
-\end{shlst}
+\end{shcode}
 
-Wurden im \sh{master} Branch keine weiteren Commits hinzugefügt, können die Commits des Feature Branches einfach angehängt werden (\emph{Fast-Forward}). Gehen die Branches jedoch auseinander, versucht Git, die Änderungen zusammenzuführen. Mögliche Konflikte müssen dabei wie im Skript beschrieben im Code behoben werden.
+Wurden im \shinline{master} Branch keine weiteren Commits hinzugefügt, können die Commits des Feature Branches einfach angehängt werden (\emph{Fast-Forward}). Gehen die Branches jedoch auseinander, versucht Git, die Änderungen zusammenzuführen. Mögliche Konflikte müssen dabei wie im Skript beschrieben im Code behoben werden.
 
 Der Feature Branch kann anschließend gelöscht werden:
 
-\begin{shlst}
+\begin{shcode}
 git branch -d new_feature
-\end{shlst}
+\end{shcode}
 
 \item Versionskontrolle ist nicht nur für größere Projekte essentiell und hilft bei der Entwicklung jeder iOS App, sondern ermöglicht auch die Zusammenarbeit mehrerer Entwickler an einem Projekt. Im Skript ist dieses Thema kurz beschrieben und auch auf den Service GitHub \linkref{http://www.github.com} verwiesen, der weltweit von Entwicklern verschiedenster Plattformen verwendet wird, um an Projekten zusammenzuarbeiten.
 
 Auf GitHub ist bspw. auch dieses Skript zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/iOS-Dev-Kurs/Skript} und herunterladen.
 
-Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \sh{git clone} aus:
+Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \shinline{git clone} aus:
 
-\begin{shlst}
+\begin{shcode}
 cd path/to/directory
 git clone https://github.com/iOS-Dev-Kurs/Skript
-\end{shlst}
+\end{shcode}
 
-Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \sh{dist/current/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
+Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \shinline{dist/current/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
 
 Prinzipiell könnt ihr nun lokal an dem Repository weiterarbeiten und Commits durchführen, diese jedoch nicht hochladen. Zur Zusammenarbeit an Programmierprojekten werden entweder entsprechende Berechtigungen vergeben, oder das \strong{Fork} System auf GitHub verwendet.
 
-Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können ihr diese mit nur einem Befehl laden und mit dem lokalen \sh{master} Branch zusammenführen:
+Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können ihr diese mit nur einem Befehl laden und mit dem lokalen \shinline{master} Branch zusammenführen:
 
-\begin{shlst}
+\begin{shcode}
 git pull
-\end{shlst}
+\end{shcode}
 
 \end{enumerate}
 
@@ -701,57 +719,57 @@ Aus naheliegenden Gründen funktioniert es insgesamt besser, wenn ihr diese Aufg
 
 \begin{enumerate}[label=\roman*.]
 
-\item Auf GitHub verwalte ich das Repository der \emph{chatter} App \linkref{https://github.com/iOS-Dev-Kurs/chatter}. Ihr könnt es zwar in dieser Form mit \sh{git clone} herunterladen, jedoch keine Änderungen im Original-Repository auf dem Server veröffentlichen. Stattdessen benötigt ihr einen eigenen \strong{Fork}, mit dem ihr arbeiten könnt. Erstellt dazu zunächst einen GitHub Account \linkref{https://github.com/join}, wenn ihr noch keinen habt.
+\item Auf GitHub verwalte ich das Repository der \emph{chatter} App \linkref{https://github.com/iOS-Dev-Kurs/chatter}. Ihr könnt es zwar in dieser Form mit \shinline{git clone} herunterladen, jedoch keine Änderungen im Original-Repository auf dem Server veröffentlichen. Stattdessen benötigt ihr einen eigenen \strong{Fork}, mit dem ihr arbeiten könnt. Erstellt dazu zunächst einen GitHub Account \linkref{https://github.com/join}, wenn ihr noch keinen habt.
 
-\item Loggt euch mit eurem GitHub Account ein und befolgt die Anweisungen der GitHub Dokumentation \linkref{https://help.github.com/articles/fork-a-repo}, um einen Fork des \emph{chatter} Repositories \linkref{https://github.com/iOS-Dev-Kurs/chatter} zu erstellen. Dort ist insbesondere auch beschrieben, wie ihr das Repository anschließend lokal klont und das Original-Repository als Remote \sh{upstream} hinzufügt.
+\item Loggt euch mit eurem GitHub Account ein und befolgt die Anweisungen der GitHub Dokumentation \linkref{https://help.github.com/articles/fork-a-repo}, um einen Fork des \emph{chatter} Repositories \linkref{https://github.com/iOS-Dev-Kurs/chatter} zu erstellen. Dort ist insbesondere auch beschrieben, wie ihr das Repository anschließend lokal klont und das Original-Repository als Remote \shinline{upstream} hinzufügt.
 
-\item Ihr habt das Projekt nun lokal auf eurem Mac. Es ist sowohl mit eurem Fork des Repositories (\sh{origin}) als auch mit meinem Original-Repository (\sh{upstream}) verbunden. Ihr könnt jetzt jederzeit die Änderungen herunterladen, die ich oder andere Teilnehmer unseres Kurses am Original-Repository vornehmen, indem ihr von \sh{upstream} pullt:
+\item Ihr habt das Projekt nun lokal auf eurem Mac. Es ist sowohl mit eurem Fork des Repositories (\shinline{origin}) als auch mit meinem Original-Repository (\shinline{upstream}) verbunden. Ihr könnt jetzt jederzeit die Änderungen herunterladen, die ich oder andere Teilnehmer unseres Kurses am Original-Repository vornehmen, indem ihr von \shinline{upstream} pullt:
 
-\begin{shlst}
+\begin{shcode}
 git pull --rebase upstream master # Ein Rebase ist hier angebrachter als ein Merge, im Skript ist der Unterschied kurz beschrieben
-\end{shlst}
+\end{shcode}
 
 Dies solltet ihr häufig tun, unter anderem immer bevor ihr beginnt, an dem Projekt zu arbeiten.
 
 \item Öffnet nun das Projekt in Xcode. Die \emph{chatter} App ist in der im Repository enthaltenen \emph{README.md} Datei beschrieben. Diese und die Kommentare im Code sollen euch bezüglich der App als Referenz dienen. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren.
 
-\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \objc{CHTRChatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \objc{CHTRChatter} Klasse dokumentiert sind.
+\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \objcinline{CHTRChatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \objcinline{CHTRChatter} Klasse dokumentiert sind.
 
 Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und sie mithilfe von Git den anderen zur Verfügung zu stellen! Ihr könnt bspw. versuchen, einen bekannten Charakter darzustellen, oder etwas völlig neues erschaffen. Lasst eurer Kreativität freien Lauf!
 
-Erstellt dazu einfach eine neue Subklasse von \objc{CHTRChatter} mit dem Namen eures Charakters und platziert die beiden zugehörigen Dateien im Xcode Projekt Navigator unter \menu{chatter > Model > Custom Subclasses}.
+Erstellt dazu einfach eine neue Subklasse von \objcinline{CHTRChatter} mit dem Namen eures Charakters und platziert die beiden zugehörigen Dateien im Xcode Projekt Navigator unter \menu{chatter > Model > Custom Subclasses}.
 
 \item Überschreibt nun die relevanten Methoden wie in der \emph{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
 
-In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objc{CHTRMessage} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
+In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objcinline{CHTRMessage} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
 
 \item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert:
 
-\begin{shlst}
+\begin{shcode}
 # Falls ihr es noch nicht getan habt, solltet ihr euren Namen und eure GitHub Email der Git Konfiguration hinzufügen, sodass die Commits ordentlich eurem Account zugeordnet werden:
 git config --global user.name "__dein_name__"
 git config --global user.email __deine_github_email___
-\end{shlst}
+\end{shcode}
 
-\begin{shlst}
+\begin{shcode}
 git add filename # Achtet bitte darauf, nur Änderungen eurer Subklasse und nur wenn nötig Änderungen in anderen Dateien zu committen. Die project.pbxproj Datei enthält Informationen zu den Projektdateien - da ihr neue Dateien hinzugefügt habt, müsst ihr diese auch committen.
 git status # häufig den Status prüfen
 git commit -m"describe your changes here"
-\end{shlst}
+\end{shcode}
 
 \item Die neuen Commits sind zunächst nur lokal verfügbar. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
 
-\begin{shlst}
+\begin{shcode}
 git pull --rebase upstream master
-\end{shlst}
+\end{shcode}
 
 Das Repository enthält dann sowohl den aktuellen Stand des Original-Repositories, als auch eure Änderungen. Dies könnt ihr auf euren Fork auf GitHub hochladen:
 
-\begin{shlst}
+\begin{shcode}
 git push origin master
-\end{shlst}
+\end{shcode}
 
-\item Wenn ihr mit eurer neuen \objc{CHTRChatter} Subklasse zufrieden sein, schickt mir eine \strong{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \sh{git pull} durchführen.
+\item Wenn ihr mit eurer neuen \objcinline{CHTRChatter} Subklasse zufrieden sein, schickt mir eine \strong{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \shinline{git pull} durchführen.
 
 GitHub beschreibt das System der Pull Requests recht ausführlich in ihrer Dokumentation \linkref{https://help.github.com/articles/using-pull-requests}. Wie dort beschrieben, müsst ihr den Prozess dazu mit Klick auf den \emph{Compare \& review} Button initiieren, noch einmal die Änderungen prüfen und anschließend absenden. Ich erhalte dann eine Benachrichtigung und muss dem Merge mit dem Original-Repository nur noch großzügig zustimmen.
 
@@ -772,11 +790,11 @@ Ich bin gespannt auf eure Implementierungen!
 
 \chapter{View Hierarchie}
 
-Die iOS App Entwicklung orientiert sich konsequent am \strong{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \objc{Foundation} und \objc{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Programmierung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
+Die iOS App Entwicklung orientiert sich konsequent am \strong{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \objcinline{Foundation} und \objcinline{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Programmierung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
 
 \skriptref{Das Model-View-Controller Konzept}
 
-Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \objc{UIView} Klasse des \objc{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \strong{View Hierarchie} kennenlernen, \objc{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \strong{Auto Layout} Konzepts das User Interface dynamisch anpassen.
+Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \objcinline{UIView} Klasse des \objcinline{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \strong{View Hierarchie} kennenlernen, \objcinline{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \strong{Auto Layout} Konzepts das User Interface dynamisch anpassen.
 
 
 \section{Handgeschriebene View Hierarchie}
@@ -789,9 +807,9 @@ Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript 
 \item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zeit, einen Blick ins Skript zu werfen!
 \item Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die View Hierarchie unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
 \item Erstellt ein neues Projekt mit dem Product Name \emph{viewhierarchy}. Verwendet das \emph{Empty Application} Template, sodass keine Interfaceelemente vorkonfiguriert werden.
-\item Betrachtet nun wieder die \objc{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem Skript (\emph{iOS App Lifecycle}) wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
-\item Da wir mit dem \emph{Empty Application} Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objc{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
-\begin{objclst}
+\item Betrachtet nun wieder die \objcinline{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem Skript (\emph{iOS App Lifecycle}) wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
+\item Da wir mit dem \emph{Empty Application} Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objcinline{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
+\begin{objccode}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -800,9 +818,9 @@ Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript 
 
     return YES;
 }
-\end{objclst}
-\item Hier können wir nun die View Hierarchie mit weiteren Objekten der Superklasse \objc{UIView} füllen und diese somit auf dem Bildschirm anzeigen:
-\begin{objclst}
+\end{objccode}
+\item Hier können wir nun die View Hierarchie mit weiteren Objekten der Superklasse \objcinline{UIView} füllen und diese somit auf dem Bildschirm anzeigen:
+\begin{objccode}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -816,7 +834,7 @@ Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript 
 
     return YES;
 }
-\end{objclst}
+\end{objccode}
 
 \end{enumerate}
 
@@ -827,13 +845,13 @@ Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript 
 Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts \excref{exc:simpleui} oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden.
 
 \begin{exchinweise}
-\item Das Äquivalent zu einer \objc{IBOutlet} Verbindung ist eine einfache Zuweisung eines \objc{UIView} Objekts zu einer Property.
-\item Eine \objc{IBAction} Verbindung hingegen ist durch die Instanzmethode \objc{addTarget:action:forControlEvents:} von \objc{UIControl} gegeben. \objc{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objc{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
-\begin{objclst}
+\item Das Äquivalent zu einer \objcinline{IBOutlet} Verbindung ist eine einfache Zuweisung eines \objcinline{UIView} Objekts zu einer Property.
+\item Eine \objcinline{IBAction} Verbindung hingegen ist durch die Instanzmethode \objcinline{addTarget:action:forControlEvents:} von \objcinline{UIControl} gegeben. \objcinline{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objcinline{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
+\begin{objccode}
 [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-\end{objclst}
-Der Methode wird also die Methode als spezielles \objc{selector}-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
-\item Ein \objc{UIButton} besitzt das Attribut \objc{UILabel *titleLabel}, doch es gilt die Konvention, die Instanzmethode \objc{setTitle:forState:} zu verwenden. Für verschiedene Modi wie \objc{UIControlStateNormal} oder \objc{UIControlStateSelected} können damit unterschiedliche Titel angegeben werden. Wird kein anderer Titel spezifiziert, wird der Titel von \objc{UIControlStateNormal} verwendet.
+\end{objccode}
+Der Methode wird also die Methode als spezielles \objcinline{selector}-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
+\item Ein \objcinline{UIButton} besitzt das Attribut \objcinline{UILabel *titleLabel}, doch es gilt die Konvention, die Instanzmethode \objcinline{setTitle:forState:} zu verwenden. Für verschiedene Modi wie \objcinline{UIControlStateNormal} oder \objcinline{UIControlStateSelected} können damit unterschiedliche Titel angegeben werden. Wird kein anderer Titel spezifiziert, wird der Titel von \objcinline{UIControlStateNormal} verwendet.
 \end{exchinweise}
 
 \end{excitem}
@@ -861,17 +879,17 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \begin{enumerate}
 
-\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Ihr könnt auch das Projekt einer anderen App mit vergleichsweise einfachem Interface öffnen. Rotieren wir den Simulator mit \keys{\cmdkey+\arrowkeyright} oder \keys{\cmdkey+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
+\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Ihr könnt auch das Projekt einer anderen App mit vergleichsweise einfachem Interface öffnen. Rotieren wir den Simulator mit \keys{\cmd+\arrowkeyright} oder \keys{\cmd+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
 
 \includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die Frames einfach erhalten}
 
-\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \objc{NSLayoutConstraint} Objekte einer View hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
+\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \objcinline{NSLayoutConstraint} Objekte einer View hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
 
 \item Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option \emph{Use Autolayout} im File Inspector markiert sein.
 
 \item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keys{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
 
-\item Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \objc{x}, \objc{y}, \objc{width} und \objc{height} von \objc{frame} eindeutig festzulegen. Beachtet dabei die \strong{Intrinsic Content Size}!
+\item Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \objcinline{x}, \objcinline{y}, \objcinline{width} und \objcinline{height} von \objcinline{frame} eindeutig festzulegen. Beachtet dabei die \strong{Intrinsic Content Size}!
 
 In einem eindeutigen Layout werden die Constraints blau markiert und ihr könnt das \emph{Resolve Auto Layout Issues} Menü verwenden, um mit einem Klick auf \emph{Update All Frames in View Controller} alle Views entsprechend ihrer Constraints zu positionieren. Bei einem eindeutigen Layout werden die Frames anschließend automatisch angepasst, wenn ihr die Konstanten der Constraints verändert.
 
@@ -887,11 +905,11 @@ Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im S
 
 Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein \emph{View Controller} Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
 
-\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objc{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.}
+\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objcinline{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.}
 
 \begin{enumerate}
 
-\item Eine \objc{UISegmentedControl} und eine \objc{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objc{UIView} füllt den verbliebenen Platz.
+\item Eine \objcinline{UISegmentedControl} und eine \objcinline{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objcinline{UIView} füllt den verbliebenen Platz.
 
 \begin{minipage}{.5\linewidth}
   \centering
@@ -902,7 +920,7 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
   \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_22.png}
 \end{minipage}
 
-\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objc{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
+\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objcinline{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
 
 \begin{minipage}{.5\linewidth}
   \centering
@@ -952,13 +970,13 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 
 \mvcindicatorcontroller
 
-iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \objc{UIView} Objekt in der View Hierarchie des übergeordneten \objc{UIWindow} Objekts dargestellt wird.
+iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \objcinline{UIView} Objekt in der View Hierarchie des übergeordneten \objcinline{UIWindow} Objekts dargestellt wird.
 
 Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \strong{View Controller}.
 
 Diese sind der Controller-Komponente des Model-View-Controller Konzepts zugeordnet und im Skript ausführlich beschrieben.
 
-Mit dieser App lernen wir das \strong{View Controller Containment} Prinzp kennen, schreiben eigene \objc{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
+Mit dieser App lernen wir das \strong{View Controller Containment} Prinzp kennen, schreiben eigene \objcinline{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
 
 \skriptref{View Controller Hierarchie}
 
@@ -968,23 +986,23 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \begin{enumerate}
 
-\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{cities}. Es wird damit automatisch eine Klasse \objc{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objc{ViewController : UIViewController} in unserem Projekt.
+\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{cities}. Es wird damit automatisch eine Klasse \objcinline{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objcinline{ViewController : UIViewController} in unserem Projekt.
 
-\item Die Klasse \objc{ViewController} möchten wir zunächst in \objc{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menu{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objc{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
+\item Die Klasse \objcinline{ViewController} möchten wir zunächst in \objcinline{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menu{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objcinline{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
 
 \includegraphicsc[8cm]{img/refactor.png}{img:refactor}{Die Refactor Funktion ist sinnvoll, um Symbole im gesamten Projekt umzubennen}
 
-\item Im Storyboard finden wir eine Scene mit einem Objekt dieser (nun umbenannten) \objc{CitiesViewController} Klasse. Wie im Skript dargestellt, können wir uns im Identity Inspector davon überzeugen, dass die Klasse des View Controller Objekts tatsächlich \objc{CitiesViewController} ist. Zur Laufzeit wird also ein solches Objekt erzeugt und dem \objc{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \objc{UIWindow} Objekts hinzugefügt.
+\item Im Storyboard finden wir eine Scene mit einem Objekt dieser (nun umbenannten) \objcinline{CitiesViewController} Klasse. Wie im Skript dargestellt, können wir uns im Identity Inspector davon überzeugen, dass die Klasse des View Controller Objekts tatsächlich \objcinline{CitiesViewController} ist. Zur Laufzeit wird also ein solches Objekt erzeugt und dem \objcinline{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \objcinline{UIWindow} Objekts hinzugefügt.
 
-\item Ziehen wir nun \objc{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
+\item Ziehen wir nun \objcinline{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
 
-Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \emph{City name} o.ä. wählen, da wir diesen im Code anpassen.
+Wir benötigen zunächst nur ein \objcinline{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \emph{City name} o.ä. wählen, da wir diesen im Code anpassen.
 
 \includegraphicsc[\iphonewidth]{img/one_city_ui.png}{img:one_city_ui}{Ein Button soll bei Betätigung Informationen über die entsprechende Stadt anzeigen}
 
-\item Obwohl wir uns in dieser App hauptsächlich mit der Controller-Komponente beschäftigen, sollten wir eine einfache Datenstruktur implementieren, die zu unserer App passt. So können wir Daten einfacher verarbeiten und weitergeben. Erstellt eine neue Klasse \objc{City : NSObject} und definiert die Attribute \objc{NSString *name} und \objc{UIImage *image}.
+\item Obwohl wir uns in dieser App hauptsächlich mit der Controller-Komponente beschäftigen, sollten wir eine einfache Datenstruktur implementieren, die zu unserer App passt. So können wir Daten einfacher verarbeiten und weitergeben. Erstellt eine neue Klasse \objcinline{City : NSObject} und definiert die Attribute \objcinline{NSString *name} und \objcinline{UIImage *image}.
 
-\begin{objclst}
+\begin{objccode}
 // City.h
 
 @interface City : NSObject
@@ -993,9 +1011,9 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit entsprechendem IBOut
 @property (strong, nonatomic) UIImage *image;
 
 @end
-\end{objclst}
+\end{objccode}
 
-\begin{objclst}
+\begin{objccode}
 // City.m
 
 #import "City.h"
@@ -1003,25 +1021,25 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit entsprechendem IBOut
 @implementation City
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine. Fügt daher ein Attribut \objc{City *city} im öffentlichen Interface hinzu.
+\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine. Fügt daher ein Attribut \objcinline{City *city} im öffentlichen Interface hinzu.
 
-\begin{objclst}
+\begin{objccode}
 // CitiesViewController.h
 
 @class City; // Forward Declaration
 
 @interface CitiesViewController : UIViewController
 
-^\objchighlight{@property (strong, nonatomic) City *city;}^
+^\objcinlinehighlight{@property (strong, nonatomic) City *city;}^
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \objc{City} Objekte, aufzusetzen und an die View Controller weiterzugeben. Implementiert daher folgende \objc{application:didFinishLaunchingWithOptions:} Methode.
+\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \objcinline{City} Objekte, aufzusetzen und an die View Controller weiterzugeben. Implementiert daher folgende \objcinline{application:didFinishLaunchingWithOptions:} Methode.
 
-\begin{objclst}
+\begin{objccode}
 // AppDelegate.m
 
 #import "AppDelegate.h"
@@ -1043,15 +1061,15 @@ Wir benötigen zunächst nur ein \objc{UIButton} Objekt mit entsprechendem IBOut
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
 Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
 
-\strong{Hinweis:} Die Klassenmethode \objc{imageNamed:} von \objc{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
+\strong{Hinweis:} Die Klassenmethode \objcinline{imageNamed:} von \objcinline{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
 
-\item Im Cities View Controller überschreiben wir die \objc{viewWillAppear:} Methode, um das Interface entsprechend des \objc{City} Objekts zu konfigurieren.
+\item Im Cities View Controller überschreiben wir die \objcinline{viewWillAppear:} Methode, um das Interface entsprechend des \objcinline{City} Objekts zu konfigurieren.
 
-\begin{objclst}
+\begin{objccode}
 // CitiesViewController.m
 
 #import "CitiesViewController.h"
@@ -1073,50 +1091,50 @@ Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Um nun einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \objc{UIViewController}. Erstellt also eine neue Klasse \objc{CityDetailViewController : UIViewController}. Dieser Klasse übergeben wir das ausgewählte \objc{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \objc{City *city} im Header der \objc{CityDetailViewController} Klasse.
+\item Um nun einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \objcinline{UIViewController}. Erstellt also eine neue Klasse \objcinline{CityDetailViewController : UIViewController}. Dieser Klasse übergeben wir das ausgewählte \objcinline{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \objcinline{City *city} im Header der \objcinline{CityDetailViewController} Klasse.
 
-\begin{objclst}
+\begin{objccode}
 // CityDetailViewController.h
 
 @class City; // Forward Declaration
 
 @interface CityDetailViewController : UIViewController
 
-^\objchighlight{@property (strong, nonatomic) City *city;}^
+^\objcinlinehighlight{@property (strong, nonatomic) City *city;}^
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Nun verwenden wir wieder das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt nun im Identity Inspector des hinzugefügten View Controllers das Eingabefeld \emph{Class} und gebt den Namen der neuen \objc{UIViewController} Subklasse \objc{CityDetailViewController} ein.
+\item Nun verwenden wir wieder das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt nun im Identity Inspector des hinzugefügten View Controllers das Eingabefeld \emph{Class} und gebt den Namen der neuen \objcinline{UIViewController} Subklasse \objcinline{CityDetailViewController} ein.
 
-\item Platziert ein \objc{UILabel} und ein \objc{UIImageView} Objekt in der Content View des \objc{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \emph{Zurück} Button hinzu.
+\item Platziert ein \objcinline{UILabel} und ein \objcinline{UIImageView} Objekt in der Content View des \objcinline{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \emph{Zurück} Button hinzu.
 
 \includegraphicsc[\iphonewidth]{img/city_detail_ui.png}{img:city_detail_ui}{Der City Detail View Controller soll Information über die ausgewählte Stadt anzeigen}
 
-\begin{objclst}
+\begin{objccode}
 // CityDetailViewController.m
 
 #import "CityDetailViewController.h"
 
 @interface CityDetailViewController ()
 
-^\objchighlight{@property (strong, nonatomic) IBOutlet UILabel *nameLabel;}^
-^\objchighlight{@property (strong, nonatomic) IBOutlet UIImageView *imageView;}^
+^\objcinlinehighlight{@property (strong, nonatomic) IBOutlet UILabel *nameLabel;}^
+^\objcinlinehighlight{@property (strong, nonatomic) IBOutlet UIImageView *imageView;}^
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrlkey}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. 
+\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrl}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. 
 
 \includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
 
 Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen. Hier kann außerdem ein \emph{Identifier} für die Segue vergeben werden. Setzt diesen auf \emph{showCityDetail}.
 
-\item Dem erstellten City Detail View Controller muss vor der Präsentation ein \objc{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \objc{prepareForSegue:sender:} in unserer \objc{CitiesViewController} Klasse.
+\item Dem erstellten City Detail View Controller muss vor der Präsentation ein \objcinline{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \objcinline{prepareForSegue:sender:} in unserer \objcinline{CitiesViewController} Klasse.
 
-\begin{objclst}
+\begin{objccode}
 // CitiesViewController.m
 
 #import "CitiesViewController.h"
@@ -1138,7 +1156,7 @@ Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen ve
     [self.cityButton setTitle:self.city.name forState:UIControlStateNormal];
 }
 
-^\objchighlight{- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender}^
+^\objcinlinehighlight{- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender}^
 {
     if ([segue.identifier isEqualToString:@"showCityDetail"]) {
         CityDetailViewController *cityDetailVC = segue.destinationViewController;
@@ -1147,13 +1165,13 @@ Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen ve
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
-Hier geben wir das \objc{City} Objekt also einfach an den City Detail View Controller weiter.
+Hier geben wir das \objcinline{City} Objekt also einfach an den City Detail View Controller weiter.
 
-\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objc{City} Objekts konfigurieren. Dies geschieht am besten in einer weiteren Implementierung der \objc{viewWillAppear:} Instanzmethode in der \objc{CityDetailViewController} Klasse.
+\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objcinline{City} Objekts konfigurieren. Dies geschieht am besten in einer weiteren Implementierung der \objcinline{viewWillAppear:} Instanzmethode in der \objcinline{CityDetailViewController} Klasse.
 
-\begin{objclst}
+\begin{objccode}
 #import "CityDetailViewController.h"
 #import "City.h"
 
@@ -1170,20 +1188,20 @@ Hier geben wir das \objc{City} Objekt also einfach an den City Detail View Contr
 {
     [super viewWillAppear:animated];
     
-    ^\objchighlight{self.nameLabel.text = self.city.name;}^
-    ^\objchighlight{self.imageView.image = self.city.image;}^
+    ^\objcinlinehighlight{self.nameLabel.text = self.city.name;}^
+    ^\objcinlinehighlight{self.imageView.image = self.city.image;}^
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
-Betätigt ihr nun den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \objc{City} Objekt konfiguriert \abbref{img:one_city_run}.
+Betätigt ihr nun den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \objcinline{City} Objekt konfiguriert \abbref{img:one_city_run}.
 
 \includegraphicsc[\iphonewidth]{img/one_city_run.png}{img:one_city_run}{Wird der Button betätigt, zeigt der City Detail View Controller die Informationen zu der ausgewählten Stadt}
 
-\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \strong{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir \emph{dem präsentierenden View Controller} (nicht dem \emph{präsentierten}) eine Methode \objc{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
+\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \strong{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir \emph{dem präsentierenden View Controller} (nicht dem \emph{präsentierten}) eine Methode \objcinline{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
 
-\begin{objclst}
+\begin{objccode}
 // CitiesViewController.m
 
 #import "CitiesViewController.h"
@@ -1192,7 +1210,7 @@ Betätigt ihr nun den Button, wird die Content View des City Detail View Control
 
 @interface CitiesViewController ()
 
-^\objchighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue;}^
+^\objcinlinehighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue;}^
 
 @end
 
@@ -1209,15 +1227,15 @@ Betätigt ihr nun den Button, wird die Content View des City Detail View Control
     }
 }
 
-^\objchighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue}^
+^\objcinlinehighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue}^
 {
     // no implementation necessary
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
-\item Im Storyboard können wir nun das \objc{UIControlEventTouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrlkey}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \emph{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \objc{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
+\item Im Storyboard können wir nun das \objcinline{UIControlEventTouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrl}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \emph{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \objcinline{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
 
 \includegraphicsc[\iphonewidth]{img/cities_unwind_segue.png}{img:cities_unwind_segue}{Die \emph{Exit} Schaltfläche präsentiert alle Unwind Segues in der View Controller Hierarchie}
 
@@ -1242,21 +1260,21 @@ Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nac
 
 \section{One City Navigation}
 
-UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarchie die Subklasse \objc{UINavigationController : UIViewController} zur Verfügung. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
+UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarchie die Subklasse \objcinline{UINavigationController : UIViewController} zur Verfügung. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
 
 \begin{enumerate}
 
-\item Zieht einfach ein \objc{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objc{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrlkey}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
+\item Zieht einfach ein \objcinline{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objcinline{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrl}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
 
 \includegraphicsc{img/nav_controller_segue.png}{img:nav_controller_segue}{Eine Relationship Segue markiert den Root View Controller eines Navigation Controllers}
 
-\item Ihr könnt nun die Modal Segue zwischen \objc{CitiesViewController} und \objc{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \strong{Push Segue} ändern. Nun wird automatisch statt der \objc{presentViewController:animated:completion} Methode von \objc{UIViewController} die \objc{pushViewController:animated:} Methode von \objc{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
+\item Ihr könnt nun die Modal Segue zwischen \objcinline{CitiesViewController} und \objcinline{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \strong{Push Segue} ändern. Nun wird automatisch statt der \objcinline{presentViewController:animated:completion} Methode von \objcinline{UIViewController} die \objcinline{pushViewController:animated:} Methode von \objcinline{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
 
-\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \objc{UINavigationController} einen eigenen Mechanismus implementiert und eine \objc{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objc{NSString *title} Attribut von \objc{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
+\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \objcinline{UINavigationController} einen eigenen Mechanismus implementiert und eine \objcinline{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objcinline{NSString *title} Attribut von \objcinline{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
 
 \includegraphicsc{img/nav_controller_ui.png}{img:nav_controller_ui}{Navigation Controller zeigen eine Navigation Bar an}
 
-\begin{objclst}
+\begin{objccode}
 // CityDetailViewController.m
 
 #import "CityDetailViewController.h"
@@ -1272,21 +1290,21 @@ UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarc
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    ^\objchighlight{self.navigationItem.title = self.city.name;}^
+    ^\objcinlinehighlight{self.navigationItem.title = self.city.name;}^
     self.imageView.image = self.city.image;
 }
 
 @end
-\end{objclst}
+\end{objccode}
 
 Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
 
 \item Da wir den Initial View Controller und damit den Root View Controller des Window Objekts verändert haben, müssen wir noch kurz die Implementierung des App Delegates anpassen, um das City Objekt korrekt weiterzugeben.
 
-\begin{objclst}
+\begin{objccode}
 // App Delegate.m > application:didFinishLaunchingWithOptions:
 CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
-\end{objclst}
+\end{objccode}
 
 
 \item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus UIKit, die sich bspw. durch die Verwendung von Subklassen und sog. Delegates vielseitig anpassen lassen \abbref{img:nav_controller_run}.
@@ -1298,19 +1316,19 @@ CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationControlle
 
 \section{More Cities}
 
-Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \objc{UITableViewController : UIViewController} und ihre Content Views der Klasse \objc{UITableView : UIView}, die mit dem \strong{Delegate Konzept} vielseitig einsetzbar sind.
+Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \objcinline{UITableViewController : UIViewController} und ihre Content Views der Klasse \objcinline{UITableView : UIView}, die mit dem \strong{Delegate Konzept} vielseitig einsetzbar sind.
 
 \skriptref{Das Delegate Konzept, Table Views \& Table View Controller}
 
 \begin{enumerate}
 
-\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \objc{CitiesViewController} von \objc{UIViewController} zu \objc{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
+\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \objcinline{CitiesViewController} von \objcinline{UIViewController} zu \objcinline{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
 
-\item Ein Table View Controller hat ein Objekt der \objc{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
+\item Ein Table View Controller hat ein Objekt der \objcinline{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
 
-\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \objc{UITableView} als Content View
+\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \objcinline{UITableView} als Content View
 
-\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \objc{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
+\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \objcinline{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
 
 \item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst einfach \emph{Basic} \abbref{img:morecities_prototypecells}.
 
@@ -1318,23 +1336,23 @@ Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich
 
 \item Um Prototype Cells zu identifizieren, sollte ihnen ein \strong{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier \emph{cityCell} ein. Wie im Skript erklärt kann die Table View damit Zellen, die gerade nicht angezeigt werden, an anderer Stelle wiederverwenden.
 
-\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \objc{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objc{UITableView} teilt diese Anfragen in die \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objc{id<UITableViewDatasource> datasource} und \objc{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objc{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
+\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \objcinline{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objcinline{UITableView} teilt diese Anfragen in die \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objcinline{id<UITableViewDatasource> datasource} und \objcinline{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objcinline{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
 
-\item Im Allgemeinen repräsentiert eine Table View ein \objc{NSArray}. Definiert also im öffentlichen Interface des \objc{CitiesViewController} ein Attribut \objc{NSArray *cities} anstatt des bisherigen \objc{City *city} Attributs.
+\item Im Allgemeinen repräsentiert eine Table View ein \objcinline{NSArray}. Definiert also im öffentlichen Interface des \objcinline{CitiesViewController} ein Attribut \objcinline{NSArray *cities} anstatt des bisherigen \objcinline{City *city} Attributs.
 
-\begin{objclst}
+\begin{objccode}
 // CitiesViewController.h
 
 @interface CitiesViewController : UITableViewController
 
-^\objchighlight{@property (strong, nonatomic) NSArray *cities;}^
+^\objcinlinehighlight{@property (strong, nonatomic) NSArray *cities;}^
 
 @end
-\end{objclst}
+\end{objccode}
 
 Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attribut nun eine Liste von Städten zuzuweisen.
 
-\begin{objclst}
+\begin{objccode}
 // AppDelegate.m
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -1355,11 +1373,11 @@ Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attri
     return YES;
 }
 
-\end{objclst}
+\end{objccode}
 
-\item Als Subklasse von \objc{UITableViewController} erbt \objc{CitiesViewController} leere Implementierungen der \objc{UITableViewDatasource} und \objc{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
+\item Als Subklasse von \objcinline{UITableViewController} erbt \objcinline{CitiesViewController} leere Implementierungen der \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
 
-\begin{objclst}
+\begin{objccode}
 #pragma mark - Table View Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1384,21 +1402,21 @@ Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attri
 
     return cell;
 }
-\end{objclst}
+\end{objccode}
 
-\objc{#pragma mark} kennzeichnet eine Überschrift ähnlich eines Kommentars und wird zusätzlich in der Jump Bar angezeigt. Ein Bindestrich \objc{-} erzeugt dort eine horizontale Trennlinie.
+\objcinline{#pragma mark} kennzeichnet eine Überschrift ähnlich eines Kommentars und wird zusätzlich in der Jump Bar angezeigt. Ein Bindestrich \objcinline{-} erzeugt dort eine horizontale Trennlinie.
 
 Die zuvor implementierten Methoden werden nicht mehr benötigt.
 
-\item Diese drei Methoden des \objc{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
+\item Diese drei Methoden des \objcinline{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
 
 \includegraphicsc[\iphonewidth]{img/cities_tableview.png}{img:cities_tableview}{Eine Table View stellt Anfragen an ihr Datasource und Delegate Objekt, um Zellen dynamisch anzuzeigen}
 
 \item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Push Segue von der Prototype Cell zum Detail City View Controller erstellen und ihr erneut den Identifier \emph{showCityDetail} geben.
 
-\item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \objc{prepareForSegue:sender:} Methode zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
+\item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \objcinline{prepareForSegue:sender:} Methode zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
 
-\begin{objclst}
+\begin{objccode}
 //  ViewController.m
 
 #import "CitiesViewController.h"
@@ -1425,7 +1443,7 @@ Die zuvor implementierten Methoden werden nicht mehr benötigt.
 // (...)
 
 @end
-\end{objclst}
+\end{objccode}
 
 \item Wird nun eine Stadt in der Liste ausgewählt, wird der City Detail View Controller entsprechend konfiguriert und angezeigt. Beachtet, dass wir an dessen Implementierung nichts geändert haben!
 
@@ -1481,22 +1499,22 @@ Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige
 
 \begin{itemize}
 
-\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht mithilfe der \emph{Refactor} Funktion einen sinnvollen Namen wie \objc{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
+\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht mithilfe der \emph{Refactor} Funktion einen sinnvollen Namen wie \objcinline{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
 
-\item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objc{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objc{UIBarButtonItem} bietet bereits viele Stile wie \objc{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
+\item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objcinline{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objcinline{UIBarButtonItem} bietet bereits viele Stile wie \objcinline{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
 
-\item Die Auswahl zwischen \strong{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \objc{UIActionSheet} implementieren:
+\item Die Auswahl zwischen \strong{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \objcinline{UIActionSheet} implementieren:
 
-\begin{objclst}
+\begin{objccode}
 - (IBAction)cameraButtonPressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Kamera", @"Foto Bibliothek", nil];
     [actionSheet showFromToolbar:self.navigationController.toolbar];
 }
-\end{objclst}
+\end{objccode}
 
-Der View Controller muss nun als Empfänger des \objc{UIActionSheetDelegate} Protokolls markiert werden und die Delegate Methode \objc{actionSheet:clickedButtonAtIndex:} implementieren. Hier können wir einen \objc{UIImagePickerController} anzeigen, der als \objc{UIImagePickerControllerSourceTypeCamera} oder \objc{UIImagePickerControllerSourceTypePhotoLibrary} konfiguriert werden kann.
+Der View Controller muss nun als Empfänger des \objcinline{UIActionSheetDelegate} Protokolls markiert werden und die Delegate Methode \objcinline{actionSheet:clickedButtonAtIndex:} implementieren. Hier können wir einen \objcinline{UIImagePickerController} anzeigen, der als \objcinline{UIImagePickerControllerSourceTypeCamera} oder \objcinline{UIImagePickerControllerSourceTypePhotoLibrary} konfiguriert werden kann.
 
-\begin{objclst}
+\begin{objccode}
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex==actionSheet.cancelButtonIndex) return;
     
@@ -1516,11 +1534,11 @@ Der View Controller muss nun als Empfänger des \objc{UIActionSheetDelegate} Pro
     imagePickerC.sourceType = sourceType;
     [self presentViewController:imagePickerC animated:YES completion:nil];
 }
-\end{objclst}
+\end{objccode}
 
-Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also muss der View Controller nun außerdem als Empfänger des \objc{UIImagePickerControllerDelegate} Protokolls markiert werden und folgende Methoden implementieren:
+Der \objcinline{UIImagePickerController} verwendet abermals das Delegate Konzept, also muss der View Controller nun außerdem als Empfänger des \objcinline{UIImagePickerControllerDelegate} Protokolls markiert werden und folgende Methoden implementieren:
 
-\begin{objclst}
+\begin{objccode}
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     
@@ -1530,17 +1548,17 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
-\end{objclst}
+\end{objccode}
 
-\item Wir arbeiten in dieser App mit \strong{Accessory Objekten}, die jeweils ein Bild repräsentieren und Eigenschaften wie Titel haben können. Daher bietet es sich an, eine Klasse \objc{Accessory : UIImageView} zu erstellen. Objekten dieser Klasse erben dann die Darstellungsmechanismen der \objc{UIImageView} Klasse und es können Attribute wie \objc{NSString *title} hinzugefügt werden.
+\item Wir arbeiten in dieser App mit \strong{Accessory Objekten}, die jeweils ein Bild repräsentieren und Eigenschaften wie Titel haben können. Daher bietet es sich an, eine Klasse \objcinline{Accessory : UIImageView} zu erstellen. Objekten dieser Klasse erben dann die Darstellungsmechanismen der \objcinline{UIImageView} Klasse und es können Attribute wie \objcinline{NSString *title} hinzugefügt werden.
 
-\item Um modal einen weiteren View Controller mit Titelleiste für die \strong{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \objc{AccessoryListViewController : UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
+\item Um modal einen weiteren View Controller mit Titelleiste für die \strong{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \objcinline{AccessoryListViewController : UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
 
 \includegraphicsc{img/seasonizer_ui.png}{img:seasonizer_ui}{Navigation Controller bieten eine einfache Möglichkeit, Navigationsleisten und Toolbars anzuzeigen}
 
-\item Der Accessory List View Controller kann ein privates Attribut \objc{NSArray *accessories} mit überschriebener Getter Methode implementieren, das der dynamischen Table View als Informationsquelle dient.
+\item Der Accessory List View Controller kann ein privates Attribut \objcinline{NSArray *accessories} mit überschriebener Getter Methode implementieren, das der dynamischen Table View als Informationsquelle dient.
 
-\begin{objclst}
+\begin{objccode}
 - (NSArray *)accessories {
     if (!_accessories) {
         
@@ -1558,13 +1576,13 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
     }
     return _accessories;
 }
-\end{objclst}
+\end{objccode}
 
 \item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und damit referenzieren, oder \strong{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \strong{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
 
-\item Die Auswahl eines Accessories kann mithilfe eines eigenen Delegate Protokolls implementiert werden. Dazu benötigt der Accessory List View Controller ein öffentliches Attribut \objc{id <AccessorySelectionDelegate> delegate} und sollte das Protokoll in seinem Header definieren:
+\item Die Auswahl eines Accessories kann mithilfe eines eigenen Delegate Protokolls implementiert werden. Dazu benötigt der Accessory List View Controller ein öffentliches Attribut \objcinline{id <AccessorySelectionDelegate> delegate} und sollte das Protokoll in seinem Header definieren:
 
-\begin{objclst}
+\begin{objccode}
 // AccessoryListViewController.h
 
 @class Accessory; // Forward Declaration
@@ -1581,11 +1599,11 @@ Der \objc{UIImagePickerController} verwendet abermals das Delegate Konzept, also
 - (void)accessoryListViewController:(AccessoryListViewController *)accessoryListVC didSelectAccessory:(Accessory *)accessory;
 
 @end
-\end{objclst}
+\end{objccode}
 
 Nun kann das Delegate Objekt über die Auswahl eines Accessories informiert werden:
 
-\begin{objclst}
+\begin{objccode}
 // in AccessoryListViewController.m
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1594,11 +1612,11 @@ Nun kann das Delegate Objekt über die Auswahl eines Accessories informiert werd
     [self.delegate accessoryListViewController:self didSelectAccessory:accessory];
     
 }
-\end{objclst}
+\end{objccode}
 
-Wenn der Canvas View Controller den Accessory View Controller präsentiert, muss er dem \objc{delegate} Attribut zugewiesen werden:
+Wenn der Canvas View Controller den Accessory View Controller präsentiert, muss er dem \objcinline{delegate} Attribut zugewiesen werden:
 
-\begin{objclst}
+\begin{objccode}
 // in CanvasViewController.m
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -1608,11 +1626,11 @@ Wenn der Canvas View Controller den Accessory View Controller präsentiert, muss
         accessoryListVC.delegate = self;
     }
 }
-\end{objclst}
+\end{objccode}
 
-Der Canvas View Controller muss nun außerdem als Empfänger des \objc{AccessorySelectionDelegate} Protokolls markiert werden und dieses implementieren:
+Der Canvas View Controller muss nun außerdem als Empfänger des \objcinline{AccessorySelectionDelegate} Protokolls markiert werden und dieses implementieren:
 
-\begin{objclst}
+\begin{objccode}
 // in CanvasViewController.m
 
 - (void)accessoryListViewController:(AccessoryListViewController *)accessoryListVC didSelectAccessory:(Accessory *)accessory {
@@ -1625,11 +1643,11 @@ Der Canvas View Controller muss nun außerdem als Empfänger des \objc{Accessory
 
     [accessoryListVC dismissViewControllerAnimated:YES completion:nil];
 }
-\end{objclst}
+\end{objccode}
 
-\item Der Canvas View Controller kann die angezeigten Accessories mit einem Attribut \objc{NSMutableArray *accessories} verwalten. Dafür sollte er zwei Methoden \objc{addAccessory:} und \objc{removeAccessory:} implementieren:
+\item Der Canvas View Controller kann die angezeigten Accessories mit einem Attribut \objcinline{NSMutableArray *accessories} verwalten. Dafür sollte er zwei Methoden \objcinline{addAccessory:} und \objcinline{removeAccessory:} implementieren:
 
-\begin{objclst}
+\begin{objccode}
 - (void)addAccessory:(Accessory *)accessory {
     if (!self.accessories) self.accessories = [[NSMutableArray alloc] init];
     
@@ -1642,11 +1660,11 @@ Der Canvas View Controller muss nun außerdem als Empfänger des \objc{Accessory
     [accessory removeFromSuperview];
     [self.accessories removeObject:accessory];
 }
-\end{objclst}
+\end{objccode}
 
-\item Für die Manipulation der Accessories mit Gesten können wir \strong{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \objc{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \objc{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \objc{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
+\item Für die Manipulation der Accessories mit Gesten können wir \strong{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \objcinline{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \objcinline{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \objcinline{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
 
-\begin{objclst}
+\begin{objccode}
 - (void)addAccessory:(Accessory *)accessory {
     if (!self.accessories) self.accessories = [[NSMutableArray alloc] init];
     
@@ -1727,13 +1745,13 @@ Der Canvas View Controller muss nun außerdem als Empfänger des \objc{Accessory
 - (void)removeAccessoryButtonPressed:(id)sender {
     [self removeAccessory:tappedAccessory];
 }
-\end{objclst}
+\end{objccode}
 
 Hier sei angemerkt, dass wir aufgrund des Zusammenspiels verschiedener Gesture Recognizer jeweils Delta-Bewegungen verwenden und auf die View anwenden, indem der jeweilige Gesture Recognizer bei jedem Methodenaufruf zurückgesetzt wird.
 
-Der \objc{UILongPressGestureRecognizer} zeigt einen speziellen \objc{UIMenuController} zur Darstellung eines \emph{Entfernen} Buttons. Damit dieser korrekt angezeigt wird, muss die \objc{canBecomeFirstResponder} Methode implementiert werden. Außerdem müssen wir eine Referenz auf das entsprechende \objc{Accessory} Objekt zwischenspeichern, um es in der Action Methode weiterverwenden zu können. Dazu kann dem Klasseninterface ein Attribut oder, wie hier gezeigt, eine Instanzvariable hinzugefügt werden:
+Der \objcinline{UILongPressGestureRecognizer} zeigt einen speziellen \objcinline{UIMenuController} zur Darstellung eines \emph{Entfernen} Buttons. Damit dieser korrekt angezeigt wird, muss die \objcinline{canBecomeFirstResponder} Methode implementiert werden. Außerdem müssen wir eine Referenz auf das entsprechende \objcinline{Accessory} Objekt zwischenspeichern, um es in der Action Methode weiterverwenden zu können. Dazu kann dem Klasseninterface ein Attribut oder, wie hier gezeigt, eine Instanzvariable hinzugefügt werden:
 
-\begin{objclst}
+\begin{objccode}
 @interface CanvasViewController () < /* viele Protokolle */ > {
     
     Accessory *tappedAccessory; // Instanzvariable
@@ -1744,25 +1762,25 @@ Der \objc{UILongPressGestureRecognizer} zeigt einen speziellen \objc{UIMenuContr
 
 @end
 
-\end{objclst}
+\end{objccode}
 
-\item Die Integration eines \strong{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. UIKit stellt dafür den \objc{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt.
+\item Die Integration eines \strong{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. UIKit stellt dafür den \objcinline{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt.
 
-\begin{objclst}
+\begin{objccode}
 - (IBAction)actionButtonPressed:(id)sender {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[self.renderedPicture] applicationActivities:nil];
     [self presentViewController:activityVC animated:YES completion:nil];
 }
-\end{objclst}
+\end{objccode}
 
-In dieser Methode wird auf die Getter Methode eines Attributs \objc{UIImage *renderedPicture} zugegriffen. Dieses Attribut soll dazu dienen, auf das vollständige Bild zugreifen zu können. Es soll dieses aber nicht speichern, sondern bei jedem Aufruf neu generieren, da das Bild sich natürlich ändern kann. Also markieren wir das Attribut bei der Definition als \objc{readonly} und überschreiben dessen Getter Methode:
+In dieser Methode wird auf die Getter Methode eines Attributs \objcinline{UIImage *renderedPicture} zugegriffen. Dieses Attribut soll dazu dienen, auf das vollständige Bild zugreifen zu können. Es soll dieses aber nicht speichern, sondern bei jedem Aufruf neu generieren, da das Bild sich natürlich ändern kann. Also markieren wir das Attribut bei der Definition als \objcinline{readonly} und überschreiben dessen Getter Methode:
 
-\begin{objclst}
+\begin{objccode}
 // im Header
 @property (readonly) UIImage *renderedPicture;
-\end{objclst}
+\end{objccode}
 
-\begin{objclst}
+\begin{objccode}
 // in der Implementierung
 - (UIImage *)renderedPicture {
     UIGraphicsBeginImageContextWithOptions(self.canvasView.frame.size, YES, 0.);
@@ -1771,13 +1789,13 @@ In dieser Methode wird auf die Getter Methode eines Attributs \objc{UIImage *ren
     UIGraphicsEndImageContext();
     return renderedPicture;
 }
-\end{objclst}
+\end{objccode}
 
-Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für das Foto) und der Accessory View (für die Accessories) konfiguriert.
+Hier wurde \objcinline{canvasView} im Storyboard als Superview der Image View (für das Foto) und der Accessory View (für die Accessories) konfiguriert.
 
 \item Als kleines Extra können wir es in der App regnen lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \strong{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{raindrop.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
 
-\begin{objclst}
+\begin{objccode}
 // in CanvasViewController.m
 
 - (void)viewDidLoad {
@@ -1806,13 +1824,13 @@ Hier wurde \objc{canvasView} im Storyboard als Superview der Image View (für da
     [self.navigationController.view.layer addSublayer:emitter];
     
 }
-\end{objclst}
+\end{objccode}
 
 \item Um die Benutzeroberfläche vollständig wiederherstellen zu können, müssen wir sowohl das Foto als auch die hinzugefügten Accessories speichern. Als Methode der Datenspeicherung bietet sich in dieser App die \strong{User Defaults} Mechanik an, doch auch das \strong{State Preservation} System könnte stattdessen verwendet werden.
 
-Zur Speicherung der Accessories müssen wir in der \objc{Accessory : UIImageView} Klasse zunächst das \objc{NSCoding} Protokoll implementieren. Dieses Protokoll bietet die Möglichkeit, Objekte als \objc{NSData} zu serialisieren. \objc{UIImageView} implementiert dieses Protokoll bereits, daher müssen wir in der Subklasse lediglich die beiden Schlüsselmethoden überschreiben:
+Zur Speicherung der Accessories müssen wir in der \objcinline{Accessory : UIImageView} Klasse zunächst das \objcinline{NSCoding} Protokoll implementieren. Dieses Protokoll bietet die Möglichkeit, Objekte als \objcinline{NSData} zu serialisieren. \objcinline{UIImageView} implementiert dieses Protokoll bereits, daher müssen wir in der Subklasse lediglich die beiden Schlüsselmethoden überschreiben:
 
-\begin{objclst}
+\begin{objccode}
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
@@ -1831,11 +1849,11 @@ Zur Speicherung der Accessories müssen wir in der \objc{Accessory : UIImageView
     }
     return self;
 }
-\end{objclst}
+\end{objccode}
 
-Nun können wir das \strong{Notifications} System verwenden, um über die Veränderung des App States informiert zu werden. Bewegt sich die App in den Hintergrund, sollen Bild und Accessories in den User Defaults gespeichert werden. In der \objc{viewDidLoad} Methode des Canvas View Controllers fügen wir diesen daher als Empfänger der \objc{UIApplicationDidEnterBackgroundNotification} hinzu und implementieren eine Methode, die bei Empfang einer solchen Notification aufgerufen wird:
+Nun können wir das \strong{Notifications} System verwenden, um über die Veränderung des App States informiert zu werden. Bewegt sich die App in den Hintergrund, sollen Bild und Accessories in den User Defaults gespeichert werden. In der \objcinline{viewDidLoad} Methode des Canvas View Controllers fügen wir diesen daher als Empfänger der \objcinline{UIApplicationDidEnterBackgroundNotification} hinzu und implementieren eine Methode, die bei Empfang einer solchen Notification aufgerufen wird:
 
-\begin{objclst}
+\begin{objccode}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -1856,11 +1874,11 @@ Nun können wir das \strong{Notifications} System verwenden, um über die Verän
     NSData *accessoryData = [NSKeyedArchiver archivedDataWithRootObject:self.accessories]; // NSArray und alle enthaltenen Objekte der Klasse Accessory implementieren das NSCoding Protokoll und können somit archiviert werden
     [[NSUserDefaults standardUserDefaults] setObject:accessoryData forKey:kUserDefaultsKeyAccessories];
 }
-\end{objclst}
+\end{objccode}
 
-Die Wiederherstellung dieser gesicherten Daten kann nun in der \objc{viewDidLoad} Methode erfolgen:
+Die Wiederherstellung dieser gesicherten Daten kann nun in der \objcinline{viewDidLoad} Methode erfolgen:
 
-\begin{objclst}
+\begin{objccode}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -1876,28 +1894,28 @@ Die Wiederherstellung dieser gesicherten Daten kann nun in der \objc{viewDidLoad
     
     // ...
 }
-\end{objclst}
+\end{objccode}
 
-Hier verwenden wir die \objc{addAccessory:} Methode, um die Accessories der View Hierarchie hinzuzufügen und die Gesture Recognizer zu erzeugen. In der vorherigen Version dieses Dokuments wurde in der \objc{addAccessory:} Methode außerdem die Position und Größe des neuen Accessories angepasst. Dies kann jedoch stattdessen in der Delegate Methode \objc{accessoryListViewController:didSelectAccessory:} geschehen. Beide Methoden sind oben in der veränderten Form zu finden.
+Hier verwenden wir die \objcinline{addAccessory:} Methode, um die Accessories der View Hierarchie hinzuzufügen und die Gesture Recognizer zu erzeugen. In der vorherigen Version dieses Dokuments wurde in der \objcinline{addAccessory:} Methode außerdem die Position und Größe des neuen Accessories angepasst. Dies kann jedoch stattdessen in der Delegate Methode \objcinline{accessoryListViewController:didSelectAccessory:} geschehen. Beide Methoden sind oben in der veränderten Form zu finden.
 
 \item Implementieren wir einen weiteren Toolbar Button, der die Benutzeroberfläche bei Betätigung \strong{zurücksetzt}, sollte zunächst eine Schaltfläche zur Bestätigung erscheinen.
 
-Dazu eignet sich wieder ein \objc{UIActionSheet}. Dieses muss jedoch in der Implementierung der Delegate Methoden von dem Action Sheet zur Auswahl zwischen Kamera und Fotobibliothek unterschieden werden. Eine Möglichkeit besteht in der Definition eines privaten Attributs für jedes der beiden Action Sheets in der \objc{CanvasViewController} Klasse. Dann können wir die Action Methode des Reset Buttons wie folgt implementieren:
+Dazu eignet sich wieder ein \objcinline{UIActionSheet}. Dieses muss jedoch in der Implementierung der Delegate Methoden von dem Action Sheet zur Auswahl zwischen Kamera und Fotobibliothek unterschieden werden. Eine Möglichkeit besteht in der Definition eines privaten Attributs für jedes der beiden Action Sheets in der \objcinline{CanvasViewController} Klasse. Dann können wir die Action Methode des Reset Buttons wie folgt implementieren:
 
-\begin{objclst}
+\begin{objccode}
 - (IBAction)resetButtonPressed:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:@"Zurücksetzen" otherButtonTitles:nil];
     self.resetActionSheet = actionSheet; // dient der Identifikation des Action Sheets in der Delegate Methode
     [actionSheet showFromToolbar:self.navigationController.toolbar];
 }
-\end{objclst}
+\end{objccode}
 
-Analog muss die \objc{cameraButtonPressed:} Methode um die Attributzuweisung \objc{self.photoActionSheet = actionSheet} erweitert werden.
+Analog muss die \objcinline{cameraButtonPressed:} Methode um die Attributzuweisung \objcinline{self.photoActionSheet = actionSheet} erweitert werden.
 
-In der \objc{UIActionSheetDelegate} Methode \objc{actionSheet:clickedButtonAtIndex:} können wir nun eine Fallunterscheidung zwischen den Action Sheets durchführen:
+In der \objcinline{UIActionSheetDelegate} Methode \objcinline{actionSheet:clickedButtonAtIndex:} können wir nun eine Fallunterscheidung zwischen den Action Sheets durchführen:
 
-\begin{objclst}
+\begin{objccode}
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==actionSheet.cancelButtonIndex) return;
@@ -1912,11 +1930,11 @@ In der \objc{UIActionSheetDelegate} Methode \objc{actionSheet:clickedButtonAtInd
         
     }
 }
-\end{objclst}
+\end{objccode}
 
-In einer Methode \objc{resetCanvas} kann die Benutzeroberfläche dann zurückgesetzt werden:
+In einer Methode \objcinline{resetCanvas} kann die Benutzeroberfläche dann zurückgesetzt werden:
 
-\begin{objclst}
+\begin{objccode}
 - (void)resetCanvas
 {
     self.photoImageView.image = nil;
@@ -1924,7 +1942,7 @@ In einer Methode \objc{resetCanvas} kann die Benutzeroberfläche dann zurückges
     [self.accessories makeObjectsPerformSelector:@selector(removeFromSuperview)];
     self.accessories = nil;
 }
-\end{objclst}
+\end{objccode}
 
 \end{itemize}
 
@@ -1935,17 +1953,17 @@ Auf GitHub findet ihr eine Beispielimplementierung des Seasonizers \linkref{http
 
 Anstatt mein Repository direkt lokal zu klonen, könnt ihr mit eurem eigenen GitHub Account den Fork Button \linkref{https://github.com/iOS-Dev-Kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig unter eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen:
 
-\begin{shlst}
+\begin{shcode}
 cd path/to/directory
 git clone https://github.com/yourusername/seasonizer
-\end{shlst}
+\end{shcode}
 
 Hier könnt ihr nun Commits durchführen und diese mit eurer serverseitigen Kopie meines Repositories abgleichen.
 
-\begin{shlst}
+\begin{shcode}
 # add commits ...
 git push
-\end{shlst}
+\end{shcode}
 
 Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, einen Merge mit den Änderungen durchzuführen.
 

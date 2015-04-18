@@ -44,7 +44,9 @@ Anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Progra
 println("Hello World!")	
 \end{swiftcode}
 	
-\item Nun lernen wir anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} zunächst die Grundlagen der Programmierung in Swift. Macht euch dabei mit folgenden Begriffen vertraut:
+\item Nun lernen wir anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} zunächst die Grundlagen der Programmierung in Swift.
+	
+	Auf der Vorlesungswebseite findet ihr den Playground aus der Vorlesung, der in diese Konzepte einführt. Macht euch dabei mit folgenden Begriffen vertraut:
 
 	\begin{itemize}
 		\item Variablen (\swiftinline{var}) und Konstanten(\swiftinline{let})
@@ -57,7 +59,7 @@ println("Hello World!")
 		\item Funktionen
 	\end{itemize}
 	
-	Im zweiten Kapitel \emph{Language Guide} werden diese Konzepte noch einmal detailliert erklärt. Informiert euch dort gerne genauer darüber. Zunächst genügt es jedoch, einen Überblick zu erhalten. Im Verlauf des Kurses werden wir noch viel Übung im Umgang mit diesen Konzepten bekommen.
+	Im zweiten Kapitel \emph{Language Guide} in \emph{The Swift Programming Language} werden diese Konzepte noch einmal detailliert erklärt. Informiert euch dort gerne genauer darüber. Zunächst genügt es jedoch, einen Überblick zu erhalten. Im Verlauf des Kurses werden wir noch viel Übung im Umgang mit diesen Konzepten bekommen.
 	
 \includegraphicsc[\screenshotwidth]{img/playground_helloworld.png}{img:playground_helloworld}{Playgrounds eignen sich ideal zum Ausprobieren von Swift Code.}
 
@@ -165,10 +167,6 @@ println("Time with cache: \(withCacheTime)s (\((1 - withCacheTime / withoutCache
 \end{lecture}
 
 
-% MARKER %
-\end{document}
-
-
 \begin{lecture} % Lecture 2
 
 
@@ -176,9 +174,9 @@ println("Time with cache: \(withCacheTime)s (\((1 - withCacheTime / withoutCache
 
 \begin{enumerate}
 
-\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objcinline{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Erstellt dazu einen Xcode Playground bspw. mit Title \str{02 - Objektorientierte Programmierung in Swift}.
+\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objcinline{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Erstellt dazu einen Xcode Playground bspw. mit Titel \str{02 - Objektorientierte Programmierung in Swift}.
 
-\item Verschafft euch anhand \emph{The Swift Programming Language} einen Überblick über folgende Konzepte der objektorientierten Programmierung in Swift:
+\item Verschafft euch anhand \emph{The Swift Programming Language} und dem Playground aus der Vorlesung (auf der Vorlesungswebseite) einen Überblick über folgende Konzepte der objektorientierten Programmierung in Swift:
 
 \begin{itemize}
 	\item Klassen und Objekte
@@ -186,166 +184,96 @@ println("Time with cache: \(withCacheTime)s (\((1 - withCacheTime / withoutCache
 	\item Initializer
 	\item Instanz- und Klassenmethoden
 	\item Subklassen und Überschreiben von Methoden
+	\item Structs und Enums
 \end{itemize}
-
-\item Eine neue \emph{Klasse} soll Personen repräsentieren, die jeweils einen Namen besitzen. Dafür definieren wir, dass jedes Objekt der Klasse \swiftinline{Person} eine Konstante \swiftinline{name} des Typs \swiftinline{String} haben soll. Ein \emph{Initializer} setzt den Wert dieser Konstanten, wenn ein solches Objekt erstellt wird. Wurde der Initializer ausgeführt, \strong{muss} jedes Attribut einen Wert besitzen!
-
-\begin{swiftcode}
-class Person {
-    
-    /// Der Name der Person. Jedes Objekt der Klasse besitzt dieses Attribut.
-    let name: String
-    
-    // Neue Objekte dieser Klasse werden durch Aufruf des Initializers erstellt. Wurde dieser ausgeführt, muss jedes Attribut einen Wert besitzen.
-    init(name: String) {
-        self.name = name
-        self.sayHello()
-    }
-    
-}
-\end{swiftcode}
-
-\item Außerdem implementieren wir eine \emph{Instanzmethode} \swiftinline{sayHello}, die einen Gruß in der Konsole ausgibt. Am Ende des Initializers fügen wir einen Aufruf dieser Methode hinzu, sodass uns jedes neue Objekt der Klasse grüßt:
-
-\begin{swiftcode}
-class Person {
-    
-    let name: String
-    
-    init(name: String) {
-        self.name = name
-        self.sayHello() // Jedes neu erstellte Objekt grüßt uns
-    }
-    
-    /// Diese Methode gibt einen Gruß in der Konsole aus, wenn sie aufgerufen wird.
-    func sayHello() {
-        println("Hello World! My name is \(name).")
-    }
-    
-}	
-\end{swiftcode}
-
-\item Unsere Klasse ist jetzt einsatzbereit und wir können Objekte nach ihrem Bauplan erstellen. Dies geschieht durch Aufruf des Initializers:
-
-\begin{swiftcode}
-class Person {
-    ...
-}
-
-let alice = Person(name: "Alice")
-let bob = Person(name: "Bob")	
-\end{swiftcode}
-
-Lassen wir uns nun mit \keys{\cmd + \Alt + \return} oder \menu{View > Assistant Editor > Show Assistant Editor} die Konsole im Assistant Editor anzeigen, so sehen wir einen Gruß von jedem neu erstellten Objekt der Klasse \swiftinline{Person} \abbref{img:personhelloworld}.
-
-\includegraphicsc[\screenshotwidth]{img/personhelloworld.png}{img:personhelloworld}{Wenn wir neue Objekte der Klasse \swiftinline{Person} erstellen, grüßen sie uns in der Konsole.}
-
-\begin{shcode}
-Hello World! My name is Alice.
-Hello World! My name is Bob.
-\end{shcode}
-
-\item Natürlich können wir unsere Klasse nun noch erweitern und Objekte miteinander interagieren lassen. Fügen wir also der Klasse \swiftinline{Person} noch eine weitere Methode \swiftinline{sayHelloTo:} hinzu und implementieren diese:
-
-\begin{swiftcode}
-class Person {
-	...
-	/// Diese Methode grüßt eine andere Person, die als Argument übergeben wird.
-    func sayHelloTo(otherPerson: Person) {
-        println("Hi \(otherPerson.name)! My name is \(name)")
-    }
-}
-\end{swiftcode}
-
-Die neue Methode nimmt ein Argument in Form eines anderen Objekts der Klasse \swiftinline{Person} an und gibt dessen Wert der Variable \swiftinline{name} zusätzlich in der Konsole aus.
-
-\item Wir können diese Methode auf einem beliebigen Objekt der Klasse \swiftinline{Person} aufrufen, und ihr ein andere Objekt der Klasse übergeben:
-
-\begin{swiftcode}
-// Rufe die Methode sayHelloTo: auf dem Objekt alice auf und übergebe bob als argument
-alice.sayHelloTo(bob) // Ausgabe: Hi Bob! My name is Alice.
-\end{swiftcode}
-
-\item Nun steht uns die Welt der objektorientierten Programmierung offen (beschränkt auf sich grüßende Personen)! Wichtig ist der Umgang mit Listen, also Objekten vom Typ Array:
-
-\begin{swiftcode}
-// Erstelle eine Liste von Namen, also ein Array<String>
-let names = ["Alice", "Bob", "Cindy", "Bruce", "Chris", "Bill", "Susan"]
-// Erstelle eine leere Liste von Personen
-var people = Array<Person>()
-
-// Erstelle ein neues Objekt der Klasse Person für jeden Namen und füge es der Liste hinzu
-for name in names {
-    let newPerson = Person(name: name)
-    people.append(newPerson)
-}
-
-// Lass dich von jeder Person in der hingebungsvoll Liste grüßen!
-let me = Person(name: "Nils")
-for person in people {
-    person.sayHelloTo(me)
-}
-\end{swiftcode}
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{scientists}{Scientists}
+\begin{excitem}{scientists}{Scientists}{1}
 
 \begin{enumerate}
-\item Erstellt eine weitere Klasse \objcinline{Scientist} als \emph{Subklasse} von \objcinline{Person}.
+\item Erstellt (am besten in einem neuen Playground, in den ihr die Klasse \swiftinline{Person} aus der Vorlesung einfügt) eine weitere Klasse \swiftinline{Scientist} als \emph{Subklasse} von \swiftinline{Person}.
 
-Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \objcinline{sayPrimeNumbersUpTo:} hinzu, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
+Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \swiftinline{sayPrimeNumbersUpTo:} hinzu, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
 
 \begin{hinweis}
 Wie in \emph{The Swift Programming Language} beschrieben, erbt eine Subklasse die Attribute und Methoden ihrer Superklasse und kann diese überschreiben:
 \begin{swiftcode}
 class Scientist: Person {
-	...
+    ...
 }	
 \end{swiftcode}
 \end{hinweis}
 
-\item Wir wollen uns vergewissern, dass die Klasse \objcinline{Scientist} die Attribute und Methoden ihrer Superklasse \objcinline{Person} erbt. Erstellt ein \objcinline{Scientist}-Objekt, gebt ihm einen Namen und lasst den \objcinline{Hello World}-Gruß ausgeben.
+\item Wir wollen uns vergewissern, dass die Klasse \swiftinline{Scientist} die Attribute und Methoden ihrer Superklasse \swiftinline{Person} erbt. Erstellt ein \swiftinline{Scientist}-Objekt, gebt ihm einen Namen und lasst den \swiftinline{Hello World}-Gruß ausgeben.
 \item Nach dem Prinzip des \emph{Überschreiben} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine "{}normale"{} Person. Überschreibt in der \swiftinline{Scientist}-Klasse die Methode \swiftinline{sayHello}, sodass zusätzlich \str{Ask me for prime numbers!} ausgegeben wird.
 \end{enumerate}
 
 \end{excitem}
 
-\begin{excitem}{emails}{Emails}
+\begin{excitem}{emails}{Poker}{3}
+
+In dieser Aufgabe berechnen wir die Wahrscheinlichkeit für einen \emph{Flush} beim Poker.
 
 \begin{enumerate}
-\item Erweitert die Klasse \objcinline{Person} nun zunächst um ein Freundschaftssystem.
 
-Jede Person besitzt ein Attribut \swiftinline{friends: Array<Person>}, das eine Liste ihrer Freunde darstellt. Das Aufrufen einer Instanzmethode \swiftinline{makeFriendsWith:} fügt eine Person dieser Liste hinzu. Freundschaften werden immer in beide Richtungen geschlossen, also sollte die Methode \objcinline{makeFriendsWith:} dieselbe Methode der anderen Person aufrufen.
+\item Zunächst modellieren wir die Spielkarten. Eine Karte hat immer eine \emph{Farbe/Suit} (\emph{Karo/Diamonds}, \emph{Herz/Hearts}, \emph{Pik/Spades} oder \emph{Kreuz/Clubs}) und einen \emph{Rang/Rank} (\emph{2} bis \emph{10}, \emph{Bube/Jack}, \emph{Dame/Queen}, \emph{König/King} oder \emph{Ass/Ace}).
 
-\exchinweis{Um hier Endlosschleifen zu verhindern kann die Instanzmethode\objcinline{containsObject:} von \objcinline{NSArray} hilfreich sein, die testet, ob ein Objekt bereits in der Liste enthalten ist. Beachtet außerdem, dass einer Liste erst erstellt werden muss, bevor ihr Objekte hinzugefügt werden können:}
-\begin{objccode}
-if (self.friends==nil) { // Testet, ob self.friends bereits ein Objekt hält
-    self.friends = [[NSMutableArray alloc] init]; // Weist dem Attribut self.friends eine neu erstellte Liste zu
+	Schreibt zwei Enums \swiftinline{enum Suit: Int} und \swiftinline{enum Rank: Int} mit ihren entsprechenden Fällen (\swiftinline{case Diamonds} usw.). Bei den Rängen \emph{2} bis \emph{10} schreibt ihr am besten die Zahl aus. Implementiert jeweils eine \emph{Computed Property} \swiftinline{var symbol: String}, in der ihr mithilfe einer \swiftinline{switch}-Abfrage für jeden Fall ein Symbol zurückgebt. \strong{Tipp:} Für die Farben gibt es Unicode-Symbole\linkref{http://en.wikipedia.org/wiki/Playing_cards_in_Unicode}!
+	
+	Schreibt dann einen \swiftinline{struct Card} mit zwei Attributen \swiftinline{let suit: Suit} und \swiftinline{let rank: Rank}, sowie einer \emph{Computed Property} \swiftinline{var description: String}, die einen aus Farbe und Rang zusammengesetzten String zurückgibt.
+		
+\item Nun können wir eine Poker Hand modellieren. Schreibt den \swiftinline{struct PokerHand} mit einem Attribut \swiftinline{let cards: [Card]} und einer \emph{Computed Property} \swiftinline{var description: String}, die die \swiftinline{description} der Karten kombiniert.
+
+	Um einfach zufällige Poker Hände generieren zu können, implementiert einen Initializer \swiftinline{init()}, der eine Hand aus fünf zufälligen Karten erstellt. \strong{Wichtig:} Da aus einem Deck von paarweise verschiedenen Karten gezogen wird, darf keine Karte doppelt vorkommen.
+	
+	\begin{exchinweise}
+		\item Da wir \swiftinline{Suit} und \swiftinline{Rank} von \swiftinline{Int} abgeleitet haben, können wir Zufallszahlen generieren und die Enums daraus erstellen:
+	
+		\begin{swiftcode}
+        let rndSuit = Suit(rawValue: Int(arc4random_uniform(4)))!
+        let rndRank = Rank(rawValue: Int(arc4random_uniform(13)))!
+        let rndCard = Card(suit: rndSuit, rank: rndRank) // Eine zufällige Spielkarte
+		\end{swiftcode}
+		
+		\item Die Funktion \swiftinline{contains} könnte hilfreich sein, um das Vorhandensein von Karten zu überprüfen. Um diese mit \swiftinline{Card} verwenden zu können, müsst ihr erst eine Äquivalenzrelation implementieren: Schreibt \swiftinline{struct Card: Equatable { ... }} und dann außerhalb des Struct:
+		
+		\begin{swiftcode}
+        func ==(lhs: Card, rhs: Card) -> Bool {
+            return lhs.suit == rhs.suit && lhs.rank == rhs.rank
+        }
+		\end{swiftcode}
+	\end{exchinweise}
+	
+\item Erstellt ein paar Poker Hände und lasst euch die \swiftinline{description} ausgeben. Habt ihr etwas gutes gezogen?
+
+	Implementiert nun ein weiteres Enum \swiftinline{enum Ranking: Int} mit den Fällen \swiftinline{case HighCard, Flush, StraightFlush} usw., die ihr bspw. auf Wikipedia\linkref{http://en.wikipedia.org/wiki/List_of_poker_hands} findet.
+
+	Fügt dann dem \swiftinline{struct PokerHand} eine Computed Property \swiftinline{var ranking: Ranking} hinzu. Implementiert hier einen Algorithmus, der prüft, ob ein \emph{Flush} vorliegt. Dann soll \swiftinline{.Flush} zurückgegeben werden, ansonsten einfach \swiftinline{.HighCard}.
+	
+\item Wir können nun einige tausend Hände generieren und die Wahrscheinlichkeit für einen Flush abschätzen. Fügt einfach folgenden Code am Ende des Playgrounds ein:
+
+\begin{swiftcode}
+var rankingCounts = [Ranking : Int]()
+let samples = 1000
+for var i=0; i<samples; i++ {
+    let ranking = PokerHand().ranking
+    if rankingCounts[ranking] == nil {
+        rankingCounts[ranking] = 1
+    } else {
+        rankingCounts[ranking]!++
+    }
 }
-\end{objccode}
+for (ranking, count) in rankingCounts {
+    println("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
+}	
+\end{swiftcode}
 
-\item Erstellt eine neue Klasse \objcinline{Email : NSObject}. Wir simulieren nun das Senden und Weiterleiten von Emails. Die neue Klasse \objcinline{Email} benötigt nur eine Instanzmethode \objcinline{sendTo:}, die eine Liste von Personen \objcinline{NSArray *recipients} als Argument annimmt. Die Implementierung dieser Methode ruft \objcinline{receiveEmail:} auf jedem Objekt der Liste auf.
-\item Erweitert die Klasse \objcinline{Person} um die Instanzmethoden \objcinline{sendEmail} und \objcinline{receiveEmail:}.
+	Die Ausführung kann etwas dauern, justiert ggfs. \swiftinline{samples}. Stimmt die Wahrscheinlichkeit etwa mit der Angabe auf Wikipedia überein?
 
-\objcinline{sendEmail} sendet eine neue Email an die Liste der Freunde der Person.
-\objcinline{receiveEmail:} akzeptiert ein Argument \objcinline{Email *email} und leitet die Email an alle Freunde weiter.
-
-\exchinweis{Damit die Klassen \objcinline{Email} und \objcinline{Person} in der jeweils anderen Klasse verfügbar sind, müssen die Header gegenseitig importiert werden. Verwendet das Prinzip der \strong{Forward Declaration}, damit dies nicht zu einer Endlosschleife führt.}
-
-\item Verwendet die bekannte Methode \objcinline{application:didFinishLaunchingWithOptions:}, um die Simulation zu starten. Erstellt eine Person \objcinline{Person *me} mit eurem eigenen Namen und eine Liste \objcinline{NSMutableArray *persons} mit weiteren Personen, beispielsweise mit den zuvor im Beispiel verwendeten Namen.
-
-Stellt eine Freundschaftsverbindung zwischen \objcinline{me} und jeder Person aus \objcinline{persons} her, sowie zwischen solchen Personen mit gleichem Anfangbuchstaben.
-
-\exchinweis{Die Instanzmethode \objcinline{characterAtIndex:} von \objcinline{NSString} gibt den entsprechenden Buchstaben als Datentyp \objcinline{char} zurück und kann einfach mit dem Operator \objcinline{==} mit einem anderen verglichen werden.}
-
-Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlauf der Simulation nachvollziehen könnt. Ein Aufruf \objcinline{[me sendEmail]} soll nun die Simulation starten. Nach dem \emph{Build \& Run} könnte das Tastenkürzel \keys{\cmd + .} zum Stoppen der Ausführung sinnvoll sein...
-
-\exchinweis{Wenn die Simulation in einer Endlosschleife läuft, steht nach einer Weile nicht mehr genug Speicherplatz zur Verfügung, um den nächsten Methodenaufruf auszuführen \linkref{http://en.wikipedia.org/wiki/Stack_overflow}. Ihr erhaltet dann den berüchtigten \objcinline{EXC_BAD_ACCESS} Fehler und die Ausführung der App bricht ab. In anderen Situationen, in denen keine Endlosschleife ausgeführt wird, ist dieser Fehler ein Hinweis auf fehlerhaftes Speichermanagement. Dazu gehört bspw. der Zugriff auf ein Objekt, das bereits (möglicherweise aufgrund der Kennzeichnung des Attributs als \objcinline{weak}) aus dem Speicher entfernt wurde.}
-
-\item \excextra{Überlegt euch eine Erweiterung, sodass Emails sinnvoll als Spam erkannt und verworfen werden und nicht endlos weitergeleitet werden.}
+\item \strong{Extra:} Ihr könnt das Programm nun noch erweitern und versuchen, die anderen Ränge zu überprüfen. Dabei könnten Hilfsattribute wie \swiftinline{var hasFlush: Bool} oder \swiftinline{var pairCount: Int} nützlich sein. Bekommt es jemand es jemand hin, eine Funktion zu schreiben, die zwei Hände vergleicht und den Sieger bestimmt? \strong{Tipp:} Dazu könnte es hilfreich sein, die Fälle des \swiftinline{enum: Ranking} um \emph{Associated Attributes} zu erweitern.
 
 \end{enumerate}
 
@@ -355,6 +283,11 @@ Fügt in den verschiedenen Methoden Konsolenausgaben hinzu, damit ihr den Verlau
 
 
 \end{lecture}
+
+
+% MARKER %
+\end{document}
+
 
 
 \begin{lecture} % Lecture 3

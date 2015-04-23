@@ -15,4 +15,4 @@ Die Dokumente werden mit [XeLaTex](http://www.xelatex.org) gesetzt.
 Es werden u.a. folgende Packages verwendet:
 
 - [menukeys](https://github.com/tweh/menukeys) für Tasten- und Menüsymbolik
-- [listings](http://www.ctan.org/tex-archive/macros/latex/contrib/listings/) für Programmcodeformatierung
+- [minted](https://github.com/gpoore/minted) für Code-Highlighting

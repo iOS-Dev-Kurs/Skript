@@ -442,32 +442,32 @@ Nun könnt ihr Apps auf eurem iOS Gerät installieren und testen:
 \end{enumerate}
 
 
-% MARKER %
-
-\end{document}
-
 
 \chapter{Projektstrukturierung}
 
 
 \section{Versionskontrolle mit Git} \label{sec:git}
 
-Die Entwicklung von iOS Apps ist wie jedes Programmierprojekt ein fortschreitender Prozess. Während an Features und Mechaniken im Code gearbeitet wird, besteht immer wieder die Notwendigkeit, vorhandenen Code zu editieren und umzustrukturieren. Dabei bietet \strong{Versionskontrolle} (SCM / Software Configuration Management) u.a. die Möglichkeit, diese Änderungen in regelmäßigen Abständen zu sichern, zu vorherigen Versionen zurückzukehren und sogar an verschiedenen Versionen gleichzeitig und mit anderen zusammen zu arbeiten.
+Die Entwicklung von iOS Apps ist wie jedes Programmierprojekt ein fortschreitender Prozess. Während an Features und Mechaniken im Code gearbeitet wird, möchte man häufig mal einen Ansatz ausprobieren oder Code umstrukturieren, doch wenn nötig schnell wieder zum letzten funktionierenden Stand zurückkehren können \abbref{img:mario_checkpoint}.
 
-Ein sehr beliebtes System der Versionskontrolle ist \strong{Git}. Git wird automatisch mit Xcode installiert und ist ein Kommandozeilenprogramm, auf das wir auf dem Mac mit der Terminal App zugreifen können.
+\includegraphicsc[50pt]{img/super_mario_flag}{img:mario_checkpoint}{Mit Versionskontrolle können wir jederzeit speichern und dort wieder beginnen - nie wieder Game-Over!}
+
+\emph{Versionskontrolle} (SCM / Software Configuration Management) bietet u.a. diese Sicherheit und ermöglicht es uns zusätzlich, einfach an verschiedenen Versionen gleichzeitig und mit anderen zusammen zu arbeiten.
+
+Ein sehr beliebtes System der Versionskontrolle ist \emph{Git}. Git wird automatisch mit Xcode installiert und ist ein Kommandozeilenprogramm, auf das wir auf dem Mac mit der \emph{Terminal} App zugreifen können.
 
 \subsection{Grundlagen der Kommandozeilensyntax}
 \begin{description}
-\item[Navigation] \shinline{cd path/to/folder} navigiert zu dem angegebenen Pfad. Die Tilde \shinline{\~} repräsentiert hier den Benutzerordner. \keys{\tab} vervollständigt das aktuelle Pfadsegment und zweimaliges Drücken von \keys{\tab} zeigt alle möglichen Vervollständigungen an.
+\item[Navigation] \shinline{cd path/to/folder} navigiert zu dem angegebenen Pfad. Die Tilde \shinline{~} repräsentiert hier den Benutzerordner. \keys{\tab} vervollständigt das aktuelle Pfadsegment und zweimaliges Drücken von \keys{\tab} zeigt alle möglichen Vervollständigungen an.
 \item[Ordnerinhalt] \shinline{ls} listet den Inhalt des aktuellen Verzeichnisses auf. Mit \shinline{ls -a} werden auch versteckte Dateien angezeigt.
 \item[Dateien] \shinline{touch filename} erstellt eine neue Datei mit dem angegebenen Dateinamen, während \shinline{mkdir foldername} einen Ordner erstellt. \shinline{rm filename} löscht die angegebene Datei und \shinline{rm -r foldername} den angegebenen Ordner.
 \end{description}
 
 \subsection{Git Repository \& Commits}
  
-Während wir an unserem Projekt arbeiten, können wir Git verwenden, um Versionen unseres Codes möglichst häufig in Form von \strong{Commits} zu sichern. Dabei werden alle Änderungen an den Projektdateien, die seit dem letzten Commit durchgeführt wurden, in einem versteckten \shinline{.git/} Verzeichnis, dem \strong{Repository}, hinterlegt.
+Während wir an unserem Projekt arbeiten, verwenden wir Git, um Versionen unseres Codes möglichst häufig in Form von \emph{Commits} zu sichern. Dabei werden alle Änderungen an den Projektdateien, die seit dem letzten Commit durchgeführt wurden, in einem versteckten \shinline{.git/} Verzeichnis, dem \emph{Repository}, hinterlegt.
 
-Bevor wir Commits sichern können, muss das Repository angelegt werden. Dazu navigieren wir im Terminal in den Projektordner und führend die Initialisierung durch:
+Bevor wir Commits sichern können, muss das Repository angelegt werden. Dazu navigieren wir im Terminal in den Projektordner und führen die Initialisierung durch:
 
 \begin{shcode}
 cd path/to/project
@@ -483,14 +483,15 @@ git status
 
 \shinline{git status} ist sehr nützlich, um häufig die Situation des Repositories zu prüfen.
 
-Nun können wir Dateien in unserem Projekt verändern, indem wir Code schreiben oder löschen. Mit \shinline{git status} sehen wir jederzeit, welche Dateien sich in Bezug auf den vorherigen Commit verändert haben. Befindet sich der Code in einem akzeptablen Zwischenzustand, können wir die Änderungen mit einem Commit im Repository sichern:
+Nun können wir Dateien in unserem Projekt verändern, indem wir Code schreiben oder löschen. Mit \shinline{git status} sehen wir jederzeit, welche Dateien sich in Bezug auf den vorherigen Commit verändert haben. \shinline{git diff} listet die Änderungen sogar detailliert auf. Befindet sich der Code in einem akzeptablen Zwischenzustand, können wir die Änderungen mit einem Commit im Repository sichern:
 
 \begin{shcode}
-git add --all
+git add --all # Markiert alle Änderungen für den nächsten Commit ("Staging")
 git commit -m "Commit Message"
 >> [master (root-commit) a74833f] Commit Message
 >>  x files changed, y insertions(+), z deletions(-)
 git log
+>> ...
 \end{shcode}
 
 Hier ist zu beachten, dass die zu sichernden Änderungen dem anstehenden Commit zunächst mit \shinline{git add filename} einzeln oder mit \shinline{git add --all} zusammen hinzugefügt werden müssen. \shinline{git commit} führt den Commit anschließend durch und erwartet einen String als kurze Beschreibung der Änderungen des Commits. \shinline{git log} kann verwendet werden, um eine Liste der letzten Commits im Terminal auszugeben.
@@ -498,7 +499,7 @@ Hier ist zu beachten, dass die zu sichernden Änderungen dem anstehenden Commit 
 
 \subsection{Branches}
 
-Git bietet weiterhin die sehr nützliche Möglichkeit, verschiedene Versionen eines Projekts zu verwalten, indem sich die Commitfolge an einer beliebigen Stelle verzweigt. Dazu können wir mit \shinline{git branch} einen neuen \strong{Branch} erstellen. Es kann jederzeit mit \shinline{git checkout} zwischen Branches gewechselt werden. Dabei passt Git die Dateien und deren Inhalt im Repository automatisch an.
+Git bietet weiterhin die sehr nützliche Möglichkeit, an verschiedene Versionen eines Projekts gleichzeitig zu arbeiten, indem sich die Commitfolge an einer beliebigen Stelle verzweigt. Dazu können wir mit \shinline{git branch} einen neuen \emph{Branch} erstellen. Es kann dann jederzeit mit \shinline{git checkout} zwischen Branches gewechselt werden. Dabei passt Git die Dateien und deren Inhalt im Arbeitsverzeichnis automatisch an.
 
 \begin{shcode}
 git branch new_feature
@@ -509,7 +510,9 @@ git checkout -b new_feature
 
 Erstellen wir nun weitere Commits, werden diese dem aktiven Branch hinzugefügt, während die anderen Branches unverändert bleiben. 
 
-Um Branches wieder zu vereinigen, bietet Git die \strong{Merge} und \strong{Rebase} Mechanismen. Dabei bestimmt \shinline{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \shinline{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
+Um Branches wieder zu vereinigen, bietet Git die \emph{Merge} und \emph{Rebase} Mechanismen. Dabei bestimmt \shinline{git merge} die Unterschiede der beiden Branches und erstellt einen Commit, der diese dem aktuellen Branch zusammenfassend hinzufügt. \shinline{git rebase} verändert dagegen die Commitfolge des aktuellen Branches dahingehend, dass die Commits beider Branches so kombiniert werden, als wären sie nacheinander entstanden.
+
+\strong{Achtung:} Da ein \shinline{rebase} die Commitfolge verändert, ist Vorsicht angebracht, wenn man mit anderen zusammenarbeitet!
 
 \begin{shcode}
 git checkout master # Wechsle zurück in den Branch master
@@ -535,7 +538,9 @@ git commit
 
 \subsubsection{Feature Branches}
 
-In dieser Form werden bspw. sehr häufig \strong{Feature Branches} verwaltet. Dabei wird die stabile und häufig veröffentlichte Version des Projekts von dem \shinline{master} Branch des Repositories repräsentiert. Für neue Features oder Umstrukturierungen wird dann eine Branchstruktur angelegt. So kann gearbeitet werden, ohne dass die stabile Version des Projekts verändert wird. Erreicht ein Branch einen stabilen Status und soll veröffentlicht werden, wird ein Merge mit dem \shinline{master} Branch durchgeführt. Der Arbeitsbranch kann dabei jederzeit gewechselt werden. So kann bspw. schnell ein Fehler in der veröffentlichten Version in \shinline{master} behoben und anschließend wieder zum Feature Branch gewechselt werden.
+In dieser Form werden bspw. sehr häufig \emph{Feature Branches} verwaltet. Dabei wird die stabile und häufig veröffentlichte Version des Projekts von dem \shinline{master} Branch des Repositories repräsentiert. Für neue Features oder Umstrukturierungen wird dann eine Branchstruktur angelegt. So kann gearbeitet werden, ohne dass die stabile Version des Projekts verändert wird. Erreicht ein Branch einen stabilen Status und soll veröffentlicht werden, wird ein Merge mit dem \shinline{master} Branch durchgeführt. Der Arbeitsbranch kann dabei jederzeit gewechselt werden.
+
+Wenn sich bspw. plötzlich ein User unserer App über einen Fehler beschwert, während wir bereits eifrig in einem Feature Branch an der nächsten Version arbeiten, können wir schnell zurück in den \shinline{master} Branch wechseln, den Fehler beheben und veröffentlichen. Zurück im Feature Branch kann diese Fehlerbehebung mit einem \shinline{merge} direkt integriert und dann weitergearbeitet werden.
 
 \subsection{Zusammenarbeit mit Git \& GitHub}
 
@@ -547,11 +552,11 @@ Befindet sich eine Kopie des Repositories auf einem Server, kann einem Branch ei
 
 Die Git Dokumentation \secref{sec:git_doku} enthält detaillierte Beschreibungen zu Remote Repositories.
 
-An dieser Stelle darf der Service \strong{GitHub\linkref{http://www.github.com}} nicht unerwähnt bleiben, der Entwicklern eine Plattform für ihre Git Repositories bietet und für öffentliche Projekte kostenlos ist.
+An dieser Stelle darf der Service \strong{GitHub\linkref{http://www.github.com}} nicht unerwähnt bleiben, der Entwicklern eine Plattform für ihre Git Repositories bietet und für öffentliche Projekte kostenlos ist. Eine Alternative, die auch auf einem eigenen Server installiert werden kann, bietet bspw. \strong{GitLab\linkref{https://gitlab.com/}}.
 
-Ein auf GitHub erstelltes Repository kann mit \shinline{git clone} heruntergeladen werden, wobei den local Branches automatisch ihr entsprechendes remote Gegenstück zugewiesen wird. Anschließend können wir mit dem local Repository arbeiten und Commits mit dem remote Repository abgleichen.
+Ein Repository kann mit \shinline{git clone} von einem Server heruntergeladen werden, wobei den local Branches automatisch ihr entsprechendes remote Gegenstück zugewiesen wird. Anschließend können wir mit dem local Repository arbeiten und Commits mit dem remote Repository abgleichen.
 
-Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen oder solche anderer Entwickler weiterentwickeln. Letztere Mechanik wird \strong{Fork} genannt und bietet die Möglichkeit, an einem Repository eines anderen Entwicklers zu arbeiten und diesem anzubieten, die erstellten Commits in sein Repository zu integrieren. Dazu kann eine \strong{Pull Request} versandt werden, die der Besitzer des Repositories zunächst annehmen muss, damit die Änderungen in sein Repository übernommen werden.
+Entwickler können mit ihrem GitHub Account gemeinsame Repositories erstellen oder solche anderer Entwickler weiterentwickeln. Letztere Mechanik wird \strong{Fork} genannt und bietet die Möglichkeit, an einem Repository eines anderen Entwicklers zu arbeiten und diesem anzubieten, die erstellten Commits in sein Repository zu integrieren. Dazu kann eine \strong{Pull Request} versandt werden, die der Besitzer des Repositories zunächst annehmen muss, damit die Änderungen in sein Repository übernommen werden. In dieser Form sind Entwickler auf der ganzen Welt in der Lage, an Open Source Projekten zusammenzuarbeiten.
 
 \subsubsection{Dieser Kurs auf GitHub}
 
@@ -564,16 +569,20 @@ git clone https://github.com/iOS-Dev-Kurs/Skript
 git pull
 \end{shcode}
 
+Ihr seid außerdem herzlich dazu eingeladen, Verbesserungen als Pull Requests vorzuschlagen!
+
 
 \subsection{Git in Xcode} 
 
-Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und Schaltflächen präsent. Das Menü \menu{Source Control} stellt bspw. einige Benutzeroberflächen zu Git Befehlen zur Verfügung, die die Kommandozeilenbedienung ersetzen können. Sehr hilfreich ist jedoch hauptsächlich der Version Editor \abbref{img:xcode_version_editor}, der mit der Schaltfläche rechts in der Toolbar alternativ zum Assistant Editor angezeigt werden kann. Im rechten Editorbereich wird dann die Version der links angezeigten Datei zu einem früheren Commit angezeigt und Änderungen visualisiert. Mit der Uhr-Schaltfläche unten in der Mittelleiste können wir frühere Commits auswählen.
+Versionskontrolle ist tief in Xcode integriert und in vielen Kontextmenüs und Schaltflächen präsent. Das Menü \menu{Source Control} stellt bspw. einige Benutzeroberflächen zu Git Befehlen zur Verfügung, die die Kommandozeilenbedienung ersetzen können.
+
+Sehr hilfreich ist der \emph{Version Editor} \abbref{img:xcode_version_editor}, der mit der Schaltfläche rechts in der Toolbar alternativ zum Assistant Editor angezeigt werden kann. Im rechten Editorbereich wird dann die Version der links angezeigten Datei zu einem früheren Commit angezeigt und Änderungen visualisiert. Mit der Uhr-Schaltfläche unten in der Mittelleiste können frühere Commits ausgewählt werden.
 
 \includegraphicsc{img/xcode_version_editor.png}{img:xcode_version_editor}{Der Version Editor zeigt die links geöffnete Datei zu einem früheren Commit an und visualisiert Änderungen}
 
 \subsection{Gitignore}
 
-Elemente können von von der Erfassung durch Git ausgenommen werden, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \shinline{.gitignore} Datei hinzugefügt.
+Dateien können von von der Erfassung durch Git ausgenommen werden, wenn es sich bspw. um benutzerspezifische oder temporäre Dateien handelt. Dazu wird dem Repository eine \shinline{.gitignore} Datei hinzugefügt:
 
 \begin{shcode}
 touch .gitignore
@@ -586,12 +595,18 @@ Die \shinline{.gitignore} Datei muss dem Repository nun zunächst hinzugefügt w
 
 \begin{shcode}
 git add .gitignore
-git commit -m "Added .gitignore file"
+git commit -m "Added gitignore file"
 \end{shcode}
 
 \subsection{Dokumentation}\label{sec:git_doku}
 
 Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
+
+
+
+% MARKER %
+
+\end{document}
 
 
 

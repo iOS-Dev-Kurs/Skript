@@ -478,10 +478,6 @@ Implementiert eines der folgenden Beispiele oder eine eigene Idee. Ich freue mic
 \end{lecture}
 
 
-% MARKER %
-\end{document}
-
-
 
 \begin{lecture} % Lecture 4
 
@@ -539,12 +535,12 @@ git commit -m"Committed unsaved changes"
 
 \item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.m} und fügt ihrer Implementierung folgendes Codesegment hinzu:
 
-\begin{objccode}
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor redColor];
+\begin{swiftcode}
+override func viewDidLoad() {
+    super.viewDidLoad()
+    self.view.backgroundColor = UIColor.redColor()
 }
-\end{objccode}
+\end{swiftcode}
 
 Führt ihr die App nun aus, seht ihr einen roten Bildschirmhintergrund.
 
@@ -552,7 +548,7 @@ In der Konsole sehen wir mit \shinline{git status}, dass nun Änderungen vorlieg
 
 \begin{shcode}
 git add ViewController.m # oder git add --all
-git commit -m "Changed background color"
+git commit -m "changed background color"
 \end{shcode}
 
 \item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \shinline{git checkout} einen bestimmten Commit laden, mit \shinline{git reset} Commits entfernen oder sie mit \shinline{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \shinline{git log} angezeigt wird, oder mit \shinline{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
@@ -570,28 +566,29 @@ git branch new_feature
 git checkout new_feature
 \end{shcode}
 
-\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne dass andere Branches wie der zuvor verwendete \shinline{master} Branch verändert werden. Implementiert bspw. wieder eine \objcinline{viewDidLoad} Methode in der \emph{ViewController.m} Datei und führt einen Commit durch:
+\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne andere Branches wie den zuvor verwendeten \shinline{master} Branch zu verändern. Implementiert  wieder eine Änderung und führt einen Commit durch:
 
-\begin{objccode}
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Feature!" message:@"Is it a bug or a feature?" delegate:nil cancelButtonTitle:@"Bug" otherButtonTitles:@"Feature", nil];
-    [alert show];
+\begin{swiftcode}
+override func viewDidAppear(animated: Bool) {
+    super.viewDidLoad()
+    let alertController = UIAlertController(title: "New Feature!", message: "Is it a bug or a feature?", preferredStyle: .Alert)
+    alertController.addAction(UIAlertAction(title: "Bug", style: .Destructive, handler: nil))
+    alertController.addAction(UIAlertAction(title: "Feature", style: .Default, handler: nil))
+    self.presentViewController(alertController, animated: animated, completion: nil)
 }
-\end{objccode}
+\end{swiftcode}
 
 \begin{shcode}
-git commit -a -m "Implemented new feature" # Der -a Flag fügt dem Commit automatisch alle veränderten Dateien hinzu
+git commit -a -m "implemented new feature" # Der -a Flag fügt dem Commit automatisch alle veränderten Dateien hinzu
 \end{shcode}
 
-\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Bug gefunden hat, können wir problemlos zurück zum \shinline{master} Branch wechseln und den Bug schnell beheben.
+\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Fehler gefunden hat, können wir problemlos zurück zum \shinline{master} Branch wechseln und diesen schnell beheben:
 
 \begin{shcode}
 git checkout master
 \end{shcode}
 
-Nachdem wir zurück zum \shinline{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \shinline{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Bug also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
+Nachdem wir zurück zum \shinline{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \shinline{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Fehler also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
 
 Anschließend wechseln wir wieder in unseren Feature Branch und arbeiten dort weiter, wo wir unterbrochen wurden.
 
@@ -618,14 +615,14 @@ git branch -d new_feature
 
 Auf GitHub ist bspw. auch dieses Skript zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/iOS-Dev-Kurs/Skript} und herunterladen.
 
-Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt \shinline{git clone} aus:
+Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt einen \shinline{git clone} aus:
 
 \begin{shcode}
 cd path/to/directory
 git clone https://github.com/iOS-Dev-Kurs/Skript
 \end{shcode}
 
-Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \shinline{dist/current/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
+Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \shinline{dist/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
 
 Prinzipiell könnt ihr nun lokal an dem Repository weiterarbeiten und Commits durchführen, diese jedoch nicht hochladen. Zur Zusammenarbeit an Programmierprojekten werden entweder entsprechende Berechtigungen vergeben, oder das \strong{Fork} System auf GitHub verwendet.
 
@@ -639,7 +636,7 @@ git pull
 
 \begin{exc}
 
-\begin{excitem}{chatter}{Chatter}
+\begin{excitem}{chatter}{Chatter}{2}
 
 In dieser Aufgabe schreiben wir zusammen an einer App!
 
@@ -661,25 +658,26 @@ git pull --rebase upstream master # Ein Rebase ist hier angebrachter als ein Mer
 
 Dies solltet ihr häufig tun, unter anderem immer bevor ihr beginnt, an dem Projekt zu arbeiten.
 
-\item Öffnet nun das Projekt in Xcode. Die \emph{chatter} App ist in der im Repository enthaltenen \emph{README.md} Datei beschrieben. Diese und die Kommentare im Code sollen euch bezüglich der App als Referenz dienen. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren.
-
-\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \objcinline{CHTRChatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \objcinline{CHTRChatter} Klasse dokumentiert sind.
-
-Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und sie mithilfe von Git den anderen zur Verfügung zu stellen! Ihr könnt bspw. versuchen, einen bekannten Charakter darzustellen, oder etwas völlig neues erschaffen. Lasst eurer Kreativität freien Lauf!
-
-Erstellt dazu einfach eine neue Subklasse von \objcinline{CHTRChatter} mit dem Namen eures Charakters und platziert die beiden zugehörigen Dateien im Xcode Projekt Navigator unter \menu{chatter > Model > Custom Subclasses}.
-
-\item Überschreibt nun die relevanten Methoden wie in der \emph{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
-
-In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objcinline{CHTRMessage} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
-
-\item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert:
+\item Falls ihr es noch nicht getan habt, solltet ihr euren Namen und eure GitHub Email der Git Konfiguration hinzufügen, sodass die Commits ordentlich eurem Account zugeordnet werden
 
 \begin{shcode}
-# Falls ihr es noch nicht getan habt, solltet ihr euren Namen und eure GitHub Email der Git Konfiguration hinzufügen, sodass die Commits ordentlich eurem Account zugeordnet werden:
 git config --global user.name "__dein_name__"
 git config --global user.email __deine_github_email___
 \end{shcode}
+
+\item Öffnet nun das Projekt in Xcode. Die \emph{chatter} App ist in der im Repository enthaltenen \emph{README.md} Datei beschrieben. Diese und die Kommentare im Code sollen euch bezüglich der App als Referenz dienen. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren.
+
+\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \swiftinline{Chatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \swiftinline{Chatter} Klasse dokumentiert sind.
+
+Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und sie mithilfe von Git den anderen zur Verfügung zu stellen! Ihr könnt bspw. versuchen, einen bekannten Charakter darzustellen, oder etwas völlig neues erschaffen. Lasst eurer Kreativität freien Lauf!
+
+Erstellt dazu einfach eine neue Subklasse von \swiftinline{Chatter} mit dem Namen eures Charakters und platziert die \shinline{.swift}-Datei im Xcode Projekt Navigator unter \menu{chatter > Model > Chatters}.
+
+\item Überschreibt nun die relevanten Methoden wie in der \emph{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
+
+In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objcinline{Message} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
+
+\item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert:
 
 \begin{shcode}
 git add filename # Achtet bitte darauf, nur Änderungen eurer Subklasse und nur wenn nötig Änderungen in anderen Dateien zu committen. Die project.pbxproj Datei enthält Informationen zu den Projektdateien - da ihr neue Dateien hinzugefügt habt, müsst ihr diese auch committen.
@@ -687,7 +685,7 @@ git status # häufig den Status prüfen
 git commit -m"describe your changes here"
 \end{shcode}
 
-\item Die neuen Commits sind zunächst nur lokal verfügbar. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
+\item Die neuen Commits entstehen zunächst nur lokal. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
 
 \begin{shcode}
 git pull --rebase upstream master
@@ -699,7 +697,7 @@ Das Repository enthält dann sowohl den aktuellen Stand des Original-Repositorie
 git push origin master
 \end{shcode}
 
-\item Wenn ihr mit eurer neuen \objcinline{CHTRChatter} Subklasse zufrieden sein, schickt mir eine \strong{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \shinline{git pull} durchführen.
+\item Wenn ihr mit eurer neuen \swiftinline{Chatter} Subklasse zufrieden sein, schickt mir eine \emph{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \shinline{git pull} durchführen.
 
 GitHub beschreibt das System der Pull Requests recht ausführlich in ihrer Dokumentation \linkref{https://help.github.com/articles/using-pull-requests}. Wie dort beschrieben, müsst ihr den Prozess dazu mit Klick auf den \emph{Compare \& review} Button initiieren, noch einmal die Änderungen prüfen und anschließend absenden. Ich erhalte dann eine Benachrichtigung und muss dem Merge mit dem Original-Repository nur noch großzügig zustimmen.
 
@@ -713,6 +711,12 @@ Ich bin gespannt auf eure Implementierungen!
 
 
 \end{lecture}
+
+
+
+% MARKER %
+\end{document}
+
 
 
 \begin{lecture} % Lecture 5

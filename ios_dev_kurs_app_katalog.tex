@@ -714,21 +714,17 @@ Ich bin gespannt auf eure Implementierungen!
 
 
 
-% MARKER %
-\end{document}
-
-
-
 \begin{lecture} % Lecture 5
 
 
 \chapter{View Hierarchie}
 
-Die iOS App Entwicklung orientiert sich konsequent am \strong{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \objcinline{Foundation} und \objcinline{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Programmierung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
+Die iOS App Entwicklung orientiert sich konsequent am \emph{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \swiftinline{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Softwareentwicklung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
 
 \skriptref{Das Model-View-Controller Konzept}
 
-Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \objcinline{UIView} Klasse des \objcinline{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \strong{View Hierarchie} kennenlernen, \objcinline{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \strong{Auto Layout} Konzepts das User Interface dynamisch anpassen.
+Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \swiftinline{UIView} Klasse des \swiftinline{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \emph{View Hierarchie} kennenlernen, \swiftinline{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \emph{Auto Layout} Konzepts das User Interface dynamisch anpassen.
+
 
 
 \section{Handgeschriebene View Hierarchie}
@@ -738,55 +734,107 @@ Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript 
 \skriptref{View Hierarchie}
 
 \begin{enumerate}
-\item Ihr kennt das MVC-Konzept noch nicht im Schlaf? Zeit, einen Blick ins Skript zu werfen!
-\item Zuvor haben wir ein Storyboard verwendet, um eine einfache Benutzeroberfläche zu gestalten. Dabei haben wir die View Hierarchie unserer App mit dem Interface Builder konfiguriert. Natürlich können wir stattdessen oder ergänzend auch Code schreiben.
-\item Erstellt ein neues Projekt mit dem Product Name \emph{viewhierarchy}. Verwendet das \emph{Empty Application} Template, sodass keine Interfaceelemente vorkonfiguriert werden.
-\item Betrachtet nun wieder die \objcinline{application:didFinishLaunchingWithOptions:} Methode des Application Delegates. Aus dem Skript (\emph{iOS App Lifecycle}) wissen wir, dass diese Methode zu einem bestimmten Zeitpunkt im Startprozess der App aufgerufen wird.
-\item Da wir mit dem \emph{Empty Application} Template begonnen haben und kein Storyboard existiert, wird hier in einem Attribut \objcinline{UIWindow *window} ein neues Objekt instanziert und mit weißem Hintergrund angezeigt:
-\begin{objccode}
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+\item Ihr könnt das MVC-Konzept noch nicht im Schlaf rezitieren? Unbedingt erstmal im Skript nachlesen!
+\item Zuvor haben wir für Xcode Projekte ein Template mit vorkonfiguriertem Target, Storyboard und View Controller verwendet. Für den allgemeinen Gebrauch sind solche Templates sehr sinnvoll, doch nun möchten wir die Architektur einer iOS App einmal genauer untersuchen. Verwendet dafür das \shinline{viewhierarchy_bare} Projekt, das auf der Vorlesungsseite zur Verfügung steht.
+\item Das Projekt beinhaltet nur ein Target \shinline{viewhierarchy} und zwei Dateien: eine Konfigurationsdatei \shinline{Info.plist} und eine mit dem \emph{Entry Point} Attribut \swiftinline{@UIApplicationMain} als \emph{Application Delegate} markierte Klasse \swiftinline{AppDelegate}. Im Skript könnt ihr euch über den Startprozess einer iOS App informieren.
 
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+Implementieren wir die \swiftinline{application:didFinishLaunchingWithOptions:} Methode des Application Delegates, wird diese am Ende des Startvorgangs aufgerufen:
 
-    return YES;
+\begin{swiftcode}
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {        
+        NSLog("Hello World!")
+        return true
+    }
+}	
+\end{swiftcode}
+
+\item Da wir in der \shinline{Info.plist} Datei kein Storyboard angeben, wird beim Start der App einfach ein leeres \swiftinline{UIWindow} erstellt und angezeigt. Das können wir auch selbst tun:
+
+\begin{swiftcode}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    window.backgroundColor = UIColor.whiteColor()
+    window.makeKeyAndVisible()
+    self.window = window
+    return true
 }
-\end{objccode}
-\item Hier können wir nun die View Hierarchie mit weiteren Objekten der Superklasse \objcinline{UIView} füllen und diese somit auf dem Bildschirm anzeigen:
-\begin{objccode}
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+\end{swiftcode}
 
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.window.frame.size.width, 50)];
-    label.text = @"Hello World!";
-    label.backgroundColor = [UIColor redColor];
-    [self.window addSubview:label];
-
-    return YES;
+\item Nun können wir die View Hierarchie des angezeigten \swiftinline{UIWindow} mit weiteren Objekten der Superklasse \swiftinline{UIView} füllen und diese somit auf dem Bildschirm anzeigen:
+\begin{swiftcode}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    window.backgroundColor = UIColor.whiteColor()
+    window.makeKeyAndVisible()
+    self.window = window
+    
+    let label = UILabel(frame: CGRect(x: 0, y: 50, width: window.frame.size.width, height: 50))
+    label.text = "Hello World!"
+    label.backgroundColor = UIColor.redColor()
+    window.addSubview(label)
+    
+    let button = UIButton(frame: CGRect(x: window.frame.size.width / 2 - 40, y: 120, width: 80, height: 44))
+    button.backgroundColor = UIColor.blackColor()
+    button.setTitle("Click!", forState: .Normal)
+    button.addTarget(self, action: "clickButtonPressed:", forControlEvents: .TouchUpInside) // Diese Methode ist das Äquivalent einer IBAction Verbindung
+    window.addSubview(button)
+    
+    return true
 }
-\end{objccode}
+
+func clickButtonPressed(sender: UIButton) {
+    println("Click!")
+}
+\end{swiftcode}
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{view_hierarchy}{View Hierarchie}
+\begin{excitem}{view_hierarchy}{Color Match}{2}
 
-Implementiert eine der Apps \strong{Counter}, \strong{BMI} oder \strong{RGB} aus der Übungsaufgabe des vorherigen Abschnitts \excref{exc:simpleui} oder eine vergleichsweise einfache App, ohne den Interface Builder zu verwenden.
+Verwendet das \shinline{viewhierarchy_bare} Projekt als Ausgangspunkt um (ohne den Interface Builder zu verwenden) eine einfache App zu schreiben. Denkt euch etwas eigenes aus (das kann jedoch schnell komplex werden), oder implementiert das folgende einfache Spiel:
 
-\begin{exchinweise}
-\item Das Äquivalent zu einer \objcinline{IBOutlet} Verbindung ist eine einfache Zuweisung eines \objcinline{UIView} Objekts zu einer Property.
-\item Eine \objcinline{IBAction} Verbindung hingegen ist durch die Instanzmethode \objcinline{addTarget:action:forControlEvents:} von \objcinline{UIControl} gegeben. \objcinline{UIControl : UIResponder : UIView} ist bspw. die Superklasse von \objcinline{UIButton}. Die Verwendung diese Methode ist in der Dokumentation beschrieben und kann bspw. so aussehen:
-\begin{objccode}
-[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-\end{objccode}
-Der Methode wird also die Methode als spezielles \objcinline{selector}-Objekt übergeben, die bei dem angegebenen Event auf dem Target aufgerufen werden soll.
-\item Ein \objcinline{UIButton} besitzt das Attribut \objcinline{UILabel *titleLabel}, doch es gilt die Konvention, die Instanzmethode \objcinline{setTitle:forState:} zu verwenden. Für verschiedene Modi wie \objcinline{UIControlStateNormal} oder \objcinline{UIControlStateSelected} können damit unterschiedliche Titel angegeben werden. Wird kein anderer Titel spezifiziert, wird der Titel von \objcinline{UIControlStateNormal} verwendet.
-\end{exchinweise}
+Auf dem Bildschirm werden Buttons angezeigt, die jeweils eine Farbe als Hintergrund und den Namen einer (ggfs. anderen!) Farbe als Titel tragen. Man muss nun versuchen, auf solche Buttons zu tippen, deren Farbe und Titel übereinstimmen.
+
+Nach dem MVC-Konzept trennen wir die Implementierung von Modell, Präsentation und Steuerung:
+
+\begin{description}
+	\item[Model] Erstellt eine Swift Datei \shinline{ColorWord.swift} und implementiert ein Struct \swiftinline{ColorWord} mit zwei Attributen \swiftinline{color: UIColor} und (Überraschung!) \swiftinline{word: String}. Das Struct benötigt zusätzlich einen Initializer \swiftinline{init()}, der eine zufällige Kombination erstellt, sowie ein Computed Attribute \swiftinline{isCorrect: Bool}, das prüft, ob Farbe und Wort zusammenpassen.
+	\item[View] Implementiert eine Subklasse \swiftinline{ColorButton: UIButton} in einer weiteren Swift Datei. Diese benötigt nur eine Methode \swiftinline{configureForColorWord:}, die eine Instanz \swiftinline{colorWord: ColorWord} als Argument annimmt und die \swiftinline{backgroundColor} und \swiftinline{title} Attribute, die von \swiftinline{UIButton} geerbt werden, entsprechend setzt.
+	\item[Controller] Der Steuerungscode wird normalerweise in Subklassen von \swiftinline{UIViewController} geschrieben, doch hier verwenden wir einfach die \swiftinline{AppDelegate} Klasse.
+	
+	Fügt der \swiftinline{AppDelegate} Klasse die Attribute \swiftinline{var score: Int}, \swiftinline{var rounds: Int}, \swiftinline{var timer: NSTimer?}, sowie \swiftinline{var scoreLabel: UILabel!} und \swiftinline{var colorButtons: [ColorButton]} hinzu.
+	
+	Das Spiel kann nun bspw. so ablaufen:
+	
+	\begin{enumerate}
+		\item In \swiftinline{application:didFinishLaunchingWithOptions:} wird das \swiftinline{window} und das \swiftinline{scoreLabel} erstellt und konfiguriert.
+		\item Dann wird (ggfs. mehrmals) eine Methode \swiftinline{addColorButton} aufgerufen, die einen solchen Button erstellt und dem Array \swiftinline{colorButtons} sowie der View Hierarchie hinzufügt. Überlegt euch, wie ihr den Button positioniert. Wenn der Button betätigt wird, soll \swiftinline{colorButtonPressed:} aufgerufen werden.
+		\item Die Methode \swiftinline{colorButtonPressed(sender: ColorButton)} muss dann natürlich implementiert werden. Prüft bspw., ob die Kombination des betätigten Buttons korrekt ist, um entsprechend Punkte von \swiftinline{score} abzuziehen oder hinzuzufügen. Anschließend soll eine Methode \swiftinline{prepareNextRound} aufgerufen werden.
+		\item \swiftinline{prepareNextRound} fügt zunächst gegebenenfalls weitere Buttons mit \swiftinline{addColorButton} hinzu, um den Schwierigkeitsgrad zu erhöhen. Dann soll jeder angezeigte Button mit einem neuen \swiftinline{ColorWord} konfiguriert werden und ein Timer gestartet werden:
+		\begin{swiftcode}
+    func prepareNextRound() {
+        self.rounds++
+        // ...
+        if let timer = self.timer {
+            timer.invalidate()
+        }
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(/* Zeit in sec */, target: self, selector: "timerFired:", userInfo: nil, repeats: false)
+    }
+		\end{swiftcode}
+		\item Die Methode \swiftinline{timerFired(timer: NSTimer)} wird nun nach Ablauf des Timers aufgerufen und muss implementiert werden. Hier können bspw. Punkte von der \swiftinline{score} abgezogen werden, wenn ein Button die korrekte Kombination trägt. Anschließend soll wieder \swiftinline{prepareNextRound} aufgerufen werden.
+		\item \swiftinline{prepareNextRound} könnt ihr auch am Ende der \swiftinline{application:didFinishLaunchingWithOptions:} Methode bereits aufrufen, um den ersten Timer zu starten.
+		\item Das \swiftinline{scoreLabel} muss an entsprechenden Stellen aktualisiert werden, am besten mithilfe einer Methode \swiftinline{updateScoreLabel}.
+	\end{enumerate}
+	
+	Um das Spiel interessant zu gestalten, gibt es natürlich an vielen Stellen noch Erweiterungspotential!
+
+\end{description}
 
 \end{excitem}
 
@@ -794,6 +842,12 @@ Der Methode wird also die Methode als spezielles \objcinline{selector}-Objekt ü
 
 
 \end{lecture}
+
+
+
+% MARKER %
+\end{document}
+
 
 
 \begin{lecture}

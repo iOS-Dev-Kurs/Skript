@@ -604,12 +604,6 @@ Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben T
 
 
 
-% MARKER %
-
-\end{document}
-
-
-
 \chapter{iOS App Architektur}
 
 
@@ -635,51 +629,35 @@ Eine App liegt immer in einem der folgenden \strong{App States} vor:
 
 \begin{enumerate}
 \item Der Benutzer drückt auf das App Icon oder startet die App auf eine andere Weise.
-\item Die Methode \objcinline{main()} in der Datei \emph{main.m} wird aufgerufen. Diese sieht typischerweise wie folgt aus und braucht selten verändert zu werden:
+\item Die Funktion \swiftinline{main} in der Datei \emph{main.swift} wird aufgerufen. Diese Funktion wird auch als \emph{Entry Point} bezeichnet und besitzt entsprechende Äquivalente in anderen Programmiersprachen.
 
-\begin{objccode}
-int main(int argc, char * argv[])
-{
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    }
+\swiftinline{main} ist dafür zuständig, die \swiftinline{UIApplicationMain} Funktion des \swiftinline{UIKit} Frameworks aufzurufen und ihr die Klassen des \emph{Application Object} und \emph{Application Delegate} zu übergeben (s.u.).
+
+Da die Implementierung der \swiftinline{main} Funktion fast immer gleich ist, stellt das \swiftinline{UIKit} Framework stattdessen das Attribut \swiftinline{@UIApplicationMain} zur Verfügung, mit dem eine Klasse als Application Delegate markiert werden kann. Das Application Object ist dann vom Typ \swiftinline{UIApplication}.
+
+\begin{swiftcode}
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+    // ...
 }
-\end{objccode}
+\end{swiftcode}
 
-Die \objcinline{main()} Methode wird auch als \strong{Entry Point} bezeichnet und besitzt entsprechende Äquivalente in \shinline{C} und \shinline{C++}.
+\item Die \swiftinline{UIApplicationMain} Funktion erzeugt das \strong{Application Object}, also ein Objekt der Klasse \objcinline{UIApplication}, das für die zentrale Koordination der App verantwortlich ist.
 
-\item \objcinline{main()} ruft \objcinline{UIApplicationMain()} auf. Mit einem \keys{\Alt}-Klick auf den Methodennamen können wir die Dokumentaion dieser Methode in Apple's \objcinline{UIKit} Framework anschauen \abbref{img:lifecycle_uiapplicationmain}.
+\item Anschließend wird das \strong{Application Delegate} als Objekt der zuvor mit dem \swiftinline{@UIApplicationMain} Attribut markierten Klasse erstellt und dem Attribut \swiftinline{delegate} des Application Objects zugewiesen.
 
-\includegraphicsc[\screenshotwidth]{img/lifecycle_uiapplicationmain.png}{img:lifecycle_uiapplicationmain}{Die integrierte Dokumentation ist hilfreich, um den App Lifecycle zu verstehen}
+Das Application Delegate stellt das Kernstück unseres selbstgeschriebenen Codes dar.
 
-\item Diese Methode erzeugt das \strong{Application Object}, also ein Objekt des Typs \objcinline{UIApplication}, das für die zentrale Koordination der App verantwortlich ist.
+Während das Application Object die Ausführung unserer App koordiniert, bietet es dem Application Delegate im Verlauf des Startvorgangs und während der Laufzeit der App eine Vielzahl von Möglichkeiten, auf Ereignisse zu reagieren. Dazu werden  Methoden des \swiftinline{UIApplicationDelegate} Protokolls aufgerufen. Diese informieren bspw. über den Wechsel der oben beschriebenen States und sind im Übersichtsdiagramm dargestellt \abbref{img:lifecycle_overview}.
 
-U.a. stellt dieses Objekt die Verbindung zum Bildschirm her, erzeugt ein \objcinline{UIWindow} zur Darstellung der Benutzeroberflöche und empfängt Benutzereingaben. Wir müssen für diese Klasse keinen weiteren Code schreiben, damit die Architektur der App funktioniert. Über den Aufruf einer Klassenmethode nach dem sog. \emph{Singleton Pattern} \secref{sec:singleton} kann jederzeit auf das \objcinline{UIApplication} Objekt zugegriffen werden:
+Die wohl wichtigste Methode ist dabei \swiftinline{application:didFinishLaunchingWithOptions:}. Diese wird am Ende des Startvorgangs aufgerufen und zur initialen Konfiguration der App verwendet. Hier werden bspw. zentrale Datenstrukturen erstellt und das User Interface vorbereitet.
 
-\begin{objccode}
-[UIApplication sharedApplication] // gibt das Application Objekt zurück
-\end{objccode}
+\item Im Xcode Projekt ist eine Datei \emph{Info.plist} zu finden. Diese steht dem Application Objekt zur Verfügung und enthält eine Liste verschiedener Optionen, die wir in der Projekt- und Targetkonfiguration anpassen können. Hier wird u.a. angegeben, wenn es ein \emph{Storyboard} gibt, das als Startpunkt für die Darstellung der Benutzeroberfläche verwendet werden soll.
 
-\item Anschließend wird das \strong{Application Delegate} erstellt.
+Dieses Storyboard wird geladen und dessen Inital Scene angezeigt. Die im Storyboard enthaltenen Objekte werden dabei instanziert und die Connections (\swiftinline{IBOutlets} und \swiftinline{IBActions}) hergestellt. Die so erstellte \emph{View Hierarchie} \secref{sec:viewhierarchy} wird einem \swiftinline{UIWindow} Objekt hinzugefügt, das dann dem Attribut \swiftinline{window} des Application Delegate zugewiesen wird.
 
-Dabei wird die Klasse verwendet, die der \objcinline{UIApplicationMain()} Methode in Form eines \objcinline{NSString} Objekts übergeben wird:
-\begin{objccode}
-NSStringFromClass([XYZAppDelegate class]) // entspricht dem NSString @"XYZAppDelegate"
-\end{objccode}
-Das erstellte Objekt dieser Klasse wird der Property \objcinline{delegate} des Application Objects zugewiesen und ist daher immer verfügbar:
-\begin{objccode}
-[UIApplication sharedApplication].delegate // gibt das App Delegate Objekt zurück
-\end{objccode}
-
-Wir implementieren die Klasse \objcinline{XYZAppDelegate} wie jede andere Klasse in unserem Code mit ihrer Header- und Main-Datei.
-
-Im Verlauf des Startvorgangs und während der Laufzeit der App werden bestimmte Methoden des Application Delegates aufgerufen. Diese informieren bspw. über den Wechsel der oben beschriebenen States und sind im Übersichtsdiagramm dargestellt \abbref{img:lifecycle_overview}.
-
-\item Im Xcode Projekt ist eine Datei \emph{Info.plist} (meist mit vorangestelltem Product Name) zu finden. Diese steht dem Application Objekt zur Verfügung und enthält eine Liste verschiedener Optionen, die wir in der Projekt- und Targetkonfiguration anpassen können. Hier wird u.a. angegeben, wenn es ein \strong{Storyboard} gibt, das als Startpunkt für die Darstellung der Benutzeroberfläche verwendet werden soll.
-
-Dieses Storyboard wird geladen und dessen Inital Scene angezeigt. Die im Storyboard enthaltenen Objekte werden dabei instanziert und die Connections (\objcinline{IBOutlets} und \objcinline{IBActions}) hergestellt.
-
-\item Nun übernehmen unsere eigenen Klassen die Kontrolle. Unsere Implementierung des App Delegates wird hier häufig verwendet, um benötigte Datenstrukturen zu initialisieren oder die Benutzeroberfläche ohne Verwendung eines Storyboards aufzusetzen. Außerdem ist das App Delegate verantwortlich dafür, auf eine Veränderung der App States \secref{sec:app_states} zu reagieren und bspw. rechenintensive Prozesse der Benutzeroberfläche wie Animationen zu pausieren, wenn die App in den Hintergrund tritt.
+\item Nun übernimmt die \emph{View Controller Hierarchie} \secref{sec:vchierarchy} die Kontrolle über einzelne Ansichten unserer App, während das Application Delegate auf globale Ereignisse reagiert.
 
 \end{enumerate}
 
@@ -691,78 +669,87 @@ Dieses Storyboard wird geladen und dessen Inital Scene angezeigt. Die im Storybo
 
 Für die Strukturierung komplexerer Apps müssen wir nun zunächst ein wichtiges Konzept der Softwareentwicklung verstehen:
 
-Das \strong{Model-View-Controller (MVC) Konzept} zieht sich konsequent durch die Gestaltungsmuster von iOS Apps und wird auch auf vielen anderen Plattformen verwendet.
+Das \emph{Model-View-Controller (MVC) Konzept} zieht sich konsequent durch die Gestaltungsmuster von iOS Apps und wird auch auf vielen anderen Plattformen verwendet.
 
-Es basiert auf dem Grundsatz, dass \strong{Modell}, \strong{Präsentation} und \strong{Steuerung} eines Programms strikt getrennt implementiert werden \abbref{img:mvc_diagram}. Durch diese Modularisierung bleibt ein Softwareprojekt flexibel und erweiterbar und einzelne Komponenten können leicht wiederverwertet werden.
+Es basiert auf dem Grundsatz, dass \emph{Modell}, \emph{Präsentation} und \emph{Steuerung} eines Programms strikt getrennt implementiert werden \abbref{img:mvc_diagram}. Durch diese Modularisierung bleibt ein Softwareprojekt flexibel und erweiterbar und einzelne Komponenten können leicht wiederverwertet werden.
 
 \includegraphicsc{img/mvc_diagram.png}{img:mvc_diagram}{Das MVC Konzept trennt Modell, Präsentation und Steuerung}
 
 \begin{description}
 \item[Modell (Model)] Datenstrukturen und Logik werden dem Modell zugeordnet. Es stellt die darzustellenden Daten zur Verfügung und verarbeitet Anfragen bezüglich deren Modifikation.
 
-Wir implementieren häufig Subklassen von \objcinline{NSObject} mit Eigenschaften und Klassenbeziehungen, um solche abstrakten Datenstrukturen zu repräsentieren.
+In Swift implementieren wir Klassen, Structs und Enumerations mit Attributen, Methoden und Beziehungen, um solche Datenstrukturen zu repräsentieren.
 
-\item[Präsentation (View)] Subklassen von \objcinline{UIView} repräsentieren Interfaceelemente und werden auf dem Bildschirm dargestellt. Sie werden vom Controller mit Informationen gefüllt und leiten Benutzereingaben an diesen weiter. 
+\item[Präsentation (View)] Subklassen von \swiftinline{UIView} repräsentieren Interfaceelemente und werden auf dem Bildschirm dargestellt. Sie werden vom Controller mit Informationen gefüllt und leiten Benutzereingaben an diesen weiter. 
 
-\item[Steuerung (Controller)] Der Controller verwaltet die Views und reagiert auf Benutzereingaben. Zur Laufzeit der App übernehmen Subklassen von \objcinline{UIViewController} die Kommunikation zwischen Model und View. Meist repräsentiert jeweils ein View Controller eine bestimmte Ansicht auf dem Bildschirm. In Reaktion auf Benutzereingaben stellt der View Controller Anfragen an das Model und konfiguriert die Views.
+\item[Steuerung (Controller)] Der Controller verwaltet die Views und reagiert auf Benutzereingaben. Zur Laufzeit der App übernehmen Subklassen von \swiftinline{UIViewController} die Kommunikation zwischen Model und View. Meist repräsentiert jeweils ein View Controller eine bestimmte Ansicht auf dem Bildschirm. In Reaktion auf Benutzereingaben stellt der View Controller Anfragen an das Model und konfiguriert die Views.
 
-Zusätzlich sind übergeordnete Controller wie bspw. Instanzen von \objcinline{UINavigationController} für die Koordination der einzelnen View Controller zuständig und verwalten deren hierarchische Strukturen.
+Zusätzlich sind übergeordnete Controller wie bspw. Instanzen von \swiftinline{UINavigationController} für die Koordination der einzelnen View Controller zuständig und verwalten deren hierarchische Strukturen.
 \end{description}
 
 
-\section{View Hierarchie}
+\section{View Hierarchie}\label{sec:viewhierarchy}
 
 \mvcindicatorview
 
-Die \strong{View} Komponente jeder iOS App ist für die Anzeige des User Interface auf dem Bildschirm verantwortlich. Wir verwenden dazu Subklassen von \objcinline{UIView}.
+Die \strong{View} Komponente jeder iOS App ist für die Anzeige des User Interface auf dem Bildschirm verantwortlich. Wir verwenden dazu Subklassen von \swiftinline{UIView}.
 
-\objcinline{UIView} wird in Apples UIKit Framework als Subklasse von \objcinline{UIResponder : NSObject} implementiert. Die Klasse erbt somit zusätzlich zu den Verwaltungsmechanismen von \objcinline{NSObject} auch die Methoden zur Reaktion auf Benutzereingaben von \objcinline{UIResponder}.
+\swiftinline{UIView} wird in Apples UIKit Framework als Subklasse von \swiftinline{UIResponder : NSObject} implementiert. Die Klasse erbt somit zusätzlich zu den Verwaltungsmechanismen von \swiftinline{NSObject} auch die Methoden zur Reaktion auf Benutzereingaben von \swiftinline{UIResponder}.
 
-UIKit stellt viele Subklassen von \objcinline{UIView} zur Verfügung, wie bspw. \objcinline{UILabel}, \objcinline{UIButton} und \objcinline{UIImageView}. Diese implementieren jeweils Methoden, um ihren Inhalt auf dem Bildschirm zu rendern.
+UIKit stellt viele Subklassen von \swiftinline{UIView} zur Verfügung, wie bspw. \swiftinline{UILabel}, \swiftinline{UIButton} und \swiftinline{UIImageView}. Diese implementieren jeweils Methoden, um ihren Inhalt auf dem Bildschirm zu rendern.
 
-Jedes \objcinline{UIView} Objekt präsentiert jedoch nicht nur seinen eigenen Inhalt sondern dient auch als Container für andere \objcinline{UIView} Objekte. Somit erhalten wir eine hierarchische Struktur von \strong{Superviews} mit jeweils beliebig vielen \strong{Subviews} \abbref{img:view_hierarchy}. An oberster Stelle der Hierarchie steht dabei ein Objekt der Klasse \objcinline{UIWindow : UIView}, das von dem Application Object verwaltet wird \secref{sec:launchprocess}.
+Jedes \swiftinline{UIView} Objekt präsentiert jedoch nicht nur seinen eigenen Inhalt sondern dient auch als Container für andere \swiftinline{UIView} Objekte. Somit erhalten wir eine hierarchische Struktur von \emph{Superviews} mit jeweils beliebig vielen \emph{Subviews} \abbref{img:view_hierarchy}. An oberster Stelle der Hierarchie steht dabei ein Objekt der Klasse \swiftinline{UIWindow : UIView}, das von dem Application Object verwaltet wird \secref{sec:launchprocess}.
 
-\includegraphicsc[\iphonewidth]{img/view_hierarchy.png}{img:view_hierarchy}{Jedes Objekt der \objcinline{UIView} Klasse dient wieder als Container für weitere Objekte dieser Klasse}
+\includegraphicsc[\iphonewidth]{img/view_hierarchy.png}{img:view_hierarchy}{Jedes Objekt der \swiftinline{UIView} Klasse dient wieder als Container für weitere Objekte dieser Klasse}
 
-Mit Instanzmethoden wie \objcinline{addSubview:} und \objcinline{removeFromSuperview} von \objcinline{UIView} können wir der View Hierarchie Objekte hinzufügen oder Objekte entfernen.
+Mit Instanzmethoden wie \swiftinline{addSubview:} und \swiftinline{removeFromSuperview} von \swiftinline{UIView} können wir der View Hierarchie Objekte hinzufügen oder Objekte entfernen.
 
 \subsection{Frame und CGRect}
 
-Jedes Objekt der Klasse \objcinline{UIView} verwaltet einen Anzeigebereich, der durch das Attribut \objcinline{CGRect frame} bestimmt ist. Der Frame bestimmt ein Rechteck im zweidimensionalen Koordinatensystem der Superview.
+Jedes Objekt der Klasse \swiftinline{UIView} verwaltet einen Anzeigebereich, der durch das Attribut \swiftinline{frame: CGRect} bestimmt ist. Der Frame bestimmt ein Rechteck im zweidimensionalen Koordinatensystem der Superview.
 
 Der Ursprung des Koordinatensystems liegt dabei immer in der oberen linken Ecke der Superview \abbref{img:view_coordinates} mit einer horizontalen x-Achse und vertikalen y-Achse in positiver Richtung nach rechts unten.
 
-\includegraphicsc[\iphonewidth]{img/view_coordinates.png}{img:view_coordinates}{Der Ursprung des Koordinatensystems von \objcinline{UIView} liegt in der oberen linken Ecke}
+\includegraphicsc[\iphonewidth]{img/view_coordinates.png}{img:view_coordinates}{Der Ursprung des Koordinatensystems von \swiftinline{UIView} liegt in der oberen linken Ecke}
 
-\objcinline{CGRect} ist keine Klasse sondern ein \strong{Struct}, das ein Rechteck mit einem Ursprung \objcinline{CGPoint origin} und einer Größe \objcinline{CGSize size} repräsentiert. \objcinline{CGPoint} stellt dabei einen Punkt mit den Attributen \objcinline{CGFloat x} und \objcinline{CGFloat y} dar, während \objcinline{CGSize} eine Ausdehnung mit Breite \objcinline{CGFloat width} und Höhe \objcinline{CGFloat height} beschreibt. \objcinline{CGFloat} ist äquivalent zu \objcinline{float} auf einer 32-bit Architektur und zu \objcinline{double} auf einer 64-bit Architektur.
-\begin{objccode}
+\swiftinline{CGRect} ist ein Struct, das ein Rechteck mit einem Ursprung \swiftinline{origin: CGPoint} und einer Größe \swiftinline{size: CGSize} repräsentiert. \swiftinline{CGPoint} stellt dabei einen Punkt mit den Attributen \swiftinline{x: CGFloat} und \swiftinline{y: CGFloat} dar, während \swiftinline{CGSize} eine Ausdehnung mit Breite \swiftinline{width: CGFloat} und Höhe \swiftinline{height: CGFloat} beschreibt. \swiftinline{CGFloat} ist äquivalent zu \swiftinline{Float} auf einer 32-bit Architektur und zu \swiftinline{double} auf einer 64-bit Architektur.
+\begin{swiftcode}
 struct CGRect {
-   CGPoint origin;
-   CGSize size;
-};
+   var origin: CGPoint
+   var size: CGSize
+}
 
 struct CGPoint {
-   CGFloat x;
-   CGFloat y;
-};
+   var x: CGFloat
+   var y: CGFloat
+}
  
 struct CGSize {
-   CGFloat width;
-   CGFloat height;
-};
-\end{objccode}
+   var width: CGFloat
+   var height: CGFloat
+}
+\end{swiftcode}
 
-Zur Erstellung eines \objcinline{CGRect} kann die Funktion \objcinline{CGRectMake(x, y, width, height)} verwendet werden.
 
 \subsection{UIView Objekte}
 
-Wir können ein \objcinline{UIView} Objekt u.a. mit der \objcinline{initWithFrame:} Methode erstellen und dann der View Hierarchie hinzufügen, sodass es auf dem Bildschirm angezeigt wird:
-\begin{objccode}
-UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-[self.view addSubview:view]; // Angenommen self.view ist bereits Teil der View Hierarchie
-\end{objccode}
+Wir können ein \swiftinline{UIView} Objekt u.a. mit dem Initializer \swiftinline{init(frame: CGRect)} erstellen und dann der View Hierarchie hinzufügen, sodass es auf dem Bildschirm angezeigt wird:
+\begin{swiftcode}
+let view = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
+self.view.addSubview(view) // Angenommen, self.view ist bereits Teil der angezeigten View Hierarchie
+\end{swiftcode}
 
-Subklassen von UIView erben diesen Mechanismus. Ein \objcinline{UILabel} lässt sich also bspw. genauso erzeugen und anzeigen.
+Subklassen von UIView erben diesen Mechanismus. Ein \swiftinline{UILabel} lässt sich also bspw. genauso erzeugen und anzeigen.
+
+
+
+
+% MARKER %
+
+\end{document}
+
+
+
 
 
 \section{Auto Layout}
@@ -875,7 +862,7 @@ NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-[view
 %*** add UIControlEvent section
 
 
-\section{View Controller Hierarchie}
+\section{View Controller Hierarchie}\label{sec:vchierarchy}
 
 \mvcindicatorcontroller
 

@@ -742,16 +742,6 @@ self.view.addSubview(view) // Angenommen, self.view ist bereits Teil der angezei
 Subklassen von UIView erben diesen Mechanismus. Ein \swiftinline{UILabel} lässt sich also bspw. genauso erzeugen und anzeigen.
 
 
-
-
-% MARKER %
-
-\end{document}
-
-
-
-
-
 \section{Auto Layout}
 
 \mvcindicatorview
@@ -760,48 +750,48 @@ iOS Apps werden mittlerweile auf einer Vielzahl von Geräten unterschiedlicher G
 
 %\includegraphicsc{img/autolayout_orientation.png}{img:autolayout_orientation}{Benutzeroberflächen sollten sich dynamisch an verschiedene Anzeigegrößen anpassen}
 
-Natürlich können wir versuchen, die Parameter des \objcinline{frame} Attributs einer View in Reaktion auf Änderungen der Größe der Superview oder des Inhalts geschickt anzupassen. Häufig haben wir jedoch ganz bestimmte Vorstellungen, wie die Views einer View Hierarchie \strong{zueinander} positioniert sein sollen. Bei der Konzeption von Benutzeroberflächen treten anstatt von festen Positionen vielmehr Regeln auf wie:
+Natürlich können wir versuchen, die Parameter des \swiftinline{frame} Attributs einer View in Reaktion auf Änderungen der Größe der Superview oder des Inhalts geschickt anzupassen. Häufig haben wir jedoch ganz bestimmte Vorstellungen, wie die Views einer View Hierarchie \strong{zueinander} positioniert sein sollen. Bei der Konzeption von Benutzeroberflächen treten anstatt von festen Positionen vielmehr Regeln auf wie:
 \begin{itemize}
+\item Eine View soll möglichst groß genug für ihren Inhalt sein, jedoch immer einen sinnvollen Mindestabstand von den Seiten des Bildschirms haben und den Inhalt wenn nötig komprimieren.
 \item Eine View soll wenn möglich zentriert positioniert sein, nie jedoch den Frame einer anderen View überlagern.
-\item Der Abstand einer View von beiden Seiten des Bildschirms soll 20pt betragen, während ihre Breite entsprechend flexibel ist.
-\item Zwei Views sollen immer die gleiche Höhe besitzen, die sich an der benötigten Größe der Subview Hierarchie der jeweils größeren View orientiert.
+\item Zwei Views sollen immer die gleiche Höhe besitzen, die sich an der benötigten Größe des Inhalts der jeweils größeren View orientiert.
 \item Eine View soll immer den gesamten Bereich ihrer Superview ausfüllen.
 \end{itemize}
 
-Das \strong{Auto Layout} Konzept der Objective-C Programmierung basiert auf der Definition von Regeln dieser Art, genannt \strong{Constraints}.
+Das \emph{Auto Layout} Konzept der iOS Programmierung basiert auf der Definition von Regeln dieser Art, genannt \emph{Constraints}.
 
 \subsection{Constraints}
 
-Jede Constraint ist ein Objekt der Klasse \objcinline{NSLayoutConstraint} und repräsentiert eine Beziehung zwischen zwei \strong{Attributen} $x$ und $y$ verschiedener Views, die durch den Ausdruck
+Jede Constraint ist ein Objekt der Klasse \swiftinline{NSLayoutConstraint} und repräsentiert eine Beziehung zwischen zwei \emph{Attributen} $x$ und $y$ verschiedener Views, die durch den Ausdruck
 \begin{equation}
 y = m*x + b
 \end{equation}
-gegeben ist. Dabei beschreiben $m$ und $b$ vom Typ \objcinline{float} \strong{Multiplier} und \strong{Constant} der Beziehung.
+gegeben ist. Dabei beschreiben $m$ und $b$ vom Typ \swiftinline{Float} \emph{Multiplier} und \emph{Constant} der Beziehung.
 
 In dieser Form können wir bspw. eine Constraint definieren, die den horizontalen Abstand zweier Views auf einen Wert von 20pt beschränkt:
-\begin{objccode}
+\begin{swiftcode}
 secondView.left = firstView.right * 1.0 + 20.0
-\end{objccode}
+\end{swiftcode}
 
-Die Auto Layout Syntax verfügt über die Attribute \objcinline{left, right, top, bottom, leading, trailing, width, height, centerX, centerY} und \objcinline{baseline}, wobei \objcinline{leading} und \objcinline{trailing} abhängig von der Leserichtung der eingestellten Sprache äquivalent oder umgekehrt zu \objcinline{left} und \objcinline{right} sind.
+Die Auto Layout Syntax verfügt u.a. über die Attribute \swiftinline{left, right, top, bottom, leading, trailing, width, height, centerX, centerY} und \swiftinline{baseline}, wobei \swiftinline{leading} und \swiftinline{trailing} abhängig von der Leserichtung der eingestellten Sprache äquivalent oder umgekehrt zu \swiftinline{left} und \swiftinline{right} sind.
 
-Es ist darüber hinaus möglich, neben Gleichheitsbeziehungen auch Ungleichungen zu definieren und Constraints ein Prioritätslevel zwischen 1 und 1000 zuzuweisen.
+Es ist darüber hinaus möglich, neben Gleichheitsbeziehungen auch Ungleichungen zu definieren und Constraints ein Prioritätslevel zwischen $1$ und $1000$ zuzuweisen.
 
 Zur Laufzeit ist die Superview für die automatische Positionierung ihrer Subviews entsprechend der definierten Constraints zuständig.
 
-Für Views können beliebig viele, sich überlagernde Constraints definiert werden. Stehen einige Constraints in Konflikt zueinander und können nicht gleichzeitig erfüllt werden, hebt die Superview Constrains nacheinander auf, bis das Layout gültig ist. Dabei werden nicht erfüllbare Constraints trotzdem so weit wie möglich einbezogen.
+Für Views können beliebig viele, sich überlagernde Constraints definiert werden. Stehen einige Constraints in Konflikt zueinander und können nicht gleichzeitig erfüllt werden, wird eine Warnung ausgegeben und die Superview hebt Constrains nacheinander auf, bis das Layout gültig ist. Dabei werden nicht erfüllbare Constraints trotzdem so weit wie möglich einbezogen.
 
 Enthält eine Superview keine Constraints, wird auf die expliziten Frames der Views zurückgegriffen.
 
-Bei der Konstruktion der Constraints sollte unbedingt auf ein eindeutiges Layout geachtet werden. Ein solches liegt vor, wenn jeder Subview ein eindeutiger Wert für alle vier Parameter des \objcinline{frame} Attributs zugewiesen werden kann.
+Bei der Konstruktion der Constraints sollte unbedingt auf ein eindeutiges Layout geachtet werden. Ein solches liegt vor, wenn jeder Subview ein eindeutiger Wert für alle vier Parameter des \swiftinline{frame} Attributs zugewiesen werden kann.
 
 \subsection{Intrinsic Content Size}
 
-Subklassen von \objcinline{UIView} repräsentieren häufig Inhalt, dessen Darstellung eine bestimmte Größe erfordert. Dazu gehören bspw. \objcinline{UILabel} oder \objcinline{UIImageView} Objekte, deren Größe durch ihren Text- oder Bildinhalt bestimmt werden.
+Subklassen von \swiftinline{UIView} repräsentieren häufig Inhalt, dessen Darstellung eine bestimmte Größe erfordert. Dazu gehören bspw. \swiftinline{UILabel} oder \swiftinline{UIImageView} Objekte, deren Größe durch ihren Text- oder Bildinhalt bestimmt werden.
 
-Diese \strong{Intrinsic Content Size} wird verwendet, um die Größe einer View zu berechnen. In den meisten Fällen sollte die Intrinsic Content Size nicht durch explizite \objcinline{width} und \objcinline{height} Constraints beschränkt werden.
+Diese \emph{Intrinsic Content Size} wird verwendet, um die Größe einer View zu berechnen. In den meisten Fällen sollte die Intrinsic Content Size \strong{nicht} durch explizite \swiftinline{width} und \swiftinline{height} Constraints beschränkt werden.
 
-Die beiden Parameter \strong{Content Hugging Priority} und \strong{Compression Resistance Priority} einer View legen fest, mit welcher Priorität sich das Auto Layout System an der Intrinsic Content Size zu orientieren hat. Dabei führt eine geringe Content Huging Priority bspw. dazu, dass eine View verfügbaren Platz über die Intrinsic Content Size hinaus eher einnimmt, als eine View mit höherer Content Hugging Priority. Die Compression Resistance Priority bestimmt hingegen, welche View zuerst auf eine geringere Größe als ihre Intrinsic Content Size gestaucht wird, wenn Constraints den verfügbaren Platz einschränken.
+Die beiden Parameter \emph{Content Hugging Priority} und \emph{Compression Resistance Priority} einer View legen fest, mit welcher Priorität sich das Auto Layout System an der Intrinsic Content Size zu orientieren hat. Dabei führt eine geringe Content Huging Priority bspw. dazu, dass eine View verfügbaren Platz über die Intrinsic Content Size hinaus eher einnimmt, als eine View mit höherer Content Hugging Priority. Die Compression Resistance Priority bestimmt hingegen, welche View zuerst auf eine geringere Größe als ihre Intrinsic Content Size gestaucht wird, wenn Constraints den verfügbaren Platz einschränken.
 
 \subsection{Auto Layout im Interface Builder}
 
@@ -833,26 +823,56 @@ Alle Constraints einer bestimmten View sind im Size Inspector aufgelistet. Eine 
 
 Der Interface Builder stellt die effektivste Möglichkeit dar, ein eindeutiges und dynamisches Layout zu konzipieren. Im Code werden häufig nur die Konstanten einzelner Constraints zur Laufzeit angepasst und selten ganze Layouts konstruiert.
 
-Trotzdem können wir Constraints als Objekte der \objcinline{NSLayoutConstraint} Klasse im Code erstellen und einer View hinzufügen. Dazu implementiert \objcinline{UIView} die Instanzmethoden \objcinline{addConstraint:} und \objcinline{removeConstraint:} und gewährt über das Attribut \objcinline{constraints} Zugriff auf alle Constraints.
+Trotzdem können wir Constraints als Objekte der \swiftinline{NSLayoutConstraint} Klasse im Code erstellen und einer View hinzufügen. Dazu implementiert \swiftinline{UIView} die Instanzmethoden \swiftinline{addConstraint:} und \swiftinline{removeConstraint:} und gewährt über das Attribut \swiftinline{constraints} Zugriff auf alle Constraints.
 
-Einzelne Constraints können mit der Klassenmethode \objcinline{constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:} instanziert werden. Da jedoch meist mehrere Constraints benötigt werden, stellt \objcinline{NSLayoutConstraint} zusätzlich eine Klassenmethode \objcinline{constraintsWithVisualFormat:options:metrics:views:} zur Verfügung, die eine \strong{Visual Format Language} verwendet.
+Einzelne Constraints können mit der Klassenmethode \swiftinline{constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:} instanziert werden. Da jedoch meist mehrere Constraints benötigt werden, stellt \swiftinline{NSLayoutConstraint} zusätzlich eine Klassenmethode \swiftinline{constraintsWithVisualFormat:options:metrics:views:} zur Verfügung, die die \emph{Visual Format Language} verwendet.
 
-Dabei übergeben wir der Klassenmethode einen String im ASCII-Art Stil, der die zu erstellenden Constraints beschreibt. So können wir bspw. einen Abstand von 10pt zwischen zwei Views \objcinline{view1} und \objcinline{view2} mit dem String
-\begin{objccode}
-@"[view1]-10-[view2]"
-\end{objccode}
+Dabei übergeben wir der Klassenmethode einen String im ASCII-Art Stil, der die zu erstellenden Constraints beschreibt. So können wir bspw. einen Abstand von 10pt zwischen zwei Views \swiftinline{view1} und \swiftinline{view2} mit dem String
+\begin{swiftcode}
+"[view1]-10-[view2]"
+\end{swiftcode}
 darstellen. Sollen beide Views zusätzlich den Standardabstand von der Begrenzung durch die Superview besitzen, schreiben wir:
-\begin{objccode}
+\begin{swiftcode}
 @"|-[view1]-10-[view2]-|"
-\end{objccode}
+\end{swiftcode}
 
 Die Syntax der Visual Format Language ist im Auto Layout Guide\linkref{https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html} einsehbar.
 
 In dieser Form erstellte Constraint können wir dann einer Superview hinzufügen:
-\begin{objccode}
-NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-[view1]-10-[view2]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self.view1, self.view2)];
-[self.view addConstraints:constraints];
-\end{objccode}
+\begin{swiftcode}
+let constraints = NSLayoutConstraint.constraintsWithVisualFormat("|-[view1]-10-[view2]-|", options: .allZeros, metrics: nil, views: [ "view1" : self.view1, "view2" : self.view2 ])
+self.view.addConstraints(constraints)
+\end{swiftcode}
+
+
+\subsection{Size Classes}
+
+Mit Auto Layout werden Constraints zunächst für beliebige Displaygrößen definiert. Mit dem Konzept der \emph{Size Classes} können dann einzelne Constraints oder das ganze Layout für bestimmte Displaygrößen angepasst werden.
+
+Es gibt in horizontaler und vertikaler Richtung jeweils die Size Classes \emph{Compact} und \emph{Regular}. Jede Klasse, die das \swiftinline{UITraitEnvironment} Protokoll implementiert, also u.a. \swiftinline{UIView}, stellt unter dem Attribut \swiftinline{traitCollection} neben anderen Eigenschaften ihre \swiftinline{horizontalSizeClass} und \swiftinline{verticalSizeClass} zu Verfügung. 
+
+Size Classes werden in der View Hierarchie vererbt, beginnend beim \swiftinline{UIScreen} des ausführenden Geräts.
+
+\begin{itemize}
+	\item Alle iPhones in Portrait Orientierung sind horizontal Compact und vertikal Regular.
+	\item In Landscape Orientierung sind iPhones sowohl horizontal als auch vertikal Compact. Nur iPhones mit 5.5-inch Bildschirm sind horizontal Regular.
+	\item iPads sind sowohl horizontal als auch vertikal Regular.
+\end{itemize}
+
+Weiterhin verändern einige View Controller Container \secref{sec:vc_container_uikit} die Size Class ihrer View Hierarchie, wenn einer View nur ein Teil des Bildschirms zur Verfügung steht.
+
+Wenn für eine Interface Builder Datei Size Classes aktiviert sind \abbref{img:autolayout_activate}, kann am unteren Rand des Editorbereichs \emph{Any} oder eine bestimmte Size Class ausgewählt werden \abbref{img:autolayout_sizeclasses}. Das Layout wird zunächst für \emph{Any} konfiguriert und dann für bestimmte Size Classes überschrieben, wobei Interfaceelemente und Constraints beliebig verändert, hinzugefügt oder entfernt werden können.
+
+\includegraphicsc[\iphonewidth]{img/autolayout_sizeclasses.png}{img:autolayout_sizeclasses}{Am unteren Rand des Editorbereichs kann eine bestimmte Size Class ausgewählt werden, um das Layout für diese anzupassen.}
+
+
+
+% MARKER %
+
+\end{document}
+
+
+
 
 
 %\section{Ereignisgesteuerte Programmierung}
@@ -909,7 +929,7 @@ Die \objcinline{UIViewController} Klasse implementiert bereits eine einfache Mö
 [self dismissViewControllerAnimated:YES completion:nil];
 \end{objccode}
 
-\subsection{Container View Controller in UIKit}
+\subsection{Container View Controller in UIKit}\label{sec:vc_container_uikit}
 
 Das UIKit Framework stellt einige nützliche Subklassen von \objcinline{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
 

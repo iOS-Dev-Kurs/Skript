@@ -847,11 +847,6 @@ Nach dem MVC-Konzept trennen wir die Implementierung von Modell, Präsentation u
 
 
 
-% MARKER %
-\end{document}
-
-
-
 \begin{lecture}
 
 
@@ -859,11 +854,11 @@ Nach dem MVC-Konzept trennen wir die Implementierung von Modell, Präsentation u
 
 \mvcindicatorview
 
-Eine View Hierarchie können wir offensichtlich ebenso im Code schreiben wie im Storyboard konfigurieren. Selbst für ein simples Interface wie im vorherigen Abschnitt implementiert ist jedoch viel Code notwendig, da jeder Parameter als Attribut gesetztz werden muss. Der Interface Builder bietet hier effiziente Möglichkeiten, Benutzeroberflächen ohne Code zu konfigurieren und trotzdem mit dem Code zu verknüpfen.
+Eine View Hierarchie können wir offenbar ebenso im Code schreiben wie im Storyboard konfigurieren. Selbst für ein simples Interface wie im vorherigen Abschnitt implementiert ist jedoch viel Code notwendig, da jeder Parameter als Attribut gesetzt werden muss. Der Interface Builder bietet hier effiziente Möglichkeiten, Benutzeroberflächen ohne Code zu konfigurieren und trotzdem mit dem Code zu verknüpfen.
 
 Eine große Stärke des Interface Builders zeigt sich auch bei der Implementierung von dynamischen Benutzeroberflächen. Um auf Änderungen der Darstellung, wie bspw. Orientierungswechsel von Portrait auf Landscape, zu reagieren, müssten wir extensiv Code schreiben und die Frames der Views unserer View Hierarchie berechnen.
 
-iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt manuell Frames zu berechnen, definieren wir Regeln, die das Layout unserer Views erfüllen soll. Dieses Konzept der \strong{Constraints} ist im Skript detailliert beschrieben.
+iOS Apps verwenden das \emph{Auto Layout} Konzept von \swiftinline{UIKit}. Anstatt manuell Frames zu berechnen, definieren wir Regeln, die das Layout unserer Views erfüllen soll. Dieses Konzept der \emph{Constraints} ist im Skript detailliert beschrieben. Mit \emph{Size Classes} kann das Interface dann für bestimmte Displaygrößen genauer angepasst werden.
 
 \skriptref{Auto Layout}
 
@@ -871,35 +866,42 @@ iOS Apps verwenden das \strong{Auto Layout} Konzept von Objective-C. Anstatt man
 
 \item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Ihr könnt auch das Projekt einer anderen App mit vergleichsweise einfachem Interface öffnen. Rotieren wir den Simulator mit \keys{\cmd+\arrowkeyright} oder \keys{\cmd+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
 
-\includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die Frames einfach erhalten}
+\includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die absoluten Frames einfach erhalten.}
 
-\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \objcinline{NSLayoutConstraint} Objekte einer View hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
+\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \swiftinline{NSLayoutConstraint} Objekte der Superview hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
 
-\item Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option \emph{Use Autolayout} im File Inspector markiert sein.
+	Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option \emph{Use Autolayout} im File Inspector markiert sein.
 
 \item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keys{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
 
-\item Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \objcinline{x}, \objcinline{y}, \objcinline{width} und \objcinline{height} von \objcinline{frame} eindeutig festzulegen. Beachtet dabei die \strong{Intrinsic Content Size}!
+\item In einem eindeutigen Layout werden die Constraints blau markiert. Entsprechen nur die Frames nicht den Constraints, erscheinen diese in gelb und ihr könnt das \emph{Resolve Auto Layout Issues} Menü am unteren rechten Bildschirmrand verwenden, um mit einem Klick auf \emph{Update Frames} alle Views entsprechend ihrer Constraints zu positionieren. Bei einem eindeutigen Layout werden die Frames automatisch angepasst, wenn ihr die Konstanten der Constraints verändert. Sind Constraints rot gefärbt, gibt es Konflikte!
 
-In einem eindeutigen Layout werden die Constraints blau markiert und ihr könnt das \emph{Resolve Auto Layout Issues} Menü verwenden, um mit einem Klick auf \emph{Update All Frames in View Controller} alle Views entsprechend ihrer Constraints zu positionieren. Bei einem eindeutigen Layout werden die Frames anschließend automatisch angepasst, wenn ihr die Konstanten der Constraints verändert.
+Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. \strong{Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \swiftinline{x}, \swiftinline{y}, \swiftinline{width} und \swiftinline{height} von \swiftinline{frame} eindeutig festzulegen.} Beachtet die \emph{Intrinsic Content Size}!
 
-\item Wählt ihr im Interface Builder das \emph{View Controller} Objekt aus, so könnt ihr im Attributes Inspector \menu{Orientation > Landscape} wählen. Die View wird dann mit entsprechend angepasstem Frame angezeigt und ihr könnt die Funktionsweise eurer Constraints testen.
+\item Je nach Layout kann es nun sinnvoll sein, die Constraints für bestimmte \emph{Size Classes} anzupassen. Sollen einige Interfaceelemente bspw. auf einem breiteren Display nebeneinander statt untereinander positioniert werden, wählen wir zunächst die \emph{horizontal Regular, vertikal Any} Size Class mithilfe der Schaltfläche am unteren Rand des Editorbereichs.
+
+\item Änderungen, die wir nun am Layout durchführen, betreffen nur die Anzeige in dieser Size Class. Wir können also die Interfaceelemente verschieben und Constraints verändern, bis uns das Layout für breite Displays gefällt.
+
+\item Führt die App nun auf den iPhone und iPad Simulatoren aus und testet euer Layout bei verschiedenen Displaygrößen und -orientierungen.
 
 \end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{autolayout}{Auto Layout}
+\begin{excitem}{autolayout}{Auto Layout}{3}
 
-Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein.
+Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein. [1 P.]
 
-Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ihr könnt einem beliebigen Storyboard einfach für jedes Problem ein \emph{View Controller} Objekt aus der Object Library hinzufügen und dessen View Hierarchie im Storyboard mit Views und Constraints konfigurieren.
+Löst dann die folgenden Layouts durch geschickte Definition von Constraints. [2 P.]
 
-\exchinweis{In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objcinline{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.}
+\begin{exchinweise}
+\item Ihr könnt ein neues Projekt \shinline{AutoLayout} nach dem \emph{Single View} Template erstellen und dem Storyboard einfach für jedes Problem ein \emph{View Controller} Objekt aus der Object Library hinzufügen. Dessen View Hierarchie könnt ihr dann im Storyboard mit Views und Constraints konfigurieren. Mit den Schaltflächen im \emph{Simulated Metrics} Abschnitt des \emph{Attribute Inspectors}, könnt ihr bei ausgewähltem View Controller eine Gerätegröße und -orientierung simulieren.
+\item In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objcinline{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.
+\end{exchinweise}
 
 \begin{enumerate}
 
-\item Eine \objcinline{UISegmentedControl} und eine \objcinline{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \objcinline{UIView} füllt den verbliebenen Platz.
+\item Eine \swiftinline{UISegmentedControl} und eine \swiftinline{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \swiftinline{UIView} füllt den verbliebenen Platz.
 
 \begin{minipage}{.5\linewidth}
   \centering
@@ -910,7 +912,7 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
   \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_22.png}
 \end{minipage}
 
-\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand zusammen horizontal zentriert. Ein \objcinline{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
+\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand \strong{zusammen} horizontal zentriert. Ein \swiftinline{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
 
 \begin{minipage}{.5\linewidth}
   \centering
@@ -951,6 +953,14 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. Ih
 
 
 \end{lecture}
+
+
+
+% MARKER %
+\end{document}
+
+
+
 
 
 \begin{lecture}

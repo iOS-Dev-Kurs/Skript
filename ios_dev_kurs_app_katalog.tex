@@ -955,14 +955,6 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. [2
 \end{lecture}
 
 
-
-% MARKER %
-\end{document}
-
-
-
-
-
 \begin{lecture}
 
 
@@ -970,13 +962,13 @@ Löst dann die folgenden Layouts durch geschickte Definition von Constraints. [2
 
 \mvcindicatorcontroller
 
-iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \objcinline{UIView} Objekt in der View Hierarchie des übergeordneten \objcinline{UIWindow} Objekts dargestellt wird.
+iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \swiftinline{UIView} Objekt in der View Hierarchie des übergeordneten \swiftinline{UIWindow} Objekts dargestellt wird.
 
-Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \strong{View Controller}.
+Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \emph{View Controller}.
 
 Diese sind der Controller-Komponente des Model-View-Controller Konzepts zugeordnet und im Skript ausführlich beschrieben.
 
-Mit dieser App lernen wir das \strong{View Controller Containment} Prinzp kennen, schreiben eigene \objcinline{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
+Mit dieser App lernen wir das \emph{View Controller Containment} Prinzip kennen, schreiben eigene \swiftinline{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
 
 \skriptref{View Controller Hierarchie}
 
@@ -986,256 +978,186 @@ Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und 
 
 \begin{enumerate}
 
-\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{cities}. Es wird damit automatisch eine Klasse \objcinline{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \objcinline{ViewController : UIViewController} in unserem Projekt.
+\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{Cities}. Es wird damit automatisch eine Klasse \swiftinline{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \swiftinline{ViewController: UIViewController} in unserem Projekt.
 
-\item Die Klasse \objcinline{ViewController} möchten wir zunächst in \objcinline{CitiesViewController} umbenennen. Dazu verwenden wir Xcode's \strong{Refactor} Funktion. Markiert den Namen der Klasse an einer beliebigen Stelle im Code und wählt mit einem Rechtsklick im Kontextmenü \menu{Refactor > Rename...} \abbref{img:refactor}. Geben wir nun den Namen \objcinline{CitiesViewController} ein und bestätigen den Dialog, benennt Xcode das Symbol an allen Stellen im Code, in Storyboards und in Dateinamen um.
+\item Die Klasse \swiftinline{ViewController} benennen wir zunächst in \swiftinline{CitiesViewController} um. Dazu muss sowohl die Swift-Datei in \filename{CitiesViewController.swift} als auch der Klassenname in \swiftinline{CitiesViewController: UIViewController} umbenannt werden. Außerdem muss die Klasse im Storyboard angepasst werden (s.u.).
 
-\includegraphicsc[8cm]{img/refactor.png}{img:refactor}{Die Refactor Funktion ist sinnvoll, um Symbole im gesamten Projekt umzubennen}
+\item Im Storyboard finden wir eine Scene mit einem View Controller. Wie im Skript beschrieben, können wir die zu verwendende \swiftinline{UIViewController} Subklasse im Identity Inspector (\keys{\cmd+\Alt+3}) einstellen. Gebt hier bei ausgewähltem View Controller unter \menu{Custom Class > Class} den Namen \str{CitiesViewController} ein.
 
-\item Im Storyboard finden wir eine Scene mit einem Objekt dieser (nun umbenannten) \objcinline{CitiesViewController} Klasse. Wie im Skript dargestellt, können wir uns im Identity Inspector davon überzeugen, dass die Klasse des View Controller Objekts tatsächlich \objcinline{CitiesViewController} ist. Zur Laufzeit wird also ein solches Objekt erzeugt und dem \objcinline{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \objcinline{UIWindow} Objekts hinzugefügt.
+Zur Laufzeit wird also ein Objekt dieser Subklasse erzeugt und dem \swiftinline{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \swiftinline{UIWindow} Objekts hinzugefügt.
 
-\item Ziehen wir nun \objcinline{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
+\item Ziehen wir nun \swiftinline{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
 
-Wir benötigen zunächst nur ein \objcinline{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \emph{City name} o.ä. wählen, da wir diesen im Code anpassen.
+Wir benötigen zunächst nur ein \swiftinline{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \str{City name} o.ä. wählen, da wir diesen im Code anpassen.
 
 \includegraphicsc[\iphonewidth]{img/one_city_ui.png}{img:one_city_ui}{Ein Button soll bei Betätigung Informationen über die entsprechende Stadt anzeigen}
 
-\item Obwohl wir uns in dieser App hauptsächlich mit der Controller-Komponente beschäftigen, sollten wir eine einfache Datenstruktur implementieren, die zu unserer App passt. So können wir Daten einfacher verarbeiten und weitergeben. Erstellt eine neue Klasse \objcinline{City : NSObject} und definiert die Attribute \objcinline{NSString *name} und \objcinline{UIImage *image}.
+\item Obwohl wir uns in dieser App hauptsächlich mit der Controller-Komponente beschäftigen, sollten wir eine einfache Datenstruktur implementieren, die zu unserer App passt. So können wir Daten einfacher verarbeiten und weitergeben. Erstellt also in einer neuen Swift Datei ein \swiftinline{struct City} und definiert die Attribute \swiftinline{let name: String} und \swiftinline{let image: UIImage?}.
 
-\begin{objccode}
-// City.h
+\begin{swiftcode}
+// City.swift
+import UIKit
 
-@interface City : NSObject
+struct City {
+    let name: String
+    let image: UIImage?
+}
+\end{swiftcode}
 
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) UIImage *image;
+\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine einzelne. Fügt \swiftinline{CitiesViewController} daher ein Attribut \swiftinline{var city: City?} hinzu:
 
-@end
-\end{objccode}
-
-\begin{objccode}
-// City.m
-
-#import "City.h"
-
-@implementation City
-
-@end
-\end{objccode}
-
-\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine. Fügt daher ein Attribut \objcinline{City *city} im öffentlichen Interface hinzu.
-
-\begin{objccode}
+\begin{swiftcode}
 // CitiesViewController.h
+import UIKit
 
-@class City; // Forward Declaration
+class CitiesViewController: UIViewController {
+    var city: City?
+    @IBOutlet var cityButton: UIButton!
+}
+\end{swiftcode}
 
-@interface CitiesViewController : UIViewController
+\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \swiftinline{City} Objekte, aufzusetzen und an die View Controller Hierarchie weiterzugeben. Implementiert daher folgende \swiftinline{application:didFinishLaunchingWithOptions:} Methode.
 
-^\objcinlinehighlight{@property (strong, nonatomic) City *city;}^
+\begin{swiftcode}
+// AppDelegate.swift
+import UIKit
 
-@end
-\end{objccode}
-
-\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \objcinline{City} Objekte, aufzusetzen und an die View Controller weiterzugeben. Implementiert daher folgende \objcinline{application:didFinishLaunchingWithOptions:} Methode.
-
-\begin{objccode}
-// AppDelegate.m
-
-#import "AppDelegate.h"
-#import "City.h"
-#import "CitiesViewController.h"
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    City *city = [[City alloc] init];
-    city.name = @"Melbourne";
-    city.image = [UIImage imageNamed:@"melbourne"];
-
-    CitiesViewController *citiesVC = self.window.rootViewController;
-    citiesVC.city = city;
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
     
-    return YES;
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
+        if let citiesViewController = window?.rootViewController as? CitiesViewController {
+            citiesViewController.city = melbourne
+        }
+        return true
+    }
 }
 
-@end
-\end{objccode}
+\end{swiftcode}
 
 Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
 
-\strong{Hinweis:} Die Klassenmethode \objcinline{imageNamed:} von \objcinline{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Für Dateien im PNG Format muss die Dateiendung nicht enthalten sein. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \strong{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \emph{.xcassets} ist bereits im Projekt enthalten. Auch dieser Datei könnt ihr per \emph{Drag \& Drop} Bilddateien hinzufügen.
+\strong{Hinweis:} Der Initializer \swiftinline{init(named: String)} von \swiftinline{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \emph{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \filename{.xcassets} ist bereits im Projekt enthalten. Diese Datei könnt ihr öffnen und auf den Bereich links im Editor per \emph{Drag \& Drop} einfach Bilddateien hinzufügen.
 
-\item Im Cities View Controller überschreiben wir die \objcinline{viewWillAppear:} Methode, um das Interface entsprechend des \objcinline{City} Objekts zu konfigurieren.
+\item Im Cities View Controller überschreiben wir die \swiftinline{viewWillAppear:} Methode, um das Interface entsprechend des \swiftinline{City} Objekts zu konfigurieren.
 
-\begin{objccode}
+\begin{swiftcode}
 // CitiesViewController.m
+import UIKit
 
-#import "CitiesViewController.h"
-#import "City.h"
-
-@interface CitiesViewController ()
-
-@property (strong, nonatomic) IBOutlet UIButton *cityButton;
-
-@end
-
-@implementation CitiesViewController
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
+class CitiesViewController: UIViewController {
+    var city: City?
+    @IBOutlet var cityButton: UIButton!
     
-    [self.cityButton setTitle:self.city.name forState:UIControlStateNormal];
+    override func viewWillAppear(animated: Bool) {
+        cityButton.setTitle(city?.name, forState: .Normal)
+    }
 }
 
-@end
-\end{objccode}
+\end{swiftcode}
 
-\item Um nun einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \objcinline{UIViewController}. Erstellt also eine neue Klasse \objcinline{CityDetailViewController : UIViewController}. Dieser Klasse übergeben wir das ausgewählte \objcinline{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \objcinline{City *city} im Header der \objcinline{CityDetailViewController} Klasse.
+Führt ihr die App an dieser Stelle mit einem \emph{Build \& Run} aus, wird der Button mit dem Namen der Stadt konfiguriert und angezeigt.
 
-\begin{objccode}
+\item Um nun auf Knopfdruck einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \swiftinline{UIViewController}. Erstellt also eine neue Klasse \swiftinline{CityDetailViewController: UIViewController}. Dieser Klasse übergeben wir das ausgewählte \swiftinline{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \swiftinline{var city: City?} im Header der \swiftinline{CityDetailViewController} Klasse.
+
+\begin{swiftcode}
 // CityDetailViewController.h
+import UIKit
 
-@class City; // Forward Declaration
+class CityDetailViewController: UIViewController {
+    var city: City?
+}
+\end{swiftcode}
 
-@interface CityDetailViewController : UIViewController
+\item Nun verwenden wir das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt im Identity Inspector des hinzugefügten View Controllers wie zuvor das Eingabefeld \emph{Class} und gebt den Namen der neuen \swiftinline{UIViewController} Subklasse \str{CityDetailViewController} ein.
 
-^\objcinlinehighlight{@property (strong, nonatomic) City *city;}^
-
-@end
-\end{objccode}
-
-\item Nun verwenden wir wieder das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt nun im Identity Inspector des hinzugefügten View Controllers das Eingabefeld \emph{Class} und gebt den Namen der neuen \objcinline{UIViewController} Subklasse \objcinline{CityDetailViewController} ein.
-
-\item Platziert ein \objcinline{UILabel} und ein \objcinline{UIImageView} Objekt in der Content View des \objcinline{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \emph{Zurück} Button hinzu.
+\item Platziert ein \swiftinline{UILabel} und ein \swiftinline{UIImageView} Objekt in der Content View des \swiftinline{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \str{Zurück} Button hinzu.
 
 \includegraphicsc[\iphonewidth]{img/city_detail_ui.png}{img:city_detail_ui}{Der City Detail View Controller soll Information über die ausgewählte Stadt anzeigen}
 
-\begin{objccode}
+\begin{swiftcode}
 // CityDetailViewController.m
+import UIKit
 
-#import "CityDetailViewController.h"
+class CityDetailViewController: UIViewController {
+    var city: City?
 
-@interface CityDetailViewController ()
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+}
+\end{swiftcode}
 
-^\objcinlinehighlight{@property (strong, nonatomic) IBOutlet UILabel *nameLabel;}^
-^\objcinlinehighlight{@property (strong, nonatomic) IBOutlet UIImageView *imageView;}^
-
-@end
-\end{objccode}
-
-\item Zur Präsentation des City Detail View Controllers können wir nun \strong{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrl}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \strong{Modal Segue} zwischen Button und View Controller. 
+\item Zur Präsentation des City Detail View Controllers können wir nun \emph{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrl}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \emph{Modal Segue} zwischen Button und View Controller (die Auswahlmöglichkeiten \emph{show}, \emph{show detail} und \emph{present modally} haben in diesem Fall die gleiche Wirkung). 
 
 \includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
 
-Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen. Hier kann außerdem ein \emph{Identifier} für die Segue vergeben werden. Setzt diesen auf \emph{showCityDetail}.
+Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen. Hier kann außerdem ein \emph{Identifier} für die Segue vergeben werden. Setzt diesen auf \str{showCityDetail}.
 
-\item Dem erstellten City Detail View Controller muss vor der Präsentation ein \objcinline{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \objcinline{prepareForSegue:sender:} in unserer \objcinline{CitiesViewController} Klasse.
+\item Dem erstellten City Detail View Controller muss vor der Präsentation ein \swiftinline{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \swiftinline{prepareForSegue:sender:} in unserer \swiftinline{CitiesViewController} Klasse.
 
-\begin{objccode}
+\begin{swiftcode}
 // CitiesViewController.m
+import UIKit
 
-#import "CitiesViewController.h"
-#import "City.h"
-#import "CityDetailViewController.h"
-
-@interface CitiesViewController ()
-
-@property (strong, nonatomic) IBOutlet UIButton *cityButton;
-
-@end
-
-@implementation CitiesViewController
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self.cityButton setTitle:self.city.name forState:UIControlStateNormal];
-}
-
-^\objcinlinehighlight{- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender}^
-{
-    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
-        CityDetailViewController *cityDetailVC = segue.destinationViewController;
-        cityDetailVC.city = self.city;
+class CitiesViewController: UIViewController {
+    // ...    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "showCityDetail":
+                if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
+                    cityDetailViewController.city = self.city
+                }
+            default:
+                break
+            }
+        }
     }
 }
+\end{swiftcode}
 
-@end
-\end{objccode}
+Hier geben wir das \swiftinline{City} Objekt also einfach an den City Detail View Controller weiter.
 
-Hier geben wir das \objcinline{City} Objekt also einfach an den City Detail View Controller weiter.
+\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \swiftinline{City} Objekts konfigurieren. Dies geschieht am besten in einer Implementierung der \swiftinline{viewWillAppear:} Instanzmethode in der \swiftinline{CityDetailViewController} Klasse.
 
-\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \objcinline{City} Objekts konfigurieren. Dies geschieht am besten in einer weiteren Implementierung der \objcinline{viewWillAppear:} Instanzmethode in der \objcinline{CityDetailViewController} Klasse.
+\begin{swiftcode}
+// CityDetailViewController.swift
+import UIKit
 
-\begin{objccode}
-#import "CityDetailViewController.h"
-#import "City.h"
+class CityDetailViewController: UIViewController {
+    var city: City?
 
-@interface CityDetailViewController ()
-
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-
-@end
-
-@implementation CityDetailViewController
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
-    ^\objcinlinehighlight{self.nameLabel.text = self.city.name;}^
-    ^\objcinlinehighlight{self.imageView.image = self.city.image;}^
+    override func viewWillAppear(animated: Bool) {
+        self.nameLabel.text = city?.name
+        self.imageView.image = city?.image
+    }
 }
+\end{swiftcode}
 
-@end
-\end{objccode}
-
-Betätigt ihr nun den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \objcinline{City} Objekt konfiguriert \abbref{img:one_city_run}.
+Betätigt ihr nun nach einem \emph{Build \& Run} den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \swiftinline{City} Objekt konfiguriert \abbref{img:one_city_run}.
 
 \includegraphicsc[\iphonewidth]{img/one_city_run.png}{img:one_city_run}{Wird der Button betätigt, zeigt der City Detail View Controller die Informationen zu der ausgewählten Stadt}
 
-\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \strong{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir \emph{dem präsentierenden View Controller} (nicht dem \emph{präsentierten}) eine Methode \objcinline{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
+\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \emph{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir dem \strong{präsentierenden} View Controller (nicht dem präsentierten) eine Methode \swiftinline{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
 
 \begin{objccode}
 // CitiesViewController.m
+import UIKit
 
-#import "CitiesViewController.h"
-#import "City.h"
-#import "CityDetailViewController.h"
-
-@interface CitiesViewController ()
-
-^\objcinlinehighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue;}^
-
-@end
-
-@implementation CitiesViewController
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
-        City *city = [[City alloc] init];
-        city.name = @"Melbourne";
-        city.image = [UIImage imageNamed:@"melbourne"];
-        CityDetailViewController *cityDetailVC = segue.destinationViewController;
-        cityDetailVC.city = city;
+class CitiesViewController: UIViewController {
+    // ...
+    @IBAction func unwindToCities(segue: UIStoryboardSegue) {
+        // no implementation necessary
     }
 }
-
-^\objcinlinehighlight{- (IBAction)unwindToCities:(UIStoryboardSegue *)segue}^
-{
-    // no implementation necessary
-}
-
-@end
 \end{objccode}
 
-\item Im Storyboard können wir nun das \objcinline{UIControlEventTouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrl}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \emph{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \objcinline{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
+\item Im Storyboard können wir nun das \swiftinline{UIControlEvent.TouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrl}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \strong{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \swiftinline{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
 
 \includegraphicsc[\iphonewidth]{img/cities_unwind_segue.png}{img:cities_unwind_segue}{Die \emph{Exit} Schaltfläche präsentiert alle Unwind Segues in der View Controller Hierarchie}
 
@@ -1244,15 +1166,24 @@ Führt ihr die App nun aus und betätigt den \emph{Zurück} Button, so wird die 
 \end{enumerate}
 
 \begin{exc}
-\begin{excitem}{cities}{Cities}
+\begin{excitem}{cities}{Cities}{2+1}
 
 Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nachvollzieht.
+
+\strong{Bonus [+1]:} Sichert das Projekt regelmäßig durch Commits in einem Git Repository und stellt es auf GitHub zur Verfügung.
 
 \end{excitem}
 \end{exc}
 
 
 \end{lecture}
+
+
+
+% MARKER %
+\end{document}
+
+
 
 
 \begin{lecture}

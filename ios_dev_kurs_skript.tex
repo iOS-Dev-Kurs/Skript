@@ -867,14 +867,6 @@ Wenn für eine Interface Builder Datei Size Classes aktiviert sind \abbref{img:a
 
 
 
-% MARKER %
-
-\end{document}
-
-
-
-
-
 %\section{Ereignisgesteuerte Programmierung}
 %
 %Im Unterschied zu sequentiell ablaufenden Skripten ist die Ausführung von iOS Apps \strong{ereignisgesteuert} oder \strong{event-driven}. Zur Laufzeit der App wird auf System- und Benutzerereignisse reagiert. Die App muss diese Ereignisse verarbeiten und das UI entsprechend anpassen.
@@ -888,9 +880,9 @@ Wenn für eine Interface Builder Datei Size Classes aktiviert sind \abbref{img:a
 
 Eine App besteht im Allgemeinen aus verschiedenen Bildschirmansichten, die jeweils eine Komponente der Benutzeroberfläche repräsentieren. Daher verwalten wir die View Hierarchie unserer App nicht zentral, bspw. im Application Delegate, sondern verwenden einzelne Klassen, die jeweils einen Teil der View Hierarchie verwalten.
 
-Diese Subklassen von \objcinline{UIViewController} sind der \strong{Controller}-Komponente des Model-View-Controller Konzepts zugeordnet \secref{sec:mvc}.
+Diese Subklassen von \swiftinline{UIViewController} sind der \emph{Controller}-Komponente des Model-View-Controller Konzepts zugeordnet \secref{sec:mvc}.
 
-Jeder View Controller ist für die Verwaltung seiner eigenen \strong{Content View} zuständig. \objcinline{UIViewController} besitzt dafür ein Attribut \objcinline{view}.
+Jeder View Controller ist für die Verwaltung seiner eigenen \emph{Content View} zuständig. \swiftinline{UIViewController} besitzt dafür ein Attribut \swiftinline{view}.
 
 Zu den Aufgaben eines View Controllers gehören:
 \begin{itemize}
@@ -899,104 +891,103 @@ Zu den Aufgaben eines View Controllers gehören:
 \item die Reaktion auf Benutzereingaben
 \end{itemize}
 
-Nach dem Prinzip des \strong{View Controller Containment} gibt es auch hier, ähnlich wie bei der View Komponente, eine hierarchische Struktur \abbref{img:vc_hierarchy}. Demnach gibt es übergeordnete View Controller, die die Content Views anderer View Controller der View Hierarchie ihrer eigenen Content View hinzufügen \abbref{img:vc_containment}.
+Nach dem Prinzip des \emph{View Controller Containment} gibt es auch hier, ähnlich wie bei der View Komponente, eine hierarchische Struktur \abbref{img:vc_hierarchy}. Demnach gibt es übergeordnete View Controller, die die Content Views anderer View Controller der View Hierarchie ihrer eigenen Content View hinzufügen \abbref{img:vc_containment}.
 
 \includegraphicsc{img/vc_hierarchy.png}{img:vc_hierarchy}{Container View Controller präsentieren Content Views anderer View Controller, sodass eine View Controller Hierarchy entsteht. Abbildung aus der UIViewController Class Reference}
 \clearpage
 \includegraphicsc{img/vc_containment.png}{img:vc_containment}{Jeder View Controller verwaltet seine Content View, die einen Teil der View Hierarchie darstellt}
 
-Die oberste Instanz der View Hierarchie ist ein Objekt der \objcinline{UIWindow} Klasse. Analog besitzt \objcinline{UIWindow} ein Attribut \objcinline{rootViewController}, das die oberste Instanz der View Controller Hierarchie darstellt. Weisen wir diesem Attribut ein View Controller Objekt zu, so wird dessen Content View der View Hierarchie des \objcinline{UIWindow} Objekts hinzugefügt. Wird ein Storyboard verwendet, geschieht dies automatisch mit der Option \emph{Initial View Controller} im Attributes Inspektor des entsprechenden View Controllers.
+Die oberste Instanz der View Hierarchie ist ein Objekt der \swiftinline{UIWindow} Klasse. Analog besitzt \swiftinline{UIWindow} ein Attribut \swiftinline{rootViewController}, das die oberste Instanz der View Controller Hierarchie darstellt. Weisen wir diesem Attribut ein View Controller Objekt zu, so wird dessen Content View der View Hierarchie des \swiftinline{UIWindow} Objekts hinzugefügt. Wird ein Storyboard verwendet, geschieht dies automatisch mit der Option \emph{Initial View Controller} im Attributes Inspektor des entsprechenden View Controllers.
 
-Während nur in wenigen Fällen Subklassen von \objcinline{UIView} implementiert werden, wird man kaum eine iOS App ohne mindestens eine Subklasse von \objcinline{UIViewController} finden. Häufig stellt die Implementierung der View Controller den Großteil der Programmierung von iOS Apps dar.
+Während nur in wenigen Fällen Subklassen von \swiftinline{UIView} implementiert werden müssen, wird man kaum eine iOS App ohne mindestens eine Subklasse von \swiftinline{UIViewController} finden. Häufig stellt die Implementierung der View Controller den Großteil der Programmierung von iOS Apps dar.
 
 \subsection{View Controller Lifecycle}
 
 Im Verlauf der Präsentation eines View Controllers können verschiedene Instanzmethoden überschrieben werden, um auf Änderungen der Darstellung zu reagieren:
 \begin{itemize}
-\item \objcinline{viewDidLoad} wird aufgerufen, sobald die Content View geladen wurde. An dieser Stelle können Attribute, die im Storyboard nicht hinreichend konfiguriert werden können, dynamisch angepasst werden, um einen Ausgangspunkt für die Präsentation zu schaffen.
-\item \objcinline{viewWillAppear:}, \objcinline{viewDidAppear:}, \objcinline{viewWillDisappear:} und \objcinline{viewDidDisappear:} können verwendet werden, um die Inhalte der Content View zu aktualisieren oder Vorgänge zu beginnen/anzuhalten.
-\item \objcinline{didReceiveMemoryWarning} wird aufgerufen, wenn das System die App auffordert, Speicher freizugeben. Hier sollten nicht mehr benötigte Objekte oder solche, die leicht wieder zu erstellen sind, freigegeben werden.
+\item \swiftinline{viewDidLoad} wird aufgerufen, sobald die Content View geladen wurde. An dieser Stelle können Attribute, die im Storyboard nicht hinreichend konfiguriert werden können, dynamisch angepasst werden, um einen Ausgangspunkt für die Präsentation zu schaffen.
+\item \swiftinline{viewWillAppear:}, \swiftinline{viewDidAppear:}, \swiftinline{viewWillDisappear:} und \swiftinline{viewDidDisappear:} können verwendet werden, um die Inhalte der Content View zu aktualisieren oder Vorgänge zu beginnen/anzuhalten.
+\item \swiftinline{didReceiveMemoryWarning} wird aufgerufen, wenn das System die App auffordert, Speicher freizugeben. Hier sollten nicht mehr benötigte Objekte oder solche, die leicht wieder zu erstellen sind, freigegeben werden.
 \end{itemize}
 
 \subsection{Präsentation von View Controllern}
 
-Die \objcinline{UIViewController} Klasse implementiert bereits eine einfache Möglichkeit, einen anderen View Controller temporär zu präsentieren. Die Instanzmethode \objcinline{presentViewController:animated:completion:} fügt die Content View des entsprechenden View Controllers der View Hierarchie hinzu, während \objcinline{dismissViewControllerAnimated:completion:} die Präsentation wieder beendet.
+Die \swiftinline{UIViewController} Klasse implementiert bereits eine einfache Möglichkeit, einen anderen View Controller temporär zu präsentieren. Die Instanzmethode \swiftinline{presentViewController:animated:completion:} fügt die Content View des entsprechenden View Controllers der View Hierarchie hinzu, während \swiftinline{dismissViewControllerAnimated:completion:} die Präsentation wieder beendet.
 
-\begin{objccode}
+\begin{swiftcode}
 // Präsentiert einen View Controller
-[self presentViewController:modalViewController animated:YES completion:nil];
+self.presentViewController(modalViewController, animated: true, completion: nil)
 // Beendet die Präsentation
-[self dismissViewControllerAnimated:YES completion:nil];
-\end{objccode}
+self.dismissViewControllerAnimated(true, completion: nil)
+\end{swiftcode}
 
 \subsection{Container View Controller in UIKit}\label{sec:vc_container_uikit}
 
-Das UIKit Framework stellt einige nützliche Subklassen von \objcinline{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
+Das UIKit Framework stellt einige nützliche Subklassen von \swiftinline{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
 
-Insbesondere werden wir uns noch genauer mit dem äußerst vielseitigen \objcinline{UITableViewController} befassen. Dieser gehört mit \objcinline{UICollectionViewController} zu den inhaltsbasierten Subklassen von \objcinline{UIViewController}.
+Insbesondere werden wir uns noch genauer mit dem äußerst vielseitigen \swiftinline{UITableViewController} befassen. Dieser gehört mit \swiftinline{UICollectionViewController} zu den inhaltsbasierten Subklassen von \swiftinline{UIViewController}.
 
-\objcinline{UINavigationController} und \objcinline{UITabBarController} hingegen sind als \strong{Container View Controller} konzipiert. Sie enthalten selbst nur wenige Subviews, bspw. in Form von Leisten. Stattdessen verwalten sie eine Hierarchie von weiteren View Controllern und präsentieren deren Content Views.
+\swiftinline{UINavigationController} und \swiftinline{UITabBarController} hingegen sind als \emph{Container View Controller} konzipiert. Sie enthalten selbst nur wenige Subviews, bspw. in Form von Leisten. Stattdessen verwalten sie eine Hierarchie von weiteren View Controllern und präsentieren deren Content Views.
 
 \subsubsection{Navigation Controller}
 
-\objcinline{UINavigationController} implementiert eine \strong{Stack}\linkref{http://de.wikipedia.org/wiki/Stapelspeicher} Datenstruktur, die in Form eines Attributs \objcinline{NSArray *viewControllers} nach außen repräsentiert wird.
+\swiftinline{UINavigationController} implementiert eine \emph{Stack}\linkref{http://de.wikipedia.org/wiki/Stapelspeicher} Datenstruktur, die in Form eines Attributs \swiftinline{viewControllers} nach außen repräsentiert wird.
 
-Einem Attribut \objcinline{UIViewController *rootViewController} kann zunächst ein View Controller zugewiesen werden, dessen Content View an erster Stelle der Hierarchie stehen soll. Anschließend kann dem Stack mit Aufrufen der Instanzmethode \objcinline{pushViewController:animated:} ein View Controller hinzugefügt und \objcinline{popViewControllerAnimated:} der oberste View Controller entfernt werden.
+Einem Attribut \swiftinline{rootViewController} kann zunächst ein View Controller zugewiesen werden, dessen Content View an erster Stelle der Hierarchie stehen soll. Anschließend kann dem Stack mit Aufrufen der Instanzmethode \swiftinline{pushViewController:animated:} ein View Controller hinzugefügt und \swiftinline{popViewControllerAnimated:} der oberste View Controller entfernt werden.
 
-Jeder von einem Navigation Controller verwaltete View Controller kann über das Attribut \objcinline{UINavigationController *navigationController} auf diesen zugreifen.
+Jeder von einem Navigation Controller verwaltete View Controller kann über das Attribut \swiftinline{navigationController} auf diesen zugreifen.
 
-\begin{objccode}
+\begin{swiftcode}
 // Präsentiere einen View Controller
-[self.navigationController pushViewController:nextViewController animated:YES];
+self.navigationController.pushViewController(nextViewController, animated: true)
 // Zurück zum vorherigen View Controller
-[self.navigationController popViewControllerAnimated:YES];
-\end{objccode}
+self.navigationController.popViewControllerAnimated(true)
+\end{swiftcode}
 
-Die in den Subviews der Content View des Navigation Controllers präsentierten Elemente, bspw. der Titel und die Buttons in Navigationsleiste und Toolbar, sind von dem jeweils präsentierten View Controller abhängig. Jeder View Controller besitzt dafür ein Attribut \objcinline{UINavigationItem *navigationItem}, das entsprechend konfiguriert werden kann und diese Informationen dem Navigation Controller bereitstellt.
+Die in den Subviews der Content View des Navigation Controllers präsentierten Elemente, bspw. der Titel und die Buttons in Navigationsleiste und Toolbar, sind von dem jeweils präsentierten View Controller abhängig. Jeder View Controller besitzt dafür ein Attribut \swiftinline{navigationItem: UINavigationItem}, das entsprechend konfiguriert werden kann und diese Informationen dem Navigation Controller bereitstellt.
 
-\begin{objccode}
-self.navigationItem.title = @"Titel";
-self.title = @"Titel"; // äquivalente Abkürzung
-
-self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
-\end{objccode}
+\begin{swiftcode}
+self.navigationItem.title = "Titel"
+self.title = "Titel" // äquivalente Abkürzung
+self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed:")
+\end{swiftcode}
 
 \subsection{View Controller in Storyboards}
 
 Die beschriebenen Mechanismen der View Controller Hierarchie können und sollten zum Großteil in das verwendete Storyboard ausgelagert werden.
 
-Ein Storyboard ist in \strong{Scenes} strukturiert, die jeweils einen View Controller und seine Content View Hierarchie repräsentieren. Aus der Object Library können dem Storyboard View Controller hinzugefügt werden.
+Ein Storyboard ist in \emph{Scenes} strukturiert, die jeweils einen View Controller und seine Content View Hierarchie repräsentieren. Aus der Object Library können dem Storyboard View Controller hinzugefügt werden.
 
-Wird ein View Controller ausgewählt, können wir dessen Identität anpassen und die entsprechende Subklasse von \objcinline{UIViewController} auswählen, die wir implementiert haben \abbref{img:vc_identity}. Zur Laufzeit wird der View Controller dann als Objekt dieser Subklasse instanziert.
+Wird ein View Controller ausgewählt, können wir dessen Identität anpassen und die entsprechende Subklasse von \swiftinline{UIViewController} auswählen, die wir implementiert haben \abbref{img:vc_identity}. Zur Laufzeit wird der View Controller dann als Objekt dieser Subklasse instanziert.
 
 \includegraphicsc[\iphonewidth]{img/vc_identity.png}{img:vc_identity}{Im Identity Inspector kann bei ausgewählten View Controller dessen Subklasse ausgewählt werden}
 
-Anschließend stehen die im Code definierten IBOutlets und IBActions der \objcinline{UIViewController} Subklasse im Interface Builder zur Verfügung und können mit Interfaceelementen verbunden werden.
+Anschließend stehen die im Code definierten IBOutlets und IBActions der \swiftinline{UIViewController} Subklasse im Interface Builder zur Verfügung und können mit Interfaceelementen verbunden werden.
 
 \subsection{Segues}
 
-Zwischen Scenes vermitteln \strong{Segues}. Diese stellen Beziehungen zwischen View Controllern dar und können zu deren Präsentation verwendet werden \abbref{img:segues}.
+Zwischen Scenes vermitteln \emph{Segues}. Diese stellen Beziehungen zwischen View Controllern dar und können zu deren Präsentation verwendet werden \abbref{img:segues}.
 
 \includegraphicsc{img/segues.png}{img:segues}{Segues vermitteln zwischen Scenes}
 
-Ähnlich wie bei IBOutlets und IBActions innerhalb einer Scene gibt es mehrere Möglichkeiten, Segues zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keys{\ctrl}-Taste und die Verwendung des \emph{Triggered Segues} Abschnitts des Connection Inspectors.
+Ähnlich wie bei IBOutlets, IBActions und Auto Layout Constraints gibt es mehrere Möglichkeiten, Segues im Interface Builder zu erstellen. Dazu gehören bspw. das Ziehen einer Verbindungslinie mit gehaltener \keys{\ctrl}-Taste und die Verwendung des \emph{Triggered Segues} Abschnitts des Connection Inspectors.
 
-Zwischen View Controllern kann es direkte Beziehungen geben, die durch eine \strong{Relationship Segue} gekennzeichnet werden. In dieser Form wird bspw. einem Navigation Controller sein Root View Controller zugewiesen.
+Zwischen View Controllern kann es direkte Beziehungen geben, die durch eine \emph{Relationship Segue} gekennzeichnet werden. In dieser Form wird bspw. einem Navigation Controller sein Root View Controller zugewiesen.
 
-Außerdem können Subklassen von \objcinline{UIControl} wie bspw. \objcinline{UIButton} bei einem \objcinline{UIControlEvent} Segues auslösen. So lassen sich Übergänge zwischen View Controllern bereits innerhalb des Storyboards erstellen.
+Außerdem können Subklassen von \swiftinline{UIControl} wie bspw. \swiftinline{UIButton} bei einem \swiftinline{UIControlEvent} Segues auslösen. So lassen sich Übergänge zwischen View Controllern bereits innerhalb des Storyboards erstellen.
 
 \begin{itemize}
-\item \strong{Modal Segues} sind das Äquivalent zum Aufruf der \objcinline{presentViewController:animated:completion:} Methode.
-\item Befindet sich der View Controller des Ausgangspunkts der Segue in der View Hierarchie eines Navigation Controllers, kann eine \strong{Push Segue} als Äquivalent zu der \objcinline{pushViewController:animated:} Methode erstellt werden.
-\item Außerdem kann jeder View Controller \strong{Unwind Segues} zur Verfügung stellen, die innerhalb dessen View Controller Hierarchie verwendet werden können, um zu diesem zurückzukehren.
+\item \emph{Modal Segues} sind das Äquivalent zum Aufruf der \swiftinline{presentViewController:animated:completion:} Methode.
+\item Befindet sich der View Controller des Ausgangspunkts der Segue in der View Hierarchie eines Navigation Controllers, kann eine \emph{Push Segue} als Äquivalent zu der \swiftinline{pushViewController:animated:} Methode erstellt werden.
+\item Außerdem kann jeder View Controller \emph{Unwind Segues} zur Verfügung stellen, die innerhalb dessen View Controller Hierarchie verwendet werden können, um zu diesem zurückzukehren.
 
-Dazu ist lediglich die Definition und (ggf. leere) Implementierung einer Methode mit Rückgabetyp \objcinline{IBAction} und genau einem Argument vom Typ \objcinline{UIStoryboardSegue} im Interface des View Controllers erforderlich. Der Methodenname sollte das Ziel der Unwind Segue beschreiben, also den implementierenden View Controller.
+Dazu ist lediglich die (ggf. leere) Implementierung einer \swiftinline{IBAction} Methode mit genau einem Argument vom Typ \swiftinline{UIStoryboardSegue} im Interface des View Controllers erforderlich. Der Methodenname sollte das Ziel der Unwind Segue beschreiben, also den implementierenden View Controller.
 
-\begin{objccode}
-- (IBAction)unwindToXYZ:(UIStoryboardSegue *)sender;
-\end{objccode}
+\begin{swiftcode}
+@IBAction func unwindToXYZ(segue: UIStoryboardSegue) { ... }
+\end{swiftcode}
 
-Die Unwind Segue ist anschließend im Storyboard in jedem View Controller in der Hierarchie des implementierenden View Controllers unter der \emph{Exit} Schaltfläche verfügbar und kann mit einem \objcinline{UIControlEvent} verbunden werden \abbref{img:unwind_segue}.
+Die Unwind Segue ist anschließend im Storyboard in jedem View Controller in der Hierarchie des implementierenden View Controllers unter der \emph{Exit} Schaltfläche verfügbar und kann mit einem \swiftinline{UIControlEvent} verbunden werden \abbref{img:unwind_segue}.
 
 \includegraphicsc[\iphonewidth]{img/unwind_segue.png}{img:unwind_segue}{Die \emph{Exit} Schaltfläche stellt alle Unwind Segues in der View Controller Hierarchie zur Verfügung}
 
@@ -1004,16 +995,31 @@ Die Unwind Segue ist anschließend im Storyboard in jedem View Controller in der
 
 Im Attributes Inspector können Optionen bezüglich Übergangsanimation und Präsentationsmodus verschiedener Segues gewählt werden. Zusätzlich sollte hier ein Identifier vergeben werden.
 
-Im Code können wir auf das Auslösen einer Segue reagieren, um den View Controller des Ziels entsprechend zu konfigurieren. Dazu überschreiben wir die \objcinline{prepareForSegue:sender:} Instanzmethode und verwenden den Identifier:
+Im Code können wir auf das Auslösen einer Segue reagieren, um den View Controller des Ziels entsprechend zu konfigurieren. Dazu überschreiben wir die \swiftinline{prepareForSegue:sender:} Instanzmethode und verwenden den Identifier wie im folgenden Beispiel:
 
-\begin{objccode}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+\begin{swiftcode}
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 {
-    if ([segue.identifier isEqualToString:@"showDetailSegue"]) {
-        segue.destinationViewController.detailObject = detailObject;
+    if let identifier = segue.identifier {
+        switch identifier {
+        case "showDetailSegue":
+            if let detailViewController = segue.destinationViewController as? DetailViewController {
+                detailViewController.detailObject = ...
+            }
+        default:
+            break
+        }
     }
 }
-\end{objccode}
+\end{swiftcode}
+
+
+
+% MARKER %
+
+\end{document}
+
+
 
 
 \section{Das Delegate Konzept}\label{sec:delegate_konzept}

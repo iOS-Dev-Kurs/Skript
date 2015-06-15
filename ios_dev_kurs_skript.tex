@@ -921,9 +921,11 @@ self.presentViewController(modalViewController, animated: true, completion: nil)
 self.dismissViewControllerAnimated(true, completion: nil)
 \end{swiftcode}
 
+\swiftinline{UIKit} implementiert darüber hinaus eine vielseitige API zur Präsentation von View Controllern. Dabei wird die View Controller Hierarchie traversiert und nach einem übergeordneten View Controller gesucht, der die Präsentation übernimmt. Die Container View Controller in \swiftinline{UIKit} sind sehr einfach zu verwenden \secref{sec:vc_container_uikit}
+
 \subsection{Container View Controller in UIKit}\label{sec:vc_container_uikit}
 
-Das UIKit Framework stellt einige nützliche Subklassen von \swiftinline{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
+Das \swiftinline{UIKit} Framework stellt einige nützliche Subklassen von \swiftinline{UIViewController} zu Verfügung, die in vielen Apps strukturgebend verwendet werden.
 
 Insbesondere werden wir uns noch genauer mit dem äußerst vielseitigen \swiftinline{UITableViewController} befassen. Dieser gehört mit \swiftinline{UICollectionViewController} zu den inhaltsbasierten Subklassen von \swiftinline{UIViewController}.
 
@@ -1015,226 +1017,168 @@ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
 
 
-% MARKER %
-
-\end{document}
-
-
-
-
 \section{Das Delegate Konzept}\label{sec:delegate_konzept}
 
-In der Programmierung komplexerer Apps ist es häufig notwendig, dass Klassen Informationen untereinander austauschen. Das \strong{Delegate Konzept} ist ein einfacher und vielverwendeter Mechanismus der \strong{einseitigen} Kommunikation zwischen Klassen, das einem einfachen \strong{Frage-Antwort-Prinzip} folgt \abbref{img:delegation}.
+In der Programmierung komplexerer Apps ist es häufig notwendig, dass Klassen Informationen untereinander austauschen. Das \emph{Delegate Konzept} ist ein einfacher und viel verwendeter Mechanismus der \strong{einseitigen} Kommunikation zwischen Klassen, das einem einfachen \strong{Frage-Antwort-Prinzip} folgt \abbref{img:delegation}.
 
 \includegraphicsc[10cm]{img/delegation.png}{img:delegation}{Das Delegate Konzept funktioniert nach einem einfachen Frage-Antwort-Prinzip}
 
-Die aktive (fragende) Klasse stellt in ihrem öffentlichen Header ein \strong{Protokoll} zur Verfügung, das die verwendeten Methoden definiert. Außerdem besitzt sie ein öffentliches Attribut, häufig \objcinline{delegate} genannt, das eine Referenz zu einem Objekt der passiven (antwortenden) Klasse hält. Diese implementiert die Methoden des Protokolls, die in entsprechenden Situationen von der aktiven Klasse aufgerufen werden können.
+Die aktive (fragende) Klasse stellt ein \emph{Protokoll} zur Verfügung, das die benötigten Methoden definiert. Außerdem besitzt sie ein öffentliches Attribut, häufig \swiftinline{delegate} genannt, das eine Referenz zu einem Objekt der passiven (antwortenden) Klasse hält. Diese implementiert die Methoden des Protokolls, die in entsprechenden Situationen von der aktiven Klasse aufgerufen werden können. Die aktive Klasse muss dabei keine weiteren Informationen über die passive Klasse haben, außer, dass diese die benötigten Methoden des Protokolls implementiert.
 
-Methoden in einem Protokoll dienen in den meisten Fällen zwei Zwecken:
+Methoden in einem Protokoll dienen in den meisten Fällen einem von zwei Zwecken:
 \begin{itemize}
-\item Von dem Delegate Objekt werden Informationen angefordert
-\item Das Delegate Objekt wird benachrichtigt, wenn eine bestimmte Situation eintritt.
+	\item Von dem Delegate Objekt werden Informationen angefordert
+	\item Das Delegate Objekt wird benachrichtigt, wenn eine bestimmte Situation eintritt.
 \end{itemize}
 
-Viele Klassen in Frameworks implementieren Kommunikationsmechanismen in Form von Delegates. Dazu gehört bspw. die im folgenden Abschnitt beschriebene \objcinline{UITableView}. Wir können jedoch auch eigene Protokolle und Delegates definieren. Betrachten wir dazu das Beispiel eines View Controllers \objcinline{SelectionViewController : UIViewController}, der zur Auswahl eines bestimmten Objekts dienen soll.
+Viele Klassen in Frameworks implementieren Kommunikationsmechanismen in Form von Delegates. Dazu gehört bspw. die im folgenden Abschnitt beschriebene \swiftinline{UITableView}. Wir können jedoch auch eigene Protokolle und Delegates definieren. Protokolle sind tatsächlich so tief in Swift integriert, dass Swift auch die erste \emph{protokollorientierte} (statt \emph{objektorientierte}) Programmiersprache genannt wird.
+
+Betrachten wir dazu das Beispiel eines View Controllers \swiftinline{SelectionViewController: UIViewController}, der präsentiert wird und zur Auswahl eines bestimmten Objekts aus einer Liste dienen soll. Der \swiftinline{SelectionViewController} erhält dafür ein Attribut \swiftinline{delegate}, das die Bedingungen eines \swiftinline{SelectionDelegate} Protokolls erfüllen muss. Dazu gehört eine Methode, die alle Objekte zurückgibt, aus denen ausgewählt werden kann. Der \swiftinline{SelectionViewController} kann diese dann darstellen.\\
+Sobald eine Auswahl getroffen wurde, muss diese dem präsentierenden View Controller mitgeteilt werden. Das \swiftinline{SelectionDelegate} definiert dazu eine weitere Methode, die das Delegate implementieren muss und bei einer Auswahl aufgerufen wird. Das Delegate kann sich dann darum kümmern, den \swiftinline{SelectionViewController} wieder zu entfernen und mit dem ausgewählten Objekt weiterarbeiten.
 
 \subsubsection{Aktive Klasse}
-\begin{objccode}
-// SelectionViewController.h
 
-@protocol SelectionProtocol; // Forward Declaration: Das Protokoll wird später definiert, muss der Klasse an dieser Stelle jedoch schon zur Verfügung stehen
+\begin{swiftcode}
+// SelectionViewController.swift
+import UIKit
 
-@interface SelectionViewController : UIViewController
-
-@property (weak, nonatomic) id <SelectionProtocol> delegate;
-
-@end
-
-@protocol SelectionProtocol
-
-- (NSArray *)objectsForSelectionViewController:(SelectionViewController *)selectionVC;
-
-@optional
-
-- (void)selectionViewController:(SelectionViewController *)selectionVC didSelectObject:(id)object;
-
-@end
-\end{objccode}
-
-Das Delegate Attribut ist mit \objcinline{weak} gekennzeichnet, da die Kommunikation einseitig und die Referenz nicht notwendig ist: Die aktive Klasse soll das Delegate Objekt nicht im Speicher halten, wenn es an anderer Stelle nicht mehr benötig wird.
-
-Weiterhin ist das Delegate Attribut als Empfänger des \objcinline{SelectionProtocol} markiert. Dem Attribut sollen also nur Objekte zugewiesen werden, die das Protokoll implementieren. Andernfalls wird eine Warnung ausgegeben.
-
-Mit \objcinline{@protocol} beginnt schließlich die Definition des Protokolls. Die folgenden Methoden müssen vom Delegate implementiert werden. Optionale Methoden, deren Implementierung nicht erwartet wird, können einem \objcinline{@optional} folgen.
-
-Diese Methoden können nun von der aktiven Klassen auf dem Delegate Objekt aufgerufen werden:
-
-\begin{objccode}
-// SelectionViewController.m
-
-#import "SelectionViewController.h"
-
-@implementation SelectionViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    NSArray *objects = [self.delegate objectsForSelectionViewController:self];
-    // configure view to display objects ...
-    
+protocol SelectionDelegate: class {
+    func objectsForSelectionViewController(selectionVC: SelectionViewController) -> [Object]
+    func selectionViewController(selectionVC: SelectionViewController, didSelectObject object: Object)
 }
 
-- (void)didSelectObject:(id)object {
-    // assume this method is called when an object is selected
+class SelectionViewController: UIViewController {
+    weak var delegate: SelectionDelegate?
     
-    if ([self.delegate respondsToSelector:@selector(selectionViewController:didSelectObject:)]) { // test, if delegate implements the optional method
-        [self.delegate selectionViewController:self didSelectObject:object];
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let objects = self.delegate?.objectsForSelectionViewController(self)
+        // configure view to display objects ...
     }
-    
-}
 
-@end
-\end{objccode}
+    // assume this method is called when an object is selected
+    func didSelectObject(object: Object) {
+        self.delegate?.selectionViewController(self, didSelectObject: object)
+    }
+}
+\end{swiftcode}
+
+Das \swiftinline{delegate} Attribut ist mit \swiftinline{weak} gekennzeichnet, da die Kommunikation einseitig und die Referenz nicht notwendig ist: Die aktive Klasse soll das Delegate Objekt nicht im Speicher halten, wenn es an anderer Stelle nicht mehr benötig wird. Diese Art von Speicherverwaltung trifft nur auf Klassen, nicht auf Structs und Enums zu, weshalb das Protokoll mit \swiftinline{class} auf Klassen limitiert wird.
 
 \subsubsection{Passive Klasse}
-\begin{objccode}
-// ViewController.h
 
-#import "SelectionViewController.h"
+Wenn ein View Controller nun einen solchen \swiftinline{SelectionViewController} präsentiert, muss er ein Delegate zur Verfügung stellen, das die Methoden des \swiftinline{SelectionDelegate} Protokolls implementiert. Dies kann in viele Fällen der View Controller selbst übernehmen. Neben seiner Superklasse markiert er also, dass er das Protokoll erfüllt und implementiert die benötigten Methoden.
 
-@interface ViewController : UIViewController <SelectionProtocol>
-
-@end
-\end{objccode}
-
-Im öffentlichen (oder privaten) Interface kann eine Klasse als Empfänger des Protokolls markiert werden. Von dieser Klasse wird nun die Implementierung der Protokollmethoden erwartet.
-
-\begin{objccode}
+\begin{swiftcode}
 // ViewController.m
-
-#import "ViewController.h"
-
-@implementation ViewController
-
-- (IBAction)showSelectionViewController:(id)sender {
-    // assume this method is called to present the selection VC
+class ViewController: UIViewController, SelectionDelegate {
     
-    SelectionViewController *selectionVC = [[SelectionViewController alloc] init];
-    selectionVC.delegate = self; // set delegate property
-    [self presentViewController:selectionVC animated:YES completion:nil];
+    func showSelectionViewController() {
+        let selectionViewController = SelectionViewController()
+        selectionViewController.delegate = self
+        self.presentViewController(selectionViewController, animated: true, completion: nil)
+    }
     
+    func objectsForSelectionViewController(selectionVC: SelectionViewController) -> [Object] {
+        // obtain objects array
+        return objects
+    }
+
+    func selectionViewController(selectionViewController: SelectionViewController, didSelectObject object: Object) {
+        // do something with the selected object ...
+        selectionViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
-
-- (NSArray *)objectsForSelectionViewController:(SelectionViewController *)selectionVC {
-
-    // get objects array ...
-
-    return objects;
-}
-
-- (void)selectionViewController:(SelectionViewController *)selectionVC didSelectObject:(id)object {
-    
-    // do something with the selected object ...
-    
-    [selectionVC dismissViewControllerAnimated:YES completion:nil];
-}
-
-@end
-\end{objccode}
+\end{swiftcode}
 
 Das Delegate Konzept ist häufig hilfreich, um erforderliche Informationen anzufordern. Dabei muss der aktiven Klasse nichts weiter über die passive Klasse bekannt sein als die Implementierung des Protokolls und sie muss diese nicht importieren. Das Konzept ist daher flexibel einsetzbar. Für konzeptionell eng miteinander verbundene Klassen, bei denen diese Asymmetrie nicht notwendig ist, sollten jedoch stattdessen lieber normale Methodenaufrufe verwendet werden.
 
 \section{Table Views \& Table View Controller}
 
-Aufgrund des eingeschränkten Platzes auf Geräten der iOS Plattform verwenden sehr viele Apps \objcinline{UIScrollView} oder Subklassen davon, um Views über die Bildschirmgröße hinaus darzustellen. \objcinline{UITableView} ist eine solche Subklasse, die in einem Großteil der iOS Apps zu finden ist.
+Aufgrund des eingeschränkten Platzes auf Geräten der iOS Plattform verwenden sehr viele Apps \swiftinline{UIScrollView} oder Subklassen davon, um Views über die Bildschirmgröße hinaus darzustellen. \swiftinline{UITableView} ist eine solche Subklasse, die in einem Großteil der iOS Apps zu finden ist.
 
-\strong{Table Views} stellen eine Liste von \objcinline{UITableViewCell : UIView} Objekten dar und verwenden den Scrollmechanismus von \objcinline{UIScrollView}.
+\emph{Table Views} stellen eine Liste von \swiftinline{UITableViewCell: UIView} Objekten dar und verwenden den Scrollmechanismus von \swiftinline{UIScrollView}.
 
-Eine Table View ist zunächst in \strong{Sections} unterteilt, die jeweils eine bestimmte Anzahl von \strong{Rows} enthalten. Zur Identifikation einer Zeile werden daher Objekte der \objcinline{NSIndexPath} Klasse verwendet, die jeweils ein Attribut \objcinline{NSInteger section} und \objcinline{NSInteger row} besitzen.
+Eine Table View ist zunächst in \emph{Sections} unterteilt, die jeweils eine bestimmte Anzahl von \emph{Rows} enthalten. Zur Identifikation einer Zeile werden daher Objekte der \swiftinline{NSIndexPath} Klasse verwendet, die jeweils ein Attribut \swiftinline{section: Int} und \swiftinline{row: Int} besitzen.
 
-Es kann zwischen den Darstellungsoptionen \objcinline{UITableViewStylePlain} und \objcinline{UITableViewStyleGrouped} für Table Views gewählt werden, die lediglich das Erscheinungsbild der Table View verändern \abbref{img:tableview_styles}.
+Es kann zwischen den Darstellungsoptionen \emph{Plain} und \emph{Grouped} für Table Views gewählt werden, die lediglich das Erscheinungsbild der Table View verändern \abbref{img:tableview_styles}.
 
 \includegraphicsc{img/tableview_styles.png}{img:tableview_styles}{Table Views können in den Darstellungsoptionen Plain oder Grouped angezeigt werden}
 
 \subsection{Statische und dynamische Table Views}
 
-Statische Table Views bieten eine einfache Möglichkeit, Views tabellarisch darzustellen. Im Storyboard kann ein \objcinline{UITableView} Objekt der View Hierarchie hinzugefügt und mit der Option \emph{Content: Static Cells} versehen werden. Im Attributes Inspector kann die Anzahl der Sections und Rows, sowie eine Vielzahl weiterer Attribute konfiguriert werden. Die \objcinline{UITableViewCell} Objekte, die jede Zeile repräsentieren, fungieren nun als normale Views, denen wir Subviews in Form von Buttons, Labels o.ä. hinzufügen können.
+Statische Table Views bieten eine einfache Möglichkeit, Views tabellarisch darzustellen. Im Storyboard kann ein \swiftinline{UITableView} Objekt der View Hierarchie hinzugefügt und mit der Option \emph{Content: Static Cells} versehen werden. Im Attributes Inspector kann die Anzahl der Sections und Rows, sowie eine Vielzahl weiterer Attribute konfiguriert werden. Die \swiftinline{UITableViewCell} Objekte, die jede Zeile repräsentieren, fungieren nun als normale Views, denen wir Subviews in Form von Buttons, Labels o.ä. hinzufügen können.
 
-Häufig möchten wir Table Views jedoch zur Darstellung dynamischer Inhalte verwenden. Dazu stellt \objcinline{UITableView} nach dem Delegate Konzept die beiden Protokolle \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} zur Verfügung und besitzt die entsprechenden Attribute \objcinline{id <UITableViewDatasource> datasource} und \objcinline{id <UITableViewDelegate> delegate}. Zur Laufzeit stellt eine dynamische Table View Anfragen an beide Objekte und benachrichtigt diese über Ereignisse.
+Häufig möchten wir Table Views jedoch zur Darstellung dynamischer Inhalte verwenden. Dazu stellt \swiftinline{UITableView} nach dem Delegate Konzept die beiden Protokolle \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} zur Verfügung und besitzt die entsprechenden Attribute \swiftinline{datasource: UITableViewDatasource} und \swiftinline{delegate: UITableViewDelegate}. Zur Laufzeit stellt eine dynamische Table View Anfragen an beide Objekte und benachrichtigt diese über Ereignisse.
 
-Anstatt jede \objcinline{UITableViewCell} im Storyboard einzeln zu konfigurieren verwenden dynamische Table Views \strong{Prototype Cells}. Diese werden im Storyboard wie Static Cells konfiguriert, jedoch erst zur Laufzeit mit Inhalt gefüllt \abbref{img:tableview_prototypecells}. Natürlich eignet sich auch an dieser Stelle Auto Layout zur Positionierung der Views. Außerdem sollte jeder Prototype Cell ein Identifier zugewiesen werden.
+Anstatt jede \swiftinline{UITableViewCell} im Storyboard einzeln zu konfigurieren verwenden dynamische Table Views \emph{Prototype Cells}. Diese werden im Storyboard wie Static Cells konfiguriert, jedoch erst zur Laufzeit mit Inhalt gefüllt \abbref{img:tableview_prototypecells}. Natürlich eignet sich auch an dieser Stelle Auto Layout zur Positionierung der Views. Außerdem sollte jeder Prototype Cell ein Identifier zugewiesen werden.
 
 \includegraphicsc[\iphonewidth]{img/tableview_prototypecells.png}{img:tableview_prototypecells}{Prototype Cells können im Storyboard konfiguriert werden und dienen anschließend als Vorlage für dynamische Table View Cells}
 
-An der entsprechenden Stelle im Code können wir dann mit der Instanzmethode \objcinline{dequeueReusableCellWithIdentifier:} von \objcinline{UITableView} ein \objcinline{UITableViewCell} Objekt nach Vorlage der Prototype Cell mit dem angegebenen Identifier anfordern und anschließend mit Inhalt füllen. Dabei verwendet UITableView einen sehr effektiven Verwaltungsmechanismus, der zunächst solche \objcinline{UITableViewCell} Objekte wiederverwendet, die gerade nicht angezeigt werden. So kann ein reibungsloses Scrollen durch beliebig lange Listen realisiert werden.
+An der entsprechenden Stelle im Code können wir dann mit der Instanzmethode \swiftinline{dequeueReusableCellWithIdentifier:} von \swiftinline{UITableView} ein \swiftinline{UITableViewCell} Objekt nach Vorlage der Prototype Cell mit dem angegebenen Identifier anfordern und anschließend mit Inhalt füllen. Dabei verwendet UITableView einen sehr effektiven Verwaltungsmechanismus, der zunächst solche \swiftinline{UITableViewCell} Objekte wiederverwendet, die gerade nicht angezeigt werden. So kann ein reibungsloses Scrollen durch beliebig lange Listen realisiert werden.
 
 \subsection{Datasource, Delegate und Table View Controller}
 
 Zur Darstellung dynamischer Inhalte verwenden wir meist einen View Controller sowohl als Datasource als auch Delegate einer Table View und implementieren die Methoden der beiden zugehörigen Protokolle.
 
-Prinzipiell kann die Table View an einer beliebigen Stelle der View Hierarchie der Content View eines View Controllers positioniert sein. Wurde ihr der View Controller als Datasource und Delegate zu gewiesen, bspw. mithilfe von IBOutlets im Storyboard, muss dieser die \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} Protokolle implementieren.
+Prinzipiell kann die Table View an einer beliebigen Stelle der View Hierarchie der Content View eines View Controllers positioniert sein. Wurde ihr der View Controller als Datasource und Delegate zu gewiesen, bspw. mithilfe von IBOutlets im Storyboard, muss dieser die \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} Protokolle implementieren.
 
-\begin{objccode}
-@interface ViewController : UIViewController <UITableViewDatasource, UITableViewDelegate>
-\end{objccode}
+\begin{swiftcode}
+class ViewController: UIViewController, UITableViewDatasource, UITableViewDelegate
+\end{swiftcode}
 
-In den meisten Fällen verwenden wir jedoch die Table View selbst als Content View des View Controllers. UIKit stellt hierzu die vereinfachende Subklasse \objcinline{UITableViewController : UIViewController} zur Verfügung, die das Content View Attribut \objcinline{UIView *view} mit \objcinline{UITableView *tableView} ersetzt und darüber hinaus einige hilfreiche Mechanismen implementiert.
+In den meisten Fällen verwenden wir jedoch die Table View selbst als Content View des View Controllers. UIKit stellt hierzu die vereinfachende Subklasse \swiftinline{UITableViewController: UIViewController} zur Verfügung, die das Content View Attribut \swiftinline{view: UIView} mit \swiftinline{tableView: UITableView} ersetzt und darüber hinaus einige hilfreiche Mechanismen implementiert.
 
-In der Implementierung der \objcinline{UITableViewController} Subklasse können wir nun die Methoden der Datasource und Delegate Protokolle implementieren. Die Dokumentation beschreibt die Protokolle in gewohnt ausführlicher Form.
+In der Implementierung der \swiftinline{UITableViewController} Subklasse können wir nun die Methoden der Datasource und Delegate Protokolle implementieren. Die Dokumentation beschreibt die Protokolle in gewohnt ausführlicher Form.
 
-Folgende Methoden sollten jedoch in keiner \objcinline{UITableViewDatasource} Implementierung fehlen:
+Folgende Methoden sollten jedoch in keiner \swiftinline{UITableViewDatasource} Implementierung fehlen:
 
-\begin{objccode}
-// Sei NSArray *objects ein Attribut dieser Subklasse
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+\begin{swiftcode}
+// Sei objects: [Object] ein Attribut dieser Subklasse
+func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     // Bestimmt die Anzahl der Sections
-    return 1;
+    return 1
 }
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     // Bestimmt die Anzahl der Rows für die angegebene Section
-    return self.objects.count;
+    return objects.count
 }
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     // Greift auf das Model zurück, um das darzustellende Objekt zu erhalten
-    NSObject *object = [self.objects objectAtIndex:indexPath.row];
-
+    let object = objects[indexPath.row]
     // Erstellt ein neues UITableViewCell Objekt entsprechend der im Storyboard definierten Prototype Cell mit dem angegebenen Identifier oder verwendet eine existierende, momentan nicht verwendete Zelle mit diesem Identifier
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"objectCell"];
-
+    let cell = tableView.dequeueReusableCellWithIdentifier("objectCell", forIndexPath: indexPath) as! UITableViewCell
     // Konfiguriert die View entsprechend des Models
-    cell.textLabel.text = object.description;
-
-    return cell;
+    cell.textLabel?.text = object.description
 }
-\end{objccode}
+\end{swiftcode}
 
-An dieser Stelle wird das Model-View-Controller Konzept \secref{sec:mvc} offensichtlich in Perfektion umgesetzt. Mechanismen dieser Art sollten bei der Konzeption von iOS Apps immer als Referenz für den eigenen Code dienen.
+An dieser Stelle wird das Model-View-Controller Konzept \secref{sec:mvc} in Perfektion umgesetzt. Mechanismen dieser Art sollten bei der Konzeption von iOS Apps immer als Referenz für den eigenen Code dienen.
 
-Das \objcinline{UITableViewDelegate} Protokolls bietet zusätzlich zu vielen weiteren Darstellungsoptionen die Möglichkeit zur Reaktion auf verschiedene Ereignisse. Dazu gehört die vierte essentielle Methode der Table View Programmierung:
+Das \swiftinline{UITableViewDelegate} Protokolls bietet zusätzlich zu vielen weiteren Darstellungsoptionen die Möglichkeit zur Reaktion auf verschiedene Ereignisse. Dazu gehört die vierte wichtige Methode der Table View Programmierung:
 
-\begin{objccode}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    // do something ...    
-    
+\begin{swiftcode}
+func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    // do something...
 }
-\end{objccode}
+\end{swiftcode}
 
-Alternativ zur Implementierung dieser Delegate Methode können auch Storyboard Segues in Verbindung mit Prototype Cells verwendet werden. In diesem Fall ist es sinnvoll, zunächst den Index Path der betätigten Table View Cell in der \objcinline{prepareForSegue:sender:} Methode auszulesen und damit bspw. Zugriff auf das entsprechende Model Objekt zu erhalten:
+Alternativ zur Implementierung dieser Delegate Methode können auch Storyboard Segues in Verbindung mit Prototype Cells verwendet werden. In diesem Fall ist es sinnvoll, zunächst den Index Path der betätigten Table View Cell in der \swiftinline{prepareForSegue:sender:} Methode auszulesen und damit bspw. Zugriff auf das entsprechende Model Objekt zu erhalten:
 
-\begin{objccode}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-
+\begin{swiftcode}
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    let indexPath = self.tableView.indexPathForSelectedRow()
     // get model object and configure destination view controller ...
 
 }
-\end{objccode}
+\end{swiftcode}
+
+
+
+% MARKER %
+
+\end{document}
+
 
 
 \section{Data Persistance}

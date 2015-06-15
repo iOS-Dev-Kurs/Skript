@@ -533,7 +533,7 @@ git commit -m"Committed unsaved changes"
 
 \shinline{git log} zeigt die letzten Commits in der Konsole an.
 
-\item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.m} und fügt ihrer Implementierung folgendes Codesegment hinzu:
+\item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.swift} und fügt ihrer Implementierung folgendes Codesegment hinzu:
 
 \begin{swiftcode}
 override func viewDidLoad() {
@@ -547,7 +547,7 @@ Führt ihr die App nun aus, seht ihr einen roten Bildschirmhintergrund.
 In der Konsole sehen wir mit \shinline{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
 
 \begin{shcode}
-git add ViewController.m # oder git add --all
+git add ViewController.swift # oder git add --all
 git commit -m "changed background color"
 \end{shcode}
 
@@ -972,7 +972,7 @@ Mit dieser App lernen wir das \emph{View Controller Containment} Prinzip kennen,
 
 \skriptref{View Controller Hierarchie}
 
-\section{One City}
+\section{One City}\label{sec:one_city}
 
 Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und Informationen über die entsprechende Stadt in einem separaten View Controller anzeigen, wenn der Benutzer auf den Button drückt.
 
@@ -1044,7 +1044,7 @@ Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
 \item Im Cities View Controller überschreiben wir die \swiftinline{viewWillAppear:} Methode, um das Interface entsprechend des \swiftinline{City} Objekts zu konfigurieren.
 
 \begin{swiftcode}
-// CitiesViewController.m
+// CitiesViewController.swift
 import UIKit
 
 class CitiesViewController: UIViewController {
@@ -1078,7 +1078,7 @@ class CityDetailViewController: UIViewController {
 \includegraphicsc[\iphonewidth]{img/city_detail_ui.png}{img:city_detail_ui}{Der City Detail View Controller soll Information über die ausgewählte Stadt anzeigen}
 
 \begin{swiftcode}
-// CityDetailViewController.m
+// CityDetailViewController.swift
 import UIKit
 
 class CityDetailViewController: UIViewController {
@@ -1098,7 +1098,7 @@ Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen ve
 \item Dem erstellten City Detail View Controller muss vor der Präsentation ein \swiftinline{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \swiftinline{prepareForSegue:sender:} in unserer \swiftinline{CitiesViewController} Klasse.
 
 \begin{swiftcode}
-// CitiesViewController.m
+// CitiesViewController.swift
 import UIKit
 
 class CitiesViewController: UIViewController {
@@ -1145,8 +1145,8 @@ Betätigt ihr nun nach einem \emph{Build \& Run} den Button, wird die Content Vi
 
 \item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \emph{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir dem \strong{präsentierenden} View Controller (nicht dem präsentierten) eine Methode \swiftinline{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
 
-\begin{objccode}
-// CitiesViewController.m
+\begin{swiftcode}
+// CitiesViewController.swift
 import UIKit
 
 class CitiesViewController: UIViewController {
@@ -1155,7 +1155,7 @@ class CitiesViewController: UIViewController {
         // no implementation necessary
     }
 }
-\end{objccode}
+\end{swiftcode}
 
 \item Im Storyboard können wir nun das \swiftinline{UIControlEvent.TouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrl}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \strong{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \swiftinline{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
 
@@ -1180,65 +1180,53 @@ Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nac
 
 
 
-% MARKER %
-\end{document}
-
-
-
-
 \begin{lecture}
 
 
 \section{One City Navigation}
 
-UIKit stellt für diese häufig verwendete Master-Detail View Controller Hierarchie die Subklasse \objcinline{UINavigationController : UIViewController} zur Verfügung. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
+Eine solche Master-Detail View Controller Hierarchie, wie wir sie in \autoref{sec:one_city} implementiert haben, ist ein so häufig verwendetes Konzept, dass \swiftinline{UIKit} dafür die Subklasse \objcinline{UINavigationController: UIViewController} zur Verfügung stellt. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
 
 \begin{enumerate}
 
-\item Zieht einfach ein \objcinline{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \objcinline{CitiesViewController} als Root View Controller. Erstellt dafür eine \strong{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrl}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
+\item Zieht einfach ein \swiftinline{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \swiftinline{CitiesViewController} als Root View Controller. Erstellt dafür eine \emph{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrl}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
 
 \includegraphicsc{img/nav_controller_segue.png}{img:nav_controller_segue}{Eine Relationship Segue markiert den Root View Controller eines Navigation Controllers}
 
-\item Ihr könnt nun die Modal Segue zwischen \objcinline{CitiesViewController} und \objcinline{CityDetailViewController} auswählen und im Attributes Inspector den Typ zu \strong{Push Segue} ändern. Nun wird automatisch statt der \objcinline{presentViewController:animated:completion} Methode von \objcinline{UIViewController} die \objcinline{pushViewController:animated:} Methode von \objcinline{UINavigationController} aufgerufen, wenn die Segue ausgelöst wird.
+\item Ihr könnt nun die Segue zwischen \swiftinline{CitiesViewController} und \swiftinline{CityDetailViewController} auswählen und im Attributes Inspector sicherstellen, dass der Typ \emph{Show} ausgewählt ist. Wenn die Segue ausgelöst wird fängt dann der in der View Controller Hierarchie übergeordnete \swiftinline{UINavigationController} die Präsentation des \swiftinline{CityDetailViewController} ab.
 
-\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \objcinline{UINavigationController} einen eigenen Mechanismus implementiert und eine \objcinline{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \objcinline{NSString *title} Attribut von \objcinline{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
+\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \swiftinline{UINavigationController} einen eigenen Mechanismus implementiert und eine \swiftinline{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \swiftinline{title: String} Attribut von \swiftinline{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
 
 \includegraphicsc{img/nav_controller_ui.png}{img:nav_controller_ui}{Navigation Controller zeigen eine Navigation Bar an}
 
-\begin{objccode}
-// CityDetailViewController.m
+\begin{swiftcode}
+// CityDetailViewController.swift
+import UIKit
 
-#import "CityDetailViewController.h"
-#import "City.h"
+class CityDetailViewController: UIViewController {
+    var city: City?
 
-@interface CityDetailViewController ()
-
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-
-@end
-
-@implementation CityDetailViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    ^\objcinlinehighlight{self.navigationItem.title = self.city.name;}^
-    self.imageView.image = self.city.image;
+    @IBOutlet weak var imageView: UIImageView!
+    
+    override func viewWillAppear(animated: Bool) {
+        self.title = city?.name
+        self.imageView.image = city?.image
+    }
 }
+\end{swiftcode}
 
-@end
-\end{objccode}
+\item Da wir den Initial View Controller und damit den Root View Controller des Window Objekts verändert haben, müssen wir noch kurz die Implementierung des App Delegates anpassen, um das City Objekt korrekt weiterzugeben:
 
-Verwendet außerdem gerne Auto Layout, um die Views zu positionieren.
+\begin{swiftcode}
+// AppDelegate.swift > application:didFinishLaunchingWithOptions:
+let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
+if let citiesViewController = (window?.rootViewController as? UINavigationController)?.topViewController as? CitiesViewController {
+    citiesViewController.city = melbourne
+}
+\end{swiftcode}
 
-\item Da wir den Initial View Controller und damit den Root View Controller des Window Objekts verändert haben, müssen wir noch kurz die Implementierung des App Delegates anpassen, um das City Objekt korrekt weiterzugeben.
-
-\begin{objccode}
-// App Delegate.m > application:didFinishLaunchingWithOptions:
-CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
-\end{objccode}
-
-
-\item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus UIKit, die sich bspw. durch die Verwendung von Subklassen und sog. Delegates vielseitig anpassen lassen \abbref{img:nav_controller_run}.
+\item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus \swiftinline{UIKit} \abbref{img:nav_controller_run}, die sich bspw. durch die Verwendung von Subklassen und Implementierung von Delegate-Protokollen vielseitig anpassen lassen. \\
+	\swiftinline{UIKit} stellt noch weitere View Controller Container wie \swiftinline{UITabBarController} und \swiftinline{UISplitViewController} zur Verfügung, die nach einem ähnlichen Prinzip funktionieren, sowie eine vielseitige API zur Implementierung eigener View Controller Container.
 
 \includegraphicsc[\iphonewidth]{img/nav_controller_run.png}{img:nav_controller_run}{Navigation Controller stellen Standardanimationen und -mechanismen zur Verfügung}
 
@@ -1247,134 +1235,92 @@ CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationControlle
 
 \section{More Cities}
 
-Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \objcinline{UITableViewController : UIViewController} und ihre Content Views der Klasse \objcinline{UITableView : UIView}, die mit dem \strong{Delegate Konzept} vielseitig einsetzbar sind.
+Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \swiftinline{UITableViewController: UIViewController} und ihre Content Views der Klasse \swiftinline{UITableView: UIView}, die mit dem \emph{Delegate Konzept} vielseitig einsetzbar sind.
 
 \skriptref{Das Delegate Konzept, Table Views \& Table View Controller}
 
 \begin{enumerate}
 
-\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \objcinline{CitiesViewController} von \objcinline{UIViewController} zu \objcinline{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
+\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \swiftinline{CitiesViewController} von \swiftinline{UIViewController} zu \swiftinline{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
 
-\item Ein Table View Controller hat ein Objekt der \objcinline{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
+\item Ein Table View Controller hat ein Objekt der \swiftinline{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
 
-\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \objcinline{UITableView} als Content View
+\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \swiftinline{UITableView} als Content View.
 
-\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \strong{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \objcinline{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
+\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \emph{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \swiftinline{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
 
 \item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst einfach \emph{Basic} \abbref{img:morecities_prototypecells}.
 
 \includegraphicsc[\iphonewidth]{img/morecities_prototypecells.png}{img:morecities_prototypecells}{Prototype Cells dienen als Vorlage für die Zellen der Table View}
 
-\item Um Prototype Cells zu identifizieren, sollte ihnen ein \strong{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier \emph{cityCell} ein. Wie im Skript erklärt kann die Table View damit Zellen, die gerade nicht angezeigt werden, an anderer Stelle wiederverwenden.
+\item Um Prototype Cells zu identifizieren, sollte ihnen ein \emph{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier \str{cityCell} ein. Wie im Skript erklärt kann die Table View damit Zellen, die gerade nicht angezeigt werden, an anderer Stelle wiederverwenden.
 
-\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \strong{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \objcinline{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \strong{Protokoll} definiert sind. \objcinline{UITableView} teilt diese Anfragen in die \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \objcinline{id<UITableViewDatasource> datasource} und \objcinline{id<UITableViewDelegate> delegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \objcinline{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
+\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \emph{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \swiftinline{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \emph{Protokoll} definiert sind. \swiftinline{UITableView} teilt diese Anfragen in die \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \swiftinline{datasource: UITableViewDatasource} und \objcinline{delegate: UITableViewDelegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \swiftinline{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
 
-\item Im Allgemeinen repräsentiert eine Table View ein \objcinline{NSArray}. Definiert also im öffentlichen Interface des \objcinline{CitiesViewController} ein Attribut \objcinline{NSArray *cities} anstatt des bisherigen \objcinline{City *city} Attributs.
+\item Häufig repräsentiert eine Table View ein Array, wie hier eine Liste von Städten. Definiert also im öffentlichen Interface des \swiftinline{CitiesViewController} ein Attribut \swiftinline{cities: [City]?} anstatt des bisherigen \swiftinline{city: City?} Attributs.
 
-\begin{objccode}
-// CitiesViewController.h
+Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attribut nun eine Liste von Städten zuzuweisen:
 
-@interface CitiesViewController : UITableViewController
+\begin{swiftcode}
+// AppDelegate.swift
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
+    let sydney = City(name: "Sydney", image: UIImage(named: "sydney"))
+    if let citiesViewController = (window?.rootViewController as? UINavigationController)?.topViewController as? CitiesViewController {
+        citiesViewController.cities = [ melbourne, sydney ]
+    }
+    return true
+}
+\end{swiftcode}
 
-^\objcinlinehighlight{@property (strong, nonatomic) NSArray *cities;}^
+\item Als Subklasse von \swiftinline{UITableViewController} erbt \swiftinline{CitiesViewController} leere Implementierungen der \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
 
-@end
-\end{objccode}
+\begin{swiftcode}
+// ViewController.swift
+import UIKit
 
-Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attribut nun eine Liste von Städten zuzuweisen.
-
-\begin{objccode}
-// AppDelegate.m
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // create some city objects
-    City *melbourne = [[City alloc] init];
-    melbourne.name = @"Melbourne";
-    melbourne.image = [UIImage imageNamed:@"melbourne"];
-    City *sydney = [[City alloc] init];
-    sydney.name = @"Sydney";
-    sydney.image = [UIImage imageNamed:@"sydney"];
-    // (...)
-
-    // provide root view controller with model objects
-    CitiesViewController *citiesVC = (CitiesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
-    citiesVC.cities = @[melbourne, sydney];
+class CitiesViewController: UITableViewController {
+    var cities: [City]?
     
-    return YES;
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cities?.count ?? 0
+    }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let city = cities![indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier("cityCell", forIndexPath: indexPath) as! UITableViewCell
+        cell.textLabel?.text = city.name
+        cell.imageView?.image = city.image
+        return cell
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let indexPath = self.tableView.indexPathForSelectedRow() {
+            let city = cities![indexPath.row]
+            if let identifier = segue.identifier {
+                switch identifier {
+                case "showCityDetail":
+                    if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
+                        cityDetailViewController.city = city
+                    }
+                default:
+                    break
+                }
+            }
+        }
+    }
 }
+\end{swiftcode}
 
-\end{objccode}
-
-\item Als Subklasse von \objcinline{UITableViewController} erbt \objcinline{CitiesViewController} leere Implementierungen der \objcinline{UITableViewDatasource} und \objcinline{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
-
-\begin{objccode}
-#pragma mark - Table View Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.cities count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    // Greift auf das Model zurück, um das darzustellende Objekt zu erhalten
-    City *city = [self.cities objectAtIndex:indexPath.row];
-
-    // Erstellt ein neues UITableViewCell Objekt entsprechend der im Storyboard definierten Prototype Cell mit dem gegebenen Identifier oder verwendet eine existierende, momentan nicht verwendete Zelle mit diesem Identifier
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell" forIndexPath:indexPath];
-
-    // Konfiguriert die View entsprechend des Models
-    cell.textLabel.text = city.name;
-    cell.imageView.image = city.image;
-
-    return cell;
-}
-\end{objccode}
-
-\objcinline{#pragma mark} kennzeichnet eine Überschrift ähnlich eines Kommentars und wird zusätzlich in der Jump Bar angezeigt. Ein Bindestrich \objcinline{-} erzeugt dort eine horizontale Trennlinie.
-
-Die zuvor implementierten Methoden werden nicht mehr benötigt.
-
-\item Diese drei Methoden des \objcinline{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
+\item Diese drei Methoden des \swiftinline{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
 
 \includegraphicsc[\iphonewidth]{img/cities_tableview.png}{img:cities_tableview}{Eine Table View stellt Anfragen an ihr Datasource und Delegate Objekt, um Zellen dynamisch anzuzeigen}
 
-\item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Push Segue von der Prototype Cell zum Detail City View Controller erstellen und ihr erneut den Identifier \emph{showCityDetail} geben.
+\item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Show Segue von der Prototype Cell zum Detail City View Controller erstellen und ihr erneut den Identifier \str{showCityDetail} geben.
 
-\item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \objcinline{prepareForSegue:sender:} Methode zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
-
-\begin{objccode}
-//  ViewController.m
-
-#import "CitiesViewController.h"
-#import "City.h"
-#import "CityDetailViewController.h"
-
-@implementation CitiesViewController
-
-#pragma mark - User Interaction
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showCityDetail"]) {
-
-        City *city = [self.cities objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-        
-        CityDetailViewController *cityDetailVC = segue.destinationViewController;
-        cityDetailVC.city = city;
-    }
-}
-
-#pragma mark - Table View Datasource
-
-// (...)
-
-@end
-\end{objccode}
+\item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \swiftinline{prepareForSegue:sender:} Methode wie im Codebeispiel oben zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
 
 \item Wird nun eine Stadt in der Liste ausgewählt, wird der City Detail View Controller entsprechend konfiguriert und angezeigt. Beachtet, dass wir an dessen Implementierung nichts geändert haben!
 
@@ -1382,7 +1328,7 @@ Die zuvor implementierten Methoden werden nicht mehr benötigt.
 
 \begin{exc}
 
-\begin{excitem}{tableviews}{Cities 2}
+\begin{excitem}{tableviews}{More Cities}{2}
 
 Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachvollzieht.
 
@@ -1392,6 +1338,12 @@ Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachv
 
 
 \end{lecture}
+
+
+
+% MARKER %
+\end{document}
+
 
 
 \begin{lecture}

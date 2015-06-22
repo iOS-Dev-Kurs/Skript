@@ -1174,13 +1174,6 @@ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 \end{swiftcode}
 
 
-
-% MARKER %
-
-\end{document}
-
-
-
 \section{Data Persistance}
 
 Aufgrund der Natur des Multitaskings auf der iOS Plattform kann der Ausführungsstatus einer App \secref{sec:app_states} häufig und für den Entwickler unvorhergesehen wechseln. Der Benutzer der App erwartet dabei, dass die Benutzeroberfläche bei jedem Start der App wiederhergestellt wird und Eingaben erhalten bleiben.
@@ -1189,48 +1182,40 @@ Außerdem sind Benutzereingaben essentieller Bestandteil vieler Apps, die die ei
 
 Durch einige Anpassungen ist es auf der iOS Plattform außerdem möglich, in dieser Form gespeicherte Daten über Apple's iCloud Service auf allen iOS Geräten des Benutzers zur Verfügung zu stellen.
 
-Je nach Konzeption der App wird in den meisten Fällen auf folgende Mechanismen zur Datenspeicherung zurückgegriffen.
+Je nach Konzeption der App wird in den meisten Fällen auf eine oder mehrere der folgenden Mechanismen zur Datenspeicherung zurückgegriffen.
 
 \subsection{User Defaults}\label{sec:userdefaults}
 
-Häufig benötigen Apps lediglich die Speicherung einiger Parameter, Einstellungen und Benutzereingaben. Einfache Benutzerdaten können mithilfe der \objcinline{NSUserDefaults} Klasse gespeichert und über die Ausführung der App hinaus zu einem späteren Zeitpunkt wieder aufgerufen werden.
+Häufig benötigen Apps lediglich die Speicherung einiger Parameter, Einstellungen und Benutzereingaben. Einfache Benutzerdaten können mithilfe der \swiftinline{NSUserDefaults} Klasse gespeichert und über die Ausführung der App hinaus zu einem späteren Zeitpunkt wieder aufgerufen werden.
 
-\objcinline{NSUserDefaults} implementiert die Klassenmethode \objcinline{standardUserDefaults}, die immer das gleiche Objekt zurückgibt (sog. Singleton Architektur). Die Klasse ähnelt einem \objcinline{NSDictionary} und implementiert analog nach dem Key-Value Prinzip die Instanzmethoden \objcinline{setObject:forKey:} und \objcinline{objectForKey:}.
+\swiftinline{NSUserDefaults} implementiert die Klassenmethode \swiftinline{standardUserDefaults}, die immer das gleiche Objekt zurückgibt (sog. \emph{Singleton} Architektur). Die Klasse ähnelt einem \swiftinline{NSDictionary} und implementiert analog nach dem Key-Value Prinzip die Instanzmethoden \swiftinline{setObject:forKey:} und \swiftinline{objectForKey:}.
 
-\begin{objccode}
-[[NSUserDefaults standardUserDefaults] setObject:@"Alice" forKey:@"user_name"]; // speichern
-NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"]; // auslesen
-\end{objccode}
+\begin{swiftcode}
+// speichern
+NSUserDefaults.standardUserDefaults().setObject("Alice", forKey:"user_name")
+// auslesen
+let userName = NSUserDefaults.standardUserDefaults().objectForKey("user_name")
+\end{swiftcode}
 
-Es können nur Objekte der Klassen \objcinline{NSString, NSNumber, NSDate} und \objcinline{NSData} oder ausschließlich mit solchen Objekten gefüllte Instanzen von \objcinline{NSArray} und \objcinline{NSDictionary} in dieser Form gespeichert werden.
+Es können nur Objekte der Klassen \swiftinline{NSString}, \swiftinline{NSNumber}, \swiftinline{NSDate} und \swiftinline{NSData} oder ausschließlich mit solchen Objekten gefüllte Instanzen von \swiftinline{NSArray} und \swiftinline{NSDictionary} (bzw. ihre Swift-Äquivalente) in dieser Form gespeichert werden. Andere Klassen müssen daher zunächst zu \swiftinline{NSData} Objekten serialisiert werden. Wird dies notwendig, sollte jedoch bereits über die Integration von Core Data \secref{sec:coredata} nachgedacht werden.
 
-Eigene Subklassen müssen daher zunächst zu \objcinline{NSData} Objekten serialisiert werden. Wird dies notwendig, sollte jedoch bereits über die Integration von Core Data nachgedacht werden.
+Für einige Klassen wie \swiftinline{UIImage} stehen Methoden zur Serialisierung zur Verfügung:
 
-Für einige Klassen wie \objcinline{UIImage} stehen Methoden zur Serialisierung zur Verfügung:
+\begin{swiftcode}
+// Sei image: UIImage hier ein Bildobjekt
+let imageData = UIImagePNGRepresentation(image);
+NSUserDefaults.standardUserDefaults().setObject(imageData, forKey:"image_data") // speichern
+if let imageData = NSUserDefaults.standardUserDefaults().objectForKey("image_data") as? NSData { // auslesen
+    let image = UIImage(data: imageData)
+}
+\end{swiftcode}
 
-\begin{objccode}
-NSData *imageData = UIImagePNGRepresentation(image); // Sei UIImage *image hier ein Bildobjekt
-[[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"image_data"]; // speichern
-NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:@"image_data"]; // auslesen
-UIImage *image = [UIImage imageWithData:imageData];
-\end{objccode}
 
-Schließlich ist erwähnenswert, dass für die in User Defaults verwendeten Keys (und ebenso für andere ähnliche Mechanismen) häufig \strong{Konstanten} verwendet werden. So werden Tippfehler vermieden, einfache Umbenennungen möglich und die Konsistenz des Codes erhöht. Eine Konstante kann mit dem Befehl \objcinline{#define} definiert werden. Häufig geschieht diese Definition im Prefix Header (.pch Datei), die von jeder Klasse des Projekts automatisch eingebunden wird.
+\subsection{Core Data}\label{sec:coredata}
 
-\begin{objccode}
-// im Prefix Header
-#define kUserDefaultsKeyUsername @"user_name"
+Gehen die Anforderungen der App über den User Defaults Mechanismus hinaus, wird das Core Data Framework verwendet. Dieses stellt eine vollständige, auf SQLite basierende Datenbankimplementierung dar.
 
-// an beliebiger Stelle im Code
-[[NSUserDefaults standardUserDefaults] setObject:@"Alice" forKey:kUserDefaultsKeyUsername]; // speichern
-NSString *userName = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyUsername]; // auslesen
-\end{objccode}
-
-\subsection{Core Data} \label{sec:coredata}
-
-Gehen die Anforderungen der App über den User Defaults Mechanismus hinaus, wird das Core Data Framework verwendet. Dieses stellt eine vollständige, auf SQLite basierende Datenbankimplementierung in Objective-C dar.
-
-Xcode stellt hier in Analogie zum Interface Builder einen Editor zur Verfügung, mit dem zunächst eine Datenstruktur konfiguriert werden kann \abbref{img:coredata_modeleditor}. Anschließend werden Subklassen von \objcinline{NSManagedObject : NSObject} verwendet, die Elemente der Datenstruktur als Objective-C repräsentieren und von der Datenbank verwaltet werden.
+Xcode stellt hier in Analogie zum Interface Builder einen Editor zur Verfügung, mit dem zunächst eine Datenstruktur konfiguriert werden kann \abbref{img:coredata_modeleditor}. Anschließend werden Subklassen von \swiftinline{NSManagedObject: NSObject} verwendet, die Elemente der Datenstruktur als Klassen repräsentieren und von der Datenbank verwaltet werden.
 
 \includegraphicsc{img/coredata_modeleditor.png}{img:coredata_modeleditor}{Core Data Models können in Analogie zum Interface Builder in Xcode graphisch bearbeitet werden}
 
@@ -1240,31 +1225,33 @@ Core Data stellt die Grundlage vieler iOS Apps dar und ist eine sehr komplexe un
 
 UIKit bietet ein sehr einfach zu integrierendes System zur Wiederherstellung der Benutzeroberfläche, das jedoch konzeptionell nicht zur Speicherung von Daten der Model Komponente dienen soll. Das State Preservation System ist damit der View- und View Controller Komponente zugeordnet, während für die Model Komponente häufig Core Data verwendet wird.
 
-Elemente der Benutzeroberfläche werden hier anhand des \objcinline{NSString* restorationIdentifier} Attributs identifiziert. Bei der Wiederherstellung wird für jeden dieser Identifier ein entsprechendes Objekt angefordert, oder bei Verwendung eines Storyboards automatisch erstellt. View Controller und Views können dann die \objcinline{encodeRestorableStateWithCoder:} und \objcinline{decodeRestorableStateWithCoder:} Methoden implementieren, um ihre Darstellung zu archivieren und wiederherzustellen. Im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} ist das State Preservation System ausführlich dokumentiert.
+Elemente der Benutzeroberfläche werden hier anhand des \swiftinline{restorationIdentifier: String} Attributs identifiziert. Bei der Wiederherstellung wird für jeden dieser Identifier ein entsprechendes Objekt angefordert, oder bei Verwendung eines Storyboards automatisch erstellt. View Controller und Views können dann die \swiftinline{encodeRestorableStateWithCoder:} und \swiftinline{decodeRestorableStateWithCoder:} Methoden implementieren, um ihre Darstellung zu archivieren und wiederherzustellen. Im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} ist das State Preservation System ausführlich dokumentiert.
 
 
 \section{Notifications}
 
 Zur Kommunikation zwischen Klassen haben wir uns bereits mit dem Delegate Konzept beschäftigt \secref{sec:delegate_konzept}. Dieses geht von einer direkten Beziehung zwischen einem aktiven (fragenden) Objekt und dessen passiven (antwortenden) Delegate Objekts aus, um Informationen auszutauschen.
 
-Mit \strong{Notifications} steht im Foundation Framework ein weiteres Kommunikationskonzept zur Verfügung, das auf der Verteilung von ungerichteten Benachrichtigungen basiert. Ein (aktives) Objekt versendet hier eine Nachricht mit einem eindeutigen Key, ohne die Empfänger der Nachricht anzugeben. Stattdessen können sich andere (passive) Objekte als Empfänger bestimmter Nachrichten registrieren, um auf diese reagieren zu können.
+Mit \emph{Notifications} steht im Foundation Framework ein weiteres Kommunikationskonzept zur Verfügung, das auf der Verteilung von \strong{ungerichteten Benachrichtigungen} basiert. Ein (aktives) Objekt versendet hier eine Nachricht mit einem eindeutigen Key, ohne die Empfänger der Nachricht anzugeben. Stattdessen können sich andere (passive) Objekte als Empfänger bestimmter Nachrichten registrieren, um auf diese reagieren zu können.
 
-Dazu implementiert das Foundation Framework die Klasse \objcinline{NSNotificationCenter} mit der Klassenmethode \objcinline{defaultCenter} nach dem Singleton Prinzip. Objekte können die Instanzmethode \objcinline{addObserver:selector:name:object:} nutzen, um bestimmte Nachrichten zu empfangen, oder mit der Instanzmethode \objcinline{postNotification:} eigene Nachrichten senden.
+Dazu implementiert das Foundation Framework die Klasse \swiftinline{NSNotificationCenter} mit der Klassenmethode \swiftinline{defaultCenter} nach dem Singleton Prinzip. Objekte können die Instanzmethode \swiftinline{addObserver:selector:name:object:} nutzen, um bestimmte Nachrichten zu empfangen, oder mit der Instanzmethode \swiftinline{postNotification:} eigene Nachrichten senden.
 
 Beispielsweise wird der Notifications Mechanismus häufig verwendet, um auf Änderungen der User Defaults \secref{sec:userdefaults} zu reagieren:
 
-\begin{objccode}
+\begin{swiftcode}
 // an beliebiger Stelle im Code, bspw. in der viewDidLoad Methode eines View Controllers
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
+NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDefaultsDidChange:", name: NSUserDefaultsDidChangeNotification, object: nil)
 
 // in der Implementierung des View Controllers
-- (void)userDefaultsDidChange:(NSNotification *)notification {
-
+func userDefaultsDidChange(notification: NSNotification) {
     // update user interface ...
-
 }
-\end{objccode}
+\end{swiftcode}
 
+
+% MARKER %
+
+\end{document}
 
 
 \chapter{Entwicklungsprozess von iOS Apps}
@@ -1274,7 +1261,7 @@ Beispielsweise wird der Notifications Mechanismus häufig verwendet, um auf Änd
 
 Während der Softwareentwicklung werden häufig Umstrukturierungen vorgenommen, Features ergänzt oder verändert und Schnittstellen angepasst. Die Orientierung an grundlegenden Konzepten der Softwarestrukturierung wie dem Model-View-Controller Konzept vereinfacht solche Codeänderungen natürlich, doch es besteht weiterhin immer die Gefahr, dass zuvor funktionierender Code plötzlich Fehler aufwirft, die schwierig zu finden und zu beheben sein können.
 
-Ein sehr sinnvolles Instrument zur Sicherung stabiler Software sind \strong{Unit Tests}. Dies sind Methoden, die einzelne Codeblöcke (\emph{Units of Code}) testen und immer entweder mit \emph{Fail} oder \emph{Pass} abschließen. Ein solcher Codeblock bezeichnet dabei \emph{die kleinste testbare Einheit}. Häufig sind dies einzelne Methoden im Model, deren Rückgabewert kontextbedingt überprüft wird.
+Ein sehr sinnvolles Instrument zur Sicherung stabiler Software sind \emph{Unit Tests}. Dies sind Methoden, die einzelne Codeblöcke (\emph{Units of Code}) testen und immer entweder mit \emph{Fail} oder \emph{Pass} abschließen. Ein solcher Codeblock bezeichnet dabei \emph{die kleinste testbare Einheit}. Häufig sind dies einzelne Methoden im Model, deren Rückgabewert kontextbedingt überprüft wird.
 
 Einmal geschrieben werden alle Unit Tests häufig ausgeführt, bspw. periodisch auf einem Server oder bei Gelegenheit lokal. Treten dabei Probleme auf, sind die Ursachen bei gut geschriebenen Tests leicht zu finden. Häufig können so sogar Fehler gefunden werden, die bei normalem "{}User testing"{} übersehen werden.
 

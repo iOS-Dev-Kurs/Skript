@@ -1341,11 +1341,6 @@ Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachv
 
 
 
-% MARKER %
-\end{document}
-
-
-
 \begin{lecture}
 
 
@@ -1357,24 +1352,21 @@ Mit den Apps der vergangenen Vorlesungen haben wir die Grundlagen der Programmie
 
 Zusammenfassend implementieren wir in dieser App einige häufig verwendete Funktionen wie Multi-Touch Gesten und Kamera Integration, um beim nächsten Familienurlaub nicht nur mit unseren neu erworbenen Programmierfähigkeiten anzugeben, sondern auch noch Fotos von Familienmitgliedern sommerlich dekorieren zu können \abbref{img:seasonizer}.
 
-\includegraphicsc[\iphonewidth]{img/seasonizer_summer.png}{img:seasonizer}{Mit der Seasonizer App lassen sich Familienmitglieder dekorieren und ungewollte Haarfarben verdecken}
+\includegraphicsc[\iphonewidth]{img/seasonizer_summer.png}{img:seasonizer}{Mit der Seasonizer App lassen sich Freunde und Familienmitglieder sommerlich dekorieren.}
 
-\subsubsection{Funktionen der Seasonizer App}
+\subsubsection{Funktionen der Seasonizer App [4++~P.]}
 
-\emph{Das Sternsystem kennzeichnet die Schwierigkeit der Funktion von * (machbar) bis *** (unmöglich).}
-
-\begin{description}
-\item [*] Die App besitzt eine Hauptansicht mit Navigation Bar und Toolbar. Den Inhalt füllt eine Image View für das Foto und eine darüberliegende View mit transparentem Hintergrund für die Accessories.
-\item [*] Es gibt einen Button in der Toolbar, mit dem ein Foto von der Kamera oder Foto Bibliothek ausgewählt werden kann, das anschließend von der Image View angezeigt wird.
-\item [**] Ein weiterer Button zeigt modal eine Liste von Accessories an. Wird ein Accessory ausgewählt, wird es der Hauptansicht hinzugefügt.
-\item [**] Die Accessories lassen sich mit Gesten verschieben, skalieren, drehen und löschen.
-\item [*] Mit einem Action Button kann das Bild über verschiedene Kanäle wie Nachrichten, Email oder Facebook verteilt werden.
-\item [**] Die Elemente wie Bild und Accessories werden gespeichert und beim nächsten Start der App wiederhergestellt.
-\item [*] Ein Toolbar Button dient dem Zurücksetzen der Benutzeroberfläche.
-%\item [extra] Es schneit in der App!
-\item [extra] Es regnet in der App! Das passiert ja auch mal.
-\item [extra] Implementiert, was euch einfällt! Ich bin auf eure Ideen gespannt.
-\end{description}
+\begin{itemize}
+	\item Die App besitzt eine Hauptansicht mit Navigation Bar und Toolbar. Den Inhalt füllt eine Image View für das Foto und eine darüberliegende View mit transparentem Hintergrund für die Accessories. [1~P.]
+	\item Es gibt einen Button in der Toolbar, mit dem ein Foto von der Kamera oder Foto Bibliothek ausgewählt werden kann, das anschließend von der Image View angezeigt wird. [1~P.]
+	\item Ein weiterer Button zeigt modal eine Liste von Accessories an. Wird ein Accessory ausgewählt, wird es der Hauptansicht hinzugefügt. [1~P.]
+	\item Die Accessories lassen sich mit Gesten verschieben, skalieren, drehen und löschen. [1~P.]
+	\item Mit einem Action Button kann das Bild über verschiedene Kanäle wie Nachrichten, Email oder Facebook verteilt werden. [1~P.]
+	\item Die Elemente wie Bild und Accessories werden gespeichert und beim nächsten Start der App wiederhergestellt. [1~P.]
+	\item Ein Toolbar Button dient dem Zurücksetzen der Benutzeroberfläche. [1~P.]
+	%\item [extra] Es schneit in der App!
+	\item Implementiert, was euch einfällt! Ich bin auf eure Ideen gespannt. [++~P.]
+\end{itemize}
 
 Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige Schritt-für-Schritt Anleitung geben. Versucht stattdessen, die Funktionen der App zu implementieren, indem ihr die folgenden Hinweise und die Informationen der bisherigen Themen anwendet. Ich stehe dabei natürlich jederzeit gerne für Fragen zur Verfügung.
 
@@ -1382,450 +1374,243 @@ Anders als für die bisherigen Apps wird es an dieser Stelle keine vollständige
 
 \begin{itemize}
 
-\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht mithilfe der \emph{Refactor} Funktion einen sinnvollen Namen wie \objcinline{CanvasViewController} zu geben. Verwendet außerdem den Project Name \emph{seasonizer}.
+\item Wenn ihr mit dem \emph{Single View} Template beginnt, bietet es sich an, dem View Controller der Hauptansicht zunächst einen sinnvollen Namen wie \swiftinline{CanvasViewController} zu geben. Verwendet außerdem den Project Name \str{Seasonizer}.
 
-\item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Buttons lassen sich dann als Objekte der \objcinline{UIBarButtonItem} Klasse aus der Object Library dem Navigation Item hinzufügen. \objcinline{UIBarButtonItem} bietet bereits viele Stile wie \objcinline{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
+\item \strong{Navigation Bar und Toolbar} lassen sich sehr einfach anzeigen, wenn ein Navigation Controller verwendet wird. Dieser besitzt ein Attribut \emph{Shows Toolbar}, das im Interface Builder aktiviert werden kann. Buttons lassen sich dann als Objekte der \swiftinline{UIBarButtonItem} Klasse aus der Object Library einem Navigation Item hinzufügen. \swiftinline{UIBarButtonItem} bietet bereits viele Stile wie \swiftinline{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an.
 
-\item Die Auswahl zwischen \strong{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \objcinline{UIActionSheet} implementieren:
+\item Die Auswahl zwischen \strong{Kamera und Foto Bibliothek} lässt sich sinnvoll mit einem \swiftinline{UIAlertController} implementieren. Den Zugriff auf Kamera oder Foto Bibliothek übernimmt dann ein entsprechend konfigurierter \swiftinline{UIImagePickerController} aus \swiftinline{UIKit}.
 
-\begin{objccode}
-- (IBAction)cameraButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Kamera", @"Foto Bibliothek", nil];
-    [actionSheet showFromToolbar:self.navigationController.toolbar];
-}
-\end{objccode}
-
-Der View Controller muss nun als Empfänger des \objcinline{UIActionSheetDelegate} Protokolls markiert werden und die Delegate Methode \objcinline{actionSheet:clickedButtonAtIndex:} implementieren. Hier können wir einen \objcinline{UIImagePickerController} anzeigen, der als \objcinline{UIImagePickerControllerSourceTypeCamera} oder \objcinline{UIImagePickerControllerSourceTypePhotoLibrary} konfiguriert werden kann.
-
-\begin{objccode}
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex==actionSheet.cancelButtonIndex) return;
-    
-    // Der erste Button zeigt die Kamera, der zweite die Photo Library
-    UIImagePickerControllerSourceType sourceType = (buttonIndex==actionSheet.firstOtherButtonIndex) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    // Für Geräte ohne Kamera muss die Verfügbarkeit des Source Types getestet werden
-    if (![UIImagePickerController isSourceTypeAvailable:sourceType]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Option nicht verfügbar" message:@"Dieses Gerät unterstützt diese Option nicht." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alertView show];
-        return;
+\begin{swiftcode}
+    @IBAction func cameraButtonPressed(sender: AnyObject) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            alertController.addAction(UIAlertAction(title: "Take Photo", style: .Default, handler: { action in
+                self.presentImagePickerWithSourceType(.Camera)
+            }))
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+            alertController.addAction(UIAlertAction(title: "Choose from Photo Library", style: .Default, handler: { action in
+                self.presentImagePickerWithSourceType(.PhotoLibrary)
+            }))
+        }
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
-    // Den UIImagePickerController erstellen, konfigurieren und anzeigen
-    UIImagePickerController *imagePickerC = [[UIImagePickerController alloc] init];
-    imagePickerC.delegate = self;
-    imagePickerC.sourceType = sourceType;
-    [self presentViewController:imagePickerC animated:YES completion:nil];
-}
-\end{objccode}
+    func presentImagePickerWithSourceType(sourceType: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
+        self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+\end{swiftcode}
 
-Der \objcinline{UIImagePickerController} verwendet abermals das Delegate Konzept, also muss der View Controller nun außerdem als Empfänger des \objcinline{UIImagePickerControllerDelegate} Protokolls markiert werden und folgende Methoden implementieren:
+\item Der \swiftinline{UIImagePickerController} verwendet das Delegate Konzept um die Auswahl eines Fotos zu kommunizieren. Wir setzen den View Controller selbst als Delegate, also muss dieser das \swiftinline{UIImagePickerControllerDelegate} implementieren:
 
-\begin{objccode}
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    
-    self.photoImageView.image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-}
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-\end{objccode}
+\begin{swiftcode}
+class CanvasViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // ...
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        self.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+\end{swiftcode}
 
-\item Wir arbeiten in dieser App mit \strong{Accessory Objekten}, die jeweils ein Bild repräsentieren und Eigenschaften wie Titel haben können. Daher bietet es sich an, eine Klasse \objcinline{Accessory : UIImageView} zu erstellen. Objekten dieser Klasse erben dann die Darstellungsmechanismen der \objcinline{UIImageView} Klasse und es können Attribute wie \objcinline{NSString *title} hinzugefügt werden.
+\item Wir modellieren die Accessories in dieser App als \swiftinline{struct Accessory}. Accessories besitzen jeweils ein Bild einen Titel. Erstellt eine Liste von Accessories im App Delegate und gebt diese Liste durch die View Controller Hierarchie weiter an den \swiftinline{CanvasViewController}.
 
-\item Um modal einen weiteren View Controller mit Titelleiste für die \strong{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \objcinline{AccessoryListViewController : UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
+\item Um modal einen weiteren View Controller mit Titelleiste für die \strong{Accessory Liste} anzuzeigen, kann dieser wiederum in einem Navigation Controller verpackt werden \abbref{img:seasonizer_ui}. Es sollte eine dynamische Table View in einer Subklasse \swiftinline{AccessoryListViewController: UITableViewController} verwendet werden, um die Liste der verfügbaren Accessories anzuzeigen.
 
 \includegraphicsc{img/seasonizer_ui.png}{img:seasonizer_ui}{Navigation Controller bieten eine einfache Möglichkeit, Navigationsleisten und Toolbars anzuzeigen}
 
-\item Der Accessory List View Controller kann ein privates Attribut \objcinline{NSArray *accessories} mit überschriebener Getter Methode implementieren, das der dynamischen Table View als Informationsquelle dient.
+\item Der \swiftinline{AccessoryListViewController} benötigt eine Liste von Accessories, die er präsentieren soll, sowie eine Möglichkeit, das ausgewählte Accessory wiederum dem präsentierenden View Controller zu kommunizieren. Dazu könnt ihr entweder ein eigenes Delegate Protokoll implementieren, oder Unwind Segues verwenden. Im Skript findet ihr ein Beispiel für die Implementierung eines Delegate Protokolls. Wenn ihr lieber Unwind Segues verwenden möchtet, müsst ihr die Liste von Accessories zunächst in der \swiftinline{prepareForSegue:} Methode weitergeben und dann das ausgewählt Accessory in der Unwind Methode, bspw. \swiftinline{unwindToCanvas:}, auslesen.
 
-\begin{objccode}
-- (NSArray *)accessories {
-    if (!_accessories) {
-        
-        Accessory *sunglasses = [[Accessory alloc] init];
-        sunglasses.title = @"Sonnenbrille";
-        sunglasses.image = [UIImage imageNamed:@"sunglasses"];
+\item Wenn der \swiftinline{CanvasViewController} nun ein \swiftinline{Accessory} bekommt, soll es durch eine View repräsentiert werden, die auf einer transparenten View \swiftinline{accessoryOverlayView} über dem Bild angezeigt wird. Erstellt dafür zunächst eine Subklasse \swiftinline{AccessoryView: UIImageView}:
+\begin{swiftcode}
+// AccessoryView.swift
+import UIKit
 
-        Accessory *sunhat = [[Accessory alloc] init];
-        sunhat.title = @"Sonnenhut";
-        sunhat.image = [UIImage imageNamed:@"sunhat"];
-
-        // ...
-        
-        _accessories = @[sunglasses, sunhat];
+class AccessoryView: UIImageView {    
+    init(accessory: Accessory) {
+        super.init(image: accessory.image)
     }
-    return _accessories;
-}
-\end{objccode}
-
-\item Ihr könnt Bilddateien entweder direkt ins Projekt ziehen und damit referenzieren, oder \strong{Asset Catalogs} verwenden. Im Projekt befindet sich bereits eine \emph{.xcassets} Datei, in der leere Referenzen zu App Icon und Launch Image zu finden sind. Hier könnt ihr einfach weitere Bilddateien auf den linken Listenbereich bewegen. Ein \strong{Image Set} besteht dabei immer aus einer Bilddatei mit normaler und einer mit doppelter Auflösung für Geräte mit Retina Display. Abhängig vom ausführenden Gerät wird hier immer die korrekte Datei geladen. Dies funktioniert ebenfalls für referenzierte Bilddateien außerhalb von Asset Catalogs, die wie \emph{image.png} und \emph{image@2x.png} benannt sind.
-
-\item Die Auswahl eines Accessories kann mithilfe eines eigenen Delegate Protokolls implementiert werden. Dazu benötigt der Accessory List View Controller ein öffentliches Attribut \objcinline{id <AccessorySelectionDelegate> delegate} und sollte das Protokoll in seinem Header definieren:
-
-\begin{objccode}
-// AccessoryListViewController.h
-
-@class Accessory; // Forward Declaration
-@protocol AccessorySelectionDelegate; // Forward Declaration
-
-@interface AccessoryListViewController : UITableViewController
-
-@property (weak, nonatomic) id <AccessorySelectionDelegate> delegate;
-
-@end
-
-@protocol AccessorySelectionDelegate
-
-- (void)accessoryListViewController:(AccessoryListViewController *)accessoryListVC didSelectAccessory:(Accessory *)accessory;
-
-@end
-\end{objccode}
-
-Nun kann das Delegate Objekt über die Auswahl eines Accessories informiert werden:
-
-\begin{objccode}
-// in AccessoryListViewController.m
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Accessory *accessory = [self.accessories objectAtIndex:indexPath.row];
-
-    [self.delegate accessoryListViewController:self didSelectAccessory:accessory];
-    
-}
-\end{objccode}
-
-Wenn der Canvas View Controller den Accessory View Controller präsentiert, muss er dem \objcinline{delegate} Attribut zugewiesen werden:
-
-\begin{objccode}
-// in CanvasViewController.m
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showAccessoryList"]) {
-        // Der Accessory List View Controller ist nicht das direkte Ziel der Segue, sondern dessen Navigation Controller. Daher müssen wir dessen Top View Controller verwenden, der nun der Accessory List View Controller ist.
-        AccessoryListViewController *accessoryListVC = (AccessoryListViewController *)[segue.destinationViewController topViewController];
-        accessoryListVC.delegate = self;
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-}
-\end{objccode}
+}	
+\end{swiftcode}
 
-Der Canvas View Controller muss nun außerdem als Empfänger des \objcinline{AccessorySelectionDelegate} Protokolls markiert werden und dieses implementieren:
+	Diese könnt ihr dann verwenden, um eine Repräsentation des ausgewählten Accessory zu erstellen:
+\begin{swiftcode}
+        let accessoryView = AccessoryView(accessory: accessory)
+        accessoryView.center = accessoryOverlayView.convertPoint(accessoryOverlayView.center, fromView: accessoryOverlayView.superview)
+        self.addAccessoryView(accessoryView) // muss noch implementiert werden
+\end{swiftcode}
 
-\begin{objccode}
-// in CanvasViewController.m
+\item Den Code zum Hinzufügen der Accessory View zur View Hierarchie lagern wir in eine Methode \swiftinline{addAccessoryView:} aus, in der wir die View zunächst konfigurieren können.
 
-- (void)accessoryListViewController:(AccessoryListViewController *)accessoryListVC didSelectAccessory:(Accessory *)accessory {
+Für die Manipulation der Accessories mit Gesten können wir \strong{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \swiftinline{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \swiftinline{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \swiftinline{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
+
+\begin{swiftcode}
+    func addAccessoryView(accessoryView: AccessoryView) {
+        self.accessoryOverlayView.addSubview(accessoryView)
+        accessoryView.userInteractionEnabled = true
+        // Bewegen
+        let panGR = UIPanGestureRecognizer(target:self, action:"pan:")
+        panGR.delegate = self
+        accessoryView.addGestureRecognizer(panGR)
+        // Skalieren
+        let pinchGR = UIPinchGestureRecognizer(target:self, action:"pinch:")
+        pinchGR.delegate = self
+        accessoryView.addGestureRecognizer(pinchGR)
+        // Drehen
+        let rotateGR = UIRotationGestureRecognizer(target:self, action:"rotate:")
+        rotateGR.delegate = self
+        accessoryView.addGestureRecognizer(rotateGR)
+        // Löschen
+        let tapGR = UILongPressGestureRecognizer(target:self, action:"tap:")
+        tapGR.delegate = self
+        accessoryView.addGestureRecognizer(tapGR)
+    }
     
-    [self addAccessory:accessory]; // Diese Methode muss noch implementiert werden
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true // Gesture Recognizer unterbrechen andernfalls die Erkennung einer Geste bei der Erkennung einer anderen
+    }
     
-    // Passe initiale Position und Größe an
-    [accessory sizeToFit];
-    accessory.center = [accessory.superview convertPoint:accessory.superview.center fromView:accessory.superview.superview];
-
-    [accessoryListVC dismissViewControllerAnimated:YES completion:nil];
-}
-\end{objccode}
-
-\item Der Canvas View Controller kann die angezeigten Accessories mit einem Attribut \objcinline{NSMutableArray *accessories} verwalten. Dafür sollte er zwei Methoden \objcinline{addAccessory:} und \objcinline{removeAccessory:} implementieren:
-
-\begin{objccode}
-- (void)addAccessory:(Accessory *)accessory {
-    if (!self.accessories) self.accessories = [[NSMutableArray alloc] init];
-    
-    [self.accessories addObject:accessory]; // add accessory to list
-    [self.accessoryView addSubview:accessory]; // display accessory on screen
-    
-}
-
-- (void)removeAccessory:(Accessory *)accessory {
-    [accessory removeFromSuperview];
-    [self.accessories removeObject:accessory];
-}
-\end{objccode}
-
-\item Für die Manipulation der Accessories mit Gesten können wir \strong{Gesture Recognizer} verwenden. UIKit implementiert einige hilfreiche Subklassen von \objcinline{UIGestureRecognizer}, die bestimmt Multi-Touch Events auf der ihr zugewiesenen View erkennen und ihr Delegate Objekt darüber informieren. Also können wir den Canvas View Controller als Empfänger des \objcinline{UIGestureRecognizerDelegate} Protokolls markieren, Gesture Recognizer in der \objcinline{addAccessory:} Methode hinzufügen und die Delegate Methoden zum Bewegen, Skalieren, Rotieren und Löschen der Accessories implementieren.
-
-\begin{objccode}
-- (void)addAccessory:(Accessory *)accessory {
-    if (!self.accessories) self.accessories = [[NSMutableArray alloc] init];
-    
-    [self.accessories addObject:accessory];
-    [self.accessoryView addSubview:accessory];
-
-    accessory.userInteractionEnabled = YES; // UIImageView empfängt im Allgemeinen keine Touch Events, daher müssen wir dies hier aktivieren
-
-    // Bewegen
-    UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    panGR.delegate = self;
-    [accessory addGestureRecognizer:panGR];
-    
-    // Skalieren
-    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
-    pinchGR.delegate = self;
-    [accessory addGestureRecognizer:pinchGR];
-
-    // Drehen
-    UIRotationGestureRecognizer *rotateGR = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotate:)];
-    rotateGR.delegate = self;
-    [accessory addGestureRecognizer:rotateGR];
-
-    // Löschen
-    UILongPressGestureRecognizer *tapGR = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-    tapGR.delegate = self;
-    [accessory addGestureRecognizer:tapGR];
-    
-}
-
-#pragma mark Gestures
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    // Gesture Recognizer unterbrechen die Erkennung einer Geste bei der Erkennung einer anderen, wenn hier NO zurückgegeben wird. 
-    return YES;
-}
-
-- (void)pan:(UIPanGestureRecognizer *)sender {
-    [sender.view.superview bringSubviewToFront:sender.view];
-    
-    CGPoint translation = [sender translationInView:sender.view.superview];
-    sender.view.center = CGPointMake(sender.view.center.x+translation.x, sender.view.center.y+translation.y);
-
-    [sender setTranslation:CGPointZero inView:sender.view.superview];
-}
-
-- (void)pinch:(UIPinchGestureRecognizer *)sender {
-    [sender.view.superview bringSubviewToFront:sender.view];
-    
-    sender.view.transform = CGAffineTransformScale(sender.view.transform, sender.scale, sender.scale);
-    
-    [sender setScale:1.];
-}
-
-- (void)rotate:(UIRotationGestureRecognizer *)sender {
-    [sender.view.superview bringSubviewToFront:sender.view];
-
-    sender.view.transform = CGAffineTransformRotate(sender.view.transform, sender.rotation);
-    
-    [sender setRotation:0.];
-}
-
-- (void)tap:(UILongPressGestureRecognizer *)sender {
-    if (sender.state!=UIGestureRecognizerStateBegan) return;
-    
-    [self becomeFirstResponder];
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
-    [menuController setMenuItems:@[[[UIMenuItem alloc] initWithTitle:@"Entfernen" action:@selector(removeAccessoryButtonPressed:)]]];
-    [menuController setTargetRect:CGRectMake(sender.view.center.x, sender.view.center.y, 0, 0) inView:sender.view.superview];
-    [menuController setMenuVisible:YES animated:YES];
-
-    tappedAccessory = (Accessory *)sender.view;
-}
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
-- (void)removeAccessoryButtonPressed:(id)sender {
-    [self removeAccessory:tappedAccessory];
-}
-\end{objccode}
+    func pan(sender: UIPanGestureRecognizer) {
+        if let accessoryView = sender.view {
+            accessoryView.superview?.bringSubviewToFront(accessoryView)
+            let translation = sender.translationInView(accessoryView.superview!)
+            accessoryView.center = CGPoint(x: accessoryView.center.x + translation.x, y: accessoryView.center.y + translation.y)
+            sender.setTranslation(CGPointZero, inView: accessoryView.superview!)
+        }
+    }
+    func pinch(sender: UIPinchGestureRecognizer) {
+        if let accessoryView = sender.view {
+            accessoryView.superview?.bringSubviewToFront(accessoryView)
+            accessoryView.transform = CGAffineTransformScale(accessoryView.transform, sender.scale, sender.scale);
+            sender.scale = 1
+        }
+    }
+    func rotate(sender: UIRotationGestureRecognizer) {
+        if let accessoryView = sender.view {
+            accessoryView.superview?.bringSubviewToFront(accessoryView)
+            accessoryView.transform = CGAffineTransformRotate(accessoryView.transform, sender.rotation);
+            sender.rotation = 0
+        }
+    }
+    private var selectedAccessoryView: UIView?
+    func tap(sender: UILongPressGestureRecognizer) {
+        if sender.state != .Began {
+            return
+        }
+        if let accessoryView = sender.view {
+            self.becomeFirstResponder()
+            let menuController = UIMenuController.sharedMenuController()
+            menuController.menuItems = [ UIMenuItem(title: "Remove", action:"removeAccessoryButtonPressed:") ]
+            menuController.setTargetRect(CGRect(x: accessoryView.center.x, y: accessoryView.center.y, width: 0, height: 0), inView: accessoryView.superview!)
+            menuController.setMenuVisible(true, animated: true)
+            self.selectedAccessoryView = accessoryView
+        }
+    }
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    func removeAccessoryButtonPressed(sender: AnyObject) {
+        if let accessoryView = self.selectedAccessoryView {
+            accessoryView.removeFromSuperview()
+        }
+    }
+\end{swiftcode}
 
 Hier sei angemerkt, dass wir aufgrund des Zusammenspiels verschiedener Gesture Recognizer jeweils Delta-Bewegungen verwenden und auf die View anwenden, indem der jeweilige Gesture Recognizer bei jedem Methodenaufruf zurückgesetzt wird.
 
-Der \objcinline{UILongPressGestureRecognizer} zeigt einen speziellen \objcinline{UIMenuController} zur Darstellung eines \emph{Entfernen} Buttons. Damit dieser korrekt angezeigt wird, muss die \objcinline{canBecomeFirstResponder} Methode implementiert werden. Außerdem müssen wir eine Referenz auf das entsprechende \objcinline{Accessory} Objekt zwischenspeichern, um es in der Action Methode weiterverwenden zu können. Dazu kann dem Klasseninterface ein Attribut oder, wie hier gezeigt, eine Instanzvariable hinzugefügt werden:
+Der \swiftinline{UILongPressGestureRecognizer} zeigt einen speziellen \swiftinline{UIMenuController} zur Darstellung eines \str{Entfernen} Buttons. Damit dieser korrekt angezeigt wird, muss die \swiftinline{canBecomeFirstResponder} Methode implementiert werden.
 
-\begin{objccode}
-@interface CanvasViewController () < /* viele Protokolle */ > {
-    
-    Accessory *tappedAccessory; // Instanzvariable
-    
-}
+\item Die Integration eines \strong{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. \swiftinline{UIKit} stellt dafür den \swiftinline{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt. Das Bild sollte in einer Computed Property stets neu generiert werden.
 
-// Attribut- und Methodendefinitionen ...
-
-@end
-
-\end{objccode}
-
-\item Die Integration eines \strong{Activity Sheets} zum Teilen von Inhalten ist denkbar einfach. UIKit stellt dafür den \objcinline{UIActivityViewController} zur Verfügung, der eine Liste von Datenobjekten annimmt und abhängig vom Typ der Daten eine Auswahl von Kanälen zum Teilen anzeigt.
-
-\begin{objccode}
-- (IBAction)actionButtonPressed:(id)sender {
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[self.renderedPicture] applicationActivities:nil];
-    [self presentViewController:activityVC animated:YES completion:nil];
-}
-\end{objccode}
-
-In dieser Methode wird auf die Getter Methode eines Attributs \objcinline{UIImage *renderedPicture} zugegriffen. Dieses Attribut soll dazu dienen, auf das vollständige Bild zugreifen zu können. Es soll dieses aber nicht speichern, sondern bei jedem Aufruf neu generieren, da das Bild sich natürlich ändern kann. Also markieren wir das Attribut bei der Definition als \objcinline{readonly} und überschreiben dessen Getter Methode:
-
-\begin{objccode}
-// im Header
-@property (readonly) UIImage *renderedPicture;
-\end{objccode}
-
-\begin{objccode}
-// in der Implementierung
-- (UIImage *)renderedPicture {
-    UIGraphicsBeginImageContextWithOptions(self.canvasView.frame.size, YES, 0.);
-    [self.canvasView drawViewHierarchyInRect:self.canvasView.bounds afterScreenUpdates:YES];
-    UIImage *renderedPicture = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return renderedPicture;
-}
-\end{objccode}
-
-Hier wurde \objcinline{canvasView} im Storyboard als Superview der Image View (für das Foto) und der Accessory View (für die Accessories) konfiguriert.
-
-\item Als kleines Extra können wir es in der App regnen lassen. Für graphische Spielereien dieser Art müssen wir etwas weiter in die Trickkiste greifen und mit dem \strong{Core Animation} Framework arbeiten. Fügt dem Projekt einfach eine Bilddatei \emph{raindrop.png} mit etwa 15x15 Pixelmaßen hinzu und verwendet folgenden Code:
-
-\begin{objccode}
-// in CanvasViewController.m
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    CAEmitterCell *cell = [CAEmitterCell emitterCell];
-    
-    cell.name = @"raindrop";
-    cell.birthRate = 50.;
-    cell.velocity = 250.;
-    cell.velocityRange = cell.velocity / 2.;
-    cell.yAcceleration = 10.;
-    cell.emissionLongitude = M_PI_2;
-    cell.contents = (id)[UIImage imageNamed:@"raindrop"].CGImage;
-    cell.lifetime = 7.;
-    cell.alphaRange = 1.;
-    cell.alphaSpeed = -1./cell.lifetime;
-    
-    CAEmitterLayer *emitter = [CAEmitterLayer layer];
-    [emitter setEmitterCells:@[cell]];
-    [emitter setFrame:self.navigationController.view.bounds];
-    [emitter setEmitterPosition:CGPointMake(self.navigationController.view.bounds.size.width/2, -15.)];
-    [emitter setEmitterSize:CGSizeMake(self.navigationController.view.frame.size.width, 0.)];
-    [emitter setEmitterShape:kCAEmitterLayerRectangle];
-    [emitter setRenderMode:kCAEmitterLayerAdditive];
-    [self.navigationController.view.layer addSublayer:emitter];
-    
-}
-\end{objccode}
-
-\item Um die Benutzeroberfläche vollständig wiederherstellen zu können, müssen wir sowohl das Foto als auch die hinzugefügten Accessories speichern. Als Methode der Datenspeicherung bietet sich in dieser App die \strong{User Defaults} Mechanik an, doch auch das \strong{State Preservation} System könnte stattdessen verwendet werden.
-
-Zur Speicherung der Accessories müssen wir in der \objcinline{Accessory : UIImageView} Klasse zunächst das \objcinline{NSCoding} Protokoll implementieren. Dieses Protokoll bietet die Möglichkeit, Objekte als \objcinline{NSData} zu serialisieren. \objcinline{UIImageView} implementiert dieses Protokoll bereits, daher müssen wir in der Subklasse lediglich die beiden Schlüsselmethoden überschreiben:
-
-\begin{objccode}
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [super encodeWithCoder:aCoder];
-    
-    // encode properties
-    [aCoder encodeObject:self.title forKey:@"title"];
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if ((self = [super initWithCoder:aDecoder])) {
-    
-        // decode properties
-        self.title = [aDecoder decodeObjectForKey:@"title"];
-        
+\begin{swiftcode}
+    @IBAction func actionButtonPressed(sender: AnyObject) {
+        let activityViewController = UIActivityViewController(activityItems: [ self.renderedPicture ], applicationActivities: nil)
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
-    return self;
-}
-\end{objccode}
-
-Nun können wir das \strong{Notifications} System verwenden, um über die Veränderung des App States informiert zu werden. Bewegt sich die App in den Hintergrund, sollen Bild und Accessories in den User Defaults gespeichert werden. In der \objcinline{viewDidLoad} Methode des Canvas View Controllers fügen wir diesen daher als Empfänger der \objcinline{UIApplicationDidEnterBackgroundNotification} hinzu und implementieren eine Methode, die bei Empfang einer solchen Notification aufgerufen wird:
-
-\begin{objccode}
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
-    
-    // ...
-}
-
-#define kUserDefaultsKeyPhotoImage @"image_data"
-#define kUserDefaultsKeyAccessories @"accessory_data"
-
-- (void)didEnterBackground:(NSNotification *)notification
-{
-    NSData *imageData = UIImagePNGRepresentation(self.photoImageView.image);
-    [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:kUserDefaultsKeyPhotoImage];
-
-    NSData *accessoryData = [NSKeyedArchiver archivedDataWithRootObject:self.accessories]; // NSArray und alle enthaltenen Objekte der Klasse Accessory implementieren das NSCoding Protokoll und können somit archiviert werden
-    [[NSUserDefaults standardUserDefaults] setObject:accessoryData forKey:kUserDefaultsKeyAccessories];
-}
-\end{objccode}
-
-Die Wiederherstellung dieser gesicherten Daten kann nun in der \objcinline{viewDidLoad} Methode erfolgen:
-
-\begin{objccode}
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-        
-    NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyPhotoImage];
-    self.photoImageView.image = [UIImage imageWithData:imageData];
-    
-    NSData *accessoryData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsKeyAccessories];
-    NSArray *accessories = [NSKeyedUnarchiver unarchiveObjectWithData:accessoryData];
-    for (Accessory *accessory in accessories) {
-        [self addAccessory:accessory];
+    var renderedPicture: UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, true, 0)
+        self.view.drawViewHierarchyInRect(self.view.bounds, afterScreenUpdates: true)
+        let renderedPicture = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return renderedPicture
     }
-    
-    // ...
-}
-\end{objccode}
+\end{swiftcode}
 
-Hier verwenden wir die \objcinline{addAccessory:} Methode, um die Accessories der View Hierarchie hinzuzufügen und die Gesture Recognizer zu erzeugen. In der vorherigen Version dieses Dokuments wurde in der \objcinline{addAccessory:} Methode außerdem die Position und Größe des neuen Accessories angepasst. Dies kann jedoch stattdessen in der Delegate Methode \objcinline{accessoryListViewController:didSelectAccessory:} geschehen. Beide Methoden sind oben in der veränderten Form zu finden.
+\item Um die Benutzeroberfläche vollständig wiederherstellen zu können, müssen wir sowohl das Foto als auch die hinzugefügten Accessories speichern. Als Methode der Datenspeicherung bietet sich in dieser App das \strong{State Preservation} System an, doch auch die \strong{User Defaults} Mechanik könnte stattdessen verwendet werden.
 
-\item Implementieren wir einen weiteren Toolbar Button, der die Benutzeroberfläche bei Betätigung \strong{zurücksetzt}, sollte zunächst eine Schaltfläche zur Bestätigung erscheinen.
+Zur Speicherung der Accessories müssen wir in der \swiftinline{AccessoryView: UIImageView} Klasse zunächst das \swiftinline{NSCoding} Protokoll implementieren. Dieses Protokoll bietet die Möglichkeit, Objekte als \swiftinline{NSData} zu serialisieren. \swiftinline{UIImageView} implementiert dieses Protokoll bereits, speichert aber das angezeigte Bild nicht. Daher müssen wir in der Subklasse lediglich die beiden Schlüsselmethoden überschreiben:
 
-Dazu eignet sich wieder ein \objcinline{UIActionSheet}. Dieses muss jedoch in der Implementierung der Delegate Methoden von dem Action Sheet zur Auswahl zwischen Kamera und Fotobibliothek unterschieden werden. Eine Möglichkeit besteht in der Definition eines privaten Attributs für jedes der beiden Action Sheets in der \objcinline{CanvasViewController} Klasse. Dann können wir die Action Methode des Reset Buttons wie folgt implementieren:
+\begin{swiftcode}
+// AccessoryView.swift
+import UIKit
 
-\begin{objccode}
-- (IBAction)resetButtonPressed:(id)sender
-{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:@"Zurücksetzen" otherButtonTitles:nil];
-    self.resetActionSheet = actionSheet; // dient der Identifikation des Action Sheets in der Delegate Methode
-    [actionSheet showFromToolbar:self.navigationController.toolbar];
-}
-\end{objccode}
-
-Analog muss die \objcinline{cameraButtonPressed:} Methode um die Attributzuweisung \objcinline{self.photoActionSheet = actionSheet} erweitert werden.
-
-In der \objcinline{UIActionSheetDelegate} Methode \objcinline{actionSheet:clickedButtonAtIndex:} können wir nun eine Fallunterscheidung zwischen den Action Sheets durchführen:
-
-\begin{objccode}
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==actionSheet.cancelButtonIndex) return;
-    
-    if (actionSheet==self.resetActionSheet&&buttonIndex==actionSheet.destructiveButtonIndex)         {
-        
-        [self resetCanvas]; // muss noch implementiert werden
-        
-    } else if (actionSheet==self.photoActionSheet) {
-        
-        // ...
-        
+class AccessoryView: UIImageView {
+    init(accessory: Accessory) {
+        super.init(image: accessory.image)
+    }
+    override func encodeWithCoder(aCoder: NSCoder) {
+        if let image = self.image {
+            aCoder.encodeObject(UIImagePNGRepresentation(image), forKey: "image")
+        }
+        super.encodeWithCoder(aCoder)
+    }
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        if let imageData = aDecoder.decodeObjectForKey("image") as? NSData {
+            self.image = UIImage(data: imageData)
+        }
     }
 }
-\end{objccode}
+\end{swiftcode}
 
-In einer Methode \objcinline{resetCanvas} kann die Benutzeroberfläche dann zurückgesetzt werden:
+\item Nun müssen wir das State Preservation System lediglich noch aktivieren. Dazu müssen zwei Methoden im App Delegate implementiert werden:
+\begin{swiftcode}
+    func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+    func application(application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        return true
+    }	
+\end{swiftcode}
 
-\begin{objccode}
-- (void)resetCanvas
-{
-    self.photoImageView.image = nil;
-    
-    [self.accessories makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.accessories = nil;
-}
-\end{objccode}
+Außerdem muss jeder View Controller, der wiederhergestellt werden soll, sowohl alle View Controller in seiner View Controller Hierarchie, einen \swiftinline{restorationIdentifier} besitzen. Dieser kann im Storyboard im Identity Inspector zugewiesen werden. Der Navigation Controller und der Canvas View Controller benötigen also einen solchen.
+
+Schließlich muss nur noch die Wiederherstellung des Canvas View Controllers konfiguriert werden. Dies geschieht in zwei Methoden, die wir überschreiben müssen:
+\begin{swiftcode}
+    // in CanvasViewController.swift
+    override func encodeRestorableStateWithCoder(coder: NSCoder) {
+        if let photo = photoImageView.image {
+            let imageData = UIImagePNGRepresentation(photo)
+            coder.encodeObject(imageData, forKey: "photo")
+        }
+        coder.encodeObject(NSKeyedArchiver.archivedDataWithRootObject(self.accessoryViews), forKey: "accessoryViews")
+        super.encodeRestorableStateWithCoder(coder)
+    }
+    override func decodeRestorableStateWithCoder(coder: NSCoder) {
+        if let photoData = coder.decodeObjectForKey("photo") as? NSData {
+            photoImageView.image = UIImage(data: photoData)
+        }
+        if let accessoryViewsData = coder.decodeObjectForKey("accessoryViews") as? NSData {
+            let accessoryViews = NSKeyedUnarchiver.unarchiveObjectWithData(accessoryViewsData) as! [AccessoryView]
+            for accessoryView in accessoryViews {
+                self.addAccessoryView(accessoryView)
+            }
+        }
+        super.decodeRestorableStateWithCoder(coder)
+    }	
+\end{swiftcode}
+
+Hier verwenden wir wieder die \swiftinline{addAccessoryView:} Methode um die Accessories der View Hierarchie hinzuzufügen und die Gesture Recognizer zu erzeugen.
+
+\item Implementieren wir einen weiteren Toolbar Button, der die Benutzeroberfläche bei Betätigung \strong{zurücksetzt}, sollte zunächst eine Schaltfläche zur Bestätigung erscheinen. Dazu eignet sich wieder ein \swiftinline{UIAlertController} im \swiftinline{.ActionSheet} Stil.
 
 \end{itemize}
 
@@ -1834,24 +1619,7 @@ In einer Methode \objcinline{resetCanvas} kann die Benutzeroberfläche dann zur�
 
 Auf GitHub findet ihr eine Beispielimplementierung des Seasonizers \linkref{https://github.com/iOS-Dev-Kurs/seasonizer}, die ihr als Referenz verwenden und auch weiterentwickeln könnt.
 
-Anstatt mein Repository direkt lokal zu klonen, könnt ihr mit eurem eigenen GitHub Account den Fork Button \linkref{https://github.com/iOS-Dev-Kurs/seasonizer/fork} meines Repositories klicken. Damit wird das Repository serverseitig unter eurem Account geklont. Ihr könnt es nun auf eurem Account finden und lokal klonen:
-
-\begin{shcode}
-cd path/to/directory
-git clone https://github.com/yourusername/seasonizer
-\end{shcode}
-
-Hier könnt ihr nun Commits durchführen und diese mit eurer serverseitigen Kopie meines Repositories abgleichen.
-
-\begin{shcode}
-# add commits ...
-git push
-\end{shcode}
-
-Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, einen Merge mit den Änderungen durchzuführen.
-
-Andere Entwickler, die mein Repository geklont haben, können diese Änderungen anschließend herunterladen. In dieser Form kann ein Open Source Programmierprojekt weltweit von interessierten Entwicklern weiterentwickelt werden. Und dem Seasonizer sind damit keine Grenzen gesetzt.
-
+Haltet ihr eure Änderungen für so genial oder notwendig, dass sie in mein Original Repository übernommen werden sollten, könnt ihr mir über die GitHub Webseite eine \strong{Pull Request} schicken, die mich auffordert, einen Merge mit den Änderungen durchzuführen. In dieser Form kann ein Open Source Programmierprojekt weltweit von interessierten Entwicklern weiterentwickelt werden. Und dem Seasonizer sind damit keine Grenzen gesetzt.
 
 \end{lecture}
 

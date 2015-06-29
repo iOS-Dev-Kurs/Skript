@@ -1249,10 +1249,6 @@ func userDefaultsDidChange(notification: NSNotification) {
 \end{swiftcode}
 
 
-% MARKER %
-
-\end{document}
-
 
 \chapter{Entwicklungsprozess von iOS Apps}
 
@@ -1261,33 +1257,48 @@ func userDefaultsDidChange(notification: NSNotification) {
 
 Während der Softwareentwicklung werden häufig Umstrukturierungen vorgenommen, Features ergänzt oder verändert und Schnittstellen angepasst. Die Orientierung an grundlegenden Konzepten der Softwarestrukturierung wie dem Model-View-Controller Konzept vereinfacht solche Codeänderungen natürlich, doch es besteht weiterhin immer die Gefahr, dass zuvor funktionierender Code plötzlich Fehler aufwirft, die schwierig zu finden und zu beheben sein können.
 
-Ein sehr sinnvolles Instrument zur Sicherung stabiler Software sind \emph{Unit Tests}. Dies sind Methoden, die einzelne Codeblöcke (\emph{Units of Code}) testen und immer entweder mit \emph{Fail} oder \emph{Pass} abschließen. Ein solcher Codeblock bezeichnet dabei \emph{die kleinste testbare Einheit}. Häufig sind dies einzelne Methoden im Model, deren Rückgabewert kontextbedingt überprüft wird.
+Ein sehr sinnvolles Instrument zur Sicherung stabiler Software sind \emph{Unit Tests}. Dies sind Methoden, die einzelne Codeblöcke (\emph{units of code}) testen und immer entweder mit \emph{Fail} oder \emph{Pass} abschließen. Ein solcher Codeblock bezeichnet dabei \emph{die kleinste testbare Einheit}. Häufig sind dies einzelne Methoden im Model, deren Rückgabewert kontextbedingt überprüft wird.
 
 Einmal geschrieben werden alle Unit Tests häufig ausgeführt, bspw. periodisch auf einem Server oder bei Gelegenheit lokal. Treten dabei Probleme auf, sind die Ursachen bei gut geschriebenen Tests leicht zu finden. Häufig können so sogar Fehler gefunden werden, die bei normalem "{}User testing"{} übersehen werden.
 
-Meist sind die Testmethoden in Subklassen einer bestimmten Klasse des entsprechenden Unit Test Frameworks organisiert. In Objective-C steht dazu das \emph{XCTest} Framework \linkref{https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html} mit der Klasse \objcinline{XCTestCase} zur Verfügung. Jede Testmethode ist durch den Prefix \objcinline{test} des Methodennamens gekennzeichnet und erscheint damit bspw. automatisch im Xcode \emph{Test Navigator} \secref{sec:navigator} und wird bei Betätigung von \keys{\cmd + U} automatisch ausgeführt. Außerdem werden die beiden Methoden \objcinline{setUp} und \objcinline{tearDown} der entsprechenden \objcinline{XCTestCase} Subklasse vor bzw. nach dem Test ausgeführt.
+Meist sind die Testmethoden in Subklassen einer bestimmten Klasse des entsprechenden Unit Test Frameworks organisiert. Auf iOS steht dazu das \swiftinline{XCTest} Framework \linkref{https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html} mit der Klasse \swiftinline{XCTestCase} zur Verfügung. Jede Testmethode ist durch den Prefix \swiftinline{test} des Methodennamens gekennzeichnet und erscheint damit bspw. automatisch im Xcode \emph{Test Navigator} \secref{sec:navigator} und wird bei Betätigung von \keys{\cmd + U} automatisch ausgeführt. Außerdem werden die beiden Methoden \swiftinline{setUp} und \swiftinline{tearDown} der entsprechenden \swiftinline{XCTestCase} Subklasse vor bzw. nach dem Test ausgeführt.
 
-Ein Beispiel für einen Unit Test ist folgende Methode in einer \objcinline{XCTestCase} Subklasse:
+Ein Beispiel für einen Unit Test ist folgende Methode in einer \swiftinline{XCTestCase} Subklasse:
 
-\begin{objccode}
-- (void)testEqualityOfDifferentStringsWithEqualContent
-{
-    NSString *string = @"content";
-    NSString *otherString = @"content";
-    XCTAssertEqual(string, otherString, @"Strings with equal content are not equal.");
+\begin{swiftcode}
+func testEqualityOfDifferentStringsWithEqualContent() {
+    let string = "content"
+    let otherString = "content"
+    XCTAssertEqual(string, otherString, "Strings with equal content are not equal.")
 }
-\end{objccode}
+\end{swiftcode}
 
-Das \emph{Foundation} Framework sollte diesen Test stets erfüllen, da \objcinline{NSString} die \objcinline{isEqual:} Methode als Vergleich der enthaltenen Zeichenketten implementiert. Apple könnte diesen Test implementieren, sodass dieses Verhalten bei Codeänderungen im \emph{Foundation} Framework immer überprüft und abgesichert wird.
+Die Swift Standard Library sollte diesen Test stets erfüllen, da \swiftinline{String} das \swiftinline{Equatable} Protokoll als Vergleich der enthaltenen Zeichenketten implementiert. Apple könnte diesen Test implementieren, sodass dieses Verhalten bei Codeänderungen immer überprüft und abgesichert wird.
 
-Unit Tests sollten Teil jedes größeren Softwareprojekts sein. Einige Entwickler gehen sogar noch einen Schritt weiter und schreiben nach dem Prinzip des \strong{Test Driven Development (TDD)} \linkref{http://en.wikipedia.org/wiki/Test-driven_development} bei jedem Abschnitt des Entwicklungsprozesses zuallererst die Unit Tests, die der Code letztendlich erfüllen soll und die die gewünschte Funktionalität definieren. Dann wird daran gearbeitet, diese Tests möglichst einfach zu erfüllen, bevor die nächsten Unit Tests definiert werden. Diese Vorgehensweise führt zu Code, bei dem idealerweise kein aufwändiges Debugging betrieben werden muss, da er aus einzelnen, umfassend getesteten Segmenten besteht.
+Xcode 7 führt zusätzlich das \swiftinline{XCUITest} Framework für \emph{UI Testing} ein. Dabei wird die \swiftinline{Accessibility} API verwendet, die zur alternativen Bedienung von Apps für Menschen mit Behinderungen konzipiert wurde, um das User Interface im Code zu steuern. Dann kann der Zustand der App an entsprechenden Stellen überprüft werden. Dabei werden User Interface Elemente durch \emph{Proxy} Objekte repräsentiert, die durch ihr Accessibility Label gekennzeichnet sind. Im folgenden Beispiel wird ein Tap auf einen Button simuliert und anschließend überprüft, ob dadurch ein Gruß angezeigt wurde:
+
+\begin{swiftcode}
+let app = XCUIApplication()
+XCTestAssertFalse(app.staticText["Hello World!"].exists, "Greeting shown before button was pressed")
+app.buttons["Say Hi"].tap()
+XCTestAssertTrue(app.staticText["Hello World!"].exists, "Greeting not shown upon button press")
+\end{swiftcode}
+
+Unit Tests sollten Teil jedes größeren Softwareprojekts sein. Einige Entwickler gehen sogar noch einen Schritt weiter und schreiben nach dem Prinzip des \emph{Test Driven Development (TDD)} \linkref{http://en.wikipedia.org/wiki/Test-driven_development} bei jedem Abschnitt des Entwicklungsprozesses zuallererst die Unit Tests, die der Code letztendlich erfüllen soll und die die gewünschte Funktionalität definieren. Dann wird daran gearbeitet, diese Tests möglichst einfach zu erfüllen, bevor die nächsten Unit Tests definiert werden. Diese Vorgehensweise führt zu Code, bei dem idealerweise kein aufwändiges Debugging betrieben werden muss, da er aus einzelnen, umfassend getesteten Segmenten besteht.
 
 
 \section{Open Source Libraries \& CocoaPods}
 
-Zur Entwicklung unserer Apps haben wir bisher die von Apple bereitgestellten Frameworks wie \emph{Foundation} und \emph{UIKit} verwendet. Diese bilden die Grundlage jeder iOS App, doch natürlich stoßen wir im Verlauf der Entwicklung einer oder mehrerer Apps auf Code, den wir wiederholt schreiben und in eigene Libraries auslagern möchten. So kann solcher Code wiederverwendet und ggf. an andere Entwickler weitergegeben werden. Es hat sich mittlerweile eine rasch wachsende Open Source Community um die iOS Entwicklung gebildet. Nicht zuletzt ist dies dem \emph{CocoaPods} \linkref{http://cocoapods.org} Projekt zu verdanken.
+Zur Entwicklung unserer Apps haben wir bisher die von Apple bereitgestellten Frameworks wie \swiftinline{Foundation} und \swiftinline{UIKit} verwendet. Diese bilden die Grundlage jeder iOS App, doch natürlich stoßen wir im Verlauf der Entwicklung einer oder mehrerer Apps auf Code, den wir wiederholt schreiben und in eigene Libraries auslagern möchten. So kann solcher Code wiederverwendet und ggf. an andere Entwickler weitergegeben werden. Es hat sich mittlerweile eine sehr aktive Open Source Community um die iOS Entwicklung gebildet. Nicht zuletzt ist dies dem \emph{CocoaPods} \linkref{http://cocoapods.org} Projekt zu verdanken.
 
-CocoaPods ist ein Dependency Manager für Objective-C. Entwickler, die ihre Library zur Verfügung stellen möchten, registrieren ihr Repository in Form eines \emph{CocoaPod}. Anschließend kann ein solcher Pod im eigenen Projekt integriert werden, indem eine Datei \emph{Podfile} mit der Zeile \shinline{pod 'PodName'} erstellt und im Terminal \shinline{pod install} ausgeführt wird.
+CocoaPods ist ein Dependency Manager für Swift und Objective-C. Entwickler, die ihre Library zur Verfügung stellen möchten, registrieren ihr Repository in Form eines \emph{CocoaPod}. Anschließend kann ein solcher Pod im eigenen Projekt integriert werden, indem eine Datei \emph{Podfile} mit der Zeile \shinline{pod 'PodName'} erstellt und im Terminal \shinline{pod install} ausgeführt wird. Um bspw. mein Swift Logging Framework \swiftinline{Evergreen} \linkref{https://github.com/viWiD/Evergreen} in ein iOS Projekt zu integrieren, kann einfach ein Podfile mit folgendem Inhalt erstellt und installiert werden:
+
+\begin{shcode}
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+pod 'Evergreen'	
+\end{shcode}
 
 CocoaPods vereinfacht den Prozess damit erheblich, eine Open Source Library (ggf. mit eigenen Dependencies) eines anderen Entwicklers einzubinden, unter möglichen Versionierungseinschränkungen aktuell zu halten und in Xcode zu integrieren. Die meisten Open Source Libraries der iOS Plattform sind mittlerweile als CocoaPod verfügbar. Einen Überblick über die beliebtesten Projekte gibt eine GitHub Suche nach den \emph{Most Starred} Objective-C Repositories \linkref{https://github.com/search?l=Objective-C&q=stars\%3A\%3E0&ref=searchresults&type=Repositories}.
 
@@ -1295,11 +1306,13 @@ Natürlich gibt es auch andere Möglichkeiten, öffentlichen Code im eigenen Pro
 
 \begin{itemize}
 \item Das öffentliche Repository kann heruntergeladen und die Dateien dem Projekt manuell hinzugefügt werden, doch Aktualisierungen gestalten sich dann natürlich schwierig.
-\item \emph{Git Submodules} \linkref{http://git-scm.com/book/de/Git-Tools-Submodule} sind situationsbedingt eine sinnvolle Alternative zu CocoaPods. Diese verhalten sich wie eigene Git Repositories eingebettet in ihrem Parent-Repository und sind nützlich, wenn kein CocoaPod angeboten wird oder zeitgleich an dem eingebundenen Repository weitergearbeitet werden soll.
-
-Ich verwende bspw. in fast jedem meiner Projekte ein Repository \linkref{https://github.com/viWiD/VIOSFramework} als Submodule, in dem viele meiner häufig verwendeten Klassen ausgelagert sind. Dazu gehören bspw. Klassen wie \objcinline{VIArrayDataSource} \linkref{https://github.com/viWiD/VIOSFramework/tree/master/Data\%20Sources/VIArrayDataSource}, die eine Implementierung des \objcinline{UITableViewDataSource} Protokolls für Arrays darstellt und einfach wiederverwendet werden kann oder \objcinline{VILogger} \linkref{https://github.com/viWiD/VIOSFramework/tree/master/VILogger} als Ersatz für \objcinline{NSLog()}.
+\item \emph{Git Submodules} \linkref{http://git-scm.com/book/de/Git-Tools-Submodule} sind situationsbedingt eine sinnvolle Alternative oder Ergänzung zu CocoaPods. Diese verhalten sich wie eigene Git Repositories eingebettet in ihrem Parent-Repository und sind nützlich, wenn kein CocoaPod angeboten wird oder zeitgleich an dem eingebundenen Repository weitergearbeitet werden soll.
 \end{itemize}
 
+
+% MARKER %
+
+\end{document}
 
 
 \section{Design \& Konzeption von iOS Apps}

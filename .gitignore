@@ -23,6 +23,8 @@ Resources/
 
 # minted
 _minted*
+*.mintedcmd
+*.mintedmd5
 *.pyg
 
 # Xcode

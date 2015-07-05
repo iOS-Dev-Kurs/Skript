@@ -1310,16 +1310,11 @@ Natürlich gibt es auch andere Möglichkeiten, öffentlichen Code im eigenen Pro
 \end{itemize}
 
 
-% MARKER %
-
-\end{document}
-
-
 \section{Design \& Konzeption von iOS Apps}
 
-Eleganter und sinnvoll in Form der bereits diskutierten Architekturkonzepte strukturierter Programmcode bedingt natürlich die Performance unserer App, letztendlich sieht der Benutzer jedoch allein deren User Interface und beurteilt die Funktionsweise anstatt der Architektur. 
+Strukturierter Programmcode bedingt natürlich die Performance unserer App und kann Fehler vermeiden, doch letztendlich sieht der Benutzer allein das User Interface der App.
 
-Aufgrund der mobilen Natur der iOS Plattform und der einfachen Handhabung von Appinstallationen steht (gerade kostenlosen) Apps nur eine begrenzte Zeit zur Verfügung, den Benutzer zu überzeugen. Selten nehmen sich Benutzer die Zeit, sich mit den Funktionen einer App im Detail auseinanderzusetzen, wenn die Benutzerführung nicht sofort intuitiv klar ist.
+Aufgrund der mobilen Natur der iOS Plattform und der einfachen Handhabung von App-Installationen steht (gerade kostenlosen) Apps nur eine begrenzte Zeit zur Verfügung, den Benutzer zu überzeugen. Selten nehmen sich Benutzer die Zeit, sich mit den Funktionen einer App im Detail auseinanderzusetzen, wenn die Benutzerführung nicht sofort intuitiv klar ist.
 
 Dabei wird sich bspw. kaum ein Benutzer über eine leicht verlängerte Laufzeit eines Prozesses aufgrund eines ineffektiven Algorithmus beschweren, solange ihm der Fortschritt auf dem Bildschirm präsentiert wird. Eine "{}eingefrorene"{} App, die jedoch auf effektivste Weise arbeitet, stört das Benutzererlebnis dagegen enorm und wird schnell wieder gelöscht.
 
@@ -1329,7 +1324,7 @@ Erfolgreiche Apps sind daher sorgfältig konzipiert und getestet und zeichnen si
 
 \subsection{App Statement}
 
-Beim Konzeptionsprozesses einer App kann es helfen, die wesentlichen Ideen bereits zu Beginn in einem Satz zu charakterisieren. Während der Entwicklung dient dieses \strong{App Statement} anschließend stets der Orientierung und hilft, den Fokus auf die wesentlichen Elemente nicht zu verlieren.
+Beim Konzeptionsprozesses einer App kann es helfen, die wesentlichen Ideen bereits zu Beginn in einem Satz zu charakterisieren. Während der Entwicklung dient dieses \emph{App Statement} anschließend stets der Orientierung und hilft, den Fokus auf die wesentlichen Elemente nicht zu verlieren.
 
 Für die meisten erfolgreichen Apps lässt sich ein solches App Statement ohne Probleme erfassen, da sie auf die Handhabung einer bestimmten Situation ausgerichtet sind. Anhand einiger auf euren Geräten installierter Apps könnt ihr dies schnell überprüfen.
 
@@ -1343,9 +1338,7 @@ Die Benutzeroberfläche der App ist entsprechend dieser Aussage auf das Wesentli
 
 \subsection{Mockups}
 
-Nach der Verfassung eines App Statements gilt es, Benutzeroberfläche und Datenstrukturen zu konzeptionieren. Für beide eignet sich tatsächlich der traditionelle \strong{Bleistift} am besten, um auf Papier Skizzen anzufertigen.
-
-Anschließend lassen sich anhand dieser dann sehr einfach Storyboards und Core Data Models erstellen.
+Nach der Verfassung eines App Statements gilt es, Benutzeroberfläche und Datenstrukturen zu konzeptionieren. Für beide eignet sich tatsächlich der traditionelle \strong{Bleistift} am besten um Skizzen anzufertigen. Anschließend lassen sich anhand dieser dann sehr einfach Storyboards und Core Data Models erstellen.
 
 \subsection{Human Interface Guidelines}
 
@@ -1358,25 +1351,24 @@ Am Ende des initialen Entwicklungsprozesses einer iOS App steht häufig die Ver�
 
 \subsection{Entwickleraccount}
 
-Während ihr im Rahmen dieses Kurses Teil des iOS Developer Teams der Uni Heidelberg seid, benötigt ihr für die Veröffentlichung eurer Apps im App Store einen eigenen Entwickleraccount. Mit eurer Apple ID könnt ihr dazu dem iOS Developer Program als \strong{Individual} oder \strong{Company} für jeweils etwa 80€ jährlich beitreten \linkref{https://developer.apple.com/programs/ios/}. Diese unterscheiden sich lediglich in der zusätzlichen Möglichkeit des Company Accounts, ein Developer Team mit mehreren Mitgliedern und ihren Rechten zu verwalten. Arbeitet ihr zunächst allein, ist ein Individual Account ausreichend und kann bei Bedarf mit Kontakt zum Apple Developer Support später in einen Company Account umgewandelt werden.
+Während ihr im Rahmen dieses Kurses Teil des iOS Developer Teams der Uni Heidelberg seid, benötigt ihr für die Veröffentlichung eurer Apps im App Store einen eigenen Entwickleraccount. Mit eurer Apple ID könnt ihr dazu dem Apple Developer Program als \emph{Individual} oder \emph{Company} für jeweils etwa 80€ jährlich beitreten \linkref{https://developer.apple.com/programs/}. Diese unterscheiden sich lediglich in der zusätzlichen Möglichkeit des Company Accounts, ein Developer Team mit mehreren Mitgliedern und ihren Rechten zu verwalten. Arbeitet ihr zunächst allein, ist ein Individual Account ausreichend und kann bei Bedarf mit Kontakt zum Apple Developer Support später in einen Company Account umgewandelt werden.
 
-Während ihr auch ohne einen solchen bezahlten Entwickleraccount Apps schreiben und auf dem Simulator testen könnt, ist er notwendig, um Certificates und Provisioning Profiles zur Installation auf iOS Geräten und zur Veröffentlichung im App Store generieren zu können \secref{sec:provisioning}.
 
 \subsection{Unternehmensanmeldung}
 
 \strong{Hinweis:} Natürlich bin ich weder Anwalt noch Finanzberater und kann hier allein meine eigene Erfahrung wiedergeben. Wertvolle Informationen zu Themen dieser Art kann hingegen die lokale \strong{IHK / Industrie- und Handelskammer} geben.
 
-Es ist unumgänglich, aber sehr einfach, für die Teilnahme am iOS Developer Program ein Unternehmen anzumelden. Dazu ist lediglich ein Besuch beim nächsten \strong{Gewerbeamt}, die Angabe einiger Daten und die Bezahlung einer geringen Gebühr von etwa 30€ erforderlich.
+Es ist notwendig, aber sehr einfach, für die Teilnahme am Apple Developer Program ein Unternehmen anzumelden. Dazu ist lediglich ein Besuch beim nächsten \strong{Gewerbeamt}, die Angabe einiger Daten und die Bezahlung einer geringen Gebühr von etwa 30€ erforderlich.
 
 Ein Name für das Unternehmen muss an dieser Stelle im Allgemeinen nicht angegeben werden. Trotzdem sollte sich natürlich eine Geschäftsbezeichnung überlegt werden. Sobald diese öffentlich verwendet wird, gilt sie als die offizielle Bezeichnung des Unternehmens und unterliegt einem rechtlichen Schutz. Es kann hilfreich sein, sich die Geschäftsbezeichnung von einer öffentlichen Instanz, wie bspw. der lokalen IHK, bestätigen zu lassen. Unbedingt sollte vorher darauf geachtet werden, dass der gewählte Name nicht anderweitig ähnlich verwendet wird, um Konflikte zu vermeiden. Außerdem muss der Name frei von geschützten Begriffen sein, insbesondere Bezeichnungen wie \emph{iPhone} oder \emph{iOS}.
 
-Das Dokument der Gewerbeanmeldung sowie der Bescheid über die Erteilung der Steuernummer muss bei der Anmeldung zum iOS Developer Program auf Anfrage eingereicht werden.
+Das Dokument der Gewerbeanmeldung sowie der Bescheid über die Erteilung der Steuernummer muss bei der Anmeldung zum Apple Developer Program auf Anfrage eingereicht werden.
 
 Natürlich ist anschließend eine jährliche Steuererklärung einzureichen. Im Rahmen der Kleinunternehmerregelung gibt es hier eine untere Grenze für das zu versteuernde Einkommen, über die das Finanzamt oder die IHK informiert.
 
 \subsection{iTunesConnect}
 
-Die Schnittstelle zum iOS App Store stellt die Weboberfläche \strong{iTunes Connect \linkref{https://itunesconnect.apple.com}} dar. Hier können sämtliche Metadaten eurer Apps im App Store verwaltet werden. Dazu gehören Anzeigename und -icon, Beschreibung und Screenshots sowie Preis- und Verfügbarkeitseinstellungen.
+Die Schnittstelle zum iOS App Store stellt die Weboberfläche \emph{iTunes Connect \linkref{https://itunesconnect.apple.com}} dar. Hier können sämtliche Metadaten eurer Apps im App Store verwaltet werden. Dazu gehören Anzeigename und -icon, Beschreibung und Screenshots sowie Preis- und Verfügbarkeitseinstellungen.
 
 Mit eurer Apple ID eingeloggt, könnt ihr Apps erstellen und deren Metadaten bearbeiten.
 
@@ -1390,17 +1382,17 @@ Außerdem ist zu beachten, dass der App Name entscheidend zum Suchergebnis beitr
 
 \subsubsection{Binary Upload}
 
-Um eine neue App oder ein Update zu veröffentlichen, muss die entsprechende App im iTunes Connect Interface durch  
+Um eine neue App oder ein Update zu veröffentlichen, muss die entsprechende App zunächst im iTunes Connect Interface angelegt bzw. eine neue Version erstellt werden.
 
-Mit Xcode kann ein \strong{Archive} kompiliert werden, das eine abgeschlossene Version der App darstellt. Wählt dazu \emph{iOS Gerät} als Target und anschließend \menu{Product > Archive}.
+Mit Xcode kann ein \emph{Archive} kompiliert werden, das eine abgeschlossene Version der App darstellt. Wählt dazu \emph{iOS Gerät} als Target und anschließend \menu{Product > Archive}.
 
-Nach dem Kompilieren erscheint das Archive im Organizer, auch aufrufbar mit der Tastenkombination \keys{\cmd+\shift+2}. Ein Klick auf \emph{Distribute} öffnet den Dialog zum Upload zu iTunes Connect. Hier kann das entsprechende Distribution Provisioning Profile und der korrespondierende Eintrag in iTunes Connect ausgewählt werden. Letzterer erscheint nur, wenn die App im iTunes Connect Interface zuvor mit einem Klick auf \emph{Ready to upload binary} markiert wurde. Anschließend wird die App Binary auf Konfigurationsfehler geprüft und hochgeladen.
+Nach dem Kompilieren erscheint das Archive im \emph{Organizer} (\menu{Window > Organizer}). Ein Klick auf \emph{Upload to App Store} öffnet den Dialog zum Upload zu iTunes Connect. Hier kann das entsprechende Distribution Provisioning Profile und der korrespondierende Eintrag in iTunes Connect ausgewählt werden. Anschließend wird das App Binary auf Konfigurationsfehler geprüft und hochgeladen. In iTunes Connect kann das Binary dann ausgewählt und einer App Version hinzugefügt werden.
 
 \subsection{App Review}
 
 Jede neue App und jedes Update wird zunächst von Apple Mitarbeitern geprüft, bevor es im App Store veröffentlicht wird. Dieser Review Prozess dauert in der Regel nur wenige Tage, kann jedoch häufig zu einer Zurückweisung führen.
 
-In den meisten Fällen handelt es sich bei dem Grund für eine Zurückweisung um einen Fehler in der App, wie bspw. einen Crash oder einen offensichtlichen Anzeigefehler. Solche sollten natürlich einfach behoben und die App mit kurzem Dank für den Hinweis erneut eingereicht werden.
+In den meisten Fällen handelt es sich bei dem Grund für eine Zurückweisung um einen Fehler in der App, wie bspw. einen Crash oder einen offensichtlichen Anzeigefehler. Solche sollten natürlich einfach behoben und die App erneut eingereicht werden.
 
 Manchmal führen jedoch auch andere Mängel zu einer Zurückweisung, die nicht sofort offensichtlich aber in den Reviewnotizen beschrieben sind. Eine meiner Apps, die in Zusammenspiel mit einer anderen konzipiert wurde, ist bspw. aufgrund fehlender Funktionalität als eigenständige App zurückgewiesen worden. Nach einer Erklärung meinerseits wurde die App akzeptiert, trotzdem habe ich der App in einem folgenden Update einen klaren Hinweis auf die Funktionalität hinzugefügt und einige Funktionen überdacht. Eine App wird hier von erfahrenen Apple Mitarbeitern getestet und Zurückweisungen sollten als Anlass genommen werden, sich konzeptionell mit den bemängelten Aspekten der App auseinanderzusetzen.
 
@@ -1416,39 +1408,33 @@ Das konventionelle Geschäftsmodell im App Store ordnet jeder App einen Preis zu
 
 Im iTunesConnect Interface kann zwischen verschiedenen Preiskategorien gewählt werden, die in den App Stores einem vergleichbaren Wert in der lokalen Währung entsprechen.
 
-Die Wahl eines Preises ist nicht einfach und sollte wohlüberlegt sein. Offensichtlich ist, dass ein niedrigerer Preis nahezu in jedem Fall zu mehr Verkäufen führt und ein höherer Preis zu weniger Verkäufen. Dieser Zusammenhang ist jedoch nicht unbedingt proportional und damit der Umsatz als Produkt von Preis und Verkaufszahl nicht konstant. Das Umsatzmaximum zu finden ist schwierig und es spielen viele Faktoren eine Rolle, von denen die Wahl der Zielgruppe sicherlich einer der Wichtigsten ist. Es ist sehr einfach, den Preis einer App jederzeit zu ändern und es bietet sich an, Umsatzänderungen durch regelmäßige Preisanpassungen zu erfassen.
+Die Wahl eines Preises ist nicht einfach und sollte wohlüberlegt sein. Offensichtlich ist, dass ein niedrigerer Preis nahezu in jedem Fall zu mehr Verkäufen führt und ein höherer Preis zu weniger Verkäufen. Dieser Zusammenhang ist jedoch nicht unbedingt proportional und damit der Umsatz als Produkt von Preis und Verkaufszahl nicht konstant. Das Umsatzmaximum zu finden ist schwierig und es spielen viele Faktoren eine Rolle, von denen die Wahl der Zielgruppe sicherlich einer der Wichtigsten ist. Es ist sehr einfach, den Preis einer App jederzeit zu ändern und es bietet sich an, Umsatzänderungen durch regelmäßige Preisanpassungen zu testen.
 
 Weit verbreitet ist der Trugschluss, dass Apps in den untersten Preiskategorien platziert sein müssen, um erfolgreich zu sein. Abhängig von der Zielgruppe der App kann ein sinnvoller Preis gewählt werden, der konstante Umsätze generiert.
 
 \subsubsection{Gratis \& Werbefinanziert}
 
-Zunächst ist es wichtig anzumerken, dass natürlich nicht jede App profitorientiert verkauft wird und es gibt viele Gründe, Apps kostenlos anzubieten.
+Zunächst ist es wichtig anzumerken, dass natürlich nicht jede App profitorientiert verkauft wird und es gibt viele Gründe, Apps kostenlos anzubieten. Viele Unternehmen wie Yelp\linkref{http://www.yelp.de}, Flickr\linkref{http://www.flickr.com} und natürlich Facebook\linkref{http://www.facebook.com} und Twitter\linkref{http://www.twitter.com} bieten kostenlose Apps zu ihrem Onlineservice, um ihren Nutzern von Smartphones und Tablets nativen Zugriff auf die angebotenen Funktionen zu ermöglichen. Ähnliche \emph{Companion Apps} werden auch für lokale Unternehmen wie Shops und Restaurants immer beliebter. Während bei Companion Apps in der Regel andere Formen der Monetarisierung existieren, gibt es auch völlig kostenfreie Apps, zu denen häufig Hobby- und Open-Source-Projekte gehören.
 
-Viele Unternehmen wie Yelp\linkref{http://www.yelp.de}, Flickr\linkref{http://www.flickr.com} und natürlich Facebook\linkref{http://www.facebook.com} und Twitter\linkref{http://www.twitter.com} bieten kostenlose Apps zu ihrem Onlineservice, um ihren Nutzern von Smartphones und Tablets nativen Zugriff auf die angebotenen Funktionen zu ermöglichen. Ähnliche \strong{Companion Apps} werden auch für lokale Unternehmen wie Shops und Restaurants immer beliebter.
+Die Integration von \strong{Werbung} in eine kostenlose App ist ein verbreitetes Geschäftsmodell und kann situationsbedingt zu höheren Umsätzen als das konventionelle Bezahlkonzept führen. Mit Apple's iAd Framework ist es sehr einfach, Werbebanner verschiedener Formate in einer App anzuzeigen. Außerdem sind die iAd Banner qualitativ hochwertig, interaktiv und verursachen keinen störenden App-Wechsel. Die schnellste Möglichkeit der Implementierung besteht aus nur zwei Zeilen Code in einer View Controller Klasse:
 
-Während bei Companion Apps in der Regel andere Formen der Monetarisierung existieren, gibt es auch völlig kostenfreie Apps, zu denen häufig \strong{Hobby- und Open-Source-Projekte} gehören. Es kann sehr sinnvoll sein, eine solche App zu veröffentlichen. Kostenlose Apps werden um ein Vielfaches häufiger heruntergeladen als bezahlte und können bspw. Benutzer auf andere eigene Apps oder Webseiten aufmerksam machen oder als Showcase für potentielle Kunden dienen, um die eigenen Entwicklerfähigkeiten zu demonstrieren.
-
-Die Integration von \strong{Werbung} in eine kostenlose App ist ein verbreitetes Geschäftsmodell und kann situationsbedingt zu höheren Umsätzen als das konventionelle Bezahlkonzept führen. Mit Apple's iAd Framework ist es sehr einfach, Werbebanner verschiedener Formate in einer App anzuzeigen. Außerdem sind die iAd Banner qualitativ hochwertig, interaktiv und verursachen keinen störenden App-Wechsel. Die schnellste Möglichkeit der Implementierung besteht aus nicht mehr als zwei Zeilen Code in einer View Controller Klasse:
-
-\begin{objccode}
-@import iAd; // Importiere das iAd Framework
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    self.canDisplayBannerAds = YES;
+\begin{swiftcode}
+import iAd // Importiere das iAd Framework
+override func viewDidLoad() {
+    super.viewDidLoad()
+    self.canDisplayBannerAds = true // Aktiviere Werbebanner
 }
-\end{objccode}
+\end{swiftcode}
 
 Damit das iAd Framework verwendet werden kann, muss es zunächst noch dem Projekt hinzugefügt werden. In der Targetkonfiguration \secref{sec:projkonfig} unter \menu{General > Linked Frameworks and Libraries} genügt ein Klick auf den \menu{+}-Button, woraufhin das iAd Framework ausgewählt werden kann.
 
-Der iAd Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/iAd_Guide/} enthält viele weiterführende Information, ist aber momentan leider nicht vollständig aktuell. Stattdessen sind die WWDC Videos empfehlenswert, die sich mit Neuerungen und Best Practices befassen, u.a. bezüglich iAd \secref{sec:docs}.
+Der iAd Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/userexperience/conceptual/iAd_Guide/} enthält viele weiterführende Information, ist aber momentan leider nicht ganz aktuell. Stattdessen sind die WWDC Videos empfehlenswert, die sich mit Neuerungen und Best Practices befassen, u.a. bezüglich iAd \secref{sec:docs}.
 
-Werden in einer App iAd Werbebanner angezeigt, erhält der Entwickler 70\% der Einnahmen, die sich sich aus \strong{Clicks} und \strong{Impressions} zusammensetzen. Dabei stellt jede Präsentation eines Banners in der App eine Impression dar.
+Werden in einer App iAd Werbebanner angezeigt, erhält der Entwickler 70\% der Einnahmen, die sich sich aus \emph{Clicks} und \emph{Impressions} zusammensetzen. Dabei stellt jede Präsentation eines Banners in der App eine Impression dar.
 
 \subsubsection{Freemium}
 
-Aufgrund der weit höheren Downloadrate kostenloser im Vergleich zu bezahlten Apps, setzen mittlerweile viele Entwickler auf das \strong{Freemium} Geschäftsmodell. Hier wird zunächst ein kostenloser Service angeboten, der mit bezahlten Features erweiterbar ist ("Premium"). In iOS Apps werden dazu \strong{In-App-Käufe} oder \strong{Abonnements} verwendet. Für beide Systeme bietet Apple Frameworks an.
+Aufgrund der weit höheren Downloadrate kostenloser im Vergleich zu bezahlten Apps, setzen mittlerweile viele Entwickler auf das \emph{Freemium} Geschäftsmodell. Hier wird zunächst ein kostenloser Service angeboten, der mit bezahlten Features erweiterbar ist ("Premium"). In iOS Apps werden dazu \emph{In-App-Käufe} oder \emph{Abonnements} verwendet. Für beide Systeme bietet Apple Frameworks an.
 
 Einige der umsatzstärksten Apps im App Store basieren auf dem Freemium Konzept und zeigen, wie dieses erfolgreich umgesetzt werden kann. Dieses Geschäftsmodell eignet sich nicht für jede App und muss sinnvoll integriert werden. Im o.g. Video \emph{App Store Distribution and Marketing for Apps} wird das Freemium Konzept im Detail erläutert.
 
@@ -1462,34 +1448,30 @@ Viele Benutzer verwenden die Suchfunktion, um eine passende App zu finden, und d
 
 Selbst als eigenständiger Entwickler ohne großes Marketingbudget sollte über Werbung nachgedacht werden. Einen einfachen Startpunkt dafür bietet bspw. \emph{Google AdWords \linkref{http://adwords.google.com}}.
 
-Werbeanzeigen sollten dabei auf eine Webseite verweisen, die die Funktionen der App im Detail beschreibt und bereits zu einer Kaufentscheidung führt. Dazu ist ein Video eines der wichtigsten Hilfsmittel. Klickt der Besucher auf den Link zum App Store und ist bereits zuvor über Preis und Leistung der App informiert, wird er sie in den meisten Fällen kaufen. Der Anteil der Besucher der Webseite, die die App schließlich kaufen, wird \strong{Conversion Rate} genannt. Da keine Informationen vorliegen, wie häufig die App Store Seite einer App besucht wird, kann es schwierig sein, die Conversion Rate zu messen. Mithilfe verschiedener Services wie \emph{Google Analytics \linkref{http://www.google.com/analytics/}} kann sie jedoch abgeschätzt werden, indem eine Korrelation zwischen Webseitenbesuchen und App Käufen hergestellt wird.
+Werbeanzeigen sollten dabei auf eine Webseite verweisen, die die Funktionen der App beschreibt und bereits zu einer Kaufentscheidung führt. Dazu ist ein Video eines der wichtigsten Hilfsmittel. Klickt der Besucher auf den Link zum App Store und ist bereits zuvor über Preis und Leistung der App informiert, wird er sie in den meisten Fällen kaufen. Der Anteil der Besucher der Webseite, die die App schließlich kaufen, wird \emph{Conversion Rate} genannt. Da keine Informationen vorliegen, wie häufig die App Store Seite einer App besucht wird, kann es schwierig sein, die Conversion Rate zu messen. Mithilfe verschiedener Services wie \emph{Google Analytics \linkref{http://www.google.com/analytics/}} kann sie jedoch abgeschätzt werden, indem eine Korrelation zwischen Webseitenbesuchen und App Käufen hergestellt wird.
 
 Die Conversion Rate dient anschließend als Grundlage für die Berechnung des Werbebudgets. Der maximale Preis, der pro Klick auf eine Werbeanzeige bezahlt werden kann, entspricht dabei dem effektiven Geldwert eines Besuchers auf der Webseite:
 \begin{equation}
-\frac{Price}{Click} = Conversion Rate * \frac{Profit}{Sale}
+\frac{\textnormal{Price}}{\textnormal{Click}} = \textnormal{Conversion Rate} * \frac{\textnormal{Profit}}{\textnormal{Sale}}
 \end{equation}
 Dabei gilt in der Regel aufgrund der Umsatzverteilung im App Store:
 \begin{equation}
-\frac{Profit}{Sale} = App Price * 0.7
+\frac{\textnormal{Profit}}{\textnormal{Sale}} = \textnormal{App Price} \cdot 0.7
 \end{equation}
 
-Da mit einer guten Schätzung der Conversion Rate jeder Klick auf eine Werbeanzeige somit weniger kostet, als er Gewinn bringt, ist eine Werbekampagne in jedem Fall lohnenswert.
-
-Werbung ist damit eine Maschine, die mehr produziert, als sie verbraucht - ganz im Widerspruch zur Thermodynamik.
+Da mit einer guten Schätzung der Conversion Rate jeder Klick auf eine Werbeanzeige somit weniger kostet, als er Gewinn bringt, ist eine Werbekampagne in jedem Fall lohnenswert. Werbung ist damit eine Maschine, die mehr produziert, als sie verbraucht - und verletzt dabei keine Gesetze der Thermodynamik!
 
 \subsubsection{Updates}
 
-Im App Store besteht ein beobachtbarer Zusammenhang zwischen Veröffentlichung von Updates und Downloadzahlen. Erhält eine App ein Update, werden Benutzer auf sie aufmerksam, verwenden sie häufiger und erzählen ihren Freunden von der App. Ohne Updates oder Werbung sinken die Downloadzahlen stetig.
+Im App Store besteht ein beobachtbarer Zusammenhang zwischen Veröffentlichung von Updates und Downloadzahlen. Erhält eine App ein Update, werden Benutzer auf sie aufmerksam, verwenden sie häufiger und erzählen ihren Freunden von der App. Ohne Updates oder Werbung sinken die Downloadzahlen stetig. Es wird empfohlen, etwa alle 4-6 Wochen ein Update zu veröffentlichen, auch wenn es nur aus einigen Fehlerbehebungen oder Optimierungen besteht.
 
-Es wird empfohlen, etwa alle 4-6 Wochen ein Update zu veröffentlichen, auch wenn es nur aus einigen Fehlerbehebungen oder Optimierungen besteht.
-
-Weiterhin erwarten insbesondere Benutzer der iOS Plattform eine Anpassung ihrer Apps an neue Technologien, wenn diese verfügbar werden. Statistiken zeigen, dass bspw. iOS 7 innerhalb von nur 4 Tagen auf über 50\% aller iOS Geräte installiert wurde \linkref{https://mixpanel.com/trends/\#report/ios_7} und neue Mechaniken wie iCloud damit bereits nach kurzer Zeit sehr vielen Nutzern zur Verfügung stehen. In solchen Situationen werden Apps, die diese neuen Technologien bereits unterstützen, bevorzugt heruntergeladen und können einen Marktvorteil erlangen.
+Weiterhin erwarten insbesondere Benutzer der iOS Plattform eine Anpassung ihrer Apps an neue Technologien, wenn diese verfügbar werden. Die Adaptationsrate neuer iOS Versionen ist sehr hoch und neue Mechaniken stehen damit bereits nach kurzer Zeit sehr vielen Nutzern zur Verfügung. In solchen Situationen werden Apps, die diese neuen Technologien bereits unterstützen, bevorzugt heruntergeladen und können einen Marktvorteil erlangen.
 
 \subsection{Statistik}
 
-iTunesConnect bietet die Möglichkeit, die Downloadzahlen eigener Apps einzusehen und entsprechende \strong{Reports} der Kategorien \emph{daily, weekly, monthly, yearly und financial} herunterzuladen. Dies kann manuell geschehen, doch es haben sich viele Services entwickelt, die diese Daten aufbereiten, darstellen und archivieren.
+iTunesConnect bietet die Möglichkeit, die Downloadzahlen eigener Apps einzusehen und entsprechende \emph{Reports} der Kategorien \emph{daily, weekly, monthly, yearly und financial} herunterzuladen. Dies kann manuell geschehen, doch es haben sich viele Services entwickelt, die diese Daten aufbereiten, darstellen und archivieren.
 
-Dazu gehören Mac Apps wie \emph{AppViz \linkref{https://appviz.com}} und Onlineservices wie \emph{Appfigures \linkref{https://appfigures.com}}, die jedoch selten kostenlos sind. Der Appfigures Service, den ich bereits seit einigen Jahren verwende, bietet bspw. die Möglichkeit, in konfigurierbaren Intervallen eine Email mit aktuellen Statistiken wie Download- Update- und Profitzahlen sowie Reviews und Rankings zu versenden, sodass man täglich über den Profit des Vortags informiert werden kann.
+Dazu gehören Mac Apps wie \emph{AppViz \linkref{https://appviz.com}} und Onlineservices wie \emph{Appfigures \linkref{https://appfigures.com}}, die jedoch selten kostenlos sind. Der Appfigures Service, den ich bereits seit einigen Jahren verwende, bietet bspw. die Möglichkeit, in konfigurierbaren Intervallen eine Email mit aktuellen Statistiken wie Download- Update- und Profitzahlen sowie Reviews und Rankings zu versenden, sodass man täglich oder wöchentlich über den Profit informiert werden kann.
 
 Wertvolle Informationen, die über die in iTunesConnect verfügbaren Downloadzahlen hinausgehen, kann eine Integration eines Statistik-Frameworks in die eigene App liefern. Analog zu Websitestatistiken stellt \emph{Google Analytics \linkref{http://www.google.com/analytics/}} eine einfach zu implementierende und umfangreiche Möglichkeit dar, Informationen über die Benutzer einer App zu erhalten. Google Analytics stellt nicht nur Daten über Verwendungsdauer, Standort-, Sprach- und Geräteverteilung, Verhaltensflüsse und benutzerdefinierte Events zur Verfügung, sondern zeigt sogar in Echtzeit an, wo Benutzer die App gerade verwenden und welche Aktionen sie ausführen.
 

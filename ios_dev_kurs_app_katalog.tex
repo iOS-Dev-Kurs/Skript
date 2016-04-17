@@ -14,11 +14,81 @@
 \tableofcontents
 
 
-\chapter{Über dieses Dokument}
+\chapter{Einleitung}
+
+\section{Über dieses Dokument}
 
 Dieser App Katalog enthält Schritt-für-Schritt Anleitungen für die im Rahmen unseres Kurses erstellten Apps sowie die wöchentlich zu bearbeitenden Übungsaufgaben und wird im Verlauf des Semesters kapitelweise auf der Vorlesungswebseite \linkref{http://ios-dev-kurs.github.io/} zur Verfügung gestellt.
 
 Er dient jedoch nur als Ergänzung zum parallel verfügbaren \strong{Skript}, auf das hier häufig verwiesen wird. Dort sind die Erläuterungen zu den verwendeten Technologien, Methoden und Begriffen zu finden.
+
+
+\section{Workflow mit Git}\label{git_workflow}
+
+Wir arbeiten in diesem Kurs mit der Versionskontroll-Software Git und der Software\-entwicklungs-Plattform GitHub \linkref{https://github.com/}. Mit diesen Werkzeugen kann ich euch Beispielprojekte und Aufgaben bereitstellen, die ihr bearbeiten und mir für Kommentare wieder zur Verfügung stellen könnt. Gleichzeitig lernt ihr dabei direkt den Umgang mit zwei der wichtigsten Werkzeuge in der modernen Softwareentwicklung.
+
+Mit Git können wir Änderungen an einem Projekt, oder \emph{Repository}, in regelmäßigen Abständen in \emph{Commits} speichern. Dann können wir jederzeit zu vorherigen Commits zurückkehren und Änderungen vergleichen. Wer die Speicherpunkte bei Super Mario kennt weiß so etwas zu schätzen.
+
+Außerdem ermöglicht uns Git mit anderen Entwicklern zusammenzuarbeiten. Dazu können wir das Repository auf einem Server wie GitHub bereitstellen. Speichert ein anderer Entwickler Commits in dem Repository, können wir dessen Änderungen mit einem \emph{Merge} mit unseren zusammenführen und dabei gegebenenfalls Konflikte beheben. So wird an Softwareprojekten weltweit zusammengearbeitet.
+
+Da Git ein Kommandozeilenprogramm ist, bedarf es sicherlich einer Eingewöhnung. Wenn ihr noch wenig Erfahrung im Umgang mit der Komandozeile habt könnt ihr zum Einstieg die GitHub Desktop App \linkref{https://desktop.github.com} verwenden, mit der ihr Git über eine graphische Oberfläche bedienen könnt.
+
+\subsection{Ein Repository forken, klonen und bearbeiten}\label{fork_and_clone}
+
+Ich stelle Beispielprojekte und Aufgaben in Repositories wie diesem \linkref{https://github.com/ios-dev-kurs/helloworld} bereit. Verfahrt wie folgt, um es zum Bearbeiten herunterzuladen:
+
+\begin{enumerate}
+
+\item Erstellt einen GitHub Account \linkref{https://github.com/join}, wenn ihr noch keinen habt. Ladet euch die GitHub Desktop App herunter, wenn ihr eine graphische Oberfläche der Kommandozeile vorzieht.
+
+\item Ihr habt nur Lese-Zugriff auf mein Repository. Ihr müsst daher erst einen \emph{Fork} \linkref{https://guides.github.com/activities/forking/} des Repositories erstellen und es damit auf euren Account kopieren. Klickt dazu einfach auf den \emph{Fork} Button auf der Repository-Seite.
+
+\item Euren Fork könnt ihr nun nach Belieben bearbeiten. In diesem Beispiel ist das Fork-Repository unter der URL \url{https://github.com/dein-username/helloworld} verfügbar. Ihr könnt die Kommandozeile oder die GitHub Desktop App verwenden um das Repository herunterzuladen, oder zu \emph{klonen} \linkref{http://gitref.org/creating/\#clone}. Im Terminal lautet der Befehl dazu:
+\begin{shcode}
+git clone https://github.com/dein-username/helloworld
+\end{shcode}
+
+\item Nun könnt ihr an dem Projekt arbeiten. Mit folgendem Befehlt könnt ihr jederzeit überprüfen, welche Dateien sich geändert haben:
+\begin{shcode}
+git status
+\end{shcode}
+
+\item Speichert in regelmäßigen Abständen \emph{Commits} \linkref{http://gitref.org/basic/\#commit}. Jeder Arbeitsschritt sollte durch einen Commit repräsentiert werden. Achtet darauf, dass das Projekt bei jedem Commit funktionsfähig ist. In der Kommandozeile erstellt ihr einen Commit wie folgt:
+\begin{shcode}
+# Status überprüfen
+git status
+# Alle Änderungen dem nächsten Commit hinzufügen
+git add --all
+# Commit durchführen
+git commit -m "Kurze Beschreibung der Änderungen"
+\end{shcode}
+
+\item Ihr könnt euer lokales Repository jederzeit mit eurem Repository auf GitHub abgleichen. Daher könnt ihr auch problemlos auf verschiedenen Rechnern an einem Projekt arbeiten. Führt einen \emph{Push} \linkref{http://gitref.org/remotes/\#push} oder \emph{Pull} \linkref{http://gitref.org/remotes/\#pull} in der Kommandozeile aus, oder klickt den \emph{Sync} Button in der GitHub Desktop App:
+\begin{shcode}
+# Fortschritt auf GitHub veröffentlichen
+git push
+# Änderungen von GitHub herunterladen
+git pull
+\end{shcode}
+
+\end{enumerate}
+
+
+\subsection{Eine Aufgabe per Pull-Request einreichen}\label{pull_request}
+
+Habt ihr eine Aufgabe fertig und möchtet Sie einreichen, oder wenn ihr Hilfe benötigt, erstellt eine \emph{Pull-Request} \linkref{https://help.github.com/articles/creating-a-pull-request/}. Damit erhalte ich eine Benachrichtigung mit den Änderungen eures Forks im Vergleich zu meinem Original-Repository. Geht wie folgt vor:
+
+\begin{enumerate}
+
+\item Speichert eure Änderungen in einem Commit und veröffentlicht sie auf GitHub, wenn ihr es noch nicht getan habt.
+
+\item Klickt auf der Repository-Seit den Button \emph{New Pull Request}, überprüft die Änderungen und klickt dann \emph{Create Pull Request}.
+
+\item Gebt der Pull-Request einen Titel und beschreibt kurz die Änderungen. Erwähnt, wenn etwas nicht funktioniert, sodass ich euch helfen kann. Klickt schließlich auf \emph{Create Pull Request}.
+
+\end{enumerate}
+
+
 
 
 \begin{lecture} % Lecture 1
@@ -26,9 +96,201 @@ Er dient jedoch nur als Ergänzung zum parallel verfügbaren \strong{Skript}, au
 
 \chapter{Hello World}
 
-Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß vom iOS Simulator oder, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Außerdem wird in die objektorientierte Programmierung in \emph{Swift} eingeführt.
+Was ist schon ein Programmierkurs, der nicht mit einem klassischen \emph{Hello World} Programm beginnt? Wir werden jedoch noch einen Schritt weitergehen und diesen Gruß graphisch vom iOS Simulator und, soweit vorhanden, direkt von unseren eigenen iOS Geräten ausgeben lassen. Dabei stoßen wir auf unseren ersten \emph{Swift} Code und lernen die IDE \emph{Xcode} kennen. Wir arbeiten außerdem direkt mit der Versionskontroll-Software \emph{Git}, einem der Grundbausteine nahezu jedes Softwareprojekts.
 
-\skriptref{Xcode, Programmieren in Swift} sowie das Buch \emph{The Swift Programming Language} \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/}
+\skriptref{Xcode, Programmieren in Swift, Versionskontrolle mit Git} sowie das Buch \emph{The Swift Programming Language} \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/}
+
+
+\section{"{}Hello World!"{} auf Simulator und Gerät}
+
+\begin{enumerate}
+
+\item Ich habe ein Beispielprojekt bereitgestellt, anhand dessen wir einen ersten Blick auf die Programmierung einer iOS App werfen. Das Ziel ist, das Projekt herunterzuladen, eine erste, einfache App zu schreiben und mir das Ergebnis für etwas \emph{konstruktive Kritik} zur Verfügung zu stellen. Dazu verwenden wir die Versionskontroll-Software \emph{Git} und die Softwareentwicklungs-Plattform \emph{GitHub}, die zu den Werkzeugen gehören, auf denen Softwareprojekte weltweit aufbauen und ohne die moderne Programmierung kaum noch denkbar ist.
+
+Die erste Anweisung lautet:
+
+\strong{\emph{Klont} einen \emph{Fork} des \emph{Repositories} \url{https://github.com/ios-dev-kurs/helloworld}.}
+
+Wenn ihr noch mit keinem dieser Begriffe etwas anfangen könnt, seid beruhight: Wir werden noch so viel mit Git und GitHub arbeiten, dass ihr am Ende dieses Kurses Experten im Umgang damit seid. Befolgt zunächst einfach die Anweisungen in \autoref{fork_and_clone} \emph{Workflow mit Git} bis ihr das Beispielprojekt heruntergeladen habt.
+
+\item Öffnet das Xcode-Projekt \filename{HelloWorld.xcodeproj} und macht euch mithilfe des Kapitels \emph{Xcode} im Skript mit der Benutzeroberfläche vertraut. In der Toolbar oben findet ihr auf der linken Seite die Steuerelemente des Compilers. Wählt das \emph{Target} \emph{HelloWorld} und ein Zielsystem, bspw. den \emph{iPhone 6s} Simulator, und klickt die \strong{\emph{Build \& Run}} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unsere App, die im Simulator ausgeführt wird. Das Tastenkürzel für \emph{Build \& Run} in Xcode ist \keys{\cmd + R}.
+
+\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir unseren \strong{ersten Swift Code} schreiben um eine Ausgabe hinzuzufügen. Wählt die Datei \filename{AppDelegate.swift} links im \emph{Project Navigator} aus.
+
+\item Die Methode \swiftinline{application(_:didFinishLaunchingWithOptions:)} wird zu Beginn der Ausführung der App aufgerufen. Ersetzt den Kommentar dort mit einem Gruß zur Ausgabe in der Konsole:
+
+\begin{swiftcode}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    print("Hello World!")
+    return true
+}
+\end{swiftcode}
+
+\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} \keys{\cmd + R} kompilieren und ausführen, sehen wir den Text \str{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
+
+\item Wenn ihr ein iOS Gerät dabei habt, verbindet es per USB-Kabel mit eurem Mac und wählt das Gerät in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erscheint wieder die Ausgabe \str{Hello World!}, diesmal direkt vom Gerät ausgegeben.
+
+\end{enumerate}
+
+
+\section{Graphisches "{}Hello World!"{}}
+
+Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts mitbekommen. Diese dienen bei der Programmierung hauptsächlich dazu, Abläufe im Code nachzuvollziehen und Fehler zu finden. Unsere App ist also nur sinnvoll, wenn wir die Ausgaben auch auf dem Bildschirm darstellen können.
+
+\skriptref{Xcode / Interface Builder}
+
+\begin{enumerate}
+
+\item Zur Gestaltung der Benutzeroberfläche oder \emph{User Interface (UI)} verwenden wir ein \emph{Storyboard}. Wählt im Project Navigator die Datei \emph{main.storyboard} aus.
+
+\item Der Editor-Bereich zeigt nun den Interface Builder. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmd + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen auf der rechten Seite der Toolbar den Navigator- und Debug-Bereich links und unten aus und den Inspektor rechts ein. Wählt dort außerdem zunächst den Standard-Editor, also die linke der drei Schaltflächen \abbref{img:helloworld_ib}.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_ib.png}{img:helloworld_ib}{Für den Interface Builder verwenden wir eine angepasste Fensterkonfiguration mit dem Inspektor anstatt des Navigators}
+
+\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \emph{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor rechts ist unten die Object Library zu finden. Wählt den entsprechenden Tab aus, wenn er noch nicht angezeigt wird \abbref{img:helloworld_ib}.
+
+\item Durchsucht die Liste von Interfaceelementen nach einem Objekt der Klasse \swiftinline{UILabel}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \str{Hello World!}.
+
+\item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen Gruß nun statisch auf dem Bildschirm an.
+
+\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im \emph{Identity Inspector} könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, ein Objekt der Klasse \swiftinline{UILabel} ist. Im \emph{Attributes Inspector} stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
+
+\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \swiftinline{UIButton}- und \swiftinline{UITextField}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \str{Say Hello!} geben und für das Text Field einen Placeholder \str{Name} einstellen.
+
+\includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
+
+\item Damit sich das Layout an jede Bildschirmgröße automatisch anpasst, verwenden wir nun \emph{Auto Layout}. Die Schaltflächen dazu findet ihr in der unteren rechten Ecke des Interface Builder Editors. Markiert mit gedrückter \keys{\cmd}-Taste die drei Interfaceelemente und klickt auf das Linke der Symbole mit dem Titel \emph{Stack}, sodass die Elemente in eine \emph{Stack View} eingebettet werden. Dieses praktische Objekt positioniert die enthaltenen Elemente automatisch relativ zueinander. Wählt die Stack View aus und konfiguriert im Attributes Inspector \emph{Axis Vertical}, \emph{Alignment Fill}, \emph{Distribution Fill} und \emph{Spacing 8}. Zusätzlich müssen wir Regeln aufstellen, wie die Stack View auf dem Bildschirm positioniert werden soll. Dazu erstellen wir \emph{Constraints} mit den beiden mittleren der Auto Layout Schaltflächen. Befestigt die Stack View links und rechts am Rand und zentriert sie vertikal.
+
+\item Zur Laufzeit der App wird für jedes im Storyboard konfigurierte Interfaceelement ein Objekt der entsprechenden Klasse erstellt und dessen Attribute gesetzt. Um nun im Code auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren zu können, verwenden wir \emph{IBOutlets} und \emph{IBActions}.
+	
+Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor (mittlere Schaltfläche) in der Toolbar. Stellt den Modus in der Jump bar auf \emph{Automatic}. Im Assistant wird automatisch die Implementierung des übergeordneten View Controllers eingeblendet \abbref{img:helloworld_assistant}.
+
+\includegraphicsc[\screenshotwidth]{img/helloworld_assistant.png}{img:helloworld_assistant}{Mithilfe des Assistants können Interface-Builder und Code nebeneinander angezeigt werden.}
+
+\item \emph{View Controller} sind Objekte einer Subklasse von \swiftinline{UIViewController}, die jeweils einen Teil der App steuern. Diese sind zentrale Bestandteile einer App, mit denen wir uns noch detailliert beschäftigen werden. Ein erster View Controller zur Steuerung dieser ersten Ansicht ist im Projekt bereits enthalten.
+
+Fügt dieser Klasse \swiftinline{ViewController: UIViewController} Attribute für das \swiftinline{UILabel} und das \swiftinline{UITextField} hinzu und kennzeichnet diese mit \swiftinline{@IBOutlet}. Implementiert außerdem eine mit \swiftinline{IBAction} gekennzeichnete Methode, die aufgerufen werden soll, wenn der Benutzer den \swiftinline{UIButton} betätigt:
+
+\begin{swiftcode}
+import UIKit
+
+class ViewController: UIViewController {
+
+    @IBOutlet var nameTextfield: UITextField!
+    @IBOutlet var greetingLabel: UILabel!
+
+    @IBAction func greetingButtonPressed(sender: UIButton) {
+        print("Hello World!")
+    }
+    
+}
+@end
+\end{swiftcode}
+
+\item Nun zieht mit gedrückter \keys{\ctrl}-Taste eine Linie von dem Textfeld und dem Label im Interface Builder auf das jeweilige Attribut im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die zuvor definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen. Dieser Prozess ist im Skript noch detaillierter beschrieben.
+
+\item Versucht nun einen \emph{Build \& Run}. Betätigt ihr den Button, wird die Methode ausgeführt und der Gruß \str{Hello World!} in der Konsole ausgegeben!
+
+\item Um die App nun alltagstauglich zu gestalten, muss dieser Gruß natürlich personalisiert und auf dem Bildschirm angezeigt werden. Dazu verwenden wir das Attribut \swiftinline{text} der Klassen \swiftinline{UITextField} und \swiftinline{UILabel} und zeigen einen personalisierten Gruß an, wenn im Text Field ein Name geschrieben steht:
+
+\begin{swiftcode}
+@IBAction func greetingButtonPressed(sender: UIButton) {
+    if let name = nameTextfield.text where !name.isEmpty {
+        greetingLabel.text = "Hello \(name)!"
+    } else {
+        greetingLabel.text = "Hello World!"
+    }
+}
+\end{swiftcode}
+
+Nach einem \emph{Build \& Run} erhalten wir unser erstes interaktives Interface, in dem ihr im Textfeld einen Namen eintippen könnt und persönlich begrüßt werdet \abbref{img:helloworld_final}!
+
+\includegraphicsc[\iphonewidth]{img/helloworld_final.png}{img:helloworld_final}{Drücken wir auf den Button, werden wir persönlich begrüßt. Sehr praktisch!}
+
+\item Die App ist fertig! Eure Eltern werden stolz auf euch sein. Gebt mir nun die Gelegenheit, eure Arbeit zu kommentieren. Wir verwendet dazu wieder Git, um die Änderungen, an denen ihr gerade gearbeitet habt, zu speichern, hochzuladen und mir zur Verfügung zu stellen. Befolgt dazu die weiteren Anweisungen in \autoref{pull_request}, bis ihr mir eine \emph{Pull-Request} geschickt habt.
+
+\end{enumerate}
+
+\begin{exc}
+
+\begin{excitem}{simpleui}{Simple UI}{2}
+
+Erstellt einen Fork des Repositories \url{https://github.com/ios-dev-kurs/simpleui} und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut. Stellt mir das Ergebnis anschließend als Pull-Request zur Verfügung.
+
+Implementiert eines der folgenden Beispiele oder eine eigene Idee. Ich freue mich auf kreative Apps!
+
+\begin{description}
+\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert eines Attributs \swiftinline{var count: Int} anzeigt, wenn eine Methode \swiftinline{updateLabel} aufgerufen wird. Buttons mit den Titeln \str{+1}, \str{-1} und \str{Reset} ändern den Wert dieses Attributs entsprechend und rufen die \swiftinline{updateLabel}-Methode auf.
+\item[BMI] Nach Eingabe von Gewicht $m$ und Größe $l$ wird der Body-Mass-Index\linkref{http://de.wikipedia.org/wiki/Body-Mass-Index} $BMI=m/l^2$ berechnet und angezeigt.
+\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen 0 und 255 für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \swiftinline{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \swiftinline{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt (s. Hinweis).
+\end{description}
+
+\begin{exchinweise}
+\item In der nächsten Vorlesung lernen wir die Objektorientierte Programmierung in Swift systematisch. Orientiert euch für diese Aufgabe an der \emph{HelloWorld} App und versucht die Funktionalität mit den folgenden Hinweisen zu implementieren. Wenn ihr nicht weiter kommt, schickt mir eine Pull-Request mit einem Kommentar und ich helfe euch.
+\item Das Attribut \swiftinline{text} von \swiftinline{UILabel} und \swiftinline{UITextField} gibt eine \emph{optionale} Zeichenkette \swiftinline{String?} zurück. Ihr werdet euch mit solchen \emph{Optionals} solange herumärgern, bis ihr sie zu schätzen lernt. Verwendet die \emph{Optional Binding} Syntax um das Optional zu entpacken:
+\begin{swiftcode}
+if let name = nameTextfield.text {
+    // name existiert und kann verwendet werden
+} else {
+    // nameTextfield.text hat keinen Wert
+}
+\end{swiftcode}
+\item Einen \swiftinline{String} könnt ihr schnell in eine ganze Zahl \swiftinline{Int} oder eine Dezimalzahl \swiftinline{Double} umwandeln. Da dies fehlschlagen kann, gibt auch diese Operation einen Optional \swiftinline{Int?} bzw. \swiftinline{Double?} zurück, den wir entpacken müssen:
+	\begin{swiftcode}
+    // Sei text ein String
+    if let number = Double(text) {
+        // text konnte in eine Zahl number umgewandelt werden
+    }
+	\end{swiftcode}
+\item Definiert ein Attribut wie \swiftinline{var count: Int} mit einem Startwert:
+\begin{swiftcode}
+class ViewController: UIViewController {
+
+    var count: Int = 0
+    
+    // ...
+}
+\end{swiftcode}
+\item Natürlich gibt es die grundlegenden Rechenoperationen \swiftinline{+-*/} in Swift. Diese Operationen können mit der Zuweisung zu einer Variablen verbunden werden, um bspw. eine Variable \swiftinline{count} um \swiftinline{1} zu erhöhen:
+\begin{swiftcode}
+count += 1
+\end{swiftcode}
+\item Eine Farbe wird durch die Klasse \swiftinline{UIColor} repräsentiert. Der \emph{Initializer} \swiftinline{UIColor(red:green:blue:alpha:)} akzeptiert jeweils Werte zwischen 0 und 1:
+\begin{swiftcode}
+let color = UIColor(red: 1, green: 0, blue: 0, alpha: 1) // rot
+\end{swiftcode}
+\item Die Funktion \swiftinline{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
+\item Wenn ein \swiftinline{UISwitch} betätigt wird, kann das Event genauso mit einer IBAction verbunden werden wie das eines \swiftinline{UIButton}. Mit einem Attribut \swiftinline{var randomTimer: NSTimer?} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
+\begin{swiftcode}
+var randomTimer: NSTimer?
+
+@IBAction func switchValueChanged(sender: UISwitch) {
+    if sender.on {
+        randomTimer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: "randomButtonPressed:", userInfo: nil, repeats: true)
+    } else {
+        randomTimer?.invalidate()
+        randomTimer = nil
+    }
+}
+\end{swiftcode}
+	Somit wird periodisch die Methode \swiftinline{randomButtonPressed(_:)} aufgerufen, die natürlich implementiert sein muss.
+
+\end{exchinweise}
+
+\end{excitem}
+
+\end{exc}
+
+
+\end{lecture}
+
+
+\end{document} %%% MARKER %%%
+
+
+\begin{lecture}
 
 
 \section{Grundlagen der Programmierung in Swift}
@@ -283,200 +545,6 @@ for (ranking, count) in rankingCounts {
 
 
 \end{lecture}
-
-
-\begin{lecture} % Lecture 3
-
-
-\section{Das erste Xcode Projekt}
-
-iOS Apps schreiben wir natürlich nicht in Playgrounds. Eine App besteht aus vielen Komponenten wie Klassen, Interface-Dateien und weiteren Ressourcen, die wir in einem Xcode Projekt zusammenfassen.
-
-\skriptref{Xcode}
-
-\begin{enumerate}
-
-\item Um nun unsere erste iOS App zu erstellen, rufen wir mit \keys{\cmd + \shift + N} zunächst den Dialog zur Erstellung eines neuen Projekts auf und wählen das Template \menu{iOS > Application > Single View Application}.
-
-\item Tragt im erscheinenden Konfigurationsdialog entsprechend der Konventionen den Product Name \str{HelloWorld}, euren Vor- und Nachnamen als Organization Name und \str{de.uni-hd.<deinname>} als Company Identifier ein \abbref{img:helloworld_xcproj}. Das führt zu der Bundle ID \str{de.uni-hd.<deinname>.HelloWorld}. Wählt \emph{Swift}, \emph{Universal} und entfernt die Auswahl von \emph{Use Core Data}. Speichert das Projekt in einem Verzeichnis eurer Wahl.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_xcproj.png}{img:helloworld_xcproj}{Damit es keine Konflikte zwischen verschiedenen Apps gibt, gibt es Konventionen bei der Konfiguration}
-
-\item Wir sehen nun Xcodes Benutzeroberfläche und können sie mit den Schaltflächen rechts in der Toolbar anpassen. Verwendet zunächst die Konfiguration mit eingeblendetem Navigator, verstecktem Debug-Bereich und Inspektor und Standard-Editor. Wählt im Project Navigator das Projekt selbst aus \abbref{img:helloworld_targetconfig}.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_targetconfig.png}{img:helloworld_targetconfig}{Wird das Projekt ausgewählt, sehen wir im Editor die Projekt- und Targetkonfiguration.}
-
-\item Im Editor wird die \emph{Projekt- und Targetkonfiguration} angezeigt. Hier können wir bspw. die Bundle ID unserer App anpassen, die wir zuvor bei der Erstellung des Projekts aus Product Name und Company Identifier zusammengesetzt haben.
-
-\item Links in der Toolbar sind die Steuerelemente des Compilers zu finden. Wählt das gerade erstellte Target und ein Zielsystem aus, bspw. den \emph{iPhone 6} Simulator, und klickt die \emph{Build \& Run} Schaltfläche. Das Target wird nun kompiliert und generiert ein \emph{Product}, also unserer App, die im Simulator ausgeführt wird. In Xcode kann mit \keys{\cmd + .} die Ausführung gestoppt und mit \keys{\cmd + R} (Tastenkürzel für \emph{Build \& Run}) erneut gestartet werden.
-
-\end{enumerate}
-
-
-\section{"{}Hello World!"{} on Simulator}
-
-\begin{enumerate}
-
-\item Besonders spannend ist diese App natürlich noch nicht. Das ändern wir jetzt spektakulär, indem wir eine Ausgabe hinzufügen. Wählt die Datei \emph{AppDelegate.swift} im Project Navigator aus.
-
-\item Die Methode \swiftinline{application:didFinishLaunchingWithOptions:} wird zu Beginn der Ausführung der App aufgerufen. Ersetzt den Kommentar dort mit dem bekannten Gruß zur Ausgabe in der Konsole:
-
-\begin{swiftcode}
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    println("Hello World!")
-    return true
-}
-\end{swiftcode}
-
-\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} kompilieren und ausführen, sehen wir den Text \str{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
-
-\end{enumerate}
-
-
-\section{"Hello World!"{} on Device}
-
-\begin{enumerate}
-
-\item Nun möchten wir unsere neue App natürlich auch auf einem realen iOS Gerät anstatt des Simulators testen. Im Skript findet ihr eine Anleitung, wie ihr mit euren iOS Geräten unserem Developer Team der Uni Heidelberg beitreten könnt.
-
-\item Habt ihr die Schritte befolgt und euren freigeschalteten Apple Developer Account in den Xcode-Accounteinstellungen hinzugefügt, öffnet ihr wieder die Projekt- und Targetkonfiguration im Project Navigator und wählt dort unser Developer Team \abbref{img:helloworld_chooseteam} aus. Nun wird automatisch das richtige Provisioning Profile für die Bundle ID des Targets verwendet.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_chooseteam.png}{img:helloworld_chooseteam}{Mit der Wahl des zugehörigen Developer Teams in der Project- und Targetkonfiguration verwendet Xcode automatisch das passende Provisioning Profile}
-
-\item Verbindet euer iOS Gerät mit eurem Mac und wählt es in der Toolbar als Zielsystem aus. Mit einem \emph{Build \& Run} wird die App nun kompiliert, auf dem Gerät installiert und ausgeführt. In der Konsole erscheint wieder die Ausgabe \str{Hello World!}, diesmal direkt vom Gerät ausgegeben.
-
-\end{enumerate}
-
-
-\section{Graphisches "{}Hello World!"{}}
-
-Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts mitbekommen. Diese dienen bei der Programmierung hauptsächlich dazu, Abläufe im Code nachzuvollziehen und Fehler zu finden. Unsere App ist also nur sinnvoll, wenn wir die Ausgaben auch auf dem Bildschirm darstellen können.
-
-\skriptref{Xcode}
-
-\begin{enumerate}
-
-\item Zur Gestaltung der Benutzeroberfläche oder \emph{User Interface (UI)} verwenden wir den in Xcode integrierten \emph{Interface Builder (IB)}. Wir haben bei der Projekterstellung der ersten App das \emph{Single View}-Template ausgewählt, daher enthält das Projekt bereits ein \emph{Storyboard}. Öffnet das Projekt und wählt im Navigator die Datei \emph{Main.storyboard} aus.
-
-\item Der Editor-Bereich zeigt nun den Interface Builder. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmd + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen in der Toolbar den Navigator- und Debug-Bereich aus und den Inspektor ein. Wählt dort außerdem zunächst den Standard-Editor \abbref{img:helloworld_ib}.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_ib.png}{img:helloworld_ib}{Für den Interface Builder verwenden wir eine angepasste Fensterkonfiguration mit dem Inspektor anstatt des Navigators}
-
-\item Unser UI besteht bisher nur aus einer einzigen Ansicht, oder \emph{Scene}. Ein Pfeil kennzeichnet die Scene, die zum Start der App angezeigt wird. Im Inspektor ist unten die Object Library zu finden. Wählt den entsprechenden Tab aus, wenn er noch nicht angezeigt wird \abbref{img:helloworld_ib}.
-
-\item Durchsucht die Liste von Interfaceelementen nach einem Objekt der Klasse \swiftinline{UILabel}, indem ihr das Suchfeld unten verwendet, und zieht ein Label irgendwo auf die erste Scene. Doppelklickt auf das erstellte Label und tippt \str{Hello World!}.
-
-\item Ein \emph{Build \& Run} mit einem iPhone-Zielsystem zeigt diesen Gruß nun statisch auf dem Bildschirm an.
-
-\item Habt ihr das Label im Interface Builder ausgewählt, zeigt der Inspektor Informationen darüber an. Im \emph{Identity Inspector} könnt ihr euch vergewissern, dass das Objekt, was zur Laufzeit erzeugt wird und das Label darstellt, ein Objekt der Klasse \swiftinline{UILabel} ist. Im \emph{Attributes Inspector} stehen viele Optionen zur Auswahl, mit denen Eigenschaften wie Inhalt, Schrift und Farbe des Labels angepasst werden können.
-
-\item Natürlich möchten wir unser UI zur Laufzeit mit Inhalt füllen und den Benutzer mit den Interfaceelementen interagieren lassen können. Zieht ein \swiftinline{UIButton}- und \swiftinline{UITextField}-Objekt auf die Scene und positioniert sie passend \abbref{img:helloworld_ui}. Mit dem Attributes Inspector könnt ihr dem Button nun den Titel \str{Say Hello!} geben und für das Text Field einen Placeholder \str{Name} einstellen.
-
-\includegraphicsc[.6\textwidth]{img/helloworld_ui.png}{img:helloworld_ui}{Mit einem Text Field, einem Button und einem Label erstellen wir ein simples UI}
-
-\item Zur Laufzeit der App wird für jedes im Storyboard konfigurierte Interfaceelement ein Objekt der entsprechenden Klasse erstellt und dessen Attribute gesetzt. Um nun im Code auf die erstellten Objekte zugreifen und auf Benutzereingaben reagieren zu können, verwenden wir \emph{IBOutlets} und \emph{IBActions}.
-	
-	Blendet den Inspektor aus und wählt stattdessen den Assistant-Editor in der Toolbar. Stellt den Modus in der Jump bar auf \emph{Automatic}. Im Assistant wird automatisch die Implementierung des übergeordneten View Controllers eingeblendet \abbref{img:helloworld_assistant}.
-
-\includegraphicsc[\screenshotwidth]{img/helloworld_assistant.png}{img:helloworld_assistant}{Mithilfe des Assistants können Interface-Builder und Code nebeneinander angezeigt werden.}
-
-\item \emph{View Controller} sind Objekte einer Subklasse von \swiftinline{UIViewController}, die jeweils einen Teil der App steuern. Diese sind zentrale Bestandteile einer App, mit denen wir uns noch detailliert beschäftigen werden. Ein erster View Controller zur Steuerung dieser ersten Ansicht wurde bereits bei der Projekterstellung automatisch hinzugefügt.
-
-	Fügt dieser Klasse \swiftinline{ViewController: UIViewController} Attribute für das \swiftinline{UILabel} und das \swiftinline{UITextField} hinzu und kennzeichnet diese mit \swiftinline{@IBOutlet}. Implementiert außerdem eine mit \swiftinline{IBAction} gekennzeichnete Methode, die aufgerufen werden soll, wenn der Benutzer den \swiftinline{UIButton} betätigt:
-
-\begin{swiftcode}
-import UIKit
-
-class ViewController: UIViewController {
-
-    @IBOutlet var nameTextfield: UITextField!
-    @IBOutlet var greetingLabel: UILabel!
-
-    @IBAction func greetingButtonPressed(sender: UIButton) {
-        println("Hello World!")
-    }
-    
-}
-@end
-\end{swiftcode}
-
-	Beachtet, dass IBOutlets im Allgemeinen als \emph{Implicitly Unwrapped Optionals} deklariert werden, da ihr Wert bei der Initialisierung des View Controllers zwar noch nicht existiert, anschließend jedoch unter Verwendung des Storyboards zuverlässig zugewiesen wird. So muss zwar unbedingt aufgepasst werden, dass die IBOutlet Verbindung im Storyboard hergestellt ist und nicht auf das Attribut zugegriffen wird, bevor dieses geladen wurde, doch es ist dann nicht jedes mal notwendig, das Optional zu entpacken.
-
-\item Nun zieht mit gedrückter \keys{\ctrl}-Taste eine Linie von dem Textfeld und dem Label im Interface Builder auf das jeweilige Attribut im Code. Die Codezeile wird dabei blau hinterlegt. Zieht außerdem genauso eine Line von dem Button auf die zuvor definierte Methode. Im Connection Inspector könnt ihr die IBOutlets und IBActions eines ausgewählten Objekts betrachten und wieder entfernen. Dieser Prozess ist im Skript noch detaillierter beschrieben.
-
-\item Versucht nun einen \emph{Build \& Run}. Betätigt ihr den Button, wird die Methode ausgeführt und der Gruß \str{Hello World!} in der Konsole ausgegeben!
-
-\item Um die App nun alltagstauglich zu gestalten, muss dieser Gruß natürlich personalisiert und auf dem Bildschirm angezeigt werden. Dazu verwenden wir das Attribut \swiftinline{text} der Klassen \swiftinline{UITextField} und \swiftinline{UILabel}:
-
-\begin{swiftcode}
-@IBAction func greetingButtonPressed(sender: UIButton) {
-    self.greetingLabel.text = "Hello \(self.nameTextfield.text)!"
-}
-\end{swiftcode}
-
-	Nach einem \emph{Build \& Run} erhalten wir unser erstes interaktives Interface, in dem ihr im Textfeld einen Namen eintippen könnt und persönlich begrüßt werdet \abbref{img:helloworld_final}!
-
-\includegraphicsc[\iphonewidth]{img/helloworld_final.png}{img:helloworld_final}{Drücken wir auf den Button, werden wir persönlich begrüßt. Sehr praktisch!}
-
-\end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{simpleui}{Simple UI}{2}
-
-Erstellt ein neues Projekt und schreibt eine App mit einigen Interfaceelementen, die etwas sinnvolles tut.
-
-Implementiert eines der folgenden Beispiele oder eine eigene Idee. Ich freue mich auf kreative Apps!
-
-\begin{description}
-\item[Counter] Auf dem Bildschirm ist ein Label zu sehen, das den Wert eines Attributs \swiftinline{var count: Int} anzeigt, wenn eine Methode \swiftinline{updateLabel} aufgerufen wird. Buttons mit den Titeln \str{+1}, \str{-1} und \str{Reset} ändern den Wert dieses Attributs entsprechend und rufen die \swiftinline{updateLabel}-Methode auf.
-\item[BMI] Nach Eingabe von Gewicht $m$ und Größe $l$ wird der Body-Mass-Index\linkref{http://de.wikipedia.org/wiki/Body-Mass-Index} $BMI=m/l^2$ berechnet und angezeigt. Als Erweiterung kann die altersabhängige Einordnung in die Gewichtskategorien angezeigt werden.
-\item[RGB] In drei Textfelder kann jeweils ein Wert zwischen 0 und 255 für die Rot-, Grün- oder Blau-Komponenten eingegeben werden. Ein Button setzt die Hintergrundfarbe \swiftinline{self.view.backgroundColor} entsprechend und ein weiterer Button generiert eine zufällige Hintergrundfarbe. Ihr könnt noch einen \swiftinline{UISwitch} hinzufügen, der einen Timer ein- und ausschaltet und damit die Hintergrundfarbe bei jedem Timerintervall zufällig wechselt (s. Hinweis).
-\end{description}
-
-\begin{exchinweise}
-\item Achtet darauf, dass ihr bei/nach der Projekterstellung in der Targetkonfiguration die Bundle ID \str{de.uni-hd.<deinname>.<productname>} mit \str{<productname>} z.B. \str{Counter}, \str{BMI} oder \str{RGB} eingestellt und unser Developer Team ausgewählt habt, damit die Ausführung der App auf euren eigenen Geräten funktioniert!
-\item Die Klasse \swiftinline{NSString} aus Apple's \swiftinline{Foundation} Framework besitzt Instanzmethoden wie \swiftinline{floatValue} zur Umwandlung von Text in Zahlenwerte. \swiftinline{String} und \swiftinline{NSString} sind direkt ineinander überführbar:
-	\begin{swiftcode}
-    let s = "0.1"
-    let f: Float = (s as NSString).floatValue
-	\end{swiftcode}
-
-	Eleganter ist die Verwendung eines \swiftinline{NSNumberFormatter}. Solche Formatter, wie auch der \swiftinline{NSDateFormatter}, berücksichtigen bspw. Gerätesprache und länderspezifische Einstellungen und sollten stets verwendet werden, wenn Benutzereingaben interpretiert oder Ausgaben generiert werden:
-	\begin{swiftcode}
-    let decimalNumberFormatter = NSNumberFormatter()
-    decimalNumberFormatter.numberStyle = .DecimalStyle
-    let s: String = "0.1"
-    let f: Float? = decimalNumberFormatter.numberFromString(s)?.floatValue
-	\end{swiftcode}
-
-
-\item Der Initializer \swiftinline{UIColor(red:green:blue:alpha:)} von \swiftinline{UIColor} akzeptiert jeweils Werte zwischen 0 und 1.
-\item Die Funktion \swiftinline{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
-\item Wenn ein \swiftinline{UISwitch} betätigt wird, sendet dieser ein Event \swiftinline{UIControlEvent.ValueChanged}, so wie ein \swiftinline{UIButton} das Event \swiftinline{UIControlEvent.TouchUpInside} sendet. Dieses Event kann genauso mit einer IBAction verbunden werden. Mit einem Attribut \swiftinline{var randomTimer: NSTimer?} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
-\begin{swiftcode}
-@IBAction func switchValueChanged(sender: UISwitch) {
-    if sender.on {
-        self.randomTimer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: "randomButtonPressed:", userInfo: nil, repeats: true)
-    } else {
-        self.randomTimer?.invalidate()
-        self.randomTimer = nil
-    }
-}
-\end{swiftcode}
-	Somit wird periodisch die Methode \swiftinline{randomButtonPressed:} aufgerufen, die natürlich implementiert sein muss.
-
-\end{exchinweise}
-
-\end{excitem}
-
-\end{exc}
-
-
-\end{lecture}
-
 
 
 \begin{lecture} % Lecture 4

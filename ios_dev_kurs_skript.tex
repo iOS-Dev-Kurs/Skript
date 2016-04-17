@@ -37,8 +37,6 @@ Swift bedient sich vieler Konzepte moderner Programmiersprachen und legt besonde
 
 Noch immer befindet sich Swift stark in Entwicklung und neue Versionen werden häufig veröffentlicht. Statt in diesem Skript eine Einführung in diese Sprache zu geben, verweise ich auf das Buch \emph{The Swift Programming Language} von Apple, das sowohl online \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/} als auch im iBooks Store \linkref{https://itunes.apple.com/de/book/swift-programming-language/id881256329?mt=11} immer in aktueller Version vorliegt und uns in diesem Kurs als Referenz dienen wird.
 
-Ich möchte an dieser Stelle jeden Leser, der seine Lieblingsprogrammiersprache nicht an Swift verlieren möchte, vor der Lektüre dieses Buches warnen.
-
 Zu Beginn des Kurses lernen wir die Grundlagen der objektorientieren Programmierung in Swift anhand dieses Buches und werden dann sehr schnell anfangen, unsere ersten iOS Apps zu schreiben.
 
 
@@ -387,7 +385,7 @@ Xcode kann Apps nur auf Geräten installieren, deren Softwareversion mit der jew
 
 \subsection{Der Provisioning Prozess}\label{sec:provisioning}
 
-\strong{Hinweis:} Dieser Abschnitt stellt die Grundlagen des Provisioning Prozesses dar. Xcode vereinfacht diesen Vorgang mittlerweile sehr \secref{sec:xcodeprovisioning}.
+\strong{Hinweis:} Dieser Abschnitt stellt die Grundlagen des Provisioning Prozesses dar. Xcode vereinfacht diesen Vorgang mittlerweile sehr. Zum Testen von Apps auf iOS Geräten ist nicht einmal mehr ein Apple Developer Account notwendig, sodass dieser Abschnitt erst relevant wird, wenn ihr mit dem App Store arbeitet.
 
 Damit Apps auf iOS Geräten installiert werden können, müssen diese digital signiert werden. So wird sichergestellt, dass die App von einer vertrauenswürdigen, bei Apple registrierten Quelle stammen und ausführbarer Code nicht verändert wurde.
 
@@ -400,46 +398,6 @@ Ein Distribution Provisioning Profile ist immer direkt auf eine Bundle ID bezoge
 Für die Entwicklung können ebenfalls Development Provisioning Profiles erstellt werden, die genau auf eine Bundle ID bezogen sind. Diese werden \strong{explicit} genannt und sind erforderlich, wenn Services wie iCloud verwendet werden, die eine exakte Identifikation benötigen. Solange dies nicht erforderlich ist, kann anstatt der Bundle ID auch ein Asterisk (*) verwendet werden. Ein solches Development Provisioning Profile wird auch \strong{wildcard} genannt und kann für beliebige Bundle IDs verwendet werden.
 
 Das Provisioning Profile enthält außerdem Informationen über die Geräte, die für die Installation der App autorisiert sind. Sog. \strong{Team Provisioning Profiles} erlauben die Installation einer App auf allen Geräten, die im Developer Team registriert sind. Es können hingegen auch Provisioning Profiles erstellt werden, die auf bestimmte Geräte beschränkt sind, bspw. um geschlossene Beta-Tests durchzuführen. In jedem Fall müssen die Geräte, die verwendet werden sollen, im Member Center mit ihrer UDID registriert sein.
- 
-\subsection{Provisioning mit Xcode}\label{sec:xcodeprovisioning}
-
-Mittlerweile werden die beschriebenen Schritte zur Erstellung von gültigen Provisioning Profiles größtenteils von Xcode erledigt.
-
-Ihr benötigt zunächst einen Apple Developer Account und müsst anschließend unserem registrierten Developer Team der Uni Heidelberg beitreten.
-\begin{enumerate}
-\item Erstellt eine Apple ID \linkref{https://developer.apple.com/register/} oder verwendet, soweit vorhanden, eure existierende Apple ID
-\item Schließt euer iOS Gerät mit dem USB-Kabel an.
-\item Öffnet in Xcode den \strong{Devices} Bereich mit \keys{\cmd + \shift + 2} und wählt in der linken Seitenleiste euer Gerät aus \abbref{img:xcode_device}.
-\item Kopiert die UDID eures iOS Geräts, also die lange Zeichenfolge mit dem Label \emph{Identifier}.
-\item Teilt mir \strong{eure registrierte Apple ID} und \strong{die UDIDs aller eurer iOS Geräte} per Email \linkref{n.fischer@stud.uni-heidelberg.de} mit, sodass ich euch in das Developer Team einladen und die Geräte hinzufügen kann. Verwendet dazu bitte die Email, mit der ihr euch zum Kurs angemeldet habt.
-\item Mit dem Einladungslink, den ihr anschließend per Email von Apple erhaltet, könnt ihr dem Developer Team beitreten. Ihr müsst euch im erscheinenden Dialog nicht noch einmal registrieren, wählt hier einfach \emph{Sign in} und loggt euch mit der verwendeten Apple ID ein.
-\end{enumerate}
-
-\includegraphicsc{img/xcode_device.png}{img:xcode_device}{Im Organizer können die iOS Geräte verwaltet werden. Developer Team Admins können die Schaltfläche \emph{Use for Development} oder \emph{Add to Member Center} verwenden, andernfalls muss die UDID des Geräts manuell dem Team hinzugefügt werden. (Bild aus Apple's Dokumentation [\protect\footnotemark])}
-\footnotetext{\url{https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide}}
-
-Ihr erhaltet damit Zugriff auf das iOS Dev Center \linkref{https://developer.apple.com/devcenter/ios/} mit Ressourcen und Dokumentationen. Besonders hilfreich sind hier auch die Videos der jährlich stattfindenden Apple Worldwide Developer Conference (WWDC).
-
-Nun integriert euren Apple Developer Account in Xcode:
-\begin{enumerate}
-\item Öffnet in Xcode \menu{Preferences > Accounts} und fügt euren Apple Developer Account dort hinzu \abbref{img:xcode_accounts}.
-\item Auf der rechten Seite erscheinen die Developer Teams, denen ihr angehört. Wählt das Team der Uni Heidelberg aus und klickt \menu{View Details}.
-\item Im erscheinenden Dialog könnt ihr nun eure Certificates und Provisioning Profiles verwalten \abbref{img:xcode_devteam}. Die Liste der Provisioning Profiles dient hier nur zur Information. Ihr benötigt nur ein Development Certificate, das ihr mit Klick auf \menu{+ > iOS Development} anfordern könnt. Es muss nun zunächst von mir bestätigt werden, daher kann zunächst eine Fehlermeldung erscheinen.
-\item Ein Klick auf das \menu{Refresh}-Symbol unten links aktualisiert die Liste und lädt verfügbare Certificates und Provisioning Profiles automatisch herunter. Diese sind außerdem jederzeit online im Member Center einsehbar \linkref{https://developer.apple.com/membercenter/}.
-\end{enumerate}
-
-\includegraphicsc{img/xcode_accounts.png}{img:xcode_accounts}{In den Einstellungen kann der Apple Developer Account hinzugefügt werden}
-
-\includegraphicsc{img/xcode_devteam.png}{img:xcode_devteam}{Mit Xcode könnt ihr eure Certificates und Provisioning Profiles verwalten}
-
-Wenn Certificates oder Devices im Developer Team hinzugefügt werden, generiert Xcode automatisch auch ein wildcard Team Provisioning Profile, das euer iOS Device zum Testen von beliebigen Apps autorisiert. Außerdem werden für solche Apps, die es erfordern, zusätzlich explicit Team Provisioning Profiles generiert \secref{sec:provisioning}.
-
-Nun könnt ihr Apps auf eurem iOS Gerät installieren und testen:
-\begin{enumerate}
-\item Stellt sicher, dass in der Target-Konfiguration unser Development Team ausgewählt ist und die Bundle ID dem beschriebenen Schema entspricht \secref{sec:projkonfig}.
-\item Wählt euer iOS Device als Zielsystem und führt einen \emph{Build \& Run} aus \secref{sec:buildandrun}.
-\item Die App wird nun auf dem angeschlossen Gerät ausgeführt!
-\end{enumerate}
 
 
 
@@ -602,6 +560,8 @@ git commit -m "Added gitignore file"
 
 Git \linkref{http://git-scm.com} ist erstklassig dokumentiert und bietet neben Tutorials und einem Übungsmodus \linkref{http://try.github.com/} eine umfassende Dokumentation \linkref{http://git-scm.com/book}. Hier sollte bei Bedarf unbedingt nachgeschlagen werden.
 
+
+\end{document} %%% MARKER %%%
 
 
 \chapter{iOS App Architektur}

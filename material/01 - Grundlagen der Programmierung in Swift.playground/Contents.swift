@@ -3,7 +3,7 @@
 
 //: ## Hello World!
 
-println("Hello World!")
+print("Hello World!")
 
 
 //: ## Konstanten und Variablen
@@ -36,18 +36,18 @@ var populations = [ "Melbourne": 4e6, "Sydney": 4e6, "Heidelberg": 150e3] // ode
 populations["Heidelberg"]
 
 let π = 3.1415 // Unicode Zeichen!
-var 🌳 = "🌳"
+var 🌳 = [ "🌳" ]
 let 💧 = 10
-for var i=0; i<💧; i++ {
+for i in 0...💧 {
     🌳 += 🌳
 }
-println(🌳)
+print(🌳)
 
 
 //: ## String Formatierung
 
-println("Heidelberg hat \(150e3) Einwohner.")
-println("Planted \(count(🌳)) trees.")
+print("Heidelberg hat \(150e3) Einwohner.")
+print("Planted \(🌳.count) trees.")
 
 
 //: ## Einfache Operatoren
@@ -62,13 +62,13 @@ let nineHalf = Float(nine) / 2 // Hier wird der Wert 2 als Float interpretiert, 
 let year = 2015
 
 if year < 2015 {
-    println("Vergangenheit")
+    print("Vergangenheit")
 } else if year == 2015 {
-    println("Gegenwart");
+    print("Gegenwart");
 } else if year > 2015 {
-    println("Zukunft");
+    print("Zukunft");
 } else {
-    println("unmöglich!");
+    print("unmöglich!");
 }
 
 var chineseYear: String
@@ -87,17 +87,17 @@ default:
     chineseYear = "[some other animal]"
 }
 
-println("\(year) is the chinese year of the \(chineseYear)")
+print("\(year) is the chinese year of the \(chineseYear)")
 
 
 //: ## Schleifen
 
 for city in cities {
-    println(city)
+    print(city)
 }
 
 for (name, population) in populations {
-    println("\(name) hat \(population) Einwohner.")
+    print("\(name) hat \(population) Einwohner.")
 }
 
 var p: Float = 1
@@ -106,7 +106,7 @@ while abs(p - target) > 1 {
     p += (target - p) / 2
 }
 
-println(p)
+print(p)
 
 
 //: ## Funktionen & Optionals
@@ -117,10 +117,10 @@ import Foundation // (brauchen wir nur, um die Funktion pow() zu verwenden)
 // Jeder Typ kann als *Optional* vorliegen: entweder hält er den Wert, oder nichts (nil)
 // Diese Funktion hat bspw. den Namen "numberForDigits", nimmt eine Liste von integern (die Ziffern einer Zahl) an und gibt einen optional integer (die entsprechende Zahl, oder nichts, wenn die Liste leer ist) zurück:
 func numberForDigits(digits: [Int]) -> Int? {
-    if count(digits) > 0 { // Ist mindestens eine Ziffer in der Liste?
+    if digits.count > 0 { // Ist mindestens eine Ziffer in der Liste?
         // Berechne die Zahl aus den Ziffern
         var number = 0
-        for (index, digit) in enumerate(reverse(digits)) {
+        for (index, digit) in digits.reverse().enumerate() {
             number += digit * Int(pow(10, Double(index)))
         }
         return number // Gebe die Zahl zurück
@@ -132,24 +132,24 @@ func numberForDigits(digits: [Int]) -> Int? {
 
 // Wir können die Funktion nun aufrufen und den Rückgabewert einer Konstanten zuweisen:
 let n = numberForDigits([ 1, 0, 2]) // n ist nun eine Optional Int
-println("Result: \(n).")
+print("Result: \(n).")
 
 // Optionals müssen entpackt werden. Die Optional Binding Syntax vereinfacht dies:
 if let n = n { // Einer neuen Konstanten n wird der Wert von n zugewiesen, wenn es einen solchen gibt
     // Nun können wir den Wert verwenden
-    println("The number is \(n).")
+    print("The number is \(n).")
 } else { // Wenn kein Wert vorliegt (nil), wird dieser Code ausgefürt
-    println("No digits specified.")
+    print("No digits specified.")
 }
 
 // Optionals sind in Swift allgegenwärtig. Wenn eine Typ optional ist, kann er nil werden und der Programmierer muss dies berücksichtigen. Andernfalls kann man sich darauf verlassen, dass immer ein Wert vorliegt.
 // So werden Laufzeitfehler vermieden und unsere App stürzt bei unbeabsichtigtem Verhalten nicht ab!
 
 // Bspw. der Zugriff auf Objekte in einem Dictionary gibt einen Optional zurück, da wir nicht wissen, ob ein Wert zu diesem Key existiert:
-println(populations["Heidelberg"])
+print(populations["Heidelberg"])
 
 // Wenn klar ist, dass ein Wert vorhanden ist, **kann** man sich mit einem *Force Unwrap* über das Optional-Verhalten hinwegsetzen:
-println(populations["Heidelberg"]!)
+print(populations["Heidelberg"]!)
 // Dies deutet aber in vielen Fällen auf schlechte Programmierung hin! Verwendet den Force Unwrap nur mit äußerster Vorsicht.
 
 

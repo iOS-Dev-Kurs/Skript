@@ -287,52 +287,27 @@ var randomTimer: NSTimer?
 \end{lecture}
 
 
-\end{document} %%% MARKER %%%
-
 
 \begin{lecture}
 
 
-\section{Grundlagen der Programmierung in Swift}
+\chapter{A Swift Tour}
 
-Anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} lernen wir zunächst die Grundlagen der Programmierung in Swift kennen.
+Für unsere ersten Apps hat eine gute Portion Intuition für ein wenig Swift Code ausgereicht. Bevor wir tiefer in die App-Programmierung einsteigen beschäftigen wir uns einmal genauer mit der Programmierung in Swift.
 
-\begin{enumerate}
+Apple bietet mit dem Buch \emph{The Swift Programming Language} eine hervorragende Dokumentation und ein einführendes Kapitel mit den Namen \emph{A Swift Tour}. Das Buch findet ihr sowohl online \linkref{https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/} als auch im iBooks Store \linkref{https://itunes.apple.com/de/book/swift-programming-language/id881256329?mt=11} immer in aktueller Version. Auch das letzte Kapitel \emph{Language Reference} ist sehr spannend wenn ihr euch für den detaillierten Aufbau der Sprache und deren Grammatik interessiert.
 
-\item Öffnet Xcode und erstellt zunächst einen \emph{Playground} mit \keys{\cmd + \shift + \Alt + N}. Playgrounds sind interaktive Skripte, mit denen sich ideal Code ausprobieren lässt. Gebt der Datei einen Namen wie \str{01 - Grundlagen der Programmierung in Swift} und speichert sie in einem Verzeichnis für diesen Kurs.
-\item Ein Playground besteht aus einem Editor- und einem Inspektorbereich und führt geschriebenen Code automatisch aus. Ausgaben und Laufzeitinformationen werden im Inspektor angezeigt. In nur einer Zeile Code können wir den traditionellen \emph{Hello World!}-Gruß ausgeben lassen \abbref{img:playground_helloworld}.
+Löst die Übungsaufgaben mit eurem Wissen aus der Vorlesung und den zugehörigen Materialien auf der Vorlesungwebseite. Zieht zuerst das Buch \emph{The Swift Programming Language} zu Rate wenn ihr nicht weiterkommt. Schickt mir bei weiteren Fragen eine Pull-Request oder einen Xcode Playground per Email.
 
-\begin{swiftcode}
-println("Hello World!")	
-\end{swiftcode}
-	
-\item Nun lernen wir anhand des ersten Kapitels \emph{A Swift Tour} des Buches \emph{The Swift Programming Language} zunächst die Grundlagen der Programmierung in Swift.
-	
-	Auf der Vorlesungswebseite findet ihr den Playground aus der Vorlesung, der in diese Konzepte einführt. Macht euch dabei mit folgenden Begriffen vertraut:
+\strong{Xcode Playgrounds} eignen sich hervorragend um Swift Code auszuprobieren und um Code zu schreiben der die Infrastruktur einer App nicht erfordert, wie bspw. die Übungsaufgaben \emph{Fibonacci}, \emph{Primzahlen} und \emph{Poker}. Erstellt einen Playground mit \menu{File > New > Playground...} oder \keys{\cmd + \shift + \Alt + N}.
 
-	\begin{itemize}
-		\item Variablen (\swiftinline{var}) und Konstanten(\swiftinline{let})
-		\item Einfache Datentypen (\swiftinline{Int}, \swiftinline{Float}, \swiftinline{Double}, \swiftinline{Bool}, \swiftinline{String}, \swiftinline{Array}, \swiftinline{Dictionary} und \swiftinline{Set})
-		\item Type Inference
-		\item String-Formatierung
-		\item Einfache Operatoren (\swiftinline{+}, \swiftinline{-}, \swiftinline{*}, \swiftinline{/}, \swiftinline{\%})
-		\item Abfragen (\swiftinline{if}, \swiftinline{switch}) und Schleifen (\swiftinline{for}, \swiftinline{while})
-		\item Optionals
-		\item Funktionen
-	\end{itemize}
-	
-	Im zweiten Kapitel \emph{Language Guide} in \emph{The Swift Programming Language} werden diese Konzepte noch einmal detailliert erklärt. Informiert euch dort gerne genauer darüber. Zunächst genügt es jedoch, einen Überblick zu erhalten. Im Verlauf des Kurses werden wir noch viel Übung im Umgang mit diesen Konzepten bekommen.
-	
-\includegraphicsc[\screenshotwidth]{img/playground_helloworld.png}{img:playground_helloworld}{Playgrounds eignen sich ideal zum Ausprobieren von Swift Code.}
-
-\end{enumerate}
+Die Übungsaufgaben \emph{Fibonacci} und \emph{Primzahlen} sind optional und an Kursteilnehmer gerichtet, die noch wenig oder keine Programmierkenntnisse mitbringen. Auch erfahrene Programmierer können aber anhand dieser Aufgaben die Swift Syntax kennenlernen und versuchen die Aufgaben so \emph{swifty} wie möglich zu lösen.
 
 \begin{exc}
 
-\begin{excitem}{fibonacci}{Fibonacci}{1}
+\begin{excitem*}{fibonacci}{Fibonacci}{1}
 
-\begin{enumerate}
-\item Schreibt einen Algorithmus, der alle Folgenglieder $F_n < 1000$ der Fibonaccifolge
+Schreibt in einem Xcode Playground einen Algorithmus der alle Folgenglieder $F_n < 1000$ der Fibonaccifolge
 \begin{equation}
 F_n = F_{n-1} + F_{n-2}
 \end{equation}
@@ -340,156 +315,106 @@ F_n = F_{n-1} + F_{n-2}
 F_1=1, F_2=2
 \end{equation}
 in der Konsole ausgibt.
-\item \excextra{Bei jeder geraden Fibonaccizahl $F_j$ ist der Abstand $\Delta n=j-i$ zum vorherigen geraden Folgenglied $F_i$ auszugeben.}
-\end{enumerate}
 
-\end{excitem}
+\exchinweis{Versucht's mit einer \swiftinline{while}-Schleife und zwei Variablen für die letzten beiden Folgenglieder, die außerhalb der Schleife definiert wurden. Wer die Aufgabe richtig \emph{swifty} lösen will kann stattdessen ein \swiftinline{struct: FibonacciSequence} schreiben welches das \swiftinline{SequenceType} Protokoll erfüllt.}
 
-\begin{excitem}{primenumbers}{Primzahlen}{2}
+\end{excitem*}
 
+
+\begin{excitem*}{primenumbers}{Primzahlen}{1}
 
 \begin{enumerate}
 
-\item Schreibt eine Funktion \swiftinline{primeNumbersUpTo:}, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis \swiftinline{maxNumber} als Liste \swiftinline{[Int]} zurückgibt.
+\item Schreibt eine Funktion \swiftinline{func isPrimeNumber(n: Int) -> Bool} die eine Zahl annimmt und \swiftinline{true} zurückgibt, wenn diese eine Primzahl ist, andernfalls \swiftinline{false}.
 
-\exchinweis{Mit dem Modulo-Operator \swiftinline{|\%|} kann der Rest der Division zweier Integer gefunden werden:}
+\exchinweis{Iteriert in einer \swiftinline{for}-Schleife durch alle Zahlen von 2 bis n: \swiftinline{for i in 2..<n}. Überspringt den Schleifenschritt mit \swiftinline{continue} wenn \swiftinline{i} gleich \swiftinline{n} ist. Prüft sonst mit dem Modulo-Operator \swiftinline{|\%|} den Rest der Division \swiftinline{n |\%| i} der beiden Zahlen. Ist dieser \swiftinline{0} so ist \swiftinline{n} durch \swiftinline{i} teilbar und ihr könnt \swiftinline{false} zurückgeben: \swiftinline{return false}. Gebt sonst nach dem Durchlauf der Schleife \swiftinline{true} zurück.}
 
-\begin{swiftcode}
-let a = 20%3 // a ist jetzt Int(2)
-\end{swiftcode}
+\item Schreibt dann eine Funktion \swiftinline{func primeNumbersUpTo(maxNumber: Int) -> [Int]} die alle Primzahlen bis \swiftinline{maxNumber} als Liste \swiftinline{[Int]} (kurz für \swiftinline{Array<Int>}) zurückgibt.
 
-\item \emph{Optionals} sind eines der elegantesten Konzepte in Swift, und sind auch in anderen modernen Sprachen zu finden. Informiert euch darüber im Kapitel \emph{Language Guide > The Basics > Optionals} in \emph{The Swift Programming Language}. Dieses Kapitel (bis einschließlich \emph{Implicitly Unwrapped Optionals}) ist sehr wichtig, da wir in der iOS App Programmierung häufig mit Optionals arbeiten werden!
+\exchinweis{Erstellt zuerst eine leere Liste von \swiftinline{Int}s: \swiftinline{var primeNumbers: [Int] = []}. Iteriert dann in einer \swiftinline{for}-Schleife durch die Zahlen \swiftinline{1...maxNumber} und fügt die Zahl der Liste mit \swiftinline{primeNumbers.append(n)} hinzu wenn sie \swiftinline{isPrimeNumber(n)} erfüllt. Gebt die Liste mit \swiftinline{return primeNumbers} nach Schleifendurchlauf zurück. Richtig \emph{swifty} könnt ihr die Aufgabe auch in einer Zeile lösen indem ihr die Methode \swiftinline{filter} von \swiftinline{SequenceType} verwendet.}
 
-\item Verwendet eure Liste von Primzahlen aus der vorigen Aufgabe, um effizienter zu prüfen, ob eine Zahl eine Primzahl ist.
+\end{enumerate}
 
-Schreibt dazu eine Funktion \swiftinline{isPrimeNumber:cachedPrimeNumbers:}, die eine Zahl \swiftinline{n: Int} und eine \strong{optionale} Liste von Primzahlen \swiftinline{cachedPrimeNumbers: [Int]?} annimmt. Verwendet die \emph{Optional Binding} Syntax \swiftinline{if let} um mit dieser Liste zu arbeiten, wenn eine solche übergeben wurde und lang genug ist. Dann genügt es zu prüfen, ob die Zahl in der Liste enthalten ist. Wenn kein Liste übergeben wurde, soll die Primzahl wie in a) manuell geprüft werden.
+\end{excitem*}
 
-\begin{exchinweise}
 
-\item Dem Argument \swiftinline{cachedPrimeNumbers} können wir einen \emph{default} Wert \swiftinline{nil} zuweisen:
+\begin{excitem}{chatter}{Chatter}{2}
 
-\begin{swiftcode}
-func isPrimeNumber(n: Int, cachedPrimeNumbers: [Int]? = nil) -> Bool {
-    // ...
-}	
-\end{swiftcode}
+In dieser Aufgabe schreiben wir zusammen an einer App!
 
-So kann die Funktion auch ohne dieses Argument aufgerufen werden:
+Forkt das Repository \url{https://github.com/ios-dev-kurs/chatter} und erstellt eine Pull Request um eure Lösung einzureichen oder Fragen zu stellen.
 
-\begin{swiftcode}
-isPrimeNumber(7, cachedPrimeNumbers: [ 1, 2, 3, 7 ]) // vollständiger Funktionsaufruf, verwendet übergebene Liste zum Nachschlagen
-isPrimeNumber(7) // äquivalent zu:
-isPrimeNumber(7, cachedPrimeNumbers: nil) // Prüft Primzahl manuell
-\end{swiftcode}
+\begin{enumerate}[label=\roman*.]
 
-\item Die globale Funktion \swiftinline{contains} prüft ob eine Element in einer Liste enthalten ist:
+\item Die \emph{Chatter} App ist in der \filename{README.md} Datei beschrieben. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren. Wenn euch interessiert, wie die App aufgebaut ist, lest die \filename{README.md} und die Kommentare im Code.
 
-\begin{swiftcode}
-contains([ 1, 2, 3, 7 ], 7) // true
-\end{swiftcode}
+\item Ihr habt nun sicherlich erkannt worum es in der App geht: Instanzen verschiedener Subklassen von \swiftinline{Chatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \swiftinline{Chatter} Klasse dokumentiert sind.
 
-\item Testet eure Funktion, indem Ihr bspw. folgenden Code ans Ende des Storyboards setzt:
+Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und damit euren Beitrag zu dieser App zu leisten! Ihr könnt einen bekannten Charakter darstellen oder einen Neuen erschaffen. Ich übernehme eure Pull-Request dann in das Original-Repository, sodass euer Charakter mit denen aller anderen Kursteilnehmer chatten kann.
 
-\begin{swiftcode}
-//: ## Testing
+Erstellt dazu mit \keys{\cmd + N} eine neue \filename{.swift}-Datei mit dem Namen eures Charakters und platziert sie im Xcode Project Navigator unter \menu{chatter > Model > Chatters}. Orientiert euch an \swiftinline{Yoda.swift} um eure neue Subklasse von \swiftinline{Chatter} zu implementieren.
 
-let n = 499 // Number to test
-let cachedMax = 500 // Prime numbers up to this number will be cached
-import Foundation
-var startDate: NSDate
+\item Überschreib die relevanten Methoden in eurer Subklasse wie in der \filename{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
 
-startDate = NSDate()
-let cachedPrimeNumbers = primeNumbersUpTo(cachedMax)
-println("Time for caching prime numbers up to \(cachedMax): \(-startDate.timeIntervalSinceNow)s")
+In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Er oder sie (oder es?) könnte bspw. mit jeder Nachricht wütender werden oder dergleichen.
 
-startDate = NSDate()
-if isPrimeNumber(n) {
-    println("\(n) is a prime number.")
-} else {
-    println("\(n) is not a prime number.")
-}
-let withoutCacheTime = -startDate.timeIntervalSinceNow
-println("Time without cache: \(withoutCacheTime)s")
+\item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert. Achtet darauf nur Änderungen eurer Subklasse und nur wenn nötig Änderungen in anderen Dateien zu committen. Die \filename{project.pbxproj} Datei enthält Informationen zu den Projektdateien - da ihr neue Dateien hinzugefügt habt, gehört diese zum Commit dazu.
 
-startDate = NSDate()
-isPrimeNumber(n, cachedPrimeNumbers: cachedPrimeNumbers)
-let withCacheTime = -startDate.timeIntervalSinceNow
-println("Time with cache: \(withCacheTime)s (\((1 - withCacheTime / withoutCacheTime) * 100)% faster)")
-\end{swiftcode}
+\item Mit eurem Fork des Repositories auf GitHub könnt ihr eure Änderungen jederzeit abgleichen. Bei der Gelegenheit bietet es sich an auch die neuesten Änderungen aus dem Original-Repository herunterzuladen, sodass ihr die neuen Charaktere der anderen Kursteilnehmer erhaltet:
 
-\end{exchinweise}
+\begin{shcode}
+git pull https://github.com/ios-dev-kurs/chatter.git master
+\end{shcode}
+
+Die \shinline{pull} Operation versucht, die heruntergeladenen Änderungen mit den lokalen Änderungen zusammenzuführen. Das klappt nicht immer ohne Konflikte. Da jeder von euch dem Projekt eine Datei hinzufügt ändert sich jeweils die \filename{project.pbxproj} Datei. Treten Konflikte auf, müsst die die Datei in einem Texteditor öffnen und nach den Konfliktmarkierungen suchen:
+
+\begin{shcode}
+<<<<<<< HEAD:
+# lokaler Code vor dem Merge
+=======
+# durch den Merge veränderter Code
+>>>>>>>
+\end{shcode}
+
+Behebt den Konflikt indem ihr die Konfliktmarkierungen löscht und den Code dazwischen gegebenenfalls anpasst. Dann könnt ihr den Merge committen:
+
+\begin{shcode}
+git add --all
+git commit
+\end{shcode}
+
+Euer Repository enthält dann sowohl den aktuellen Stand des Original-Repositories, als auch eure Änderungen.
+
+\item Wenn ihr mit eurer neuen \swiftinline{Chatter} Subklasse zufrieden seid schickt mir eine Pull-Request. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \shinline{git pull} durchführen.
+
+Ich bin gespannt auf eure Implementierungen!
 
 \end{enumerate}
 
 \end{excitem}
 
-\end{exc}
-
-
-\end{lecture}
-
-
-\begin{lecture} % Lecture 2
-
-
-\section{Objektorientiertes "{}Hello World!"{}}
-
-\begin{enumerate}
-
-\item Nun versuchen wir uns an der objektorientierten Programmierung und möchten den \objcinline{Hello World!} Gruß von virtuellen Repräsentationen einzelner Personen ausgeben lassen. Erstellt dazu einen Xcode Playground bspw. mit Titel \str{02 - Objektorientierte Programmierung in Swift}.
-
-\item Verschafft euch anhand \emph{The Swift Programming Language} und dem Playground aus der Vorlesung (auf der Vorlesungswebseite) einen Überblick über folgende Konzepte der objektorientierten Programmierung in Swift:
-
-\begin{itemize}
-	\item Klassen und Objekte
-	\item Attribute mit oder ohne Startwert
-	\item Initializer
-	\item Instanz- und Klassenmethoden
-	\item Subklassen und Überschreiben von Methoden
-	\item Structs und Enums
-\end{itemize}
-
-\end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{scientists}{Scientists}{1}
-
-\begin{enumerate}
-\item Erstellt (am besten in einem neuen Playground, in den ihr die Klasse \swiftinline{Person} aus der Vorlesung einfügt) eine weitere Klasse \swiftinline{Scientist} als \emph{Subklasse} von \swiftinline{Person}.
-
-Wissenschaftler können rechnen, fügt dieser Klasse also eine Methode \swiftinline{sayPrimeNumbersUpTo:} hinzu, die ein Argument \swiftinline{maxNumber: Int} annimmt und alle Primzahlen bis zu dieser Zahl in der Konsole ausgibt. Verwendet dazu den Algorithmus aus der vorherigen Übungsaufgabe \excref{exc:primenumbers}.
-
-\begin{hinweis}
-Wie in \emph{The Swift Programming Language} beschrieben, erbt eine Subklasse die Attribute und Methoden ihrer Superklasse und kann diese überschreiben:
-\begin{swiftcode}
-class Scientist: Person {
-    ...
-}	
-\end{swiftcode}
-\end{hinweis}
-
-\item Wir wollen uns vergewissern, dass die Klasse \swiftinline{Scientist} die Attribute und Methoden ihrer Superklasse \swiftinline{Person} erbt. Erstellt ein \swiftinline{Scientist}-Objekt, gebt ihm einen Namen und lasst den \swiftinline{Hello World}-Gruß ausgeben.
-\item Nach dem Prinzip des \emph{Überschreiben} soll ein Wissenschaftler einen anderen Gruß ausgeben als eine "{}normale"{} Person. Überschreibt in der \swiftinline{Scientist}-Klasse die Methode \swiftinline{sayHello}, sodass zusätzlich \str{Ask me for prime numbers!} ausgegeben wird.
-\end{enumerate}
-
-\end{excitem}
 
 \begin{excitem}{emails}{Poker}{3}
 
 In dieser Aufgabe berechnen wir die Wahrscheinlichkeit für einen \emph{Flush} beim Poker.
 
-\begin{enumerate}
+Forkt das Repository \url{https://github.com/ios-dev-kurs/poker} und erstellt eine Pull Request um eure Lösung einzureichen oder Fragen zu stellen.
 
-\item Zunächst modellieren wir die Spielkarten. Eine Karte hat immer eine \emph{Farbe/Suit} (\emph{Karo/Diamonds}, \emph{Herz/Hearts}, \emph{Pik/Spades} oder \emph{Kreuz/Clubs}) und einen \emph{Rang/Rank} (\emph{2} bis \emph{10}, \emph{Bube/Jack}, \emph{Dame/Queen}, \emph{König/King} oder \emph{Ass/Ace}).
+\begin{enumerate}[label=\roman*.]
 
-	Schreibt zwei Enums \swiftinline{enum Suit: Int} und \swiftinline{enum Rank: Int} mit ihren entsprechenden Fällen (\swiftinline{case Diamonds} usw.). Bei den Rängen \emph{2} bis \emph{10} schreibt ihr am besten die Zahl aus. Implementiert jeweils eine \emph{Computed Property} \swiftinline{var symbol: String}, in der ihr mithilfe einer \swiftinline{switch}-Abfrage für jeden Fall ein Symbol zurückgebt. \strong{Tipp:} Für die Farben gibt es Unicode-Symbole\linkref{http://en.wikipedia.org/wiki/Playing_cards_in_Unicode}!
+\item Zuerst modellieren wir die Spielkarten. Eine Karte \swiftinline{Card} hat immer eine \emph{Farbe} \swiftinline{Suit} (Karo, Herz, Pik oder Kreuz) und einen \emph{Rang} \swiftinline{Rank} (2 bis 10, Bube, Dame, König oder Ass).
+
+Wir modellieren \swiftinline{Card} als Struct, und \swiftinline{Suit} und \swiftinline{Rank} als Enums. Warum verwenden wir keine Klasse für \swiftinline{Card}? Warum eignet sich ein Enum so hervorragend für \swiftinline{Suit} und \swiftinline{Rank}? Beantwortet diese Fragen kurz stichwortartig in einem Kommentar im Playground.
+
+\item Schreibt zwei Enums \swiftinline{enum Suit: Int} und \swiftinline{enum Rank: Int} mit ihren jeweiligen Fällen (\swiftinline{case diamonds} usw.). Bei den Rängen \emph{2} bis \emph{10} schreibt ihr am besten die Zahl aus (\swiftinline{case two} usw.).
+
+Implementiert jeweils eine \emph{Computed Property} \swiftinline{var description: String} in der ihr mithilfe einer \swiftinline{switch}-Abfrage für jeden Fall ein Symbol zurückgebt. \strong{Tipp:} Für Karo, Herz, Pik und Kreuz gibt es Unicode-Symbole\linkref{http://en.wikipedia.org/wiki/Playing_cards_in_Unicode}! Außerdem verlangt das Protokoll \swiftinline{CustomStringConvertible} nur das Attribut \swiftinline{description}, schreibt also z.B. \swiftinline{enum Suit: Int, CustomStringConvertible} damit das Symbol in \swiftinline{print}s verwendet wird.
 	
-	Schreibt dann einen \swiftinline{struct Card} mit zwei Attributen \swiftinline{let suit: Suit} und \swiftinline{let rank: Rank}, sowie einer \emph{Computed Property} \swiftinline{var description: String}, die einen aus Farbe und Rang zusammengesetzten String zurückgibt.
+Schreibt dann einen \swiftinline{struct Card} mit zwei Attributen \swiftinline{let suit: Suit} und \swiftinline{let rank: Rank}, sowie einer \emph{Computed Property} \swiftinline{var description: String}, die einen aus Farbe und Rang zusammengesetzten String zurückgibt. Lasst auch \swiftinline{Card} das \swiftinline{CustomStringConvertible} Protokoll erfüllen.
 		
 \item Nun können wir eine Poker Hand modellieren. Schreibt den \swiftinline{struct PokerHand} mit einem Attribut \swiftinline{let cards: [Card]} und einer \emph{Computed Property} \swiftinline{var description: String}, die die \swiftinline{description} der Karten kombiniert.
 
-	Um einfach zufällige Poker Hände generieren zu können, implementiert einen Initializer \swiftinline{init()}, der eine Hand aus fünf zufälligen Karten erstellt. \strong{Wichtig:} Da aus einem Deck von paarweise verschiedenen Karten gezogen wird, darf keine Karte doppelt vorkommen.
+Um einfach zufällige Poker Hände generieren zu können, implementiert einen Initializer \swiftinline{init()}, der eine Hand aus fünf zufälligen Karten erstellt. \strong{Wichtig:} Da aus einem Deck von paarweise verschiedenen Karten gezogen wird, darf keine Karte doppelt vorkommen.
 	
 	\begin{exchinweise}
 		\item Da wir \swiftinline{Suit} und \swiftinline{Rank} von \swiftinline{Int} abgeleitet haben, können wir Zufallszahlen generieren und die Enums daraus erstellen:
@@ -500,7 +425,7 @@ In dieser Aufgabe berechnen wir die Wahrscheinlichkeit für einen \emph{Flush} b
         let rndCard = Card(suit: rndSuit, rank: rndRank) // Eine zufällige Spielkarte
 		\end{swiftcode}
 		
-		\item Die Funktion \swiftinline{contains} könnte hilfreich sein, um das Vorhandensein von Karten zu überprüfen. Um diese mit \swiftinline{Card} verwenden zu können, müsst ihr erst eine Äquivalenzrelation implementieren: Schreibt \swiftinline{struct Card: Equatable { ... }} und dann außerhalb des Struct:
+		\item Die Funktion \swiftinline{contains} könnte hilfreich sein, um das Vorhandensein von Karten zu überprüfen. Um diese mit \swiftinline{Card} verwenden zu können muss \swiftinline{Card} das \swiftinline{Equatable} Protokoll erfüllen. Schreibt \swiftinline{extenstion Card: Equatable {}} und dann außerhalb:
 		
 		\begin{swiftcode}
         func ==(lhs: Card, rhs: Card) -> Bool {
@@ -509,31 +434,32 @@ In dieser Aufgabe berechnen wir die Wahrscheinlichkeit für einen \emph{Flush} b
 		\end{swiftcode}
 	\end{exchinweise}
 	
-\item Erstellt ein paar Poker Hände und lasst euch die \swiftinline{description} ausgeben. Habt ihr etwas gutes gezogen?
+Erstellt ein paar Poker Hände und lasst euch die \swiftinline{description} ausgeben. Habt ihr etwas gutes gezogen?
 
-	Implementiert nun ein weiteres Enum \swiftinline{enum Ranking: Int} mit den Fällen \swiftinline{case HighCard, Flush, StraightFlush} usw., die ihr bspw. auf Wikipedia\linkref{http://en.wikipedia.org/wiki/List_of_poker_hands} findet.
+\item Implementiert nun ein weiteres Enum \swiftinline{enum Ranking: Int} mit den Fällen \swiftinline{case highCard, flush, straightFlush} usw., die ihr bspw. auf Wikipedia\linkref{http://en.wikipedia.org/wiki/List_of_poker_hands} findet.
 
-	Fügt dann dem \swiftinline{struct PokerHand} eine Computed Property \swiftinline{var ranking: Ranking} hinzu. Implementiert hier einen Algorithmus, der prüft, ob ein \emph{Flush} vorliegt. Dann soll \swiftinline{.Flush} zurückgegeben werden, ansonsten einfach \swiftinline{.HighCard}.
+Fügt dann dem \swiftinline{struct PokerHand} eine Computed Property \swiftinline{var ranking: Ranking} hinzu. Implementiert hier einen Algorithmus, der prüft, ob ein \emph{Flush} vorliegt. Dann soll \swiftinline{.flush} zurückgegeben werden, ansonsten einfach \swiftinline{.highCard}.
 	
 \item Wir können nun einige tausend Hände generieren und die Wahrscheinlichkeit für einen Flush abschätzen. Fügt einfach folgenden Code am Ende des Playgrounds ein:
 
 \begin{swiftcode}
 var rankingCounts = [Ranking : Int]()
 let samples = 1000
-for var i=0; i<samples; i++ {
+for i in 0...samples {
     let ranking = PokerHand().ranking
     if rankingCounts[ranking] == nil {
         rankingCounts[ranking] = 1
     } else {
-        rankingCounts[ranking]!++
+        rankingCounts[ranking]! += 1
     }
 }
+
 for (ranking, count) in rankingCounts {
-    println("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
-}	
+    print("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
+}
 \end{swiftcode}
 
-	Die Ausführung kann etwas dauern, justiert ggfs. \swiftinline{samples}. Stimmt die Wahrscheinlichkeit etwa mit der Angabe auf Wikipedia überein?
+Die Ausführung kann etwas dauern, justiert ggfs. \swiftinline{samples}. Stimmt die Wahrscheinlichkeit ungefähr mit der Angabe auf Wikipedia überein?
 
 \item \strong{Extra:} Ihr könnt das Programm nun noch erweitern und versuchen, die anderen Ränge zu überprüfen. Dabei könnten Hilfsattribute wie \swiftinline{var hasFlush: Bool} oder \swiftinline{var pairCount: Int} nützlich sein. Bekommt es jemand es jemand hin, eine Funktion zu schreiben, die zwei Hände vergleicht und den Sieger bestimmt? \strong{Tipp:} Dazu könnte es hilfreich sein, die Fälle des \swiftinline{enum: Ranking} um \emph{Associated Attributes} zu erweitern.
 
@@ -547,238 +473,8 @@ for (ranking, count) in rankingCounts {
 \end{lecture}
 
 
-\begin{lecture} % Lecture 4
 
-
-\chapter{Versionskontrolle mit Git}
-
-Im Skript sind die Vorzüge der Versionskontrolle mit Git beschrieben, deren Grundlagen wir anhand einer unserer Apps anwenden können.
-
-\skriptref{Versionskontrolle mit Git}
-
-\begin{enumerate}
-
-\item Da Git in erster Linie ein Kommandozeilenprogramm ist, verwenden wir zunächst die Konsole. Später könnt ihr stattdessen auch bspw. die in Xcode integrierten Benutzeroberflächen verwenden. Öffnet die \emph{Terminal} App und navigiert in den Ordner, der das Xcode Projekt der \emph{Hello World} App beinhaltet. Dazu kann es hilfreich sein, zunächst \shinline{cd} zu tippen und den Ordner dann auf das Terminal Fenster zu ziehen, wobei der Pfad automatisch eingegeben wird.
-
-\begin{shcode}
-cd path/to/project
-\end{shcode}
-
-\item Bei Erstellung des Projektes wurde möglicherweise bereits die Option ausgewählt, ein Git Repository zu initialisieren. Mit \shinline{git status} können wir prüfen, ob hier bereits eines existiert und es ansonsten mit \shinline{git init} erstellen.
-
-\begin{shcode}
-git status
-# Git Repository vorhanden:
->> On branch master
->> nothing to commit, working directory clean
-# kein Git Repository vorhanden:
->> fatal: Not a git repository (or any of the parent directories): .git
-git init
-\end{shcode}
-
-\item Wir fügen dem Repository nun zunächst eine \shinline{.gitignore} Datei hinzu, um verschiedene benutzerspezifische und temporäre Dateien des Xcode Projekts auszuschließen.
-
-\begin{shcode}
-touch .gitignore
-open .gitignore
-\end{shcode}
-
-Kopiert die Vorlagen \emph{Xcode} \linkref{https://github.com/github/gitignore/blob/master/Global/Xcode.gitignore} und \emph{OSX} \linkref{https://github.com/github/gitignore/blob/master/Global/OSX.gitignore} in die \shinline{.gitignore} Datei.
-
-Nun können wir einen Commit ausführen, um die Datei dem Repository hinzuzufügen.
-
-\begin{shcode}
-git add .gitignore
-git commit -m "Added .gitignore file"
-\end{shcode}
-
-\item Jederzeit kann es hilfreich sein, die Situation des Git Repositories mit \shinline{git status} zu überprüfen. Zeigt ein Aufruf dieses Befehls noch ungesicherte Änderungen an, könnt ihr diese in einem weiteren Commit sichern:
-
-\begin{shcode}
-git add --all
-git commit -m"Committed unsaved changes"
-\end{shcode}
-
-\shinline{git log} zeigt die letzten Commits in der Konsole an.
-
-\item Nun können wir an unserem Projekt weiterarbeiten und Änderungen an Dateien vornehmen. Öffnet bspw. die Datei \emph{ViewController.swift} und fügt ihrer Implementierung folgendes Codesegment hinzu:
-
-\begin{swiftcode}
-override func viewDidLoad() {
-    super.viewDidLoad()
-    self.view.backgroundColor = UIColor.redColor()
-}
-\end{swiftcode}
-
-Führt ihr die App nun aus, seht ihr einen roten Bildschirmhintergrund.
-
-In der Konsole sehen wir mit \shinline{git status}, dass nun Änderungen vorliegen. Diese können wir in Form eines Commits im Git Repository speichern.
-
-\begin{shcode}
-git add ViewController.swift # oder git add --all
-git commit -m "changed background color"
-\end{shcode}
-
-\item Es gibt viele verschiedene Möglichkeit der Commitnavigation und -manipulation. Wir können bspw. mit \shinline{git checkout} einen bestimmten Commit laden, mit \shinline{git reset} Commits entfernen oder sie mit \shinline{git revert} in Form eines neuen Commits rückgängig machen. Dabei können wir einen bestimmten Commit anhand seines SHA hashs identifizieren, der bspw. mit \shinline{git log} angezeigt wird, oder mit \shinline{HEAD~x} den x-letzten Commit auswählen. Setzen wir den soeben ausgeführten Commit nun also bspw. zurück:
-
-\begin{shcode}
-git reset --hard HEAD~1 # Verwendet diesen Befehl nicht leichtfertig, denn hier gibt es keine Undo-Funtion!
-\end{shcode}
-
-In der Dokumentation \linkref{http://git-scm.com/book/} kann sich ausführlich über die verschiedenen Möglichkeiten informiert werden.
-
-\item Häufig wird Git zur Projektstrukturierung in Form von \strong{Feature Branches} eingesetzt. Nehmen wir also an unser Projekt liegt in seiner veröffentlichten Form vor. Möchten wir nun ein neues Feature implementieren oder Umstrukturierungen vornehmen, erstellen wir zunächst einen neuen Branch mit \shinline{git branch}. Mit \shinline{git checkout} wechseln wir das Arbeitsverzeichnis in diesen neuen Branch.
-
-\begin{shcode}
-git branch new_feature
-git checkout new_feature
-\end{shcode}
-
-\item Nun können wir in diesem Branch an unserem Projekt arbeiten, ohne andere Branches wie den zuvor verwendeten \shinline{master} Branch zu verändern. Implementiert  wieder eine Änderung und führt einen Commit durch:
-
-\begin{swiftcode}
-override func viewDidAppear(animated: Bool) {
-    super.viewDidLoad()
-    let alertController = UIAlertController(title: "New Feature!", message: "Is it a bug or a feature?", preferredStyle: .Alert)
-    alertController.addAction(UIAlertAction(title: "Bug", style: .Destructive, handler: nil))
-    alertController.addAction(UIAlertAction(title: "Feature", style: .Default, handler: nil))
-    self.presentViewController(alertController, animated: animated, completion: nil)
-}
-\end{swiftcode}
-
-\begin{shcode}
-git commit -a -m "implemented new feature" # Der -a Flag fügt dem Commit automatisch alle veränderten Dateien hinzu
-\end{shcode}
-
-\item Erhalten wir nun plötzlich eine Email eines aufgebrachten Benutzers unserer App, der einen Fehler gefunden hat, können wir problemlos zurück zum \shinline{master} Branch wechseln und diesen schnell beheben:
-
-\begin{shcode}
-git checkout master
-\end{shcode}
-
-Nachdem wir zurück zum \shinline{master} Branch gewechselt haben, sehen wir, dass die Änderungen des \shinline{new_feature} Branches verschwunden sind. Stattdessen befindet sich der Code wieder in seinem ursprünglichen Zustand. Wir können den Fehler also beheben, einen Commit ausführen und die App in der neuen Version veröffentlichen, um den Emailschreiber zu besänftigen.
-
-Anschließend wechseln wir wieder in unseren Feature Branch und arbeiten dort weiter, wo wir unterbrochen wurden.
-
-\begin{shcode}
-git checkout new_feature
-\end{shcode}
-
-\item Befindet sich der Feature Branch in einem Zustand, der veröffentlicht werden soll, muss er nur mit dem \shinline{master} Branch vereinigt werden. Dazu führen wir einen Merge durch.
-
-\begin{shcode}
-git checkout master
-git merge new_feature
-\end{shcode}
-
-Wurden im \shinline{master} Branch keine weiteren Commits hinzugefügt, können die Commits des Feature Branches einfach angehängt werden (\emph{Fast-Forward}). Gehen die Branches jedoch auseinander, versucht Git, die Änderungen zusammenzuführen. Mögliche Konflikte müssen dabei wie im Skript beschrieben im Code behoben werden.
-
-Der Feature Branch kann anschließend gelöscht werden:
-
-\begin{shcode}
-git branch -d new_feature
-\end{shcode}
-
-\item Versionskontrolle ist nicht nur für größere Projekte essentiell und hilft bei der Entwicklung jeder iOS App, sondern ermöglicht auch die Zusammenarbeit mehrerer Entwickler an einem Projekt. Im Skript ist dieses Thema kurz beschrieben und auch auf den Service GitHub \linkref{http://www.github.com} verwiesen, der weltweit von Entwicklern verschiedenster Plattformen verwendet wird, um an Projekten zusammenzuarbeiten.
-
-Auf GitHub ist bspw. auch dieses Skript zu finden. Ihr könnt das Repository auf der Webseite einsehen \linkref{https://github.com/iOS-Dev-Kurs/Skript} und herunterladen.
-
-Navigiert dazu in der Konsole zu dem Verzeichnis eurer Projekte für diesen Kurs und führt einen \shinline{git clone} aus:
-
-\begin{shcode}
-cd path/to/directory
-git clone https://github.com/iOS-Dev-Kurs/Skript
-\end{shcode}
-
-Das Repository wird dabei in das angegebene Verzeichnis heruntergeladen. Im Unterverzeichnis \shinline{dist/} findet ihr die gesetzten Dokumente dieses Kurses in aktueller Version. Auch die Links auf der Vorlesungsseite verlinken auf diese Dateien.
-
-Prinzipiell könnt ihr nun lokal an dem Repository weiterarbeiten und Commits durchführen, diese jedoch nicht hochladen. Zur Zusammenarbeit an Programmierprojekten werden entweder entsprechende Berechtigungen vergeben, oder das \strong{Fork} System auf GitHub verwendet.
-
-Wenn ich nun Änderungen am Remote Repository auf Github vornehme, also bspw. eine neue Version dieses Skript veröffentliche, können ihr diese mit nur einem Befehl laden und mit dem lokalen \shinline{master} Branch zusammenführen:
-
-\begin{shcode}
-git pull
-\end{shcode}
-
-\end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{chatter}{Chatter}{2}
-
-In dieser Aufgabe schreiben wir zusammen an einer App!
-
-\begin{exchinweis}
-Aus naheliegenden Gründen funktioniert es insgesamt besser, wenn ihr diese Aufgabe nicht alle erst am Sonntagabend erledigt…
-\end{exchinweis}
-
-\begin{enumerate}[label=\roman*.]
-
-\item Auf GitHub verwalte ich das Repository der \emph{chatter} App \linkref{https://github.com/iOS-Dev-Kurs/chatter}. Ihr könnt es zwar in dieser Form mit \shinline{git clone} herunterladen, jedoch keine Änderungen im Original-Repository auf dem Server veröffentlichen. Stattdessen benötigt ihr einen eigenen \strong{Fork}, mit dem ihr arbeiten könnt. Erstellt dazu zunächst einen GitHub Account \linkref{https://github.com/join}, wenn ihr noch keinen habt.
-
-\item Loggt euch mit eurem GitHub Account ein und befolgt die Anweisungen der GitHub Dokumentation \linkref{https://help.github.com/articles/fork-a-repo}, um einen Fork des \emph{chatter} Repositories \linkref{https://github.com/iOS-Dev-Kurs/chatter} zu erstellen. Dort ist insbesondere auch beschrieben, wie ihr das Repository anschließend lokal klont und das Original-Repository als Remote \shinline{upstream} hinzufügt.
-
-\item Ihr habt das Projekt nun lokal auf eurem Mac. Es ist sowohl mit eurem Fork des Repositories (\shinline{origin}) als auch mit meinem Original-Repository (\shinline{upstream}) verbunden. Ihr könnt jetzt jederzeit die Änderungen herunterladen, die ich oder andere Teilnehmer unseres Kurses am Original-Repository vornehmen, indem ihr von \shinline{upstream} pullt:
-
-\begin{shcode}
-git pull --rebase upstream master # Ein Rebase ist hier angebrachter als ein Merge, im Skript ist der Unterschied kurz beschrieben
-\end{shcode}
-
-Dies solltet ihr häufig tun, unter anderem immer bevor ihr beginnt, an dem Projekt zu arbeiten.
-
-\item Falls ihr es noch nicht getan habt, solltet ihr euren Namen und eure GitHub Email der Git Konfiguration hinzufügen, sodass die Commits ordentlich eurem Account zugeordnet werden
-
-\begin{shcode}
-git config --global user.name "__dein_name__"
-git config --global user.email __deine_github_email___
-\end{shcode}
-
-\item Öffnet nun das Projekt in Xcode. Die \emph{chatter} App ist in der im Repository enthaltenen \emph{README.md} Datei beschrieben. Diese und die Kommentare im Code sollen euch bezüglich der App als Referenz dienen. Ihr könnt euch die Projektdateien anschauen und die App im Simulator oder auf euren Geräten ausführen und ausprobieren.
-
-\item Ihr habt nun sicherlich erkannt, worum es in der App geht: Instanzen verschiedener Subklassen von \swiftinline{Chatter} chatten miteinander. Dabei überschreiben die Subklassen jeweils nur die Implementierung weniger Methoden, die in der \swiftinline{Chatter} Klasse dokumentiert sind.
-
-Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und sie mithilfe von Git den anderen zur Verfügung zu stellen! Ihr könnt bspw. versuchen, einen bekannten Charakter darzustellen, oder etwas völlig neues erschaffen. Lasst eurer Kreativität freien Lauf!
-
-Erstellt dazu einfach eine neue Subklasse von \swiftinline{Chatter} mit dem Namen eures Charakters und platziert die \shinline{.swift}-Datei im Xcode Projekt Navigator unter \menu{chatter > Model > Chatters}.
-
-\item Überschreibt nun die relevanten Methoden wie in der \emph{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
-
-In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Wenn es nötig ist, könnt ihr auch die \objcinline{Message} Klasse leicht anpassen. Achtet dabei jedoch unbedingt darauf, dass der Code für die anderen ebenfalls noch funktionieren muss!
-
-\item Sichert eure Änderungen regelmäßig in Commits, wenn der Code fehlerfrei kompiliert:
-
-\begin{shcode}
-git add filename # Achtet bitte darauf, nur Änderungen eurer Subklasse und nur wenn nötig Änderungen in anderen Dateien zu committen. Die project.pbxproj Datei enthält Informationen zu den Projektdateien - da ihr neue Dateien hinzugefügt habt, müsst ihr diese auch committen.
-git status # häufig den Status prüfen
-git commit -m"describe your changes here"
-\end{shcode}
-
-\item Die neuen Commits entstehen zunächst nur lokal. Mit eurem Fork des Repositories auf GitHub könnt (und solltet) ihr diese jedoch jederzeit abgleichen. Bei der Gelegenheit bietet es sich an, wie zuvor beschrieben zunächst die neuesten Änderungen aus dem Original-Repository herunterzuladen:
-
-\begin{shcode}
-git pull --rebase upstream master
-\end{shcode}
-
-Das Repository enthält dann sowohl den aktuellen Stand des Original-Repositories, als auch eure Änderungen. Dies könnt ihr auf euren Fork auf GitHub hochladen:
-
-\begin{shcode}
-git push origin master
-\end{shcode}
-
-\item Wenn ihr mit eurer neuen \swiftinline{Chatter} Subklasse zufrieden sein, schickt mir eine \emph{Pull Request}. So werden eure Änderungen in das Original-Repository integriert und tauchen auch bei den anderen Teilnehmern auf, wenn diese das nächste mal einen \shinline{git pull} durchführen.
-
-GitHub beschreibt das System der Pull Requests recht ausführlich in ihrer Dokumentation \linkref{https://help.github.com/articles/using-pull-requests}. Wie dort beschrieben, müsst ihr den Prozess dazu mit Klick auf den \emph{Compare \& review} Button initiieren, noch einmal die Änderungen prüfen und anschließend absenden. Ich erhalte dann eine Benachrichtigung und muss dem Merge mit dem Original-Repository nur noch großzügig zustimmen.
-
-Ich bin gespannt auf eure Implementierungen!
-
-\end{enumerate}
-
-\end{excitem}
-
-\end{exc}
-
-
-\end{lecture}
+\end{document} %%% MARKER %%%
 
 
 

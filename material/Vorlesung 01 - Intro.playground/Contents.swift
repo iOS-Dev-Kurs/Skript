@@ -17,7 +17,14 @@
 
 */
 
-//:## Swift
-let 👋 = "Hello World!"
+let c = 1
 
-print(👋)
+var x: Double = 1
+x = 1.5
+
+let friends = [ "Alice", "Bob", "Peter" ]
+if let index = friends.indexOf("Peter") {
+    print("Der Index ist \(index)")
+} else {
+    print("Nicht enthalten.")
+}

@@ -1,4 +1,4 @@
-//: # Übungsaufgabe 01 - Fibonacci
+//: # Übungsaufgabe 2 - Fibonacci
 
 
 //: ## A Simple Approach
@@ -6,36 +6,27 @@
 var prevFibNumber = 0
 var fibNumber = 1
 
-var numbersSinceEven = 1
-
 while fibNumber < 1_000 {
     let currentFibNumber = fibNumber
-    println(currentFibNumber)
+    print(currentFibNumber)
     
     fibNumber = prevFibNumber + currentFibNumber
     prevFibNumber = currentFibNumber
-    
-    if currentFibNumber % 2 == 0 {
-        let dn = numbersSinceEven
-        println("Event number with dn=\(dn)")
-        numbersSinceEven = 0
-    }
-    numbersSinceEven++
 }
 
 
-//: ## Really Swiftly
+//: ## Really Swifty
 
 struct FibonacciSequence: SequenceType {
     
     let max: Int
     
-    func generate() -> GeneratorOf<Int> {
+    func generate() -> AnyGenerator<Int> {
         
         var prev = 0
         var current = 1
         
-        return GeneratorOf<Int> {
+        return AnyGenerator<Int> {
             if current > self.max {
                 return nil
             }
@@ -52,6 +43,6 @@ let fibonacciSequence = FibonacciSequence(max: 1_000)
 
 for fibNumber in fibonacciSequence {
     let f = fibNumber
-    println(f)
+    print(f)
 }
 

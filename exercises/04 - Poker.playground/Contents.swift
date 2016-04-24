@@ -1,102 +1,77 @@
 //: # Übungsaufgabe 4 - Poker
 
 /// The suit of a playing card
-enum Suit: Int {
+enum Suit: Int, CustomStringConvertible {
     case Diamonds, Hearts, Spades, Clubs
     
-    var symbol: String {
+    var description: String {
         switch self {
-        case .Diamonds:
-            return "♦️"
-        case .Hearts:
-            return "♥️"
-        case .Spades:
-            return "♠️"
-        case .Clubs:
-            return "♣️"
+        case .Diamonds: return "♦️"
+        case .Hearts: return "♥️"
+        case .Spades: return "♠️"
+        case .Clubs: return "♣️"
         }
     }
 
 }
 
 /// The rank of a playing card
-enum Rank: Int {
+enum Rank: Int, CustomStringConvertible {
     case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace
     
-    var symbol: String {
+    var description: String {
         switch self {
-        case .Two:
-            return "2"
-        case .Three:
-            return "3"
-        case .Four:
-            return "4"
-        case .Five:
-            return "5"
-        case .Six:
-            return "6"
-        case .Seven:
-            return "7"
-        case .Eight:
-            return "8"
-        case .Nine:
-            return "9"
-        case .Ten:
-            return "10"
-        case .Jack:
-            return "J"
-        case .Queen:
-            return "Q"
-        case .King:
-            return "K"
-        case .Ace:
-            return "A"
+        case .Two: return "2"
+        case .Three: return "3"
+        case .Four: return "4"
+        case .Five: return "5"
+        case .Six: return "6"
+        case .Seven: return "7"
+        case .Eight: return "8"
+        case .Nine: return "9"
+        case .Ten: return "10"
+        case .Jack: return "J"
+        case .Queen: return "Q"
+        case .King: return "K"
+        case .Ace: return "A"
         }
     }
     
 }
 
 /// A playing card
-struct Card: Printable, Equatable {
+struct Card: CustomStringConvertible {
     
     let suit: Suit
     let rank: Rank
     
     var description: String {
-        return self.suit.symbol + self.rank.symbol
+        return suit.description + rank.description
     }
 }
+
+extension Card: Equatable {}
 
 func ==(lhs: Card, rhs: Card) -> Bool {
     return lhs.suit == rhs.suit && lhs.rank == rhs.rank
 }
 
 /// The rank of a poker hand
-enum Ranking: Int, Printable {
+enum Ranking: Int, CustomStringConvertible {
     case RoyalFlush, StraightFlush, FourOfAKind, FullHouse, Flush, Straight, ThreeOfAKind, TwoPair, OnePair, HighCard
     
     var description: String {
         switch self {
-        case .RoyalFlush:
-            return "Royal Flush"
-        case .StraightFlush:
-            return "Straight Flush"
-        case .FourOfAKind:
-            return "Four of a Kind"
-        case .FullHouse:
-            return "Full House"
-        case .Flush:
-            return "Flush"
-        case .Straight:
-            return "Straight"
-        case .ThreeOfAKind:
-            return "Three of a Kind"
-        case .TwoPair:
-            return "Two Pair"
-        case .OnePair:
-            return "One Pair"
-        case .HighCard:
-            return "High Card"
+        case .RoyalFlush: return "Royal Flush"
+        case .StraightFlush: return "Straight Flush"
+        case .FourOfAKind: return "Four of a Kind"
+        case .FullHouse: return "Full House"
+        case .Flush: return "Flush"
+        case .Straight: return "Straight"
+        case .ThreeOfAKind: return "Three of a Kind"
+        case .TwoPair: return "Two Pair"
+        case .OnePair: return "One Pair"
+        case .HighCard: return "High Card"
         }
     }
 }
@@ -104,7 +79,7 @@ enum Ranking: Int, Printable {
 import Foundation
 
 /// A hand of (usually 5) playing cards
-struct PokerHand: Printable {
+struct PokerHand: CustomStringConvertible {
     
     /// The cards held
     let cards: [Card]
@@ -120,7 +95,7 @@ struct PokerHand: Printable {
             let suit = Suit(rawValue: Int(arc4random_uniform(4)))!
             let rank = Rank(rawValue: Int(arc4random_uniform(13)))!
             let card = Card(suit: suit, rank: rank)
-            if !contains(cards, card) {
+            if !cards.contains(card) {
                 cards.append(card)
             }
         }
@@ -159,8 +134,9 @@ struct PokerHand: Printable {
     
     /// Whether all cards have the same suit
     var hasFlush: Bool {
-        for var i=0; i<cards.count; i++ {
-            if i > 0 && cards[i].suit != cards[i-1].suit {
+        let suit = cards.first!.suit
+        for card in cards {
+            if card.suit != suit {
                 return false
             }
         }
@@ -169,9 +145,9 @@ struct PokerHand: Printable {
     
     /// Whether the cards' ranks form a sequence
     var hasStraight: Bool {
-        let sortedCards = cards.sorted { $0.rank.rawValue < $1.rank.rawValue }
-        for var i=0; i<sortedCards.count; i++ {
-            if i > 0 && sortedCards[i].rank.rawValue != sortedCards[i-1].rank.rawValue + 1 {
+        let sortedCards = cards.sort { $0.rank.rawValue < $1.rank.rawValue }
+        for (i, card) in sortedCards.enumerate() where i > 0 {
+            if card.rank.rawValue != sortedCards[i-1].rank.rawValue + 1 {
                 return false
             }
         }
@@ -185,7 +161,7 @@ struct PokerHand: Printable {
             if kindCounts[card.rank] == nil {
                 kindCounts[card.rank] = 1
             } else {
-                kindCounts[card.rank]!++
+                kindCounts[card.rank]! += 1
             }
         }
         return kindCounts
@@ -207,7 +183,7 @@ struct PokerHand: Printable {
 
     /// Number of Cards of the same rank
     var sameKindCount: Int {
-        return kindCounts.values.array.sorted(>).first!
+        return kindCounts.values.sort(>).first!
     }
     
     /// Number of pairs
@@ -215,7 +191,7 @@ struct PokerHand: Printable {
         var pairCount = 0
         for kindCount in kindCounts.values {
             if kindCount == 2 {
-                pairCount++
+                pairCount += 1
             }
         }
         return pairCount
@@ -223,7 +199,7 @@ struct PokerHand: Printable {
     
     /// The highest card
     var highestCard: Card {
-        return cards.sorted({ $0.rank.rawValue > $1.rank.rawValue }).first!
+        return cards.sort({ $0.rank.rawValue > $1.rank.rawValue }).first!
     }
     
 }
@@ -232,17 +208,17 @@ struct PokerHand: Printable {
 //: ## Testing
 
 var rankingCounts = [Ranking : Int]()
-let samples = 1000
-for var i=0; i<samples; i++ {
+let samples = 100
+for i in 0...samples {
     let ranking = PokerHand().ranking
     if rankingCounts[ranking] == nil {
         rankingCounts[ranking] = 1
     } else {
-        rankingCounts[ranking]!++
+        rankingCounts[ranking]! += 1
     }
 }
 
 for (ranking, count) in rankingCounts {
-    println("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
+    print("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
 }
 

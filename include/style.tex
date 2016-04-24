@@ -99,7 +99,10 @@
 % Exercise Style
 \newcounter{exc}
 \newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
+
 \newenvironment{excitem}[3]{\item\label{exc:#1}\strong{#2}\hfill [#3 P.]}{}
+\newenvironment{excitem*}[3]{\begin{excitem}{#1}{Optional: #2}{+#3}}{\end{excitem}}
+
 \newcommand{\excextra}[1]{\strong{Extra:} #1}
 \newcommand{\exchinweis}[1]{\strong{Hinweis:} #1}
 \newenvironment{hinweis}{\strong{Hinweis:} }{}

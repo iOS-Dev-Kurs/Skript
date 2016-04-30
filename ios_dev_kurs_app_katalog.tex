@@ -288,7 +288,7 @@ var randomTimer: NSTimer?
 
 
 
-\begin{lecture}
+\begin{lecture} % Lecture 2
 
 
 \chapter{A Swift Tour}
@@ -474,627 +474,130 @@ Die Ausführung kann etwas dauern, justiert ggfs. \swiftinline{samples}. Stimmt 
 
 
 
-\end{document} %%% MARKER %%%
+\begin{lecture} % Lecture 3
 
 
+\chapter{iOS App Architektur}
 
-\begin{lecture} % Lecture 5
+Wir haben nun die Grundlagen der Programmierung in Swift gelernt. Jetzt können wir uns der Programmierung komplexerer Apps zuwenden. Dabei lernen wir die \emph{Architektur} von iOS Apps kennen und verwenden Konzepte zur Strukturierung unseres Programmcodes, die für größerere Softwareprojekte notwendig sind.
 
+Die grundlegende Architektur einer iOS App illustriert das Repository \url{https://github.com/ios-dev-kurs/bare} und der Abschnitt \emph{iOS App Lifecycle} im Skript. Schaut euch insbesondere auch die Commitfolge \shinline{git log} des Repositories an. Jeder Commit stellt einen Schritt vom minimal ausführbaren Code bis zu einer funktionsfähigen App mit Storyboard dar. Ein Commit wird durch seinen \emph{Hash} identifiziert, der auch von \shinline{git log} ausgegeben wird. Diesen könnt ihr verwenden, um das Verzeichnis in den Zustand zu einem bestimmten Commit zu versetzen:
+\begin{shcode}
+git checkout e35cec8e71ffb87d19b837cf48c12837329a6d82 # z.B. Hash des ersten Commits
+\end{shcode}
 
-\chapter{View Hierarchie}
+Sobald unsere App startet und ein Storyboard lädt sind liegt die Verantwortung bei uns. Unsere Aufgabe ist nun das \emph{Software Engineering}. Viele Konzepte sind von der Plattform und Programmiersprache unabhängig gültig (siehe bspw. das \emph{DRY - Don't repeat yourself} Prinzip \linkref{https://de.wikipedia.org/wiki/Don’t_repeat_yourself}). Ziel ist, unseren Programmcode übersichtlich, flexibel und erweiterbar zu strukturieren. Damit vermeiden wir automatisch Fehler und verlieren uns nicht in der Komplexität des Codes.
 
-Die iOS App Entwicklung orientiert sich konsequent am \emph{Model-View-Controller Konzept} der Programmierung. Es ist nicht nur in Apples Frameworks wie \swiftinline{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Softwareentwicklung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets als Referenz verwendet werden.
+Die iOS App Entwicklung orientiert sich konsequent am \emph{Model-View-Controller Konzept} der Programmierung oder Varianten dieses Konzepts. Es ist nicht nur in Apples Frameworks wie \swiftinline{UIKit} rigoros umgesetzt sondern stellt auch die Grundlage für die weitere Konzeption unserer Apps dar und wird auch in vielen anderen Bereichen der Softwareentwicklung verwendet. Das Konzept ist im Skript beschrieben und sollte bei Entscheidungen zur Architektur einer App stets zu Rate gezogen werden.
 
 \skriptref{Das Model-View-Controller Konzept}
 
-Wir betrachten nun zunächst die \emph{View} Komponente des Konzepts. Im Skript wird die \swiftinline{UIView} Klasse des \swiftinline{UIKit} Frameworks vorgestellt, die mit ihren Subklassen die Anzeige von Interfaceelementen auf dem Bildschirm übernimmt. Wir werden in diesem Kapitel die \emph{View Hierarchie} kennenlernen, \swiftinline{UIView} Objekte erstellen und anzeigen, sowie mithilfe des \emph{Auto Layout} Konzepts das User Interface dynamisch anpassen.
-
-
-
-\section{Handgeschriebene View Hierarchie}
-
-\mvcindicatorview
-
-\skriptref{View Hierarchie}
-
-\begin{enumerate}
-\item Ihr könnt das MVC-Konzept noch nicht im Schlaf rezitieren? Unbedingt erstmal im Skript nachlesen!
-\item Zuvor haben wir für Xcode Projekte ein Template mit vorkonfiguriertem Target, Storyboard und View Controller verwendet. Für den allgemeinen Gebrauch sind solche Templates sehr sinnvoll, doch nun möchten wir die Architektur einer iOS App einmal genauer untersuchen. Verwendet dafür das \shinline{viewhierarchy_bare} Projekt, das auf der Vorlesungsseite zur Verfügung steht.
-\item Das Projekt beinhaltet nur ein Target \shinline{viewhierarchy} und zwei Dateien: eine Konfigurationsdatei \shinline{Info.plist} und eine mit dem \emph{Entry Point} Attribut \swiftinline{@UIApplicationMain} als \emph{Application Delegate} markierte Klasse \swiftinline{AppDelegate}. Im Skript könnt ihr euch über den Startprozess einer iOS App informieren.
-
-Implementieren wir die \swiftinline{application:didFinishLaunchingWithOptions:} Methode des Application Delegates, wird diese am Ende des Startvorgangs aufgerufen:
-
-\begin{swiftcode}
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {        
-        NSLog("Hello World!")
-        return true
-    }
-}	
-\end{swiftcode}
-
-\item Da wir in der \shinline{Info.plist} Datei kein Storyboard angeben, wird beim Start der App einfach ein leeres \swiftinline{UIWindow} erstellt und angezeigt. Das können wir auch selbst tun:
-
-\begin{swiftcode}
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-    window.backgroundColor = UIColor.whiteColor()
-    window.makeKeyAndVisible()
-    self.window = window
-    return true
-}
-\end{swiftcode}
-
-\item Nun können wir die View Hierarchie des angezeigten \swiftinline{UIWindow} mit weiteren Objekten der Superklasse \swiftinline{UIView} füllen und diese somit auf dem Bildschirm anzeigen:
-\begin{swiftcode}
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-    window.backgroundColor = UIColor.whiteColor()
-    window.makeKeyAndVisible()
-    self.window = window
-    
-    let label = UILabel(frame: CGRect(x: 0, y: 50, width: window.frame.size.width, height: 50))
-    label.text = "Hello World!"
-    label.backgroundColor = UIColor.redColor()
-    window.addSubview(label)
-    
-    let button = UIButton(frame: CGRect(x: window.frame.size.width / 2 - 40, y: 120, width: 80, height: 44))
-    button.backgroundColor = UIColor.blackColor()
-    button.setTitle("Click!", forState: .Normal)
-    button.addTarget(self, action: "clickButtonPressed:", forControlEvents: .TouchUpInside) // Diese Methode ist das Äquivalent einer IBAction Verbindung
-    window.addSubview(button)
-    
-    return true
-}
-
-func clickButtonPressed(sender: UIButton) {
-    println("Click!")
-}
-\end{swiftcode}
-
-\end{enumerate}
 
 \begin{exc}
 
-\begin{excitem}{view_hierarchy}{Color Match}{2+1}
+\begin{excitem}{lifetime}{Lifetime}{2}
 
-Verwendet das \shinline{viewhierarchy_bare} Projekt als Ausgangspunkt um (ohne den Interface Builder zu verwenden) eine einfache App zu schreiben. Denkt euch etwas eigenes aus (das kann jedoch schnell komplex werden), oder implementiert das folgende einfache Spiel:
+In dieser Aufgabe zeigen wir für die Kontakte auf unseren iOS Geräten die Zeit seit ihrem Geburtstag an.
 
-Auf dem Bildschirm werden Buttons angezeigt, die jeweils eine Farbe als Hintergrund und den Namen einer (ggfs. anderen!) Farbe als Titel tragen. Man muss nun versuchen, auf solche Buttons zu tippen, deren Farbe und Titel übereinstimmen.
+Forkt das Repository \url{https://github.com/ios-dev-kurs/lifetime} und erstellt eine Pull-Request um eure Lösung einzureichen oder Fragen zu stellen.
 
-\strong{Bonus [+1]:} Verwendet dabei Git, um euer Projekt in Form von Commits zu sichern und stellt es zur Abgabe auf GitHub zur Verfügung.
-
-Nach dem MVC-Konzept trennen wir die Implementierung von Modell, Präsentation und Steuerung:
-
-\begin{description}
-	\item[Model] Erstellt eine Swift Datei \shinline{ColorWord.swift} und implementiert ein Struct \swiftinline{ColorWord} mit zwei Attributen \swiftinline{color: UIColor} und (Überraschung!) \swiftinline{word: String}. Das Struct benötigt zusätzlich einen Initializer \swiftinline{init()}, der eine zufällige Kombination erstellt, sowie ein Computed Attribute \swiftinline{isCorrect: Bool}, das prüft, ob Farbe und Wort zusammenpassen.
-	\item[View] Implementiert eine Subklasse \swiftinline{ColorButton: UIButton} in einer weiteren Swift Datei. Diese benötigt nur eine Methode \swiftinline{configureForColorWord:}, die eine Instanz \swiftinline{colorWord: ColorWord} als Argument annimmt und die \swiftinline{backgroundColor} und \swiftinline{title} Attribute, die von \swiftinline{UIButton} geerbt werden, entsprechend setzt.
-	\item[Controller] Der Steuerungscode wird normalerweise in Subklassen von \swiftinline{UIViewController} geschrieben, doch hier verwenden wir einfach die \swiftinline{AppDelegate} Klasse.
-	
-	Fügt der \swiftinline{AppDelegate} Klasse die Attribute \swiftinline{var score: Int}, \swiftinline{var rounds: Int}, \swiftinline{var timer: NSTimer?}, sowie \swiftinline{var scoreLabel: UILabel!} und \swiftinline{var colorButtons: [ColorButton]} hinzu.
-	
-	Das Spiel kann nun bspw. so ablaufen:
-	
-	\begin{enumerate}
-		\item In \swiftinline{application:didFinishLaunchingWithOptions:} wird das \swiftinline{window} und das \swiftinline{scoreLabel} erstellt und konfiguriert.
-		\item Dann wird (ggfs. mehrmals) eine Methode \swiftinline{addColorButton} aufgerufen, die einen solchen Button erstellt und dem Array \swiftinline{colorButtons} sowie der View Hierarchie hinzufügt. Überlegt euch, wie ihr den Button positioniert. Wenn der Button betätigt wird, soll \swiftinline{colorButtonPressed:} aufgerufen werden.
-		\item Die Methode \swiftinline{colorButtonPressed(sender: ColorButton)} muss dann natürlich implementiert werden. Prüft bspw., ob die Kombination des betätigten Buttons korrekt ist, um entsprechend Punkte von \swiftinline{score} abzuziehen oder hinzuzufügen. Anschließend soll eine Methode \swiftinline{prepareNextRound} aufgerufen werden.
-		\item \swiftinline{prepareNextRound} fügt zunächst gegebenenfalls weitere Buttons mit \swiftinline{addColorButton} hinzu, um den Schwierigkeitsgrad zu erhöhen. Dann soll jeder angezeigte Button mit einem neuen \swiftinline{ColorWord} konfiguriert werden und ein Timer gestartet werden:
-		\begin{swiftcode}
-    func prepareNextRound() {
-        self.rounds++
-        // ...
-        if let timer = self.timer {
-            timer.invalidate()
-        }
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(/* Zeit in sec */, target: self, selector: "timerFired:", userInfo: nil, repeats: false)
-    }
-		\end{swiftcode}
-		\item Die Methode \swiftinline{timerFired(timer: NSTimer)} wird nun nach Ablauf des Timers aufgerufen und muss implementiert werden. Hier können bspw. Punkte von der \swiftinline{score} abgezogen werden, wenn ein Button die korrekte Kombination trägt. Anschließend soll wieder \swiftinline{prepareNextRound} aufgerufen werden.
-		\item \swiftinline{prepareNextRound} könnt ihr auch am Ende der \swiftinline{application:didFinishLaunchingWithOptions:} Methode bereits aufrufen, um den ersten Timer zu starten.
-		\item Das \swiftinline{scoreLabel} muss an entsprechenden Stellen aktualisiert werden, am besten mithilfe einer Methode \swiftinline{updateScoreLabel}.
-	\end{enumerate}
-	
-	Um das Spiel interessant zu gestalten, gibt es natürlich an vielen Stellen noch Erweiterungspotential!
-
-\end{description}
-
-\end{excitem}
-
-\end{exc}
-
-
-\end{lecture}
-
-
-
-\begin{lecture}
-
-
-\section{Auto Layout}
-
-\mvcindicatorview
-
-Eine View Hierarchie können wir offenbar ebenso im Code schreiben wie im Storyboard konfigurieren. Selbst für ein simples Interface wie im vorherigen Abschnitt implementiert ist jedoch viel Code notwendig, da jeder Parameter als Attribut gesetzt werden muss. Der Interface Builder bietet hier effiziente Möglichkeiten, Benutzeroberflächen ohne Code zu konfigurieren und trotzdem mit dem Code zu verknüpfen.
-
-Eine große Stärke des Interface Builders zeigt sich auch bei der Implementierung von dynamischen Benutzeroberflächen. Um auf Änderungen der Darstellung, wie bspw. Orientierungswechsel von Portrait auf Landscape, zu reagieren, müssten wir extensiv Code schreiben und die Frames der Views unserer View Hierarchie berechnen.
-
-iOS Apps verwenden das \emph{Auto Layout} Konzept von \swiftinline{UIKit}. Anstatt manuell Frames zu berechnen, definieren wir Regeln, die das Layout unserer Views erfüllen soll. Dieses Konzept der \emph{Constraints} ist im Skript detailliert beschrieben. Mit \emph{Size Classes} kann das Interface dann für bestimmte Displaygrößen genauer angepasst werden.
-
-\skriptref{Auto Layout}
 
 \begin{enumerate}
 
-\item Betrachten wir die RGB App als Beispiel für eine der zuvor konfigurierten einfachen Benutzeroberflächen. Ihr könnt auch das Projekt einer anderen App mit vergleichsweise einfachem Interface öffnen. Rotieren wir den Simulator mit \keys{\cmd+\arrowkeyright} oder \keys{\cmd+\arrowkeyleft} in die Landscape Orientierung, werden die Frames der einzelnen Views nicht verändert und die Benutzeroberfläche wird nicht wie gewünscht angezeigt \abbref{img:autolayout_rgb_pre}.
+\item Die \emph{Model}-Komponente \mvcindicatormodel der App ist bereits implementiert. Wir verwenden das \swiftinline{Contacts} Framework von Apple, das Zugriff auf die Kontakte ermöglicht. In \filename{Lifetime.swift} erweitern wir die Klasse \swiftinline{CNContact} um ein Computed Attribute \swiftinline{lifetime: NSTimeInverval?}.
 
-\includegraphicsc[.6\textwidth]{img/autolayout_rgb_pre.png}{img:autolayout_rgb_pre}{In der Landscape Orientierung bleiben die absoluten Frames einfach erhalten.}
+\mvcindicatorcontroller Um auf Kontakte zuzugreifen stellen wir Anfragen an einen \swiftinline{CNContactStore}. Das \swiftinline{AppDelegate} erstellt einen solchen und reicht ihn an den \swiftinline{ContactListViewController} weiter. Dieser lädt die Kontakte und soll sie nun anzeigen. Dazu verwaltet er eine \swiftinline{UITableView}, die nach dem \emph{Delegate}-Prinzip nach Bedarf Anfragen nach Zahl und Inhalt der anzuzeigenden Zeilen stellt. Diese Anfragen muss der \swiftinline{ContactListViewController} beantworten. Eure erste Aufgabe ist, zu diesem Zweck das \swiftinline{UITableViewDatasource} Protokoll zu implementieren.
 
-\item Um das Problem zu lösen, können wir nach dem Auto Layout Konzept nun Constraints definieren und damit \swiftinline{NSLayoutConstraint} Objekte der Superview hinzufügen. Zur Laufzeit positioniert die Superview ihre Subviews dann automatisch, sodass diese Constraints erfüllt sind. Die einfachste Möglichkeit zur Erstellung von Constraints bietet der Interface Builder.
-
-	Im Storyboard stellen wir zunächst sicher, dass Auto Layout für diese Interface Builder Datei aktiviert ist. Dazu muss die Option \emph{Use Autolayout} im File Inspector markiert sein.
-
-\item Nun können wir Constraints zwischen Interfaceelementen nach unseren Vorstellungen definieren. Dazu verwenden wir die Schaltflächen am rechten unteren Bildschirmrand oder ziehen Verbindungslinien zwischen Objekten bei gehaltener \keys{\ctrl}-Taste. Im Skript sind die Möglichkeiten bei der Erstellung von Constraints beschrieben.
-
-\item In einem eindeutigen Layout werden die Constraints blau markiert. Entsprechen nur die Frames nicht den Constraints, erscheinen diese in gelb und ihr könnt das \emph{Resolve Auto Layout Issues} Menü am unteren rechten Bildschirmrand verwenden, um mit einem Klick auf \emph{Update Frames} alle Views entsprechend ihrer Constraints zu positionieren. Bei einem eindeutigen Layout werden die Frames automatisch angepasst, wenn ihr die Konstanten der Constraints verändert. Sind Constraints rot gefärbt, gibt es Konflikte!
-
-Fügt so lange passende Constraints hinzu, bis das Layout dadurch eindeutig beschrieben wird. \strong{Überlegt euch dabei für jede Subview genau, welche Constraints ihr benötigt, um die vier Parameter \swiftinline{x}, \swiftinline{y}, \swiftinline{width} und \swiftinline{height} von \swiftinline{frame} eindeutig festzulegen.} Beachtet die \emph{Intrinsic Content Size}!
-
-\item Je nach Layout kann es nun sinnvoll sein, die Constraints für bestimmte \emph{Size Classes} anzupassen. Sollen einige Interfaceelemente bspw. auf einem breiteren Display nebeneinander statt untereinander positioniert werden, wählen wir zunächst die \emph{horizontal Regular, vertikal Any} Size Class mithilfe der Schaltfläche am unteren Rand des Editorbereichs.
-
-\item Änderungen, die wir nun am Layout durchführen, betreffen nur die Anzeige in dieser Size Class. Wir können also die Interfaceelemente verschieben und Constraints verändern, bis uns das Layout für breite Displays gefällt.
-
-\item Führt die App nun auf den iPhone und iPad Simulatoren aus und testet euer Layout bei verschiedenen Displaygrößen und -orientierungen.
-
-\end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{autolayout}{Auto Layout}{3}
-
-Fügt eurer Counter, BMI oder RGB App oder einer vergleichbar einfachen App im Storyboard passende Constraints hinzu, sodass die Benutzeroberfläche sowohl in Portrait und Landscape Orientierung als auch bei verschiedenen Displaygrößen sinnvoll angezeigt wird. Dabei sollte das Layout eurer View Hierarchie eindeutig durch Constraints definiert sein. [1 P.]
-
-Löst dann die folgenden Layouts durch geschickte Definition von Constraints. [2 P.]
-
-\begin{exchinweise}
-\item Ihr könnt ein neues Projekt \shinline{AutoLayout} nach dem \emph{Single View} Template erstellen und dem Storyboard einfach für jedes Problem ein \emph{View Controller} Objekt aus der Object Library hinzufügen. Dessen View Hierarchie könnt ihr dann im Storyboard mit Views und Constraints konfigurieren. Mit den Schaltflächen im \emph{Simulated Metrics} Abschnitt des \emph{Attribute Inspectors}, könnt ihr bei ausgewähltem View Controller eine Gerätegröße und -orientierung simulieren.
-\item In einigen Situationen kann die Verwendung von unsichtbaren Views als Platzhalter hilfreich sein. Dafür kann das Attribut \objcinline{hidden} verwendet werden, das auch im Interface Builder verfügbar ist.
-\end{exchinweise}
-
-\begin{enumerate}
-
-\item Eine \swiftinline{UISegmentedControl} und eine \swiftinline{UIProgressView} sind am oberen Bildschirmrand positioniert, eine \swiftinline{UIView} füllt den verbliebenen Platz.
-
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_21.png}
-\end{minipage}
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_22.png}
-\end{minipage}
-
-\item Zwei Buttons im Abstand von 20pt sind am oberen Bildschirmrand \strong{zusammen} horizontal zentriert. Ein \swiftinline{UISlider} mit zugehörigem Label und eine füllende View befinden sich darunter. Ändern wir den Text der Label, passt sich das Layout an.
-
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_31.png}
-\end{minipage}
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_32.png}
-\end{minipage}
-
-\item Zwei Views haben (Platzhalter-) Intrinsic Content Sizes von 300x300pt und 100x100pt. Die größere wird wenn möglich vertikal zentriert, hat jedoch immer einen Abstand von mindestens 20pt zur darunter befindlichen kleineren View. Beide sind horizontal zentriert. Die kleinere View ist außerdem immer mindestens 20pt vom unteren Bildschirmrand entfernt. Wird der verfügbare Platz kleiner, wird die größere View vor der kleineren gestaucht.
-
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_11.png}
-\end{minipage}
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_13.png}
-\end{minipage}
-
-\item Drei Views füllen jeweils den verfügbaren vertikalen Platz mit einem Abstand von 20pt zur Begrenzung. Horizontal sind sie gleichmäßig verteilt.
-
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_02.png}
-\end{minipage}
-\begin{minipage}{.5\linewidth}
-  \centering
-  \includegraphics[width=\linewidth, height=\linewidth, keepaspectratio]{img/al_01.png}
-\end{minipage}
-
-\end{enumerate}
-
-\end{excitem}
-
-\end{exc}
-
-
-\end{lecture}
-
-
-\begin{lecture}
-
-
-\chapter{Cities}
-
-\mvcindicatorcontroller
-
-iOS Apps bestehen im Allgemeinen nicht nur aus einer, sondern aus einer Vielzahl von untereinander verbundenen Bildschirmansichten. Wir haben gelernt, dass jede Komponente der Benutzeroberfläche letztendlich von einem \swiftinline{UIView} Objekt in der View Hierarchie des übergeordneten \swiftinline{UIWindow} Objekts dargestellt wird.
-
-Nun können wir die View Hierarchie einer komplexen App natürlich nicht wie im vorherigen Abschnitt zentral im App Delegate verwalten \excref{exc:view_hierarchy}. Um eine sinnvolle Struktur zu schaffen, implementieren wir stattdessen \emph{View Controller}.
-
-Diese sind der Controller-Komponente des Model-View-Controller Konzepts zugeordnet und im Skript ausführlich beschrieben.
-
-Mit dieser App lernen wir das \emph{View Controller Containment} Prinzip kennen, schreiben eigene \swiftinline{UIViewController} Subklassen und verwenden einige wichtige View Controller aus dem UIKit Framework.
-
-\skriptref{View Controller Hierarchie}
-
-\section{One City}\label{sec:one_city}
-
-Wir wollen zunächst einen Buttons mit dem Titel einer Stadt implementieren und Informationen über die entsprechende Stadt in einem separaten View Controller anzeigen, wenn der Benutzer auf den Button drückt.
-
-\begin{enumerate}
-
-\item Beginnen wir mit einem neuen Xcode Projekt nach dem \emph{Single View} Template und mit dem Product Name \emph{Cities}. Es wird damit automatisch eine Klasse \swiftinline{AppDelegate} und ein Storyboard hinzugefügt. Zusätzlich befindet sich bereits eine Subklasse \swiftinline{ViewController: UIViewController} in unserem Projekt.
-
-\item Die Klasse \swiftinline{ViewController} benennen wir zunächst in \swiftinline{CitiesViewController} um. Dazu muss sowohl die Swift-Datei in \filename{CitiesViewController.swift} als auch der Klassenname in \swiftinline{CitiesViewController: UIViewController} umbenannt werden. Außerdem muss die Klasse im Storyboard angepasst werden (s.u.).
-
-\item Im Storyboard finden wir eine Scene mit einem View Controller. Wie im Skript beschrieben, können wir die zu verwendende \swiftinline{UIViewController} Subklasse im Identity Inspector (\keys{\cmd+\Alt+3}) einstellen. Gebt hier bei ausgewähltem View Controller unter \menu{Custom Class > Class} den Namen \str{CitiesViewController} ein.
-
-Zur Laufzeit wird also ein Objekt dieser Subklasse erzeugt und dem \swiftinline{UIWindow} Objekt als Root View Controller zugeordnet, da die Scene als \emph{Initial Scene} gekennzeichnet ist. Damit wird die Content View dieses View Controllers zu Beginn der Ausführung der App der View Hierarchie des \swiftinline{UIWindow} Objekts hinzugefügt.
-
-\item Ziehen wir nun \swiftinline{UIView} Objekte auf die Content View des View Controllers, werden diese zur View Hierarchie der Content View hinzugefügt. Der View Controller ist für die Verwaltung seiner Content View zuständig. Daher stellen wir Verbindungen in Form von IBOutlets und IBActions her, um Zugriff auf die Objekte zu erhalten und um auf Benutzereingaben reagieren zu können.
-
-Wir benötigen zunächst nur ein \swiftinline{UIButton} Objekt mit entsprechendem IBOutlet, das den Namen einer beliebigen Stadt anzeigen soll \abbref{img:one_city_ui}. Als Titel des Buttons könnt ihr auch zunächst generisch \str{City name} o.ä. wählen, da wir diesen im Code anpassen.
-
-\includegraphicsc[\iphonewidth]{img/one_city_ui.png}{img:one_city_ui}{Ein Button soll bei Betätigung Informationen über die entsprechende Stadt anzeigen}
-
-\item Obwohl wir uns in dieser App hauptsächlich mit der Controller-Komponente beschäftigen, sollten wir eine einfache Datenstruktur implementieren, die zu unserer App passt. So können wir Daten einfacher verarbeiten und weitergeben. Erstellt also in einer neuen Swift Datei ein \swiftinline{struct City} und definiert die Attribute \swiftinline{let name: String} und \swiftinline{let image: UIImage?}.
+Implementiert das Protokoll in einer Erweiterung in \filename{ContactListViewController.swift}. Die folgenden drei Methoden muss jede Implementierung des Protokolls mindestens bereitstellen:
 
 \begin{swiftcode}
-// City.swift
-import UIKit
+extension ContactListViewController {
 
-struct City {
-    let name: String
-    let image: UIImage?
-}
-\end{swiftcode}
-
-\item Später wird der Cities View Controller eine Liste von Städten anzeigen, doch zunächst beschränken wir uns auf eine einzelne. Fügt \swiftinline{CitiesViewController} daher ein Attribut \swiftinline{var city: City?} hinzu:
-
-\begin{swiftcode}
-// CitiesViewController.h
-import UIKit
-
-class CitiesViewController: UIViewController {
-    var city: City?
-    @IBOutlet var cityButton: UIButton!
-}
-\end{swiftcode}
-
-\item Wir verwenden nun das App Delegate, um zu Beginn der Ausführung der App das Model, also die \swiftinline{City} Objekte, aufzusetzen und an die View Controller Hierarchie weiterzugeben. Implementiert daher folgende \swiftinline{application:didFinishLaunchingWithOptions:} Methode.
-
-\begin{swiftcode}
-// AppDelegate.swift
-import UIKit
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
-        if let citiesViewController = window?.rootViewController as? CitiesViewController {
-            citiesViewController.city = melbourne
-        }
-        return true
-    }
-}
-
-\end{swiftcode}
-
-Es gibt natürlich auch Städte in Mittelerde, Panem und auf Naboo…
-
-\strong{Hinweis:} Der Initializer \swiftinline{init(named: String)} von \swiftinline{UIImage} lädt die Bilddatei mit dem angegebenen Dateinamen, sofern die Datei im Target referenziert ist. Um dem Target eine Bilddatei hinzuzufügen, könnt ihr sie einfach auf die Dateiliste des Project Navigators ziehen. Praktischer und ressourcenschonender ist jedoch die Verwendung von \emph{Xcode Asset Catalogs} für die Bilddateien einer App. Eine solche mit Dateiendung \filename{.xcassets} ist bereits im Projekt enthalten. Diese Datei könnt ihr öffnen und auf den Bereich links im Editor per \emph{Drag \& Drop} einfach Bilddateien hinzufügen.
-
-\item Im Cities View Controller überschreiben wir die \swiftinline{viewWillAppear:} Methode, um das Interface entsprechend des \swiftinline{City} Objekts zu konfigurieren.
-
-\begin{swiftcode}
-// CitiesViewController.swift
-import UIKit
-
-class CitiesViewController: UIViewController {
-    var city: City?
-    @IBOutlet var cityButton: UIButton!
-    
-    override func viewWillAppear(animated: Bool) {
-        cityButton.setTitle(city?.name, forState: .Normal)
-    }
-}
-
-\end{swiftcode}
-
-Führt ihr die App an dieser Stelle mit einem \emph{Build \& Run} aus, wird der Button mit dem Namen der Stadt konfiguriert und angezeigt.
-
-\item Um nun auf Knopfdruck einen Bildschirm zu präsentieren, der die Informationen der ausgewählten Stadt anzeigt, implementieren wir eine weitere Subklasse von \swiftinline{UIViewController}. Erstellt also eine neue Klasse \swiftinline{CityDetailViewController: UIViewController}. Dieser Klasse übergeben wir das ausgewählte \swiftinline{City} Objekt und überlassen ihr die Konfiguration ihrer Content View entsprechend den Attributen des Objekts. Definiert also wieder ein Attribut \swiftinline{var city: City?} im Header der \swiftinline{CityDetailViewController} Klasse.
-
-\begin{swiftcode}
-// CityDetailViewController.h
-import UIKit
-
-class CityDetailViewController: UIViewController {
-    var city: City?
-}
-\end{swiftcode}
-
-\item Nun verwenden wir das Storyboard, um die Benutzerführung zu konfigurieren. Zieht ein View Controller Objekt aus der Object Library auf das Storyboard und platziert es neben dem Cities View Controller. Wählt im Identity Inspector des hinzugefügten View Controllers wie zuvor das Eingabefeld \emph{Class} und gebt den Namen der neuen \swiftinline{UIViewController} Subklasse \str{CityDetailViewController} ein.
-
-\item Platziert ein \swiftinline{UILabel} und ein \swiftinline{UIImageView} Objekt in der Content View des \swiftinline{CityDetailViewController} und verbindet sie mit IBOutlets im Code \abbref{img:city_detail_ui}. Fügt außerdem einen \str{Zurück} Button hinzu.
-
-\includegraphicsc[\iphonewidth]{img/city_detail_ui.png}{img:city_detail_ui}{Der City Detail View Controller soll Information über die ausgewählte Stadt anzeigen}
-
-\begin{swiftcode}
-// CityDetailViewController.swift
-import UIKit
-
-class CityDetailViewController: UIViewController {
-    var city: City?
-
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-}
-\end{swiftcode}
-
-\item Zur Präsentation des City Detail View Controllers können wir nun \emph{Segues} verwenden. Diese repräsentieren, wie im Skript beschrieben, Beziehungen zwischen einzelnen Scenes im Storyboard. Segues können analog zu IBOutlets und IBActions erstellt werden, indem eine Verbindungslinie mit gedrückter \keys{\ctrl}-Taste gezogen wird. Wählt den Button im Cities View Controller aus und zieht eine Verbindung zum City Detail View Controller \abbref{img:one_city_detail_segue}. Erstellt so eine \emph{Modal Segue} zwischen Button und View Controller (die Auswahlmöglichkeiten \emph{show}, \emph{show detail} und \emph{present modally} haben in diesem Fall die gleiche Wirkung). 
-
-\includegraphicsc{img/one_city_detail_segue.png}{img:one_city_detail_segue}{Eine Modal Segue konfiguriert die Präsentation des City Detail View Controllers bei Betätigung des Buttons}
-
-Im Attributes Inspector könnt ihr die Segue konfigurieren und bspw. zwischen verschiedenen Übergangsanimationen auswählen. Hier kann außerdem ein \emph{Identifier} für die Segue vergeben werden. Setzt diesen auf \str{showCityDetail}.
-
-\item Dem erstellten City Detail View Controller muss vor der Präsentation ein \swiftinline{City} Objekt übergeben werden, damit er dessen Attribute darstellen kann. Dazu implementieren wir die Instanzmethode \swiftinline{prepareForSegue:sender:} in unserer \swiftinline{CitiesViewController} Klasse.
-
-\begin{swiftcode}
-// CitiesViewController.swift
-import UIKit
-
-class CitiesViewController: UIViewController {
-    // ...    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let identifier = segue.identifier {
-            switch identifier {
-            case "showCityDetail":
-                if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
-                    cityDetailViewController.city = self.city
-                }
-            default:
-                break
-            }
-        }
-    }
-}
-\end{swiftcode}
-
-Hier geben wir das \swiftinline{City} Objekt also einfach an den City Detail View Controller weiter.
-
-\item Schließlich müssen wir den City Detail View Controller für die Darstellung der Attribute des \swiftinline{City} Objekts konfigurieren. Dies geschieht am besten in einer Implementierung der \swiftinline{viewWillAppear:} Instanzmethode in der \swiftinline{CityDetailViewController} Klasse.
-
-\begin{swiftcode}
-// CityDetailViewController.swift
-import UIKit
-
-class CityDetailViewController: UIViewController {
-    var city: City?
-
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    
-    override func viewWillAppear(animated: Bool) {
-        self.nameLabel.text = city?.name
-        self.imageView.image = city?.image
-    }
-}
-\end{swiftcode}
-
-Betätigt ihr nun nach einem \emph{Build \& Run} den Button, wird die Content View des City Detail View Controller angezeigt und mit dem entsprechenden \swiftinline{City} Objekt konfiguriert \abbref{img:one_city_run}.
-
-\includegraphicsc[\iphonewidth]{img/one_city_run.png}{img:one_city_run}{Wird der Button betätigt, zeigt der City Detail View Controller die Informationen zu der ausgewählten Stadt}
-
-\item Nun fehlt nur noch die Implementierung des \emph{Zurück} Buttons. Hier verwenden wir das Konzept der \emph{Unwind Segue}, um zu einem View Controller in der View Controller Hierarchie zurückzukehren. Dazu fügen wir dem \strong{präsentierenden} View Controller (nicht dem präsentierten) eine Methode \swiftinline{unwindToCities:} nach dem im Skript beschriebenen Muster hinzu, sodass sie im Interface Builder zur Verfügung steht.
-
-\begin{swiftcode}
-// CitiesViewController.swift
-import UIKit
-
-class CitiesViewController: UIViewController {
-    // ...
-    @IBAction func unwindToCities(segue: UIStoryboardSegue) {
-        // no implementation necessary
-    }
-}
-\end{swiftcode}
-
-\item Im Storyboard können wir nun das \swiftinline{UIControlEvent.TouchUpInside} Event des \emph{Zurück} Buttons mit der Unwind Segue verbinden. Zieht dazu bei gehaltener \keys{\ctrl}-Taste eine Verbindung vom Button zur \emph{Exit} Schaltfläche des City Detail View Controllers (also des \strong{präsentierten} View Controllers) \abbref{img:cities_unwind_segue}. Da ein View Controller in der View Controller Hierarchie eine Unwind Segue \swiftinline{unwindToCities:} implementiert, könnt ihr diese hier auswählen.
-
-\includegraphicsc[\iphonewidth]{img/cities_unwind_segue.png}{img:cities_unwind_segue}{Die \emph{Exit} Schaltfläche präsentiert alle Unwind Segues in der View Controller Hierarchie}
-
-Führt ihr die App nun aus und betätigt den \emph{Zurück} Button, so wird die Unwind Segue zum Cities View Controller ausgeführt und damit der City Detail View Controller wieder ausgeblendet.
-
-\end{enumerate}
-
-\begin{exc}
-\begin{excitem}{cities}{Cities}{2+1}
-
-Implementiert diesen ersten Teil der Cities App, indem ihr die Schritte oben nachvollzieht.
-
-\strong{Bonus [+1]:} Sichert das Projekt regelmäßig durch Commits in einem Git Repository und stellt es auf GitHub zur Verfügung.
-
-\end{excitem}
-\end{exc}
-
-
-\end{lecture}
-
-
-
-\begin{lecture}
-
-
-\section{One City Navigation}
-
-Eine solche Master-Detail View Controller Hierarchie, wie wir sie in \autoref{sec:one_city} implementiert haben, ist ein so häufig verwendetes Konzept, dass \swiftinline{UIKit} dafür die Subklasse \objcinline{UINavigationController: UIViewController} zur Verfügung stellt. Diese wird im Skript erläutert und eignet sich an dieser Stelle besser als Modal Segues.
-
-\begin{enumerate}
-
-\item Zieht einfach ein \swiftinline{UINavigationController} Objekt aus der Object Library auf euer Storyboard. Dabei wird zusätzlich zu der Navigation Controller Scene automatisch eine weitere View Controller Scene als Root View Controller des Navigation Controllers hinzugefügt. Löscht diesen zusätzlichen View Controller und wählt stattdessen den \swiftinline{CitiesViewController} als Root View Controller. Erstellt dafür eine \emph{Relationship Segue} zwischen beiden Objekten, indem ihr wieder mit gedrückter \keys{\ctrl}-Taste eine Verbindung zieht. Markiert außerdem den Navigation Controller als Initial View Controller \abbref{img:nav_controller_segue}.
-
-\includegraphicsc{img/nav_controller_segue.png}{img:nav_controller_segue}{Eine Relationship Segue markiert den Root View Controller eines Navigation Controllers}
-
-\item Ihr könnt nun die Segue zwischen \swiftinline{CitiesViewController} und \swiftinline{CityDetailViewController} auswählen und im Attributes Inspector sicherstellen, dass der Typ \emph{Show} ausgewählt ist. Wenn die Segue ausgelöst wird fängt dann der in der View Controller Hierarchie übergeordnete \swiftinline{UINavigationController} die Präsentation des \swiftinline{CityDetailViewController} ab.
-
-\item Den \emph{Zurück} Button könnt ihr nun entfernen, da \swiftinline{UINavigationController} einen eigenen Mechanismus implementiert und eine \swiftinline{UINavigationBar} am oberen Bildschirmrand anzeigt. Auch die Labels werden nicht mehr benötigt. Stattdessen können wir das \swiftinline{title: String} Attribut von \swiftinline{UIViewController} verwenden, dessen Wert als Titel in der Navigation Bar angezeigt wird \abbref{img:nav_controller_ui}.
-
-\includegraphicsc{img/nav_controller_ui.png}{img:nav_controller_ui}{Navigation Controller zeigen eine Navigation Bar an}
-
-\begin{swiftcode}
-// CityDetailViewController.swift
-import UIKit
-
-class CityDetailViewController: UIViewController {
-    var city: City?
-
-    @IBOutlet weak var imageView: UIImageView!
-    
-    override func viewWillAppear(animated: Bool) {
-        self.title = city?.name
-        self.imageView.image = city?.image
-    }
-}
-\end{swiftcode}
-
-\item Da wir den Initial View Controller und damit den Root View Controller des Window Objekts verändert haben, müssen wir noch kurz die Implementierung des App Delegates anpassen, um das City Objekt korrekt weiterzugeben:
-
-\begin{swiftcode}
-// AppDelegate.swift > application:didFinishLaunchingWithOptions:
-let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
-if let citiesViewController = (window?.rootViewController as? UINavigationController)?.topViewController as? CitiesViewController {
-    citiesViewController.city = melbourne
-}
-\end{swiftcode}
-
-\item Durch die Verwendung des Navigation Controllers erhält unsere App nun die Standardanimationen und -mechanismen aus \swiftinline{UIKit} \abbref{img:nav_controller_run}, die sich bspw. durch die Verwendung von Subklassen und Implementierung von Delegate-Protokollen vielseitig anpassen lassen. \\
-	\swiftinline{UIKit} stellt noch weitere View Controller Container wie \swiftinline{UITabBarController} und \swiftinline{UISplitViewController} zur Verfügung, die nach einem ähnlichen Prinzip funktionieren, sowie eine vielseitige API zur Implementierung eigener View Controller Container.
-
-\includegraphicsc[\iphonewidth]{img/nav_controller_run.png}{img:nav_controller_run}{Navigation Controller stellen Standardanimationen und -mechanismen zur Verfügung}
-
-\end{enumerate}
-
-
-\section{More Cities}
-
-Wenn wir eine Liste von Objekten darstellen wollen, konfigurieren wir natürlich nicht explizit Views für jedes Objekt. Stattdessen verwenden wir Subklassen von \swiftinline{UITableViewController: UIViewController} und ihre Content Views der Klasse \swiftinline{UITableView: UIView}, die mit dem \emph{Delegate Konzept} vielseitig einsetzbar sind.
-
-\skriptref{Das Delegate Konzept, Table Views \& Table View Controller}
-
-\begin{enumerate}
-
-\item Wir möchten nun eine Liste von Städten anstatt einzelner Buttons anzeigen. Dafür ändern wir die Superklasse unseres \swiftinline{CitiesViewController} von \swiftinline{UIViewController} zu \swiftinline{UITableViewController}. Außerdem können wir die IBOutlet Referenz zu dem \emph{cityButton} entfernen.
-
-\item Ein Table View Controller hat ein Objekt der \swiftinline{UITableView} Klasse als Content View. Im Storyboard müssen wir daher die bisherige Content View mit einem Table View Objekt aus der Object Library ersetzen. Die Content View wird ersetzt, wenn wir die neue View einfach auf das View Controller Objekt in der Document Outline links ziehen.
-
-\strong{Hinweis:} Anstatt einen existierenden View Controller wie beschrieben in einen Table View Controller umzukonfigurieren, kann auch ein Table View Controller aus der Object Library gezogen werden. Dieser hat dann bereits eine \swiftinline{UITableView} als Content View.
-
-\item Eine Table View kann, wie im Skript beschrieben, dynamischen oder statischen Inhalt darstellen. Im Attributes Inspector können wir den Modus \emph{Dynamic Properties} auswählen. Damit die Table View nun Inhalt präsentieren kann, benötigt sie \emph{Prototype Cells}, die den "{}Bauplan"{} für jede Zelle dieser Art definieren. Fügt dafür eine \swiftinline{UITableViewCell} aus der Object Library hinzu oder erhöht die entsprechende Zahl im Attributes Inspector um 1.
-
-\item Wir können Prototype Cells nun entweder nach Belieben mit Subviews konfigurieren, oder im Attributes Inspector einen Standardstil auswählen. Wählt hier zunächst einfach \emph{Basic} \abbref{img:morecities_prototypecells}.
-
-\includegraphicsc[\iphonewidth]{img/morecities_prototypecells.png}{img:morecities_prototypecells}{Prototype Cells dienen als Vorlage für die Zellen der Table View}
-
-\item Um Prototype Cells zu identifizieren, sollte ihnen ein \emph{Reuse Identifier} im Attributes Inspector zugeordnet werden. Tippt hier \str{cityCell} ein. Wie im Skript erklärt kann die Table View damit Zellen, die gerade nicht angezeigt werden, an anderer Stelle wiederverwenden.
-
-\item Da unsere Table View dynamischen Inhalt anzeigen soll, können wir diesen nicht im Storyboard konfigurieren. Stattdessen verwendet die Table View das \emph{Delegate Kozept}, um Daten zu "{}erfragen"{}, wenn sie sie benötigt. Dazu ruft das \swiftinline{UITableView} Objekt Methoden auf einem Delegate Objekt auf, die in einem \emph{Protokoll} definiert sind. \swiftinline{UITableView} teilt diese Anfragen in die \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} Protokolle auf. Um den entsprechenden Attributen \swiftinline{datasource: UITableViewDatasource} und \objcinline{delegate: UITableViewDelegate} Objekte zuzuweisen, sind diese als IBOutlets markiert. Zieht also zwei Verbindungen von der Table View zum \swiftinline{CitiesViewController} und wählt diesen damit sowohl als Delegate als auch als Datasource.
-
-\item Häufig repräsentiert eine Table View ein Array, wie hier eine Liste von Städten. Definiert also im öffentlichen Interface des \swiftinline{CitiesViewController} ein Attribut \swiftinline{cities: [City]?} anstatt des bisherigen \swiftinline{city: City?} Attributs.
-
-Passt außerdem erneut die Implementierung des App Delegates an, um diesem Attribut nun eine Liste von Städten zuzuweisen:
-
-\begin{swiftcode}
-// AppDelegate.swift
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    let melbourne = City(name: "Melbourne", image: UIImage(named: "melbourne"))
-    let sydney = City(name: "Sydney", image: UIImage(named: "sydney"))
-    if let citiesViewController = (window?.rootViewController as? UINavigationController)?.topViewController as? CitiesViewController {
-        citiesViewController.cities = [ melbourne, sydney ]
-    }
-    return true
-}
-\end{swiftcode}
-
-\item Als Subklasse von \swiftinline{UITableViewController} erbt \swiftinline{CitiesViewController} leere Implementierungen der \swiftinline{UITableViewDatasource} und \swiftinline{UITableViewDelegate} Protokolle. Wir können diese nun überschreiben, um unsere Tabelle mit Daten zu füllen. Dabei sind zunächst die drei erforderlichen Methoden zur Darstellung einer dynamischen Table View zu implementieren:
-
-\begin{swiftcode}
-// ViewController.swift
-import UIKit
-
-class CitiesViewController: UITableViewController {
-    var cities: [City]?
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 1 // Wir zeigen die Kontakte zunächst in einer einzelnen Section an
     }
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cities?.count ?? 0
+        return contacts.count // Für jeden Kontakt soll eine Zeile angezeigt werden
     }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let city = cities![indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("cityCell", forIndexPath: indexPath) as! UITableViewCell
-        cell.textLabel?.text = city.name
-        cell.imageView?.image = city.image
+        // VIEW-Komponente: Frage die Table View nach einer wiederverwendbaren Zelle
+        let cell = tableView.dequeueReusableCellWithIdentifier("LifetimeCell", forIndexPath: indexPath) as! LifetimeCell
+        // MODEL-Komponente: Bestimme den Kontakt für diese Zeile
+        let contact = contacts[indexPath.row]
+        // CONTROLLER-Komponente: Konfiguriere die Zelle nach dem Kontakt
+        cell.configureForContact(contact)
+        if contact.lifetime != nil {
+            cell.selectionStyle = .Default
+            cell.accessoryType = .DisclosureIndicator
+        } else {
+            cell.selectionStyle = .None
+            cell.accessoryType = .None
+        }
         return cell
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let city = cities![indexPath.row]
-            if let identifier = segue.identifier {
-                switch identifier {
-                case "showCityDetail":
-                    if let cityDetailViewController = segue.destinationViewController as? CityDetailViewController {
-                        cityDetailViewController.city = city
-                    }
-                default:
-                    break
-                }
-            }
-        }
-    }
+
 }
 \end{swiftcode}
 
-\item Diese drei Methoden des \swiftinline{UITableViewDatasource} Protokolls stellen der Table View die erforderlichen Informationen zur Verfügung, um die Tabelle anzeigen zu können \abbref{img:cities_tableview}.
+\item Es fehlt noch die \mvcindicatorview\emph{View}-Komponente, also die Zelle die wir oben bereits verwenden. Erstellt eine neue Datei \filename{LifetimeCell.swift} und platziert sie im Project Navigator unter \emph{View}. Implementiert darin die Klasse \swiftinline{class LifetimeCell: UITableViewCell}:
 
-\includegraphicsc[\iphonewidth]{img/cities_tableview.png}{img:cities_tableview}{Eine Table View stellt Anfragen an ihr Datasource und Delegate Objekt, um Zellen dynamisch anzuzeigen}
+\begin{swiftcode}
+import UIKit
+import Contacts
 
-\item Die Präsentation des Detail City View Controllers kann nun erneut mithilfe von Segues realisiert werden. Dazu können wir im Storyboard eine Show Segue von der Prototype Cell zum Detail City View Controller erstellen und ihr erneut den Identifier \str{showCityDetail} geben.
+class LifetimeCell: UITableViewCell {
+    
+    func configureForContact(contact: CNContact) {
+        textLabel?.text = CNContactFormatter.stringFromContact(contact, style: .FullName)
+        if let lifetime = contact.lifetime {
+            let lifetimeFormatter = NSDateComponentsFormatter()
+            lifetimeFormatter.allowedUnits = .Day
+            lifetimeFormatter.unitsStyle = .Full
+            detailTextLabel?.text = lifetimeFormatter.stringFromTimeInterval(lifetime)
+        } else {
+            detailTextLabel?.text = nil
+        }
+    }
+    
+}
+\end{swiftcode}
 
-\item Da diese Segue nun von jeder Zelle ausgelöst wird, die nach Vorlage der Prototype Cell erstellt wurde, müssen wir in der \swiftinline{prepareForSegue:sender:} Methode wie im Codebeispiel oben zunächst den Index Path der betätigten Zelle herausfinden. Damit lässt sich anschließend das entsprechende Model Objekt erhalten und der City Detail View Controller konfigurieren.
+Wir gestalten die Zelle im \filename{Main.storyboard}. Zieht aus der Object Library eine \swiftinline{UITableViewCell} auf die \swiftinline{UITableView}. Ändert im Attributes Inpector ihren \emph{Style} zu \emph{Right Detail} und gebt ihr den \emph{Identifier} \str{LifetimeCell}. Wählt dann den Identity Inspector und ändert die Klasse der Zelle zur gerade implementierten \swiftinline{LifetimeCell}. Beide Schritte sind notwendig, sodass die zuvor implementierte \swiftinline{tableView(_:cellForRowAtIndexPath:)} Methode fehlerfrei ausgeführt wird.
 
-\item Wird nun eine Stadt in der Liste ausgewählt, wird der City Detail View Controller entsprechend konfiguriert und angezeigt. Beachtet, dass wir an dessen Implementierung nichts geändert haben!
+\item Nun könnt ihr die App ausführen und seht bereits eine Liste der Kontakte!
+
+\mvcindicatorcontroller Wenn wir einen Kontakt antippen soll dessen Detailansicht angezeigt werden, die von einem anderen View Controller verwaltet wird. Im Skript könnt ihr euch über die \emph{View Controller Hierarchie} informieren. Der \swiftinline{ContactListViewController} wird bereits von einem \swiftinline{UINavigationController} verwaltet, den wir nun verwenden um einen \swiftinline{ContactDetailViewController} anzuzeigen.
+
+Im \filename{Main.storyboard} können wir den Übergang zwischen den View Controllern durch eine \emph{Storyboard Segue} implementieren. Zieht mit gedrückter \keys{\ctrl}-Taste eine Line von der \str{LifetimeCell} zum \swiftinline{ContactDetailViewController} und wählt im Popup \emph{Show}. Wählt die so erstellte Segue aus und gebt ihr im Attributes Inspector den \emph{Identifier} \str{showContactDetail}.
+
+\item Schließlich müssen wir den ausgewählten Kontakt im \swiftinline{ContactListViewController} noch an den \swiftinline{ContactDetailViewController} weitergeben. Dazu dient die \swiftinline{prepareForSegue(_:sender:)} Methode:
+\begin{swiftcode}
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        switch segue.identifier! {
+
+        case "showContactDetail":
+            guard let indexPath = self.tableView.indexPathForSelectedRow else { break }
+            let contact = contacts[indexPath.row]
+            let contactDetailViewController = segue.destinationViewController as! ContactDetailViewController
+            contactDetailViewController.contact = contact
+            
+        default:
+            break
+        }
+    }
+\end{swiftcode}
+
+Sehr ähnlich könnt ihr noch die \swiftinline{shouldPerformSegueWithIdentifier(_:sender:)} Methode implementieren und für \str{showContactDetail} \swiftinline{contact.lifetime != nil} zurückgeben, sodass die Detailansicht nur für Kontakte mit gültigem Geburtstag angezeigt wird.
+
+\item Unsere App zeigt uns jetzt, wie lang unsere Kontakte schon leben!
+
+Statt den \emph{Right Detail} Stil für die \swiftinline{LifetimeCell} zu verwenden könnt ihr die Zelle natürlich auch selbst gestalten. Wenn ihr noch Erweiterungen einbauen möchtet für die ihr weitere Attribute von \swiftinline{CNContact} benötigt, wie bspw. \swiftinline{CNContactImageDataKey}, müsst ihr diese der Liste \swiftinline{requiredContactKeysToFetch} in \swiftinline{ContactListViewController} hinzufügen, sodass sie ebenfalls aus dem \swiftinline{CNContactStore} geladen werden.
+
+Schickt eine Pull-Request wenn ihr mit eurer App zufrieden seid oder um Fragen zu stellen.
 
 \end{enumerate}
-
-\begin{exc}
-
-\begin{excitem}{tableviews}{More Cities}{2}
-
-Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachvollzieht.
 
 \end{excitem}
 
@@ -1102,6 +605,9 @@ Implementiert die Cities App nun vollständig, indem ihr die Schritte oben nachv
 
 
 \end{lecture}
+
+
+\end{document} %%% MARKER %%%
 
 
 

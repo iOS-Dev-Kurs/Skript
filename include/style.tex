@@ -82,6 +82,10 @@
 
 % Margin Images
 \usepackage{marginnote}
+\newcommand{\mvcindicatormodel}{\reversemarginpar\marginnote{\centering
+    \includegraphics[width=1cm]{img/mvc_model}\\
+    \textbf{\small Model}
+}}
 \newcommand{\mvcindicatorview}{\reversemarginpar\marginnote{\centering
     \includegraphics[width=1cm]{img/mvc_view}\\
     \textbf{\small View}
@@ -100,7 +104,7 @@
 \newcounter{exc}
 \newenvironment{exc}{\subsubsection{Übungsaufgaben}\begin{enumerate}\setcounter{enumi}{\theexc}}{\setcounter{exc}{\theenumi}\end{enumerate}}
 
-\newenvironment{excitem}[3]{\item\label{exc:#1}\strong{#2}\hfill [#3 P.]}{}
+\newenvironment{excitem}[3]{\item\label{exc:#1}\addcontentsline{toc}{section}{\emph{Übungsaufgabe:} #2}\strong{#2}\hfill [#3 P.]}{}
 \newenvironment{excitem*}[3]{\begin{excitem}{#1}{Optional: #2}{+#3}}{\end{excitem}}
 
 \newcommand{\excextra}[1]{\strong{Extra:} #1}

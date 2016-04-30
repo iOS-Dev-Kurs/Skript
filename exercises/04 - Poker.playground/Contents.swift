@@ -222,3 +222,4 @@ for (ranking, count) in rankingCounts {
     print("The probability of being dealt a \(ranking.description) is \(Double(count) / Double(samples) * 100)%")
 }
 
+

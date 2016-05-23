@@ -654,4 +654,134 @@ Forkt das Repository \url{https://github.com/ios-dev-kurs/seasonizer} und vervol
 \end{exc}
 \end{lecture}
 
+
+\begin{lecture} % Lecture 5
+
+
+\chapter{Methoden}
+
+Wir können nun durch sorgfältige Konstruktion der View und View Controller Hierarchien bereits recht komplexe iOS Apps aufbauen. Das Model View Controller Konzept hilft uns dabei den Programmcode zu strukturieren. Jetzt können wir Lösungen zu verbreiteten Aufgaben der Softwareentwicklung kennen lernen und uns mit Methoden des Software Engineering befassen.
+
+\section{Kommunikation mit einer REST API}
+
+Für eine Software, die eine Aufgabe erfüllt, sind deren \emph{Schnittstellen} häufig noch wichtiger als die Funktionsweise des Programms. Durch Schnittstellen können andere Entwickler Teilprobleme an spezialisierte und getestete Software auslagern, ohne deren Implementierungsdetails kennen zu müssen. Nur so können wir Apps schreiben, die eine bestimme Aufgabe hervorragend erfüllen und das Ergebnis dann weitergeben.
+
+Eine iOS App kann Schnittstellen zu anderen Apps oder Services des Betriebssystems anbieten. Bspw. kann sich ein Social Network darauf spezialisieren, dem Benutzer einen Ort vorzuschlagen, und diesen dann an eine Navigationsystem-App weitergeben, die auf das Routing spezialisiert ist. Solche Schnittstellen werden unter iOS als \emph{Deep Links} mit \emph{URL Schemata} realisiert.
+
+Häufig \emph{nutzen} iOS Apps Schnittstellen. Sie bieten eine Benutzeroberfläche an, um eine Schnittstelle zu konsumieren. Dabei handelt es sich meist um einen Server, der plattformunabhängig Daten in Form einer REST API bereitstellt. Der Server akzeptiert HTTP Anfragen in Form einer URL, und verarbeitet diese oder gibt Daten in einem Format wie JSON zurück. URL und JSON folgen dabei einem definierten Schema.
+
+\begin{exc}
+
+\begin{excitem}{apiclient}{API Client}{2+3}
+
+Mit der \emph{API Client} App implementieren wir eine Benutzeroberfläche für eine REST API. Wir konzentrieren uns dabei auf die \mvcindicatormodel\emph{Model} und \emph{Controller} Komponenten unserer App. Neben asynchronen Netzwerkanfragen lernen wir auch den \emph{Error Handling} Mechanismus und \emph{Generics} in Swift kennen. Außerdem integrieren wir Frameworks anderer Entwickler in unsere App. Indem wir die Schnittstellen dieser Frameworks nutzen können wir auf sorgfältig konzipierten, funktionsfähigen und ausgiebig getesteten Code zurückgreifen. So müssen wir uns nicht erneut mit einem Problem befassen, für das es bereits hervorragende Lösungen gibt, und können uns stattdessen auf die Funktionalität unseres Programms konzentrieren.
+
+Im \emph{APIClient} Repository \linkref{https://github.com/knly/apiclient/} findet ihr ein Projekt, in das bereits vier hervorragende Open-Source Frameworks mithilfe des Dependency Managers \emph{CocoaPods} \linkref{https://cocoapods.org} integriert sind:
+
+\begin{description}
+\item[Moya\linkref{https://github.com/Moya/Moya}] Network abstraction layer written in Swift.
+\item[Freddy\linkref{https://github.com/bignerdranch/Freddy}] A reusable framework for parsing JSON in Swift.
+\item[Alamofire\linkref{https://github.com/Alamofire/Alamofire}] Elegant HTTP Networking in Swift
+\item[AwesomeCache\linkref{https://github.com/aschuch/AwesomeCache}] Delightful on-disk cache (written in Swift)
+\end{description}
+
+CocoaPods lädt die in der \filename{Podfile} Datei angegebenen Frameworks in das \filename{Pods/} Verzeichnis und integriert sie zusammen mit dem Projekt in einen Xcode Workspace. Verwendet also immer den \filename{APIClient.xcworkspace} statt des \filename{.xcodeproj}.
+
+Euch steht es frei, eine Benutzeroberfläche für eine API eurer Wahl zu schreiben. Eine Sammlung von vielen interessanten APIs findet ihr bspw. hier \linkref{https://www.reddit.com/r/webdev/comments/3wrswc/what_are_some_fun_apis_to_play_with/}:
+\begin{itemize}
+\item Natürlich viele \strong{Wetter} APIs \linkref{https://developer.forecast.io}
+\item Die APIs der \strong{NASA} \linkref{https://data.nasa.gov/developer}
+\item Spieleentwickler wie \strong{Blizzard} \linkref{https://dev.battle.net/io-docs}
+\item Comic-Helden von \strong{Marvel} \linkref{http://developer.marvel.com/docs}
+\item Computational Services wie \strong{Wolfram Alpha} \linkref{http://products.wolframalpha.com/api/}
+\item Nährstoffdaten für Lebensmittel der \strong{National Nutrient Database} \linkref{https://ndb.nal.usda.gov/ndb/api/doc}
+\item Vom gleichen Entwickler wie die \strong{PokeAPI} \linkref{http://pokeapi.co} aus der Vorlesung \abbref{img:pokeapi} ist die Star Wars API \strong{SWAPI} \linkref{https://swapi.co} und eignet sich ebenfalls sehr gut.
+\end{itemize}
+
+\includegraphicsc{img/pokeapi.png}{img:pokeapi}{Die PokeAPI: \emph{Finally; all the Pokémon data you'll ever need, in one place, and easily accessible through a modern RESTful API.}}
+
+Im Repository findet ihr unter dem Branch \shinline{pokedex} die Beispiel-Implementierung für die PokeAPI aus der Vorlesung \abbref{img:pokedex}. Ihr könnt das Repository klonen und mit
+\begin{shcode}
+git checkout pokedex
+\end{shcode}
+in den Branch wechseln und die App ausführen, oder den Branch auf GitHub \linkref{https://github.com/iOS-Dev-Kurs/apiclient/tree/pokedex} anschauen.
+
+\includegraphicsc[\iphonewidth]{img/pokedex.png}{img:pokedex}{Die Pokedex App zeigt Daten der PokeAPI an.}
+
+Wie in der Vorlesung am Beispiel der PokeAPI vorgeführt könnt ihr grob wie folgt vorgehen:
+\begin{enumerate}[label=\arabic*.]
+\item Sucht euch eine API aus und überlegt euch eine passende Benutzeroberfläche. Fangt klein an und beschränkt euch zunächst auf nur einen oder wenige Endpoints der API! Pokemon-Attacken \linkref{http://pokeapi.co/docsv2/\#moves}, Planeten im Star Wars Universum \linkref{https://swapi.co/documentation\#planets}, Marvel Comic Charaktere \linkref{http://developer.marvel.com/docs}... oder lieber das Wetter \linkref{https://developer.forecast.io/docs/v2}?
+
+Endpoints mit wenigen Verweisen zu anderen Endpoints sind einfacher zu bearbeiten als bspw. Listen, die ihr für eine Table View dynamisch nach-laden müsst. Beginnt mit einem Textfeld und einem \emph{Laden} Button bevor ihr eure Benutzeroberfläche ausbaut.
+\item Modelliert dann die API Endpoints als Fälle eines Enums und implementiert das \swiftinline{Moya.TargetType} Protokoll:
+\begin{swiftcode}
+import Moya
+enum YourAPI: Moya.TargetType {
+    case firstEndpoint(someParameter: String, anotherParameter: Int)
+    // ...
+
+    var baseURL: NSURL { return NSURL(string: "http://yourapi.com")! }
+    var path: String {
+        switch self {
+        case .firstEndpoint(someParameter: let a, _): return "/firstEndpoint/\(a)"
+        }
+    }
+    var method: Moya.Method { return .GET }
+    var parameters: [String : AnyObject]? {
+        switch self {
+        case .firstEndpoint(_, anotherParameter: let b): return [
+                "anotherParameter": b,
+            ]
+        }
+    }
+    var sampleData: NSData { return "".dataUsingEncoding(NSUTF8StringEncoding)! }
+}
+\end{swiftcode}
+Die Modellierung der PokeAPI findet ihr hier \linkref{https://github.com/iOS-Dev-Kurs/apiclient/blob/pokedex/APIClient/PokeAPI.swift}.
+\item Erstellt im App Delegate einen \swiftinline{MoyaProvider} für eure API und gebt ihn an euren ersten View Controller weiter.
+\item Führt bei Betätigung eines Buttons oder in \swiftinline{viewDidLoad} testweise Requests aus:
+\begin{swiftcode}
+            // Where `api` is the `MoyaProvider`:
+            api.request(target) { result in
+                switch result {
+                case .Success(let response):
+                    do {
+                        try response.filterSuccessfulStatusCodes()
+                        print(response)
+                    } catch {
+                        print(error)
+                    }
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+\end{swiftcode}
+Denkt daran, dass für ungesicherte HTTP Requests eine \swiftinline{NSAppTransportSecurity} Ausnahme in der \filename{Info.plist} Datei eingetragen sein muss. Den Eintrag könnt ihr aus der \filename{Info.plist} Datei im \shinline{pokedex} Branch \linkref{https://github.com/iOS-Dev-Kurs/apiclient/blob/pokedex/APIClient/Info.plist} kopieren.
+\item Verwendet das \swiftinline{Freddy} Framework um den Rückgabewert der Request von \swiftinline{NSData} to \swiftinline{JSON} zu parsen:
+\begin{swiftcode}
+import Freddy
+let json = try JSON(data: response.data)
+\end{swiftcode}
+\item Modelliert nun eure Datenstrukturen. Schaut euch dazu die Dokumentation zu den API Endpoints an und implementiert Structs, die die Rückgabewerte der Endpoints genau repräsentieren. Implementiert das \swiftinline{Freddy.JSONDecodable} Protokoll für jedes Struct. Beschränkt euch zunächst nur auf die wichtigsten Attribute. Die Beispiel-Implementierung für die PokeAPI findet ihr hier \linkref{https://github.com/iOS-Dev-Kurs/apiclient/blob/pokedex/APIClient/Pokedex.swift} und hier \linkref{https://github.com/iOS-Dev-Kurs/apiclient/blob/pokedex/APIClient/Pokemon.swift}.
+\item Jetzt könnt ihr das Ergebnis einer Request in euer Model parsen und die View-Komponente eurer App damit konfigurieren:
+\begin{swiftcode}
+let model = try Model(json: json) // Where `Model` is `Freddy.JSONDecodable`
+// Configure view according to model
+\end{swiftcode}
+
+\end{enumerate}
+
+Modelliert mindestens einen Endpoint einer API eurer Wahl und zeigt das Ergebnis auf dem Bildschirm an, um die volle Punktzahl für diese Aufgabe zu erhalten. Mit komplexeren Implementierungen könnt ihr euch bis zu drei Extrapunkte verdienen. Schickt eine Pull-Request wenn ihr mit eurer App zufrieden seid, oder um Fragen zu stellen. Ich bin gespannt auf eure Umsetzungen!
+
+\end{excitem}
+
+
+\end{exc}
+
+
+
+\end{lecture}
+
+
+
 \end{document}

@@ -783,5 +783,157 @@ Modelliert mindestens einen Endpoint einer API eurer Wahl und zeigt das Ergebnis
 \end{lecture}
 
 
+\begin{lecture}
+
+\section{Unit Tests}
+
+In der Softwareentwicklung müssen wir natürlich kontinuierlich überprüfen, ob unsere Software funktioniert. Zunächst besteht so ein Test meist einfach darin, die App im Simulator oder auf einem Gerät auszuführen und auszuprobieren, ob sie sich wie erwartet verhält. Wird die App jedoch immer umfangreicher, können wir manuell nicht immer wieder alle möglichen Situationen testen, die in der App auftreten können. Teile der Software, die mal zuverlässig funktioniert haben, könnten dann durch neuen Code fehlerhaft werden, ohne, dass wir es bemerken.
+
+Mit \emph{Unit Tests} automatisieren wir daher solche Tests unserer Software. Für jedes Stück Code (jede \emph{Unit} Code) das wir schreiben, fügen wir auch \emph{Tests} hinzu, die diesen Code ausführen und das Ergebnis überprüfen. Diese Tests können wir dann jederzeit ausführen und damit sicherstellen, dass der getestete Code noch immer wie erwartet funktioniert. Wenn ein Test durchfällt erfahren wir außerdem genau, welcher Code fehlerhaft ist. Wir können das Problem dann beheben und die Tests erneut ausführen, bis alle Tests bestehen.
+
+Je detaillierter und vielseitiger unsere Tests sind, desto genauer können wir feststellen, wie stabil unsere Software ist. Damit gehören Unit Tests zu den wichtigsten Werkzeugen moderner Softwareentwicklung, und Softwareprojekte wie die Open-Source Frameworks, die wir im vorherigen Abschnitt kennengelernt haben, werden nach dem Umfang ihrer Unit Tests (\emph{Coverage}) bewertet \linkref{https://codecov.io/github/Moya/Moya?branch=master}.
+
+Da Unit Tests häufig und regelmäßig ausgeführt werden sollten, völlig automatisiert sind und durch ihren Umfang recht viel Zeit in Anspruch nehmen können werden sie häufig von einem \emph{Continuous Integration} System wie \emph{Travis\linkref{https://travis-ci.org}} anstatt auf dem System des einzelnen Entwicklers ausgeführt. So können die Tests bspw. bei jedem \emph{Push} auf GitHub und für jede Pull-Request automatisch ausgeführt werden um die Qualität und Stabilität des Codes zu bewahren.
+
+\begin{exc}
+
+\begin{excitem}{unittests}{Unit Tests}{2}
+
+In dieser Aufgabe erweitern wir die \emph{APIClient} App um Unit Tests. Wir schreiben dabei sowohl Tests, die möglichst detailliert unseren Programmcode ausführen und überprüfen, also auch UI Tests, die die App im Simulator ausführen und Benutzereingaben simulieren.
+
+\begin{enumerate}[label=\arabic*.]
+\item Im APIClient Repository \linkref{https://github.com/iOS-Dev-Kurs/apiclient} habe ich das Open-Source Framework \emph{Nimble\linkref{https://github.com/Quick/Nimble}} mit CocoaPods hinzugefügt und in zwei neue Test-Targets integriert. Fügt zuerst diese Änderungen am Original-Repository in euren Fork ein, indem ihr einen \emph{Rebase} durchführt:
+\begin{shcode}
+git pull --rebase https://github.com/ios-dev-kurs/apiclient.git master
+\end{shcode}
+Mit einem Rebase wird die Commitfolge verändert, daher müsst ihr euer Repository auf GitHub anschließend mit eine \emph{Force Push} überschreiben:
+\begin{shcode}
+git push --force origin master
+\end{shcode}
+\item Erstellt eine neue Datei \filename{YourAPITests.swift} im \filename{APIClientTests} Verzeichnis und achtet darauf, dass ihr sie dem Target \emph{APIClientTests} zuweist \abbref{img:testtarget}. Erstellt darin eine neue Subklasse von \swiftinline{XCTestCase}:
+\begin{swiftcode}
+import XCTest
+// Import the App module with access to all internal types and functions
+@testable import APIClient
+// Nimble provides excellent testing functionality
+import Nimble
+// Every subclass of `XCTestCase` can provide tests
+class YourAPITests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        // Called before the invocation of each test
+    }
+    override func tearDown() {
+        super.tearDown()
+        // Called after the invocation of each test
+    }
+}
+\end{swiftcode}
+
+\includegraphicsc[\iphonewidth]{img/testtarget.png}{img:testtarget}{Weist Swift-Dateien mit Tests dem richtigen Target zu, wenn ihr die Datei erstellt.}
+
+\item Jetzt könnt ihr euren ersten Test schreiben. Jede Methode einer Subklasse von \swiftinline{XCTestCase} mit Signatur \swiftinline{() -> Void}, deren Name mit \str{test} beginnt, wird als Unit Test erkannt: 
+\begin{swiftcode}
+    func testSomething() {
+        // Call some unit of code and check its result with `XCTAssert` or Nimble's `expect` assertions:
+        expect(1 + 1) == 2
+        expect(try JSON(jsonString: "{}")).toNot(throwError())
+    }
+\end{swiftcode}
+Diese Methoden erscheinen dann im Xcode \emph{Test Navigator} (\keys{\cmd+5}) und werden bei einem \emph{Test} (\keys{\cmd+U}) automatisch ausgeführt. Ihr könnt sie mit der Schaltfläche am linken Rand des Editors auch einzeln ausführen.
+
+Fügt eurem \swiftinline{XCTestCase} nun also Tests hinzu, mit denen ihr euren Code möglichst detailliert überprüft. Ihr könnt auch weitere Subklassen von \swiftinline{XCTestCase} erstellen, um eure Tests zu gliedern. Beginnt dabei bei der Model-Komponente eurer App und versucht Tests zu schreiben, die möglichst kleine Abschnitte eures Codes ausführen, wie bspw. nur eine bestimmte Funktion oder einen Initializer. Überprüft dann das Ergebnis mithilfe der \swiftinline{XCTAssert} oder Nimble's \swiftinline{expect} Assertions \linkref{https://github.com/Quick/Nimble}.
+
+Anders als bei regulärem Programmcode könnt ihr in Tests beliebig langen und ausführlichen Code schreiben und solltet insbesondere den Test-Methoden möglichst deskriptive Namen geben. Achtet außerdem darauf, in euren Assertions keine Logik zu schreiben, sondern vergleicht ein Ergebnis direkt mit bestimmten Werten: Der Test \swiftinline{expect(1 + 1) == 2} im obigen Beispiel wäre sinnlos, würden wir den \swiftinline{+} Operator auch auf der rechten Seite verwenden!
+
+Eine Beispiel-Implementierung einiger Tests findet ihr im \shinline{pokedex} Branch \linkref{https://github.com/iOS-Dev-Kurs/apiclient/tree/pokedex}. Es ist hilfreich, eine Datei mit zu testendem Code rechts im Assistant anzuzeigen (\keys{\Alt}-Klick), dessen Funktionalität durchzugehen und dabei Tests dafür zu schreiben. Beginnt bspw. mit einem \swiftinline{JSONDecodable} Struct und dessen Initializer.
+
+Um die \swiftinline{JSONDecodable} Initializer zu testen, ohne Netzwerkanfragen an die API stellen zu müssen, stellt das \swiftinline{Moya.TargetType} Protokoll das Attribut \swiftinline{sampleData: NSData} bereit, das ihr in eurem Enum vermutlich noch nicht vollständig implementiert habt. Gebt dort für jeden Endpoint einen JSON-String mit den relevanten Attributen zurück, der wie die echten API-Antworten strukturiert ist. Hinweis: Es gibt keine mehrzeiligen Strings in Swift und Anführungszeichen im String müsst ihr als \str{\textbackslash"{}} \emph{escapen}, wie hier \linkref{https://github.com/iOS-Dev-Kurs/apiclient/blob/pokedex/APIClient/PokeAPI.swift}.
+
+Testet natürlich auch die asynchrone API Abfrage. Dazu können wir im Test eine \emph{Expectation} erstellen und mit einem Timeout darauf warten, dass diese asynchron erfüllt wird:
+\begin{swiftcode}
+    func testSomethingAsynchronous() {
+        let expectation = expectationWithDescription("Something asynchronous")
+        // Do something asynchronously and call `expectation.fulfill()` when it's done.
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
+\end{swiftcode}
+
+\item Mit Unit Tests lässt sich die Model-Komponente ideal testen. Auch die View- und Controller-Komponenten können mit Unit Tests überprüft werden, wenn wir den Code dafür richtig strukturieren. Dabei hilft insbesondere, das Model-View-Controller Konzept zum \emph{Model-View-ViewModel} Konzept zu erweitern \linkref{https://www.objc.io/issues/13-architecture/mvvm/}. Doch erst mit \emph{UI Tests} können wir unsere App auf einer Ebene testen, auf der wir tatsächlich Benutzereingaben simulieren und überprüfen, wie unsere App darauf reagiert.
+
+UI Tests verwenden den \emph{Accessibility} Mechanismus von iOS, der auch engeschränkten Benutzern bei der Bedienung von Apps hilft. Dazu vergeben wir \emph{Accessibility Identifier} an Views im Storyboard und im Code und können die zugehörigen Interface-Elemente damit in Tests überprüfen.
+
+Erstellt eine neue Subklasse von \swiftinline{XCTestCase} und weist sie diesmal dem Target \emph{APIClientUITests} zu. Startet die App in deren \swiftinline{setUp} Methode:
+\begin{swiftcode}
+    override func setUp() {
+        super.setUp()
+        continueAfterFailure = false
+        XCUIApplication().launch()
+    }
+\end{swiftcode}
+
+\item In Test-Methoden dieser Subklasse könnt ihr die angezeigten Interface-Elemente nun über ihren \swiftinline{accessibilityIdentifier} abfragen, Benutzereingaben simulieren und Asserts ausführen:
+\begin{swiftcode}
+    func testSomeUserInteraction() {
+        let app = XCUIApplication()
+        // Retrieve interface elements by their `accessibilityIdentifier`
+        let searchTextfield = app.textFields["searchTextfield"]
+        // Assert on their properties such as `label` or `exists`
+        expect(searchTextfield.label).to(beEmpty())
+        // Simulate user interaction
+        searchTextfield.tap()
+        // Type something and hit enter
+        searchTextfield.typeText("Search Term\n")
+        // Continuously assert on a property until an expectation is met
+        let resultLabel = app.staticTexts["result"]
+        expect(resultLabel.label).toEventually(equal("Expected Result"), timeout: 10)
+        // ...
+    }
+\end{swiftcode}
+
+Die Accessibility Identifier der Views müsst ihr dafür im Storyboard im \emph{Identity Inspector} (\keys{\cmd+\Alt+3}) oder im Code setzen. Für Views in Table View Cells scheint dies bisher nur im Code zu funktionieren:
+\begin{swiftcode}
+    // In UITableViewCell subclasses:
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.nameLabel.accessibilityIdentifier = "name"
+    }
+\end{swiftcode}
+
+Um Text in Textfelder zu tippen muss die Option \emph{Connect Hardware Keyboard} des Simulators ausgeschaltet sein \abbref{img:connecthardwarekeyboard}. Außerdem scheint der UI Test beim Start der App bisher nicht korrekt zu warten, bis die App Benutzereingaben annimmt. Ein Workaround ist, die folgende Methode in \swiftinline{setUp} nach dem Start der App aufzurufen:
+\begin{swiftcode}
+    private func waitForResponsiveness() {
+        let wait = expectationWithDescription("wait")
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            wait.fulfill()
+        }
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
+\end{swiftcode}
+
+
+\includegraphicsc[\screenshotwidth]{img/connecthardwarekeyboard.png}{img:connecthardwarekeyboard}{Nur mit ausgeschaltetem Hardware Keyboard funktioniert die simulierte Texteingabe bisher halbwegs zuverlässig.}
+
+Wenn ihr einen UI Test ausführt startet nun eure App und die Benutzereingaben werden simuliert. Wenn ihr innerhalb eines Tests mit Klick auf den linken Editorrand einen Breakpoint setzt und die Ausführung der App anschließend an der Stelle stoppt, könnt ihr sogar die \emph{Recording}-Funktion verwenden, um eure Benutzereingaben aufzunehmen und automatisch in Code zu übersetzen! Klickt dazu auf die rote \emph{Aufnehmen}-Schaltfläche in der Leiste über dem Debug-Bereich. Der generierte Code ist natürlich häufig nicht optimal und ihr solltet ihn noch editieren, bevor ihr den Test committed, doch diese Funktion kann sehr hilfreich sein.
+
+Schreibt UI Tests für jeden Pfad der Benutzerführung in eurer App.
+\end{enumerate}
+
+Ihr könnt eure Tests nun jederzeit mit \keys{\cmd+U} ausführen und damit überprüfen, dass euer Code noch funktioniert.
+
+Am rechten Rand des Editors zeigt euch Xcode dann außerdem Informationen zur \emph{Coverage} an und markiert insbesondere solche Bereiche eures Codes rot, die in den Tests nicht aufgerufen wurden. Wählt ihr einen Test im \emph{Report Navigator} (\keys{\cmd+8}) aus, seht ihr neben einer Übersicht der ausgeführten Tests auch die Coverage eures Projekts, einzelner Dateien und Funktionen. Eine hohe Coverage heißt nur, dass der Code während des Tests ausgeführt wurde, und nicht, wie detailliert die Tests sind!
+
+Versucht, eine Coverage von mindestens 80\% zu erreichen. Schickt dann erneut eine Pull-Request an das APIClient Repository.
+
+\end{excitem}
+
+
+\end{exc}
+
+
+\end{lecture}
+
+
+
 
 \end{document}

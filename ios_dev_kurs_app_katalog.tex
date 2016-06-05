@@ -935,5 +935,104 @@ Versucht, eine Coverage von mindestens 80\% zu erreichen. Schickt dann erneut ei
 
 
 
+\begin{lecture}
+
+\section{Data Persistence}
+
+Selten kommt eine App ohne Daten aus, die über die Auführung der App hinaus gespeichert werden. Insbesondere ist eines der wichtigsten Merkmale, die Apps von mobilen Webseiten unterscheidet, dass der Benutzer sie auf seinem Gerät personalisieren kann. Außerdem erwartet der Benutzer, dass er die App in dem Zustand wiederfindet, in der er sie verlassen hat. Da das Betriebssystem die App jedoch jederzeit beenden kann, muss die App Daten persistent speichern, um sie bei der nächsten Ausführung wiederherstellen zu können.
+
+Um Daten zwischen Geräten desselben Benutzers zu teilen und damit ein konsistentes Benutzererlebnis zu ermöglichen, kann eine App Daten außerdem recht einfach nicht nur lokal sondern in der Cloud speichern.
+
+Je nach Anforderung können wir auf verschiedene Mechanismen zur persistenten Datenspeicherung zurückgreifen:
+
+\subsection{User Defaults}\label{sec:userdefaults}
+
+Häufig erfordert die Personalisierung einer App lediglich die Speicherung einiger Einstellungen. Einfache Benutzerdaten können wir mithilfe der \swiftinline{NSUserDefaults} Klasse persistent speichern und auslesen:
+
+\begin{swiftcode}
+// speichern
+NSUserDefaults.standardUserDefaults().setObject("Alice", forKey:"user_name")
+// auslesen
+let userName = NSUserDefaults.standardUserDefaults().objectForKey("user_name") as? String
+\end{swiftcode}
+
+Es können nur Objekte der Objective-C Typen \swiftinline{NSString} (implizit konvertierbar in Swift's \swiftinline{String}), \swiftinline{NSNumber} (implizit konvertierbar in Swift's \swiftinline{Int} und \swiftinline{Double}), \swiftinline{NSDate} und \swiftinline{NSData} oder ausschließlich mit solchen Objekten gefüllte Instanzen von \swiftinline{NSArray} und \swiftinline{NSDictionary} (bzw. ihre Swift-Äquivalente) in dieser Form gespeichert werden. Andere Datentypen müssen wir in \swiftinline{NSData} konvertieren, um sie in \swiftinline{NSUserDefaults} zu speichern. Für Klassen wie \swiftinline{UIImage} existieren dazu einfache Lösungen:
+\begin{swiftcode}
+// `UIImage` in `NSData` serialisieren
+let imageData = UIImagePNGRepresentation(image) // oder `UIImageJPEGRepresentation` je nach Bedarf
+// speichern
+NSUserDefaults.standardUserDefaults().setObject(imageData, forKey:"image_data")
+// auslesen
+if let imageData = NSUserDefaults.standardUserDefaults().objectForKey("image_data") as? NSData {
+    let image = UIImage(data: imageData)
+}
+\end{swiftcode}
+
+\subsection{Caches}
+
+Für etwas komplexere Datentypen wie bspw. eigene Structs oder Klassen, oder Anforderungen wie ablaufende Caches, können wir auf spezialisierte Swift Frameworks zurückgreifen. Einige hervorragende Frameworks sind:
+\begin{description}
+\item[Pantry\linkref{https://github.com/nickoneill/Pantry}] \emph{The missing light persistence layer for Swift}
+\item[Haneke\linkref{https://github.com/Haneke/HanekeSwift}] \emph{A lightweight generic cache for iOS written in Swift with extra love for images.}
+\item[AwesomeCache\linkref{https://github.com/aschuch/AwesomeCache}] \emph{Delightful on-disk cache (written in Swift)}
+\end{description}
+
+\subsection{State Preservation}
+
+Das Betriebssystem kann eine App jederzeit beenden. Der Benutzer der App erwartet dabei, dass die Benutzeroberfläche beim nächsten Start der App wiederhergestellt wird und Eingaben erhalten bleiben.
+
+UIKit bietet mit \emph{State Preservation} ein sehr einfach zu integrierendes System zur Wiederherstellung der Benutzeroberfläche. Konzeptionell sollten mit diesem Mechanismus keine Daten der Model-Komponente gespeichert werden. Stattdessen bezieht sich das State Preservation System auf die View- und Controller-Komponente zugeordnet.
+
+Elemente der Benutzeroberfläche identifizieren wir anhand des \swiftinline{restorationIdentifier: String} Attributs im Storyboard oder im Code. Bei der Wiederherstellung wird für jeden dieser Identifier ein entsprechendes Objekt angefordert, oder bei Verwendung eines Storyboards automatisch erstellt. View Controller und Views können dazu die \swiftinline{encodeRestorableStateWithCoder(_:)} und \swiftinline{decodeRestorableStateWithCoder(_:)} Methoden implementieren, um ihre Darstellung zu archivieren und wiederherzustellen. Im iOS App Programming Guide \linkref{https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/} ist das State Preservation System ausführlich dokumentiert.
+
+\subsection{Datenbanken: Core Data und Realm}\label{sec:coredata}
+
+Gehen die Anforderungen an die persistente Datenspeicherung unserer Model-Komponente über einfaches Caching einzelner Werte hinaus, benötigen wir eine relationale Datenbank. Momentan bietet sich uns die Wahl zwischen Apple's etabliertem \emph{Core Data} Framework und dem modernen Framework \emph{Realm\linkref{https://realm.io}}. Core Data ist ein Relikt aus jahrelanger Softwareentwicklung auf Apple's Plattformen in Objective-C und damit sehr mächtig und vielseitig und liegt einer Vielzahl an Apps im Store zugrunde. Realm hingegen ist eine plattformübergreifende Datenbankimplementierung für mobile Geräte mit expliziter Unterstützung für Swift, jedoch noch nicht so vollständig und in Apple's Infrastruktur integriert wie Core Data.
+
+Beide Frameworks erlauben uns mit Swift Objekten zu arbeiten, denen eine Datenbank zugrunde liegt. Wir erstellen Objekte einer Subklasse von \swiftinline{NSManagedObject} bzw. \swiftinline{Realm.Object} und arbeiten mit diesen Objekte, wie wir es gewohnt sind. Als \swiftinline{@NSManaged} bzw. \swiftinline{dynamic} markierte Attribute dieser Klassen werden in der Datenbank gespeichert. Dazu gehören auch \emph{To-One} und \emph{To-Many} Beziehungen zu anderen verwalteten Objekten. So können wir ganze Objekt-Graphen von Core Data bzw. Realm persistent verwalten lassen.
+
+Mit \strong{Core Data} modellieren wir mit dem \emph{Xcode Model Editor} zuerst das \emph{Data Model} der Datenbank \abbref{img:coredata_modeleditor} mit \emph{Entities} und ihren \emph{Attributen} und \emph{Beziehungen}. Anschließend implementieren wir eine Subklassen von \swiftinline{NSManagedObject} für jede Entity.
+
+\includegraphicsc{img/coredata_modeleditor.png}{img:coredata_modeleditor}{Core Data Models können wir im \emph{Xcode Model Editor} graphisch bearbeiten.}
+
+Um von Core Data verwaltete Objekte abzufragen führen wir eine \emph{Fetch Request} aus. Wir konfigurieren dazu ein Objekt der Klasse \swiftinline{NSFetchRequest} und übergeben es an einen \swiftinline{NSManagedObjectContext}.
+
+Ein \swiftinline{NSManagedObjectContext} ist unsere Verbindung zu Core Data. Meist erstellen wir einen Context im App Delegate und geben ihn an unsere View Controller weiter, sodass diese die von Core Data verwalteten Objekte abfragen können. Diese Objekte sind dann immer mit dem Context assoziiert. Wenn wir ihre Attribute verändern entspricht dies ungesicherten Änderungen in ihrem Context. Erst, wenn wir den Context speichern, werden die Änderungen persistent gesichert.
+
+Core Data stellt viele mächtige Hilfmittel bereit, um mit verwalteten Objekten zu arbeiten. Insbesondere der \swiftinline{NSFetchedResultsController} hilft, ein Subset von verwalteten Objekten in einer Table View darzustellen. Wir erstellen einen \swiftinline{NSFetchedResultsController} mit einer Fetch Request und führen einmal dessen \swiftinline{performFetch} Methode aus. In der Implementierung der \swiftinline{UITableViewDatasource} können wir dann auf die genau darauf ausgelegten Attribute des \swiftinline{NSFetchedResultsController} zurückgreifen. Außerdem reagiert der \swiftinline{NSFetchedResultsController} auf Änderungen der Objekte und kann die Table View danach anpassen.
+
+
+\begin{exc}
+
+\begin{excitem}{datapersistence}{Data Persistence}{2}
+
+Forkt das \emph{DataPersistence} Repository \linkref{https://github.com/ios-dev-kurs/datapersistence} und implementiert eine einfache App, die das Core Data Framework verwendet um relationale Daten in einer Datenbank zu speichern und anzuzeigen.
+
+Implementiert eine \emph{Todo-Liste} wie im Beispiel unter dem Branch \shinline{todo}, oder etwas anderes.
+
+\begin{enumerate}[label=\arabic*.]
+\item Definiert zuerst das \emph{Data Model} im Xcode Model Editor. Öffnet dazu die \filename{.xcdatamodeld} Datei und erstellt die Entities, Attribute und Beziehungen, die euer Model benötigt.
+\item Erstellt dann für jede Entity eine Swift-Datei, in der ihr eine Subklasse von \swiftinline{NSManagedObject} mit den als \swiftinline{@NSManaged} markierten Attributen eures Models implementiert. Vergesst nicht, den Namen der Klasse anschließend als Identität der Entity im Data Model zu setzen und darunter als Modul \str{Current Product Module} einzugeben.
+\item Schaut euch an, wie im App Delegate und in der \swiftinline{PersistentStack} Klasse ein Core Data Stack und ein zugehöriger \swiftinline{NSManagedObjectContext} erstellt wird. Gebt den \swiftinline{persistentStack.mainContext} an euren ersten View Controller weiter, sodass dieser einen Zugang zur Datenbank erhält.
+\item Implementiert eure View Controller. Verwendet \swiftinline{NSFetchedResultsController} mit \swiftinline{UITableView}s, wie in der Todo-Liste vorgeführt, um Listen von Objekten aus der Datenbank anzuzeigen.
+
+Erstellt für View Controller, die Objekte erstellen oder editieren, einen neuen \swiftinline{NSManagedObjectContext}, dessen \swiftinline{parentContext} ihr auf den \swiftinline{mainContext} setzt. Gebt diesen Context dann an den View Controller weiter, der darin speichern kann. Änderungen, die in einem solchen \emph{Child Context} gespeichert werden, erscheinen dann im \emph{Parent Context} als ungesicherte Änderungen. Erst wenn ihr den Parent Context anschließend auch speichert werden die Änderungen in die Datenbank gesichert. Bei Bedarf, bspw. bei Betätigung eines \emph{Cancel}-Buttons, könnt ihr den Child Context dann einfach nicht speichern. Orientiert euch daran, wie dies bspw, in den Segues und Unwind Segues des \swiftinline{ListsViewController} und \swiftinline{CreateListViewController} der Todo-Liste implementiert ist.
+
+\end{enumerate}
+
+Schickt eine Pull-Request wenn ihr mit eurer App zufrieden seid, oder um Fragen zu stellen.
+
+
+\end{excitem}
+
+
+\end{exc}
+
+
+
+\end{lecture}
+
+
+
 
 \end{document}

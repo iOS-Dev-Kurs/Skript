@@ -145,8 +145,8 @@ struct PokerHand: CustomStringConvertible {
     
     /// Whether the cards' ranks form a sequence
     var hasStraight: Bool {
-        let sortedCards = cards.sort { $0.rank.rawValue < $1.rank.rawValue }
-        for (i, card) in sortedCards.enumerate() where i > 0 {
+        let sortedCards = cards.sorted { $0.rank.rawValue < $1.rank.rawValue }
+        for (i, card) in sortedCards.enumerated() where i > 0 {
             if card.rank.rawValue != sortedCards[i-1].rank.rawValue + 1 {
                 return false
             }
@@ -183,7 +183,7 @@ struct PokerHand: CustomStringConvertible {
 
     /// Number of Cards of the same rank
     var sameKindCount: Int {
-        return kindCounts.values.sort(>).first!
+        return kindCounts.values.sorted(by: >).first!
     }
     
     /// Number of pairs
@@ -199,7 +199,7 @@ struct PokerHand: CustomStringConvertible {
     
     /// The highest card
     var highestCard: Card {
-        return cards.sort({ $0.rank.rawValue > $1.rank.rawValue }).first!
+        return cards.sorted(by: { $0.rank.rawValue > $1.rank.rawValue }).first!
     }
     
 }

@@ -1,6 +1,6 @@
 //: # Übungsaufgabe 02 - Primzahlen
 
-func isPrimeNumber(n: Int) -> Bool {
+func isPrimeNumber(_ n: Int) -> Bool {
     guard n > 1 else {
         return n == 1
     }
@@ -15,7 +15,7 @@ func isPrimeNumber(n: Int) -> Bool {
     return true
 }
 
-func primeNumbersUpTo(maxNumber: Int) -> [Int] {
+func primeNumbers(upTo maxNumber: Int) -> [Int] {
     var primeNumbers: [Int] = []
     for n in 1...maxNumber {
         if isPrimeNumber(n) {
@@ -25,7 +25,7 @@ func primeNumbersUpTo(maxNumber: Int) -> [Int] {
     return primeNumbers
 }
 
-primeNumbersUpTo(100)
+primeNumbers(upTo: 100)
 
 //: ## Really Swiftly
 

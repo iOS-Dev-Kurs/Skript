@@ -17,16 +17,16 @@ while fibNumber < 1_000 {
 
 //: ## Really Swifty
 
-struct FibonacciSequence: SequenceType {
+struct FibonacciSequence: Sequence {
     
     let max: Int
     
-    func generate() -> AnyGenerator<Int> {
+    func makeIterator() -> AnyIterator<Int> {
         
         var prev = 0
         var current = 1
         
-        return AnyGenerator<Int> {
+        return AnyIterator<Int> {
             if current > self.max {
                 return nil
             }

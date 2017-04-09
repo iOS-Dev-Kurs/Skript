@@ -120,13 +120,13 @@ Wenn ihr noch mit keinem dieser Begriffe etwas anfangen könnt, seid beruhight: 
 \item Die Methode \swiftinline{application(_:didFinishLaunchingWithOptions:)} wird zu Beginn der Ausführung der App aufgerufen. Ersetzt den Kommentar dort mit einem Gruß zur Ausgabe in der Konsole:
 
 \begin{swiftcode}
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
     print("Hello World!")
     return true
 }
 \end{swiftcode}
 
-\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} \keys{\cmd + R} kompilieren und ausführen, sehen wir den Text \str{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden. Außerdem wird links automatisch zum Debug Navigator gewechselt, wenn eine App ausgeführt wird, in dem CPU- und Speicherauslastung überwacht werden können und Fehler und Warnungen angezeigt werden, wenn welche auftreten.
+\item Wenn wir unsere App nun erneut mit \emph{Build \& Run} \keys{\cmd + R} kompilieren und ausführen, sehen wir den Text \str{Hello World!} in der Konsole. Dazu wird der zweigeteilte Debug-Bereich unten automatisch eingeblendet \abbref{img:helloworld_helloworld}. Ist der Konsolenbereich zunächst versteckt, kann er mit der Schaltfläche in der rechten unteren Ecke angezeigt werden.
 
 \includegraphicsc[\screenshotwidth]{img/helloworld_helloworld.png}{img:helloworld_helloworld}{In der Konsole des Debug-Bereichs werden Ausgaben der laufenden App angezeigt}
 
@@ -143,7 +143,7 @@ Natürlich wird ein Benutzer unserer App von den Ausgaben in der Konsole nichts 
 
 \begin{enumerate}
 
-\item Zur Gestaltung der Benutzeroberfläche oder \emph{User Interface (UI)} verwenden wir ein \emph{Storyboard}. Wählt im Project Navigator die Datei \emph{main.storyboard} aus.
+\item Zur Gestaltung der Benutzeroberfläche oder \emph{User Interface (UI)} verwenden wir ein \emph{Storyboard}. Wählt im Project Navigator die Datei \str{main.storyboard} aus.
 
 \item Der Editor-Bereich zeigt nun den Interface Builder. In diesem Modus möchten wir häufig eine angepasste Konfiguration des Xcode-Fensters verwenden, es bietet sich also an, mit \keys{\cmd + T} einen neuen Tab zu öffnen. Blendet dann mit den Schaltflächen auf der rechten Seite der Toolbar den Navigator- und Debug-Bereich links und unten aus und den Inspektor rechts ein. Wählt dort außerdem zunächst den Standard-Editor, also die linke der drei Schaltflächen \abbref{img:helloworld_ib}.
 
@@ -181,7 +181,7 @@ class ViewController: UIViewController {
     @IBOutlet var nameTextfield: UITextField!
     @IBOutlet var greetingLabel: UILabel!
 
-    @IBAction func greetingButtonPressed(sender: UIButton) {
+    @IBAction func greetingButtonPressed(_ sender: UIButton) {
         print("Hello World!")
     }
     
@@ -196,8 +196,8 @@ class ViewController: UIViewController {
 \item Um die App nun alltagstauglich zu gestalten, muss dieser Gruß natürlich personalisiert und auf dem Bildschirm angezeigt werden. Dazu verwenden wir das Attribut \swiftinline{text} der Klassen \swiftinline{UITextField} und \swiftinline{UILabel} und zeigen einen personalisierten Gruß an, wenn im Text Field ein Name geschrieben steht:
 
 \begin{swiftcode}
-@IBAction func greetingButtonPressed(sender: UIButton) {
-    if let name = nameTextfield.text where !name.isEmpty {
+@IBAction func greetingButtonPressed(_ sender: UIButton) {
+    if let name = nameTextfield.text, !name.isEmpty {
         greetingLabel.text = "Hello \(name)!"
     } else {
         greetingLabel.text = "Hello World!"
@@ -264,11 +264,11 @@ let color = UIColor(red: 1, green: 0, blue: 0, alpha: 1) // rot
 \item Die Funktion \swiftinline{arc4random_uniform(n)} gibt eine Pseudozufallszahl $x$ mit $0<=x<n$ aus.
 \item Wenn ein \swiftinline{UISwitch} betätigt wird, kann das Event genauso mit einer IBAction verbunden werden wie das eines \swiftinline{UIButton}. Mit einem Attribut \swiftinline{var randomTimer: NSTimer?} können wir dann die Methode für das zufällige Wechseln der Hintergrundfarbe implementieren:
 \begin{swiftcode}
-var randomTimer: NSTimer?
+var randomTimer: Timer?
 
-@IBAction func switchValueChanged(sender: UISwitch) {
+@IBAction func switchValueChanged(_ sender: UISwitch) {
     if sender.on {
-        randomTimer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: "randomButtonPressed:", userInfo: nil, repeats: true)
+        randomTimer = Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(randomButtonPressed(_:)), userInfo: nil, repeats: true)
     } else {
         randomTimer?.invalidate()
         randomTimer = nil
@@ -316,7 +316,7 @@ F_1=1, F_2=2
 \end{equation}
 in der Konsole ausgibt.
 
-\exchinweis{Versucht's mit einer \swiftinline{while}-Schleife und zwei Variablen für die letzten beiden Folgenglieder, die außerhalb der Schleife definiert wurden. Wer die Aufgabe richtig \emph{swifty} lösen will kann stattdessen ein \swiftinline{struct: FibonacciSequence} schreiben welches das \swiftinline{SequenceType} Protokoll erfüllt.}
+\exchinweis{Versucht's mit einer \swiftinline{while}-Schleife und zwei Variablen für die letzten beiden Folgenglieder, die außerhalb der Schleife definiert wurden. Wer die Aufgabe richtig \emph{swifty} lösen will kann stattdessen ein \swiftinline{struct: FibonacciSequence} schreiben welches das \swiftinline{Sequence} Protokoll erfüllt.}
 
 \end{excitem*}
 
@@ -325,11 +325,11 @@ in der Konsole ausgibt.
 
 \begin{enumerate}
 
-\item Schreibt eine Funktion \swiftinline{func isPrimeNumber(n: Int) -> Bool} die eine Zahl annimmt und \swiftinline{true} zurückgibt, wenn diese eine Primzahl ist, andernfalls \swiftinline{false}.
+\item Schreibt eine Funktion \swiftinline{func isPrimeNumber(_ n: Int) -> Bool} die eine Zahl annimmt und \swiftinline{true} zurückgibt, wenn diese eine Primzahl ist, andernfalls \swiftinline{false}.
 
 \exchinweis{Iteriert in einer \swiftinline{for}-Schleife durch alle Zahlen von 2 bis n: \swiftinline{for i in 2..<n}. Überspringt den Schleifenschritt mit \swiftinline{continue} wenn \swiftinline{i} gleich \swiftinline{n} ist. Prüft sonst mit dem Modulo-Operator \swiftinline{|\%|} den Rest der Division \swiftinline{n |\%| i} der beiden Zahlen. Ist dieser \swiftinline{0} so ist \swiftinline{n} durch \swiftinline{i} teilbar und ihr könnt \swiftinline{false} zurückgeben: \swiftinline{return false}. Gebt sonst nach dem Durchlauf der Schleife \swiftinline{true} zurück.}
 
-\item Schreibt dann eine Funktion \swiftinline{func primeNumbersUpTo(maxNumber: Int) -> [Int]} die alle Primzahlen bis \swiftinline{maxNumber} als Liste \swiftinline{[Int]} (kurz für \swiftinline{Array<Int>}) zurückgibt.
+\item Schreibt dann eine Funktion \swiftinline{func primeNumbers(upTo maxNumber: Int) -> [Int]} die alle Primzahlen bis \swiftinline{maxNumber} als Liste \swiftinline{[Int]} (kurz für \swiftinline{Array<Int>}) zurückgibt.
 
 \exchinweis{Erstellt zuerst eine leere Liste von \swiftinline{Int}s: \swiftinline{var primeNumbers: [Int] = []}. Iteriert dann in einer \swiftinline{for}-Schleife durch die Zahlen \swiftinline{1...maxNumber} und fügt die Zahl der Liste mit \swiftinline{primeNumbers.append(n)} hinzu wenn sie \swiftinline{isPrimeNumber(n)} erfüllt. Gebt die Liste mit \swiftinline{return primeNumbers} nach Schleifendurchlauf zurück. Richtig \emph{swifty} könnt ihr die Aufgabe auch in einer Zeile lösen indem ihr die Methode \swiftinline{filter} von \swiftinline{SequenceType} verwendet.}
 
@@ -354,7 +354,7 @@ Eure Aufgabe ist es nun, eine eigene Subklasse zu schreiben und damit euren Beit
 
 Erstellt dazu mit \keys{\cmd + N} eine neue \filename{.swift}-Datei mit dem Namen eures Charakters und platziert sie im Xcode Project Navigator unter \menu{chatter > Model > Chatters}. Orientiert euch an \swiftinline{Yoda.swift} um eure neue Subklasse von \swiftinline{Chatter} zu implementieren.
 
-\item Überschreib die relevanten Methoden in eurer Subklasse wie in der \filename{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
+\item Überschreibt die relevanten Methoden in eurer Subklasse wie in der \filename{README.md} Datei beschrieben. Hier könnt ihr einfach zufällige Chatnachrichten generieren, oder auch komplexere Mechaniken einbauen, sodass eine etwas natürlichere Konversation zustande kommt.
 
 In eurer eigenen Subklasse könnt ihr dabei beliebig Code schreiben und bspw. Attribute einführen, um den Zustand eures Charakters darzustellen, wenn ihr möchtet. Er oder sie (oder es?) könnte bspw. mit jeder Nachricht wütender werden oder dergleichen.
 
@@ -404,7 +404,7 @@ Forkt das Repository \url{https://github.com/ios-dev-kurs/poker} und erstellt ei
 
 \item Zuerst modellieren wir die Spielkarten. Eine Karte \swiftinline{Card} hat immer eine \emph{Farbe} \swiftinline{Suit} (Karo, Herz, Pik oder Kreuz) und einen \emph{Rang} \swiftinline{Rank} (2 bis 10, Bube, Dame, König oder Ass).
 
-Wir modellieren \swiftinline{Card} als Struct, und \swiftinline{Suit} und \swiftinline{Rank} als Enums. Warum verwenden wir keine Klasse für \swiftinline{Card}? Warum eignet sich ein Enum so hervorragend für \swiftinline{Suit} und \swiftinline{Rank}? Beantwortet diese Fragen kurz stichwortartig in einem Kommentar im Playground.
+Wir modellieren \swiftinline{Card} als Struct, und \swiftinline{Suit} und \swiftinline{Rank} als Enums. Warum verwenden wir keine Klasse für \swiftinline{Card}? Warum eignet sich ein Enum so hervorragend für \swiftinline{Suit} und \swiftinline{Rank}? Beantwortet diese Fragen kurz in einem Kommentar im Playground.
 
 \item Schreibt zwei Enums \swiftinline{enum Suit: Int} und \swiftinline{enum Rank: Int} mit ihren jeweiligen Fällen (\swiftinline{case diamonds} usw.). Bei den Rängen \emph{2} bis \emph{10} schreibt ihr am besten die Zahl aus (\swiftinline{case two} usw.).
 
@@ -504,7 +504,7 @@ Forkt das Repository \url{https://github.com/ios-dev-kurs/lifetime} und erstellt
 
 \begin{enumerate}
 
-\item Die \emph{Model}-Komponente \mvcindicatormodel der App ist bereits implementiert. Wir verwenden das \swiftinline{Contacts} Framework von Apple, das Zugriff auf die Kontakte ermöglicht. In \filename{Lifetime.swift} erweitern wir die Klasse \swiftinline{CNContact} um ein Computed Attribute \swiftinline{lifetime: NSTimeInverval?}.
+\item Die \emph{Model}-Komponente \mvcindicatormodel der App ist bereits implementiert. Wir verwenden das \swiftinline{Contacts} Framework von Apple, das Zugriff auf die Kontakte ermöglicht. In \filename{Lifetime.swift} erweitern wir die Klasse \swiftinline{CNContact} um ein Computed Attribute \swiftinline{lifetime: TimeInverval?}.
 
 \mvcindicatorcontroller Um auf Kontakte zuzugreifen stellen wir Anfragen an einen \swiftinline{CNContactStore}. Das \swiftinline{AppDelegate} erstellt einen solchen und reicht ihn an den \swiftinline{ContactListViewController} weiter. Dieser lädt die Kontakte und soll sie nun anzeigen. Dazu verwaltet er eine \swiftinline{UITableView}, die nach dem \emph{Delegate}-Prinzip nach Bedarf Anfragen nach Zahl und Inhalt der anzuzeigenden Zeilen stellt. Diese Anfragen muss der \swiftinline{ContactListViewController} beantworten. Eure erste Aufgabe ist, zu diesem Zweck das \swiftinline{UITableViewDatasource} Protokoll zu implementieren.
 
@@ -513,27 +513,27 @@ Implementiert das Protokoll in einer Erweiterung in \filename{ContactListViewCon
 \begin{swiftcode}
 extension ContactListViewController {
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1 // Wir zeigen die Kontakte zunächst in einer einzelnen Section an
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count // Für jeden Kontakt soll eine Zeile angezeigt werden
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // VIEW-Komponente: Frage die Table View nach einer wiederverwendbaren Zelle
-        let cell = tableView.dequeueReusableCellWithIdentifier("LifetimeCell", forIndexPath: indexPath) as! LifetimeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LifetimeCell", for: indexPath) as! LifetimeCell
         // MODEL-Komponente: Bestimme den Kontakt für diese Zeile
         let contact = contacts[indexPath.row]
-        // CONTROLLER-Komponente: Konfiguriere die Zelle nach dem Kontakt
-        cell.configureForContact(contact)
-        if contact.lifetime != nil {
-            cell.selectionStyle = .Default
-            cell.accessoryType = .DisclosureIndicator
+        // CONTROLLER-Komponente: Konfiguriere die Zelle für den Kontakt
+        cell.configure(for: contact)
+        if let _ = contact.lifetime {
+            cell.selectionStyle = .default
+            cell.accessoryType = .disclosureIndicator
         } else {
-            cell.selectionStyle = .None
-            cell.accessoryType = .None
+            cell.selectionStyle = .none
+            cell.accessoryType = .none
         }
         return cell
     }
@@ -549,13 +549,13 @@ import Contacts
 
 class LifetimeCell: UITableViewCell {
     
-    func configureForContact(contact: CNContact) {
-        textLabel?.text = CNContactFormatter.stringFromContact(contact, style: .FullName)
+    func configure(for contact: CNContact) {
+        textLabel?.text = CNContactFormatter.string(from: contact, style: .fullName)
         if let lifetime = contact.lifetime {
-            let lifetimeFormatter = NSDateComponentsFormatter()
-            lifetimeFormatter.allowedUnits = .Day
-            lifetimeFormatter.unitsStyle = .Full
-            detailTextLabel?.text = lifetimeFormatter.stringFromTimeInterval(lifetime)
+            let lifetimeFormatter = DateComponentsFormatter()
+            lifetimeFormatter.allowedUnits = .day
+            lifetimeFormatter.unitsStyle = .full
+            detailTextLabel?.text = lifetimeFormatter.string(from: lifetime)
         } else {
             detailTextLabel?.text = nil
         }
@@ -564,7 +564,7 @@ class LifetimeCell: UITableViewCell {
 }
 \end{swiftcode}
 
-Wir gestalten die Zelle im \filename{Main.storyboard}. Zieht aus der Object Library eine \swiftinline{UITableViewCell} auf die \swiftinline{UITableView}. Ändert im Attributes Inpector ihren \emph{Style} zu \emph{Right Detail} und gebt ihr den \emph{Identifier} \str{LifetimeCell}. Wählt dann den Identity Inspector und ändert die Klasse der Zelle zur gerade implementierten \swiftinline{LifetimeCell}. Beide Schritte sind notwendig, sodass die zuvor implementierte \swiftinline{tableView(_:cellForRowAtIndexPath:)} Methode fehlerfrei ausgeführt wird.
+Wir gestalten die Zelle im \filename{Main.storyboard}. Zieht aus der Object Library eine \swiftinline{UITableViewCell} auf die \swiftinline{UITableView}. Ändert im Attributes Inpector ihren \emph{Style} zu \emph{Right Detail} und gebt ihr den \emph{Identifier} \str{LifetimeCell}. Wählt dann den Identity Inspector und ändert die Klasse der Zelle zur gerade implementierten \swiftinline{LifetimeCell}. Beide Schritte sind notwendig, sodass die zuvor implementierte \swiftinline{tableView(_:cellForRowAt:)} Methode fehlerfrei ausgeführt wird.
 
 \item Nun könnt ihr die App ausführen und seht bereits eine Liste der Kontakte!
 
@@ -572,15 +572,15 @@ Wir gestalten die Zelle im \filename{Main.storyboard}. Zieht aus der Object Libr
 
 Im \filename{Main.storyboard} können wir den Übergang zwischen den View Controllern durch eine \emph{Storyboard Segue} implementieren. Zieht mit gedrückter \keys{\ctrl}-Taste eine Line von der \str{LifetimeCell} zum \swiftinline{ContactDetailViewController} und wählt im Popup \emph{Show}. Wählt die so erstellte Segue aus und gebt ihr im Attributes Inspector den \emph{Identifier} \str{showContactDetail}.
 
-\item Schließlich müssen wir den ausgewählten Kontakt im \swiftinline{ContactListViewController} noch an den \swiftinline{ContactDetailViewController} weitergeben. Dazu dient die \swiftinline{prepareForSegue(_:sender:)} Methode:
+\item Schließlich müssen wir den ausgewählten Kontakt im \swiftinline{ContactListViewController} noch an den \swiftinline{ContactDetailViewController} weitergeben. Dazu dient die \swiftinline{prepare(for:sender:)} Methode:
 \begin{swiftcode}
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier! {
-
+            
         case "showContactDetail":
             guard let indexPath = self.tableView.indexPathForSelectedRow else { break }
             let contact = contacts[indexPath.row]
-            let contactDetailViewController = segue.destinationViewController as! ContactDetailViewController
+            let contactDetailViewController = segue.destination as! ContactDetailViewController
             contactDetailViewController.contact = contact
             
         default:
@@ -589,7 +589,7 @@ Im \filename{Main.storyboard} können wir den Übergang zwischen den View Contro
     }
 \end{swiftcode}
 
-Sehr ähnlich könnt ihr noch die \swiftinline{shouldPerformSegueWithIdentifier(_:sender:)} Methode implementieren und für \str{showContactDetail} \swiftinline{contact.lifetime != nil} zurückgeben, sodass die Detailansicht nur für Kontakte mit gültigem Geburtstag angezeigt wird.
+Sehr ähnlich könnt ihr noch die \swiftinline{shouldPerformSegue(withIdentifier:sender:)} Methode implementieren und für \str{showContactDetail} \swiftinline{contact.lifetime != nil} zurückgeben, sodass die Detailansicht nur für Kontakte mit gültigem Geburtstag angezeigt wird.
 
 \item Unsere App zeigt uns jetzt, wie lang unsere Kontakte schon leben!
 
@@ -639,11 +639,11 @@ Forkt das Repository \url{https://github.com/ios-dev-kurs/seasonizer} und vervol
 
 \item \strong{Navigation Bar und Toolbar} lassen sich mit einem Navigation Controller sehr einfach anzeigen. Dieser besitzt ein Attribut \emph{Shows Toolbar}, das im Interface Builder aktiviert werden kann. Wenn wir dann Buttons als Objekte der \swiftinline{UIBarButtonItem} Klasse einem View Controller hinzufügen zeigt der Navigation Controller diese in der Toolbar an. \swiftinline{UIBarButtonItem} bietet bereits viele Stile wie \swiftinline{UIBarButtonSystemItemCamera} zur Auswahl im Attributes Inspector an. Für's Layout gibt es außerdem den Stil \emph{Flexible Space}.
 
-\item Um den \swiftinline{AccessoryListViewController} modal mit Titelleiste anzuzeigen verpacken wir ihn wiederum in einem Navigation Controller \abbref{img:seasonizer_ui}. Gebt die Liste der Accessories in der \swiftinline{prepareForSegue(_:sender:)} Methode an den \swiftinline{AccessoryListViewController} weiter. Implementiert darin dann das \swiftinline{UITableViewDatasource} Protokoll.
+\item Um den \swiftinline{AccessoryListViewController} modal mit Titelleiste anzuzeigen verpacken wir ihn wiederum in einem Navigation Controller \abbref{img:seasonizer_ui}. Gebt die Liste der Accessories in der \swiftinline{prepare(for:sender:)} Methode an den \swiftinline{AccessoryListViewController} weiter. Implementiert darin dann das \swiftinline{UITableViewDatasource} Protokoll.
 
 \includegraphicsc{img/seasonizer_ui.png}{img:seasonizer_ui}{Navigation Controller bieten eine einfache Möglichkeit, Navigationsleisten und Toolbars anzuzeigen}
 
-\item Verwendet \emph{Unwind Segues} um den \swiftinline{AccessoryListViewController} wieder zu verlassen. Definiert dazu eine \swiftinline{@IBAction func unwindToCanvas(segue: UIStoryboardSegue)} Methode im \swiftinline{CanvasViewController}. Erstellt die Unwind Segues dann von einem \emph{Cancel} Button und von der \swiftinline{AccessoryCell} indem ihr eine Verbindung zur \emph{Exit} Schaltfläche zieht. Gebt den Segues jeweils einen Identifier. In der \swiftinline{prepareForSegue(_:sender:} Methode des \swiftinline{AccessoryListViewController} könnt ihr dann das \swiftinline{selectedAccessory} setzen und es in der \swiftinline{unwindToCanvas(_:)} Methode wieder auslesen.
+\item Verwendet \emph{Unwind Segues} um den \swiftinline{AccessoryListViewController} wieder zu verlassen. Definiert dazu eine \swiftinline{@IBAction func unwindToCanvas(_ segue: UIStoryboardSegue)} Methode im \swiftinline{CanvasViewController}. Erstellt die Unwind Segues dann von einem \emph{Cancel} Button und von der \swiftinline{AccessoryCell} indem ihr eine Verbindung zur \emph{Exit} Schaltfläche zieht. Gebt den Segues jeweils einen Identifier. In der \swiftinline{prepare(for:sender:)} Methode des \swiftinline{AccessoryListViewController} könnt ihr dann das \swiftinline{selectedAccessory} setzen und es in der \swiftinline{unwindToCanvas(_:)} Methode wieder auslesen.
 
 \end{itemize}
 
